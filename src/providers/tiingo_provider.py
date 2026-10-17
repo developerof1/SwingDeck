@@ -1,0 +1,43 @@
+"""Tiingo REST client for daily OHLCV history. Sole data source for v1 (see docs/SPEC.md Section 4)."""
+
+import os
+
+import requests
+
+TIINGO_BASE_URL = "https://api.tiingo.com/tiingo/daily"
+REQUEST_TIMEOUT_SECONDS = 30
+
+
+class TiingoError(Exception):
+    pass
+
+
+def fetch_daily_prices(ticker: str, start_date: str, api_key: str | None = None) -> list[dict]:
+    """Fetch daily OHLCV history for `ticker` from `start_date` (YYYY-MM-DD) to today.
+
+    Uses Tiingo's adjusted close/volume fields so splits/dividends don't distort the
+    moving averages and stochastic calculations.
+    """
+    api_key = api_key or os.environ.get("TIINGO_API_KEY")
+    if not api_key:
+        raise TiingoError("TIINGO_API_KEY is not set")
+
+    url = f"{TIINGO_BASE_URL}/{ticker}/prices"
+    params = {"startDate": start_date, "format": "json", "token": api_key}
+
+    try:
+        response = requests.get(url, params=params, timeout=REQUEST_TIMEOUT_SECONDS)
+    except requests.RequestException as exc:
+        raise TiingoError(f"{ticker}: request failed ({exc})") from exc
+
+    if response.status_code == 404:
+        raise TiingoError(f"{ticker}: not found on Tiingo")
+    if response.status_code == 401:
+        raise TiingoError("Tiingo API key rejected (401) - check TIINGO_API_KEY")
+    if not response.ok:
+        raise TiingoError(f"{ticker}: Tiingo returned HTTP {response.status_code}")
+
+    data = response.json()
+    if not data:
+        raise TiingoError(f"{ticker}: no price data returned for the requested range")
+    return data
