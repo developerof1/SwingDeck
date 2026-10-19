@@ -58,13 +58,15 @@ def check_password() -> bool:
     return False
 
 
-@st.cache_data
 def load_results(path: str) -> dict:
+    # Deliberately uncached: results.json is precomputed server-side and only ever
+    # changes via a git push + redeploy, but caching here risks showing stale data
+    # across a redeploy that doesn't fully restart the process. The file is tiny,
+    # so re-reading it on every rerun costs nothing.
     with open(path) as f:
         return json.load(f)
 
 
-@st.cache_data
 def load_watchlist(path: str) -> list[dict]:
     with open(path) as f:
         return json.load(f)
