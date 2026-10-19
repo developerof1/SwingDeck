@@ -13,11 +13,18 @@ MIN_HISTORY_DAYS = 300
 
 
 def to_dataframe(raw_prices: list[dict]) -> pd.DataFrame:
-    """Normalize Tiingo's raw JSON rows into a sorted OHLCV DataFrame using adjusted prices."""
+    """Normalize Tiingo's raw JSON rows into a sorted OHLCV DataFrame using adjusted prices.
+
+    Tiingo's response includes both raw (open/high/low/close/volume) and
+    adjusted (adjOpen/adjHigh/...) columns. We select only the adjusted ones
+    *before* renaming - renaming in place would collide with the raw columns
+    of the same target name and silently produce duplicate columns.
+    """
     df = pd.DataFrame(raw_prices)
     df["date"] = pd.to_datetime(df["date"])
     df = df.sort_values("date").reset_index(drop=True)
-    df = df.rename(
+    df = df[["date", "adjOpen", "adjHigh", "adjLow", "adjClose", "adjVolume"]]
+    return df.rename(
         columns={
             "adjOpen": "open",
             "adjHigh": "high",
@@ -26,7 +33,6 @@ def to_dataframe(raw_prices: list[dict]) -> pd.DataFrame:
             "adjVolume": "volume",
         }
     )
-    return df[["date", "open", "high", "low", "close", "volume"]]
 
 
 def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
