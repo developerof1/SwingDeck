@@ -21,6 +21,7 @@ REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
 WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
 RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
 HISTORY_BUFFER_DAYS = 500  # calendar days requested, comfortably covers 300 trading days
+TICKERS_OVERRIDE_ENV = "TICKERS_OVERRIDE"  # comma-separated subset for cheap manual debugging runs
 
 
 def load_watchlist() -> list[dict]:
@@ -62,6 +63,16 @@ def evaluate_ticker(entry: dict, start_date: str) -> dict:
 
 def main() -> None:
     watchlist = load_watchlist()
+
+    override = os.environ.get(TICKERS_OVERRIDE_ENV, "").strip()
+    debug_mode = bool(override)
+    if debug_mode:
+        wanted = {t.strip().upper() for t in override.split(",") if t.strip()}
+        watchlist = [e for e in watchlist if e["ticker"].upper() in wanted]
+        if not watchlist:
+            print(f"No tickers in watchlist.json matched {TICKERS_OVERRIDE_ENV}={override!r}")
+            return
+
     start_date = (date.today() - timedelta(days=HISTORY_BUFFER_DAYS)).isoformat()
 
     results = []
@@ -73,6 +84,16 @@ def main() -> None:
             results.append(evaluate_ticker(entry, start_date))
         except (TiingoError, ValueError) as exc:
             errors.append({"ticker": ticker, "error": str(exc)})
+
+    if debug_mode:
+        # Debug/override runs never touch results.json - a partial result set would
+        # otherwise wipe out the other tickers' real data for everyone reading the app.
+        print(f"[debug run, not written to {RESULTS_PATH}] {len(results)} results, {len(errors)} errors")
+        for r in results:
+            print(f"  {r['ticker']}: {r['default_eval']['status']} | {r['default_eval']['reason']}")
+        for err in errors:
+            print(f"  ERROR {err['ticker']}: {err['error']}")
+        return
 
     output = {
         "generated_at": date.today().isoformat(),

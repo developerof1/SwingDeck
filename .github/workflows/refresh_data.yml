@@ -5,7 +5,12 @@ on:
     # 11:00 UTC ~= 6-7am US Eastern depending on DST - overnight run, after EOD data
     # has fully settled, ready before market open. Weekdays only.
     - cron: "0 11 * * 1-5"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: "Comma-separated tickers to debug (e.g. NVDA). Leave blank for the full watchlist - blank runs are the only ones that update results.json."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -26,9 +31,11 @@ jobs:
       - name: Run refresh job
         env:
           TIINGO_API_KEY: ${{ secrets.TIINGO_API_KEY }}
+          TICKERS_OVERRIDE: ${{ github.event.inputs.tickers }}
         run: python scripts/refresh_job.py
 
       - name: Commit and push results.json
+        if: ${{ github.event.inputs.tickers == '' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
