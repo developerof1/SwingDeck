@@ -23,6 +23,7 @@ from src.rules_engine import (
 
 REPO_ROOT = os.path.dirname(__file__)
 RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
+WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
 
 STATUS_BADGE = {
     STATUS_ENTER: "\U0001f7e2 ENTER",
@@ -37,9 +38,19 @@ def check_password() -> bool:
         return True
 
     st.title("SwingDeck")
+
+    try:
+        expected_password = st.secrets.get("APP_PASSWORD")
+    except Exception:
+        expected_password = None
+
+    if not expected_password:
+        st.error("APP_PASSWORD is not configured in secrets yet - set it before this app can be used.")
+        return False
+
     password = st.text_input("Password", type="password")
     if st.button("Log in") or password:
-        if password == st.secrets.get("APP_PASSWORD"):
+        if password == expected_password:
             st.session_state["authenticated"] = True
             st.rerun()
         elif password:
@@ -49,6 +60,12 @@ def check_password() -> bool:
 
 @st.cache_data
 def load_results(path: str) -> dict:
+    with open(path) as f:
+        return json.load(f)
+
+
+@st.cache_data
+def load_watchlist(path: str) -> list[dict]:
     with open(path) as f:
         return json.load(f)
 
@@ -68,11 +85,37 @@ def main() -> None:
         st.stop()
 
     data = load_results(RESULTS_PATH)
+    watchlist = load_watchlist(WATCHLIST_PATH)
+    sector_by_ticker = {w["ticker"]: w.get("sector") for w in watchlist}
+
+    st.title("SwingDeck")
 
     if not data.get("generated_at"):
-        st.title("SwingDeck")
         st.info("No data yet - waiting for the first scheduled refresh to run.")
         return
+
+    st.caption(f"Last refreshed: {data['generated_at']}")
+
+    success_count = len(data.get("results", []))
+    errors = data.get("errors", [])
+    error_count = len(errors)
+    total_watchlist = success_count + error_count
+
+    if error_count and success_count == 0:
+        st.error(
+            f"This refresh couldn't evaluate any of the {total_watchlist} tickers. "
+            "Showing the error details below instead of a results table."
+        )
+        error_df = pd.DataFrame(
+            [
+                {"Ticker": e["ticker"], "Sector": sector_by_ticker.get(e["ticker"]), "Reason": e["error"]}
+                for e in errors
+            ]
+        )
+        st.dataframe(error_df, width="stretch", hide_index=True)
+        return
+    elif error_count:
+        st.warning(f"{error_count} of {total_watchlist} tickers couldn't be refreshed this run - see details below the table.")
 
     st.sidebar.header("Parameters")
     location_thresh = st.sidebar.slider(
@@ -82,7 +125,7 @@ def main() -> None:
         "Min RVOL Threshold", min_value=1.0, max_value=2.0, value=DEFAULT_RVOL_THRESHOLD, step=0.05
     )
 
-    all_sectors = sorted({r["sector"] for r in data["results"] if r.get("sector")})
+    all_sectors = sorted({w.get("sector") for w in watchlist if w.get("sector")})
     selected_sectors = st.sidebar.multiselect("Sectors", options=all_sectors, default=all_sectors)
 
     rows = []
@@ -112,9 +155,6 @@ def main() -> None:
 
     df = pd.DataFrame(rows)
 
-    st.title("SwingDeck")
-    st.caption(f"Last refreshed: {data['generated_at']}")
-
     enter_count = sum(1 for r in rows if r["Status"].startswith("\U0001f7e2"))
     disqualified_count = sum(1 for r in rows if r["Status"].startswith("\U0001f534"))
     waiting_count = len(rows) - enter_count - disqualified_count
@@ -125,10 +165,9 @@ def main() -> None:
     col3.metric("\U0001f7e1 Near Setup", waiting_count)
     col4.metric("\U0001f534 Disqualified", disqualified_count)
 
-    if data.get("errors"):
-        with st.expander(f"⚠️ {len(data['errors'])} ticker(s) failed to refresh"):
-            for err in data["errors"]:
-                st.write(f"**{err['ticker']}**: {err['error']}")
+    if not rows:
+        st.info("No tickers match the current sector filter.")
+        return
 
     display_df = df.drop(columns=["_thesis", "_reason"])
     event = st.dataframe(
@@ -145,6 +184,16 @@ def main() -> None:
         with st.expander(f"Details: {selected['Ticker']}", expanded=True):
             st.write(f"**Thesis:** {selected['_thesis']}")
             st.write(f"**Reason:** {selected['_reason']}")
+
+    if errors:
+        with st.expander(f"Data unavailable for {len(errors)} ticker(s)"):
+            error_df = pd.DataFrame(
+                [
+                    {"Ticker": e["ticker"], "Sector": sector_by_ticker.get(e["ticker"]), "Reason": e["error"]}
+                    for e in errors
+                ]
+            )
+            st.dataframe(error_df, width="stretch", hide_index=True)
 
 
 main()
