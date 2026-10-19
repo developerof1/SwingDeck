@@ -1,5 +1,158 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-10-19",
   "results": [],
-  "errors": []
+  "errors": [
+    {
+      "ticker": "MU",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "TSM",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "AVGO",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "ETN",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "ANET",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "NVDA",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "GOOGL",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "ARM",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "ASML",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "AMZN",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "BABA",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "KLAC",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "CRDO",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "AMD",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "PLTR",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "SNPS",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "META",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "MSFT",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "AAPL",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "SAP",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "SNOW",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "NOW",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "ADBE",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "CRM",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "AMAT",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "LRCX",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "BESIY",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "CAMT",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "SKHY",
+      "error": "only 70 trading days returned, need at least 300"
+    },
+    {
+      "ticker": "SSNLF",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "WDC",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "MRVL",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "COHR",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "VRT",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "CEG",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "VST",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "SBGSY",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    },
+    {
+      "ticker": "CDNS",
+      "error": "Cannot set a DataFrame with multiple columns to the single column sma_50"
+    }
+  ]
 }
