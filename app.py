@@ -172,6 +172,8 @@ def main() -> None:
         )
 
     df = pd.DataFrame(rows)
+    if not df.empty:
+        df = df.sort_values("Status", ascending=False, kind="stable").reset_index(drop=True)
 
     enter_count = sum(1 for r in rows if r["Status"].startswith("\U0001f7e2"))
     disqualified_count = sum(1 for r in rows if r["Status"].startswith("\U0001f534"))
