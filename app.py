@@ -128,6 +128,22 @@ def main() -> None:
     )
 
     all_sectors = sorted({w.get("sector") for w in watchlist if w.get("sector")})
+    st.markdown(
+        """
+        <style>
+        [data-testid="stMultiSelect"] div:has(> [data-testid="stMultiSelectTagsContainer"]) {
+            height: auto !important;
+            max-height: 420px !important;
+            overflow-y: auto !important;
+        }
+        [data-testid="stMultiSelectTagsContainer"] {
+            height: auto !important;
+            max-height: none !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     selected_sectors = st.sidebar.multiselect("Sectors", options=all_sectors, default=all_sectors)
 
     rows = []
