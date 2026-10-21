@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20",
+  "generated_at": "2026-10-21",
   "results": [
     {
       "ticker": "MU",
@@ -8,7 +8,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 904.9,
+        "current_price": 896.07,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -20,19 +20,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 953.4435490222,
-          "low": 928.877580063,
-          "close": 953.0336162882,
-          "sma_50": 981.818992882922,
-          "sma_200": 708.347410803313,
-          "ema_8": 1019.8726025248802,
-          "ema_21": 1025.8673102759344,
-          "stoch_k": 13.202401459495102,
-          "stoch_d": 24.244672008515963,
-          "rvol": 1.1238366880394897
-        },
         {
           "date": "2026-10-14",
           "high": 949.42,
@@ -84,6 +71,19 @@
           "stoch_k": 18.81101137546447,
           "stoch_d": 15.271088229540403,
           "rvol": 0.9585990959680181
+        },
+        {
+          "date": "2026-10-20",
+          "high": 918.89,
+          "low": 881.52,
+          "close": 896.07,
+          "sma_50": 984.2190498326521,
+          "sma_200": 723.616525131611,
+          "ema_8": 935.6635795802752,
+          "ema_21": 979.6226965221788,
+          "stoch_k": 14.118265808184823,
+          "stoch_d": 15.193283925144213,
+          "rvol": 0.7688668178788449
         }
       ]
     },
@@ -94,7 +94,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 420.22,
+        "current_price": 425.08,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -106,19 +106,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 445.495,
-          "low": 437.4,
-          "close": 445.12,
-          "sma_50": 433.38578892489204,
-          "sma_200": 391.59589513388096,
-          "ema_8": 455.92894300277476,
-          "ema_21": 451.44725598987236,
-          "stoch_k": 16.845608950257486,
-          "stoch_d": 29.967205710364656,
-          "rvol": 0.8831389689547683
-        },
         {
           "date": "2026-10-14",
           "high": 440.39,
@@ -170,6 +157,19 @@
           "stoch_k": 13.978093104306708,
           "stoch_d": 12.03829124073431,
           "rvol": 1.1481912483178935
+        },
+        {
+          "date": "2026-10-20",
+          "high": 428.2139,
+          "low": 416.12,
+          "close": 425.08,
+          "sma_50": 433.94180341828,
+          "sma_200": 394.57083988494895,
+          "ema_8": 431.4483311325787,
+          "ema_21": 440.22564950846134,
+          "stoch_k": 15.152269521201566,
+          "stoch_d": 12.921950782841803,
+          "rvol": 1.1584592346182703
         }
       ]
     },
@@ -180,7 +180,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 334.59,
+        "current_price": 334.37,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -192,19 +192,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 359.25,
-          "low": 348.1101,
-          "close": 357.31,
-          "sma_50": 370.034035094,
-          "sma_200": 367.18837249028894,
-          "ema_8": 359.7909065696137,
-          "ema_21": 359.4733388234453,
-          "stoch_k": 38.80159786950736,
-          "stoch_d": 46.92114218079601,
-          "rvol": 0.7558819543976525
-        },
         {
           "date": "2026-10-14",
           "high": 354.25,
@@ -256,6 +243,19 @@
           "stoch_k": 10.95026539543087,
           "stoch_d": 14.51180555847621,
           "rvol": 0.7977533938801549
+        },
+        {
+          "date": "2026-10-20",
+          "high": 341.1,
+          "low": 330.8001,
+          "close": 334.37,
+          "sma_50": 361.73193391319,
+          "sma_200": 366.95188676882907,
+          "ema_8": 342.89552518612504,
+          "ema_21": 350.9710771888689,
+          "stoch_k": 7.634902411021842,
+          "stoch_d": 9.569715173233456,
+          "rvol": 0.7367195551504024
         }
       ]
     },
@@ -266,7 +266,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 391.5,
+        "current_price": 381.98,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -278,19 +278,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 430.96,
-          "low": 417.0,
-          "close": 428.31,
-          "sma_50": 426.40404510649597,
-          "sma_200": 391.5415908244455,
-          "ema_8": 430.19168831915675,
-          "ema_21": 428.40702127814313,
-          "stoch_k": 27.79226190476189,
-          "stoch_d": 26.056848240020198,
-          "rvol": 0.8919085602345087
-        },
         {
           "date": "2026-10-14",
           "high": 425.025,
@@ -342,6 +329,19 @@
           "stoch_k": 13.739455473051501,
           "stoch_d": 16.676375802632055,
           "rvol": 1.4822917068794823
+        },
+        {
+          "date": "2026-10-20",
+          "high": 388.71,
+          "low": 372.79,
+          "close": 381.98,
+          "sma_50": 421.3132,
+          "sma_200": 393.43635479842453,
+          "ema_8": 402.9225555992493,
+          "ema_21": 415.35936633621844,
+          "stoch_k": 9.287369948519977,
+          "stoch_d": 12.369793315546545,
+          "rvol": 1.3012617458917097
         }
       ]
     },
@@ -352,7 +352,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 182.95,
+        "current_price": 181.19,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -364,19 +364,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 205.2,
-          "low": 197.6,
-          "close": 204.52,
-          "sma_50": 198.86700000000002,
-          "sma_200": 161.8387,
-          "ema_8": 209.63287734406327,
-          "ema_21": 205.8306415687913,
-          "stoch_k": 65.44419478452507,
-          "stoch_d": 75.38215896339786,
-          "rvol": 1.5779123573830107
-        },
         {
           "date": "2026-10-14",
           "high": 203.68,
@@ -428,6 +415,19 @@
           "stoch_k": 11.327106988988419,
           "stoch_d": 13.725686426306458,
           "rvol": 1.2237897689071981
+        },
+        {
+          "date": "2026-10-20",
+          "high": 183.33,
+          "low": 177.36,
+          "close": 181.19,
+          "sma_50": 198.1028,
+          "sma_200": 163.13400000000001,
+          "ema_8": 190.64010651360178,
+          "ema_21": 197.50246472781367,
+          "stoch_k": 8.866491633427543,
+          "stoch_d": 9.794230734678655,
+          "rvol": 1.1768562539796528
         }
       ]
     },
@@ -438,7 +438,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 217.09,
+        "current_price": 216.47,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -450,19 +450,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 228.64,
-          "low": 223.0602,
-          "close": 228.52,
-          "sma_50": 222.895455624174,
-          "sma_200": 202.21620756463798,
-          "ema_8": 230.3846891246195,
-          "ema_21": 228.22111263590972,
-          "stoch_k": 31.19389587073609,
-          "stoch_d": 39.0646670668889,
-          "rvol": 0.7959526313052021
-        },
         {
           "date": "2026-10-14",
           "high": 226.0,
@@ -514,6 +501,19 @@
           "stoch_k": 10.812581913499363,
           "stoch_d": 12.51924783853043,
           "rvol": 0.9459294155893807
+        },
+        {
+          "date": "2026-10-20",
+          "high": 218.46,
+          "low": 212.77,
+          "close": 216.47,
+          "sma_50": 222.811623832398,
+          "sma_200": 202.95011502534248,
+          "ema_8": 220.6953531832458,
+          "ema_21": 223.99376243296206,
+          "stoch_k": 10.059334641093962,
+          "stoch_d": 9.795147825878532,
+          "rvol": 0.7690302389278416
         }
       ]
     },
@@ -524,7 +524,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 344.18,
+        "current_price": 340.275,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -536,19 +536,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 358.58,
-          "low": 351.6,
-          "close": 353.78,
-          "sma_50": 345.68425039565403,
-          "sma_200": 340.06256963221296,
-          "ema_8": 349.8081014317155,
-          "ema_21": 346.8009228259617,
-          "stoch_k": 72.08791174777615,
-          "stoch_d": 61.240610762031416,
-          "rvol": 0.9093709055828499
-        },
         {
           "date": "2026-10-14",
           "high": 359.4,
@@ -600,6 +587,19 @@
           "stoch_k": 38.31243127996475,
           "stoch_d": 47.967832465504614,
           "rvol": 0.8052900677439024
+        },
+        {
+          "date": "2026-10-20",
+          "high": 344.77,
+          "low": 338.36,
+          "close": 340.275,
+          "sma_50": 343.95286067084004,
+          "sma_200": 340.84195287395994,
+          "ema_8": 345.2398748626199,
+          "ema_21": 345.7417424144909,
+          "stoch_k": 25.831198477415104,
+          "stoch_d": 35.76130171328,
+          "rvol": 0.7624370267245278
         }
       ]
     },
@@ -610,7 +610,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 228.05,
+        "current_price": 221.06,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -622,19 +622,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 260.15,
-          "low": 243.6006,
-          "close": 255.39,
-          "sma_50": 270.5018,
-          "sma_200": 221.54877500000003,
-          "ema_8": 274.5970323662723,
-          "ema_21": 280.36737672374727,
-          "stoch_k": 5.843972205857331,
-          "stoch_d": 8.913176198280945,
-          "rvol": 1.1414580224664022
-        },
         {
           "date": "2026-10-14",
           "high": 250.1999,
@@ -686,6 +673,19 @@
           "stoch_k": 7.630680854941211,
           "stoch_d": 8.826302429150537,
           "rvol": 0.7337153943639995
+        },
+        {
+          "date": "2026-10-20",
+          "high": 227.19,
+          "low": 217.26,
+          "close": 221.06,
+          "sma_50": 265.8512,
+          "sma_200": 224.568925,
+          "ema_8": 242.27190677200184,
+          "ema_21": 261.6425395208644,
+          "stoch_k": 2.2584218901880084,
+          "stoch_d": 5.719104610917373,
+          "rvol": 0.9512041432190347
         }
       ]
     },
@@ -696,7 +696,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 1647.12,
+        "current_price": 1630.84,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -708,19 +708,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 1725.2668,
-          "low": 1682.02,
-          "close": 1717.76,
-          "sma_50": 1742.5406,
-          "sma_200": 1565.5482288447186,
-          "ema_8": 1771.8140462470283,
-          "ema_21": 1763.501939588229,
-          "stoch_k": 31.75867644363458,
-          "stoch_d": 42.9275916276149,
-          "rvol": 1.1317128158670935
-        },
         {
           "date": "2026-10-14",
           "high": 1734.4999,
@@ -772,6 +759,19 @@
           "stoch_k": 19.559729006385748,
           "stoch_d": 15.64269996099229,
           "rvol": 0.8492471918030702
+        },
+        {
+          "date": "2026-10-20",
+          "high": 1654.21,
+          "low": 1613.54,
+          "close": 1630.84,
+          "sma_50": 1735.7,
+          "sma_200": 1579.5932195523917,
+          "ema_8": 1679.5540685748074,
+          "ema_21": 1718.3669868477866,
+          "stoch_k": 16.387060330441752,
+          "stoch_d": 16.450760133022765,
+          "rvol": 0.6762071830730467
         }
       ]
     },
@@ -782,11 +782,11 @@
       "default_eval": {
         "status": "WAIT: Extended (Location)",
         "regime": "Momentum Continuation",
-        "current_price": 262.45,
-        "dist_to_ema21_pct": 2.9023621286366916,
-        "stoch_k": 57.29039127879878,
-        "stoch_d": 52.82753589020098,
-        "rvol": 1.540827491241076,
+        "current_price": 262.63,
+        "dist_to_ema21_pct": 2.6953854360396026,
+        "stoch_k": 68.29655450128348,
+        "stoch_d": 56.125918937986434,
+        "rvol": 0.9671415609525529,
         "entry": null,
         "stop": null,
         "target": null,
@@ -794,19 +794,6 @@
         "reason": "Price extended from the support zone"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 262.835,
-          "low": 258.42,
-          "close": 258.58,
-          "sma_50": 258.3458,
-          "sma_200": 242.41949999999997,
-          "ema_8": 256.87293353024114,
-          "ema_21": 254.8014891137049,
-          "stoch_k": 82.99793897845485,
-          "stoch_d": 82.51245497522284,
-          "rvol": 0.7003211457125659
-        },
         {
           "date": "2026-10-14",
           "high": 259.65,
@@ -858,6 +845,19 @@
           "stoch_k": 57.29039127879878,
           "stoch_d": 52.82753589020098,
           "rvol": 1.540827491241076
+        },
+        {
+          "date": "2026-10-20",
+          "high": 265.3397,
+          "low": 260.42,
+          "close": 262.63,
+          "sma_50": 256.5262,
+          "sma_200": 243.06690000000003,
+          "ema_8": 257.7442353611875,
+          "ema_21": 255.73690471571416,
+          "stoch_k": 68.29655450128348,
+          "stoch_d": 56.125918937986434,
+          "rvol": 0.9671415609525529
         }
       ]
     },
@@ -868,7 +868,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 108.57,
+        "current_price": 108.61,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -880,19 +880,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 111.94,
-          "low": 109.11,
-          "close": 110.85,
-          "sma_50": 115.7256,
-          "sma_200": 128.78802234922,
-          "ema_8": 109.52606611453447,
-          "ema_21": 110.18712716041408,
-          "stoch_k": 68.91689283179726,
-          "stoch_d": 44.06206520164591,
-          "rvol": 0.8817192130332657
-        },
         {
           "date": "2026-10-14",
           "high": 112.73,
@@ -944,6 +931,19 @@
           "stoch_k": 60.81871345029233,
           "stoch_d": 71.3628238415309,
           "rvol": 0.5983329158531705
+        },
+        {
+          "date": "2026-10-20",
+          "high": 109.24,
+          "low": 106.69,
+          "close": 108.61,
+          "sma_50": 113.79619999999998,
+          "sma_200": 127.8135597019535,
+          "ema_8": 109.40270915996852,
+          "ema_21": 109.9546070874531,
+          "stoch_k": 50.29239766081866,
+          "stoch_d": 60.93010303536613,
+          "rvol": 0.8529079496927282
         }
       ]
     },
@@ -954,7 +954,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 166.4,
+        "current_price": 161.74,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -966,19 +966,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 187.3,
-          "low": 179.84,
-          "close": 184.0,
-          "sma_50": 188.11433495801,
-          "sma_200": 180.022502495929,
-          "ema_8": 192.84819492472022,
-          "ema_21": 191.19979767404496,
-          "stoch_k": 33.43934690675329,
-          "stoch_d": 47.97731427244901,
-          "rvol": 1.1793469484981158
-        },
         {
           "date": "2026-10-14",
           "high": 184.58,
@@ -1030,6 +1017,19 @@
           "stoch_k": 6.334774593781987,
           "stoch_d": 8.194670509430994,
           "rvol": 1.2669988599520412
+        },
+        {
+          "date": "2026-10-20",
+          "high": 165.305,
+          "low": 159.9,
+          "close": 161.74,
+          "sma_50": 185.63264801204002,
+          "sma_200": 181.13329552018448,
+          "ema_8": 174.65555847008034,
+          "ema_21": 182.64657224981212,
+          "stoch_k": 2.591292548926751,
+          "stoch_d": 5.284536302269834,
+          "rvol": 1.3532793820323927
         }
       ]
     },
@@ -1040,7 +1040,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 172.81,
+        "current_price": 171.51,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -1052,19 +1052,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 199.8644,
-          "low": 185.195,
-          "close": 198.31,
-          "sma_50": 209.33270000000002,
-          "sma_200": 179.716975,
-          "ema_8": 206.95442903139434,
-          "ema_21": 202.44122907236763,
-          "stoch_k": 42.845846281069356,
-          "stoch_d": 56.36325204512335,
-          "rvol": 1.2573581901058184
-        },
         {
           "date": "2026-10-14",
           "high": 195.4999,
@@ -1116,6 +1103,19 @@
           "stoch_k": 11.015516976494089,
           "stoch_d": 11.55096137643808,
           "rvol": 0.8788607765198521
+        },
+        {
+          "date": "2026-10-20",
+          "high": 177.19,
+          "low": 161.0,
+          "close": 171.51,
+          "sma_50": 203.11149999999998,
+          "sma_200": 180.46790000000001,
+          "ema_8": 182.93810595828285,
+          "ema_21": 191.64377692306635,
+          "stoch_k": 9.833111233382342,
+          "stoch_d": 9.59177823089868,
+          "rvol": 0.840357470617281
         }
       ]
     },
@@ -1126,7 +1126,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 538.05,
+        "current_price": 534.74,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -1138,19 +1138,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 606.2,
-          "low": 570.6,
-          "close": 605.53,
-          "sma_50": 533.7003,
-          "sma_200": 389.16807500000004,
-          "ema_8": 613.9521814694874,
-          "ema_21": 595.9588649552368,
-          "stoch_k": 23.230042013504953,
-          "stoch_d": 34.31560741116015,
-          "rvol": 0.8260841606268983
-        },
         {
           "date": "2026-10-14",
           "high": 591.88,
@@ -1202,6 +1189,19 @@
           "stoch_k": 11.66660701935997,
           "stoch_d": 14.953756366341663,
           "rvol": 1.007599917553135
+        },
+        {
+          "date": "2026-10-20",
+          "high": 548.1069,
+          "low": 524.6,
+          "close": 534.74,
+          "sma_50": 539.5355,
+          "sma_200": 397.42317499999996,
+          "ema_8": 562.8612517393635,
+          "ema_21": 576.6935028998495,
+          "stoch_k": 5.848733343980133,
+          "stoch_d": 9.244605700339319,
+          "rvol": 0.7831351039267073
         }
       ]
     },
@@ -1210,33 +1210,20 @@
       "sector": "SaaS with AI Story",
       "thesis": "Retail/institutional favorite; extreme momentum range swings",
       "default_eval": {
-        "status": "WAIT: Trigger Pending (Stoch)",
-        "regime": "Momentum Continuation",
-        "current_price": 194.15,
-        "dist_to_ema21_pct": 0.7446183468356743,
-        "stoch_k": 31.789975882327372,
-        "stoch_d": 45.79844076829534,
-        "rvol": 1.030947181588913,
+        "status": "WAIT: Extended (Location)",
+        "regime": "Pullback Value",
+        "current_price": 192.6,
+        "dist_to_ema21_pct": 0.05425577709061152,
+        "stoch_k": 22.733202526743426,
+        "stoch_d": 31.371119824590608,
+        "rvol": 0.6600027125514003,
         "entry": null,
         "stop": null,
         "target": null,
         "rr": null,
-        "reason": "No qualifying stochastic %K/%D cross in the lookback window"
+        "reason": "Price extended from the support zone"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 210.8799,
-          "low": 205.97,
-          "close": 208.67,
-          "sma_50": 180.3588,
-          "sma_200": 152.478025,
-          "ema_8": 200.90198687737453,
-          "ema_21": 191.65104922039612,
-          "stoch_k": 89.92131971990005,
-          "stoch_d": 89.88779260023283,
-          "rvol": 0.7988592995161443
-        },
         {
           "date": "2026-10-14",
           "high": 209.29,
@@ -1288,6 +1275,19 @@
           "stoch_k": 31.789975882327372,
           "stoch_d": 45.79844076829534,
           "rvol": 1.030947181588913
+        },
+        {
+          "date": "2026-10-20",
+          "high": 196.11,
+          "low": 189.42,
+          "close": 192.6,
+          "sma_50": 183.3588,
+          "sma_200": 152.852575,
+          "ema_8": 195.85433916659105,
+          "ema_21": 192.7045533529106,
+          "stoch_k": 22.733202526743426,
+          "stoch_d": 31.371119824590608,
+          "rvol": 0.6600027125514003
         }
       ]
     },
@@ -1298,7 +1298,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 454.58,
+        "current_price": 447.62,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -1310,19 +1310,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 503.98,
-          "low": 490.62,
-          "close": 494.51,
-          "sma_50": 424.1662,
-          "sma_200": 446.05107499999997,
-          "ema_8": 490.9839917836195,
-          "ema_21": 460.6977987706071,
-          "stoch_k": 90.70772140520131,
-          "stoch_d": 92.29229443500135,
-          "rvol": 1.0066420719612972
-        },
         {
           "date": "2026-10-14",
           "high": 495.83,
@@ -1374,6 +1361,19 @@
           "stoch_k": 48.93058686368099,
           "stoch_d": 59.59426385949092,
           "rvol": 0.7573165539604266
+        },
+        {
+          "date": "2026-10-20",
+          "high": 452.0,
+          "low": 441.09,
+          "close": 447.62,
+          "sma_50": 429.49699999999996,
+          "sma_200": 445.671725,
+          "ema_8": 466.87783044433087,
+          "ema_21": 460.2478537671961,
+          "stoch_k": 32.197778924333285,
+          "stoch_d": 46.65518222818587,
+          "rvol": 0.6707125577311162
         }
       ]
     },
@@ -1384,11 +1384,11 @@
       "default_eval": {
         "status": "WAIT: Extended (Location)",
         "regime": "Pullback Value",
-        "current_price": 705.44,
-        "dist_to_ema21_pct": 1.5796079560358591,
-        "stoch_k": 22.208408751067946,
-        "stoch_d": 35.74192556139497,
-        "rvol": 0.8068347205883898,
+        "current_price": 694.25,
+        "dist_to_ema21_pct": 2.863444599314936,
+        "stoch_k": 13.07955344903045,
+        "stoch_d": 22.324823947610195,
+        "rvol": 0.8698386320570909,
         "entry": null,
         "stop": null,
         "target": null,
@@ -1396,19 +1396,6 @@
         "reason": "Price extended from the support zone"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 771.2698,
-          "low": 734.84,
-          "close": 762.5,
-          "sma_50": 646.619938724944,
-          "sma_200": 630.1274389147435,
-          "ema_8": 736.8795414782431,
-          "ema_21": 714.895699199945,
-          "stoch_k": 43.57970333842113,
-          "stoch_d": 36.73148087728349,
-          "rvol": 1.0262503245530246
-        },
         {
           "date": "2026-10-14",
           "high": 761.5,
@@ -1460,6 +1447,19 @@
           "stoch_k": 22.208408751067946,
           "stoch_d": 35.74192556139497,
           "rvol": 0.8068347205883898
+        },
+        {
+          "date": "2026-10-20",
+          "high": 696.505,
+          "low": 681.05,
+          "close": 694.25,
+          "sma_50": 659.2546483357401,
+          "sma_200": 631.5916683031176,
+          "ema_8": 718.3051669566771,
+          "ema_21": 714.7154818659585,
+          "stoch_k": 13.07955344903045,
+          "stoch_d": 22.324823947610195,
+          "rvol": 0.8698386320570909
         }
       ]
     },
@@ -1470,11 +1470,11 @@
       "default_eval": {
         "status": "WAIT: Trigger Pending (Stoch)",
         "regime": "Momentum Continuation",
-        "current_price": 533.52,
-        "dist_to_ema21_pct": 2.0451453490707867,
-        "stoch_k": 62.52201880277108,
-        "stoch_d": 68.52594024099612,
-        "rvol": 0.824676233016149,
+        "current_price": 531.87,
+        "dist_to_ema21_pct": 1.5698531749786928,
+        "stoch_k": 54.01231406301989,
+        "stoch_d": 60.88268848142305,
+        "rvol": 0.6790082923084063,
         "entry": null,
         "stop": null,
         "target": null,
@@ -1482,19 +1482,6 @@
         "reason": "No qualifying stochastic %K/%D cross in the lookback window"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 551.15,
-          "low": 543.06,
-          "close": 543.45,
-          "sma_50": 502.867855175708,
-          "sma_200": 433.27974209034454,
-          "ema_8": 531.1024697003787,
-          "ema_21": 517.7376626696129,
-          "stoch_k": 93.13052792958246,
-          "stoch_d": 88.31471740846173,
-          "rvol": 1.0620026244143734
-        },
         {
           "date": "2026-10-14",
           "high": 545.75,
@@ -1546,6 +1533,19 @@
           "stoch_k": 62.52201880277108,
           "stoch_d": 68.52594024099612,
           "rvol": 0.824676233016149
+        },
+        {
+          "date": "2026-10-20",
+          "high": 534.21,
+          "low": 525.84,
+          "close": 531.87,
+          "sma_50": 506.589519997514,
+          "sma_200": 434.5997737373355,
+          "ema_8": 532.4971347229296,
+          "ema_21": 523.6494721359152,
+          "stoch_k": 54.01231406301989,
+          "stoch_d": 60.88268848142305,
+          "rvol": 0.6790082923084063
         }
       ]
     },
@@ -1556,11 +1556,11 @@
       "default_eval": {
         "status": "WAIT: Trigger Pending (Stoch)",
         "regime": "Momentum Continuation",
-        "current_price": 342.94,
-        "dist_to_ema21_pct": 1.7311106405296608,
-        "stoch_k": 76.05226522947726,
-        "stoch_d": 74.98292790527755,
-        "rvol": 0.9351404473763889,
+        "current_price": 339.5,
+        "dist_to_ema21_pct": 0.6456329861920318,
+        "stoch_k": 72.32201874971086,
+        "stoch_d": 74.81879706016785,
+        "rvol": 0.976129755506892,
         "entry": null,
         "stop": null,
         "target": null,
@@ -1568,19 +1568,6 @@
         "reason": "No qualifying stochastic %K/%D cross in the lookback window"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 348.1499,
-          "low": 340.74,
-          "close": 341.27,
-          "sma_50": 323.76498997180005,
-          "sma_200": 291.0866193391755,
-          "ema_8": 337.9450720831575,
-          "ema_21": 334.4345058819526,
-          "stoch_k": 70.96969919164671,
-          "stoch_d": 68.58783841264257,
-          "rvol": 1.0404804828679974
-        },
         {
           "date": "2026-10-14",
           "high": 347.09,
@@ -1632,6 +1619,19 @@
           "stoch_k": 76.05226522947726,
           "stoch_d": 74.98292790527755,
           "rvol": 0.9351404473763889
+        },
+        {
+          "date": "2026-10-20",
+          "high": 343.06,
+          "low": 338.7,
+          "close": 339.5,
+          "sma_50": 326.9164,
+          "sma_200": 292.844044889838,
+          "ema_8": 340.72710573424837,
+          "ema_21": 337.3221370137116,
+          "stoch_k": 72.32201874971086,
+          "stoch_d": 74.81879706016785,
+          "rvol": 0.976129755506892
         }
       ]
     },
@@ -1642,11 +1642,11 @@
       "default_eval": {
         "status": "WAIT: Extended (Location)",
         "regime": "Momentum Continuation",
-        "current_price": 226.03,
-        "dist_to_ema21_pct": 4.696622138388665,
-        "stoch_k": 84.31636643383901,
-        "stoch_d": 86.64282459504113,
-        "rvol": 1.0445800165872485,
+        "current_price": 228.98,
+        "dist_to_ema21_pct": 5.481654885054651,
+        "stoch_k": 86.85287064466074,
+        "stoch_d": 85.80857736058404,
+        "rvol": 1.2556907228544214,
         "entry": null,
         "stop": null,
         "target": null,
@@ -1654,19 +1654,6 @@
         "reason": "Price extended from the support zone"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 222.21,
-          "low": 218.0,
-          "close": 219.75,
-          "sma_50": 211.34220000000002,
-          "sma_200": 190.93220470741548,
-          "ema_8": 214.32170890930234,
-          "ema_21": 212.06251272157152,
-          "stoch_k": 87.07925414873921,
-          "stoch_d": 83.14311427132509,
-          "rvol": 1.1740575138826315
-        },
         {
           "date": "2026-10-14",
           "high": 221.79,
@@ -1718,6 +1705,19 @@
           "stoch_k": 84.31636643383901,
           "stoch_d": 86.64282459504113,
           "rvol": 1.0445800165872485
+        },
+        {
+          "date": "2026-10-20",
+          "high": 229.0,
+          "low": 225.79,
+          "close": 228.98,
+          "sma_50": 213.69819999999999,
+          "sma_200": 190.57271914000847,
+          "ema_8": 222.56091892561506,
+          "ema_21": 217.08040156321383,
+          "stoch_k": 86.85287064466074,
+          "stoch_d": 85.80857736058404,
+          "rvol": 1.2556907228544214
         }
       ]
     },
@@ -1728,7 +1728,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 315.35,
+        "current_price": 319.61,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -1740,19 +1740,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 368.63,
-          "low": 353.357,
-          "close": 357.76,
-          "sma_50": 332.59680000000003,
-          "sma_200": 232.40439999999998,
-          "ema_8": 350.30343449773045,
-          "ema_21": 341.44991393849324,
-          "stoch_k": 85.70454890310755,
-          "stoch_d": 83.6855112775489,
-          "rvol": 0.9872622958640673
-        },
         {
           "date": "2026-10-14",
           "high": 356.839,
@@ -1804,6 +1791,19 @@
           "stoch_k": 20.041579660768566,
           "stoch_d": 31.107862613385176,
           "rvol": 1.1583899527492725
+        },
+        {
+          "date": "2026-10-20",
+          "high": 323.77,
+          "low": 309.5,
+          "close": 319.61,
+          "sma_50": 332.49980000000005,
+          "sma_200": 234.93964999999997,
+          "ema_8": 328.7677454927832,
+          "ema_21": 333.87587723050035,
+          "stoch_k": 17.118040306446094,
+          "stoch_d": 20.73655986027506,
+          "rvol": 0.9220664611389363
         }
       ]
     },
@@ -1814,11 +1814,11 @@
       "default_eval": {
         "status": "WAIT: Extended (Location)",
         "regime": "Momentum Continuation",
-        "current_price": 145.36,
-        "dist_to_ema21_pct": 4.415696594771698,
-        "stoch_k": 71.60848182610827,
-        "stoch_d": 71.1445477952325,
-        "rvol": 0.8925367794711425,
+        "current_price": 149.54,
+        "dist_to_ema21_pct": 6.69872838652446,
+        "stoch_k": 65.25151167914616,
+        "stoch_d": 69.12684091155917,
+        "rvol": 1.0160096941114884,
         "entry": null,
         "stop": null,
         "target": null,
@@ -1826,19 +1826,6 @@
         "reason": "Price extended from the support zone"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 145.17,
-          "low": 138.16,
-          "close": 138.61,
-          "sma_50": 133.2944,
-          "sma_200": 115.1956,
-          "ema_8": 138.50121754286778,
-          "ema_21": 136.95495363080786,
-          "stoch_k": 69.48093466796637,
-          "stoch_d": 76.4861714855015,
-          "rvol": 1.2701050817042785
-        },
         {
           "date": "2026-10-14",
           "high": 142.7999,
@@ -1890,6 +1877,19 @@
           "stoch_k": 71.60848182610827,
           "stoch_d": 71.1445477952325,
           "rvol": 0.8925367794711425
+        },
+        {
+          "date": "2026-10-20",
+          "high": 150.04,
+          "low": 146.31,
+          "close": 149.54,
+          "sma_50": 135.7022,
+          "sma_200": 115.006,
+          "ema_8": 143.77908183445913,
+          "ema_21": 140.15162341792836,
+          "stoch_k": 65.25151167914616,
+          "stoch_d": 69.12684091155917,
+          "rvol": 1.0160096941114884
         }
       ]
     },
@@ -1898,33 +1898,20 @@
       "sector": "SaaS with AI Story",
       "thesis": "Creative Cloud AI; frequent mean-reversion bounces after dips",
       "default_eval": {
-        "status": "DISQUALIFIED: Trend Failure",
-        "regime": null,
-        "current_price": 247.09,
-        "dist_to_ema21_pct": null,
-        "stoch_k": null,
-        "stoch_d": null,
-        "rvol": null,
+        "status": "WAIT: Extended (Location)",
+        "regime": "Momentum Continuation",
+        "current_price": 256.73,
+        "dist_to_ema21_pct": 4.739345124654348,
+        "stoch_k": 76.52838933406156,
+        "stoch_d": 74.54334416366954,
+        "rvol": 1.0476824712419945,
         "entry": null,
         "stop": null,
         "target": null,
         "rr": null,
-        "reason": "Price/SMA50/SMA200 not in required trend order"
+        "reason": "Price extended from the support zone"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 241.47,
-          "low": 235.19,
-          "close": 236.28,
-          "sma_50": 257.33209999999997,
-          "sma_200": 255.82335,
-          "ema_8": 238.3966468450833,
-          "ema_21": 242.86090217772295,
-          "stoch_k": 54.93431137442985,
-          "stoch_d": 52.815564019372765,
-          "rvol": 0.7796440064936208
-        },
         {
           "date": "2026-10-14",
           "high": 241.25,
@@ -1976,6 +1963,19 @@
           "stoch_k": 73.60515350798674,
           "stoch_d": 72.13918215019346,
           "rvol": 0.6713037122741091
+        },
+        {
+          "date": "2026-10-20",
+          "high": 256.78,
+          "low": 248.5,
+          "close": 256.73,
+          "sma_50": 255.85510000000002,
+          "sma_200": 253.3164,
+          "ema_8": 246.46137247921752,
+          "ema_21": 245.11323771831465,
+          "stoch_k": 76.52838933406156,
+          "stoch_d": 74.54334416366954,
+          "rvol": 1.0476824712419945
         }
       ]
     },
@@ -1984,33 +1984,20 @@
       "sector": "SaaS with AI Story",
       "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
       "default_eval": {
-        "status": "WAIT: Extended (Location)",
+        "status": "WAIT: Trigger Pending (Stoch)",
         "regime": "Momentum Continuation",
-        "current_price": 242.45,
-        "dist_to_ema21_pct": 2.926295604725315,
-        "stoch_k": 77.62202454914028,
-        "stoch_d": 76.89572029265217,
-        "rvol": 0.7986168034100055,
+        "current_price": 242.43,
+        "dist_to_ema21_pct": 2.645532671606509,
+        "stoch_k": 68.1516587677725,
+        "stoch_d": 73.71032943215347,
+        "rvol": 0.9530273949891024,
         "entry": null,
         "stop": null,
         "target": null,
         "rr": null,
-        "reason": "Price extended from the support zone"
+        "reason": "No qualifying stochastic %K/%D cross in the lookback window"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 245.06,
-          "low": 234.7,
-          "close": 238.01,
-          "sma_50": 226.818484097166,
-          "sma_200": 198.62119029599347,
-          "ema_8": 232.02198433157807,
-          "ema_21": 232.74767479166036,
-          "stoch_k": 57.99026443839717,
-          "stoch_d": 44.30828754666661,
-          "rvol": 0.8875189921055177
-        },
         {
           "date": "2026-10-14",
           "high": 240.11,
@@ -2062,6 +2049,19 @@
           "stoch_k": 77.62202454914028,
           "stoch_d": 76.89572029265217,
           "rvol": 0.7986168034100055
+        },
+        {
+          "date": "2026-10-20",
+          "high": 244.1443,
+          "low": 235.6,
+          "close": 242.43,
+          "sma_50": 231.798843898228,
+          "sma_200": 198.124810946426,
+          "ema_8": 239.1621519527991,
+          "ema_21": 236.1817350352747,
+          "stoch_k": 68.1516587677725,
+          "stoch_d": 73.71032943215347,
+          "rvol": 0.9530273949891024
         }
       ]
     },
@@ -2072,7 +2072,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 413.11,
+        "current_price": 404.98,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2084,19 +2084,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 485.63,
-          "low": 452.81,
-          "close": 464.24,
-          "sma_50": 488.525304308086,
-          "sma_200": 435.863581568276,
-          "ema_8": 500.21904874240306,
-          "ema_21": 494.84589243872875,
-          "stoch_k": 37.309169507539735,
-          "stoch_d": 52.03935307249557,
-          "rvol": 1.724116938503135
-        },
         {
           "date": "2026-10-14",
           "high": 459.48,
@@ -2148,6 +2135,19 @@
           "stoch_k": 4.917432423819311,
           "stoch_d": 5.410591069340112,
           "rvol": 1.0733947562444985
+        },
+        {
+          "date": "2026-10-20",
+          "high": 412.46,
+          "low": 399.025,
+          "close": 404.98,
+          "sma_50": 477.27067125256593,
+          "sma_200": 439.853006480376,
+          "ema_8": 440.07642453239794,
+          "ema_21": 466.0710863259021,
+          "stoch_k": 3.215504799588285,
+          "stoch_d": 4.0048792656336465,
+          "rvol": 1.0800283344128596
         }
       ]
     },
@@ -2158,7 +2158,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 272.2,
+        "current_price": 263.45,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2170,19 +2170,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 303.5,
-          "low": 290.9,
-          "close": 301.11,
-          "sma_50": 310.923317200352,
-          "sma_200": 280.01262298395204,
-          "ema_8": 317.79107733751573,
-          "ema_21": 316.1968105319928,
-          "stoch_k": 25.853414559748277,
-          "stoch_d": 38.743587152853124,
-          "rvol": 0.9448598416483921
-        },
         {
           "date": "2026-10-14",
           "high": 295.86,
@@ -2234,6 +2221,19 @@
           "stoch_k": 8.04851413084468,
           "stoch_d": 8.250122956915376,
           "rvol": 1.2240637793078673
+        },
+        {
+          "date": "2026-10-20",
+          "high": 270.97,
+          "low": 260.29,
+          "close": 263.45,
+          "sma_50": 307.262345274864,
+          "sma_200": 282.425618440222,
+          "ema_8": 283.86869103306793,
+          "ema_21": 299.37577849997376,
+          "stoch_k": 4.8171159116842,
+          "stoch_d": 6.201969558037134,
+          "rvol": 0.9312930312990114
         }
       ]
     },
@@ -2244,7 +2244,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 177.41,
+        "current_price": 174.58,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2256,19 +2256,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 195.4,
-          "low": 188.01,
-          "close": 194.16,
-          "sma_50": 227.9745,
-          "sma_200": 246.4749918406775,
-          "ema_8": 203.38253225000375,
-          "ema_21": 211.6418425459786,
-          "stoch_k": 12.340812518730473,
-          "stoch_d": 11.686584755692309,
-          "rvol": 0.9170403672725752
-        },
         {
           "date": "2026-10-14",
           "high": 194.825,
@@ -2320,6 +2307,19 @@
           "stoch_k": 5.693764473094799,
           "stoch_d": 6.542029183250086,
           "rvol": 1.758132367880982
+        },
+        {
+          "date": "2026-10-20",
+          "high": 177.26,
+          "low": 168.01,
+          "close": 174.58,
+          "sma_50": 220.77790000000002,
+          "sma_200": 247.00824465256702,
+          "ema_8": 185.46941759429987,
+          "ema_21": 199.44148210565504,
+          "stoch_k": 6.890053118255966,
+          "stoch_d": 5.889554877131213,
+          "rvol": 1.075320788696585
         }
       ]
     },
@@ -2330,7 +2330,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 128.94,
+        "current_price": 127.9,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2342,19 +2342,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 145.13,
-          "low": 134.6,
-          "close": 142.78,
-          "sma_50": 149.2951,
-          "sma_200": 157.289125,
-          "ema_8": 150.0496383298227,
-          "ema_21": 149.83861736619681,
-          "stoch_k": 32.75543008923706,
-          "stoch_d": 37.62798681535933,
-          "rvol": 1.715610117350887
-        },
         {
           "date": "2026-10-14",
           "high": 148.13,
@@ -2406,6 +2393,19 @@
           "stoch_k": 17.299712735397396,
           "stoch_d": 18.06886191011304,
           "rvol": 0.7108310382258746
+        },
+        {
+          "date": "2026-10-20",
+          "high": 130.73,
+          "low": 124.84,
+          "close": 127.9,
+          "sma_50": 147.1165,
+          "sma_200": 157.8192,
+          "ema_8": 135.59501653557774,
+          "ema_21": 142.44931131517146,
+          "stoch_k": 14.831365038833939,
+          "stoch_d": 16.439241381225415,
+          "rvol": 0.7729477195565826
         }
       ]
     },
@@ -2428,19 +2428,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 140.0,
-          "low": 140.0,
-          "close": 140.0,
-          "sma_50": 140.0,
-          "sma_200": 111.85022255846451,
-          "ema_8": 139.99999999797888,
-          "ema_21": 139.99929156368069,
-          "stoch_k": NaN,
-          "stoch_d": NaN,
-          "rvol": NaN
-        },
         {
           "date": "2026-10-14",
           "high": 140.0,
@@ -2492,6 +2479,19 @@
           "stoch_k": NaN,
           "stoch_d": NaN,
           "rvol": NaN
+        },
+        {
+          "date": "2026-10-20",
+          "high": 140.0,
+          "low": 140.0,
+          "close": 140.0,
+          "sma_50": 140.0,
+          "sma_200": 113.72277829562199,
+          "ema_8": 139.99999999942472,
+          "ema_21": 139.9995601167833,
+          "stoch_k": NaN,
+          "stoch_d": NaN,
+          "rvol": NaN
         }
       ]
     },
@@ -2502,7 +2502,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 352.21,
+        "current_price": 364.32,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2514,19 +2514,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 382.766,
-          "low": 358.26,
-          "close": 380.71,
-          "sma_50": 451.44678649073,
-          "sma_200": 407.75736346978505,
-          "ema_8": 403.55371568384845,
-          "ema_21": 425.9059735338855,
-          "stoch_k": 11.399408617940816,
-          "stoch_d": 8.674656543024348,
-          "rvol": 1.3714960984832738
-        },
         {
           "date": "2026-10-14",
           "high": 382.34,
@@ -2578,6 +2565,19 @@
           "stoch_k": 10.443253250075259,
           "stoch_d": 10.473960392827404,
           "rvol": 0.8691574971977597
+        },
+        {
+          "date": "2026-10-20",
+          "high": 366.0,
+          "low": 342.5,
+          "close": 364.32,
+          "sma_50": 439.005615645614,
+          "sma_200": 412.12139973223947,
+          "ema_8": 368.20837100540973,
+          "ema_21": 398.57977642727184,
+          "stoch_k": 13.4214251603694,
+          "stoch_d": 10.322678069672273,
+          "rvol": 0.9487719528533448
         }
       ]
     },
@@ -2588,7 +2588,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 237.09,
+        "current_price": 240.42,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2600,19 +2600,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 269.1399,
-          "low": 248.45,
-          "close": 268.725,
-          "sma_50": 239.50912697755402,
-          "sma_200": 173.505184574169,
-          "ema_8": 271.16704689482856,
-          "ema_21": 261.5272475664024,
-          "stoch_k": 41.1687500372615,
-          "stoch_d": 48.82186348934585,
-          "rvol": 0.9391918019381995
-        },
         {
           "date": "2026-10-14",
           "high": 264.3,
@@ -2664,6 +2651,19 @@
           "stoch_k": 11.586061848416238,
           "stoch_d": 12.634386284968391,
           "rvol": 0.900860928979436
+        },
+        {
+          "date": "2026-10-20",
+          "high": 243.96,
+          "low": 226.5201,
+          "close": 240.42,
+          "sma_50": 242.0023791022,
+          "sma_200": 177.301927227477,
+          "ema_8": 247.38439596202107,
+          "ema_21": 252.66260300550908,
+          "stoch_k": 11.506203625310931,
+          "stoch_d": 10.022546050441951,
+          "rvol": 0.844557872339449
         }
       ]
     },
@@ -2674,7 +2674,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 232.02,
+        "current_price": 231.8,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2686,19 +2686,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 290.53,
-          "low": 273.93,
-          "close": 289.98,
-          "sma_50": 304.6354,
-          "sma_200": 293.61375,
-          "ema_8": 305.79190692288347,
-          "ema_21": 305.39161124654254,
-          "stoch_k": 32.676410998248805,
-          "stoch_d": 44.20357485837574,
-          "rvol": 0.8606565577007587
-        },
         {
           "date": "2026-10-14",
           "high": 285.0,
@@ -2750,6 +2737,19 @@
           "stoch_k": 5.24380192422849,
           "stoch_d": 8.052212024787979,
           "rvol": 0.9382394757906165
+        },
+        {
+          "date": "2026-10-20",
+          "high": 236.5798,
+          "low": 217.83,
+          "close": 231.8,
+          "sma_50": 295.0392,
+          "sma_200": 294.9347,
+          "ema_8": 257.57502311051667,
+          "ema_21": 280.8366363739079,
+          "stoch_k": 4.277952607654873,
+          "stoch_d": 5.077057494138331,
+          "rvol": 0.8878242943275818
         }
       ]
     },
@@ -2760,7 +2760,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 206.08,
+        "current_price": 203.56,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2772,19 +2772,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 238.55,
-          "low": 230.685,
-          "close": 237.29,
-          "sma_50": 259.00205668292,
-          "sma_200": 267.4657960863795,
-          "ema_8": 243.437179082412,
-          "ema_21": 247.9305884833645,
-          "stoch_k": 18.729170556399353,
-          "stoch_d": 23.0134174630734,
-          "rvol": 1.082948032766625
-        },
         {
           "date": "2026-10-14",
           "high": 234.8,
@@ -2836,6 +2823,19 @@
           "stoch_k": 8.755274261603379,
           "stoch_d": 11.846400726990275,
           "rvol": 1.0074400423658174
+        },
+        {
+          "date": "2026-10-20",
+          "high": 208.94,
+          "low": 197.9,
+          "close": 203.56,
+          "sma_50": 252.771245173248,
+          "sma_200": 268.561103168753,
+          "ema_8": 218.4672659797473,
+          "ema_21": 233.49459244796023,
+          "stoch_k": 5.45467289064581,
+          "stoch_d": 8.073126945383825,
+          "rvol": 1.353062150915929
         }
       ]
     },
@@ -2846,7 +2846,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 263.19,
+        "current_price": 258.84,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2858,19 +2858,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 298.5,
-          "low": 286.1279,
-          "close": 295.79,
-          "sma_50": 274.95316142675597,
-          "sma_200": 284.766417839974,
-          "ema_8": 287.72762026405337,
-          "ema_21": 278.61060189627057,
-          "stoch_k": 77.82215122470711,
-          "stoch_d": 75.02839900603476,
-          "rvol": 0.562713473231093
-        },
         {
           "date": "2026-10-14",
           "high": 294.5,
@@ -2922,6 +2909,19 @@
           "stoch_k": 36.18743343982961,
           "stoch_d": 46.32587859424921,
           "rvol": 0.9423626018647785
+        },
+        {
+          "date": "2026-10-20",
+          "high": 263.9,
+          "low": 257.75,
+          "close": 258.84,
+          "sma_50": 275.278731873874,
+          "sma_200": 282.56937822149297,
+          "ema_8": 272.8715113512159,
+          "ema_21": 274.8059467474716,
+          "stoch_k": 26.756193656678786,
+          "stoch_d": 35.94571027462599,
+          "rvol": 0.7793454873633066
         }
       ]
     },
@@ -2932,7 +2932,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 149.7,
+        "current_price": 150.32,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -2944,19 +2944,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 163.63,
-          "low": 153.51,
-          "close": 162.36,
-          "sma_50": 144.070202212608,
-          "sma_200": 154.2912178842775,
-          "ema_8": 156.32577524277167,
-          "ema_21": 149.76448501880293,
-          "stoch_k": 77.08356935161062,
-          "stoch_d": 76.06473229653793,
-          "rvol": 0.7496953917832228
-        },
         {
           "date": "2026-10-14",
           "high": 161.0865,
@@ -3008,6 +2995,19 @@
           "stoch_k": 52.462142668328255,
           "stoch_d": 57.03145651599262,
           "rvol": 0.5781926453796302
+        },
+        {
+          "date": "2026-10-20",
+          "high": 151.34,
+          "low": 147.1,
+          "close": 150.32,
+          "sma_50": 145.080319651088,
+          "sma_200": 154.036258364,
+          "ema_8": 152.67287277524196,
+          "ema_21": 150.4057883644329,
+          "stoch_k": 48.13582853496322,
+          "stoch_d": 51.677742223158255,
+          "rvol": 0.45562061240993695
         }
       ]
     },
@@ -3018,7 +3018,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 53.9,
+        "current_price": 54.8,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -3030,19 +3030,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 59.6,
-          "low": 58.9301,
-          "close": 59.49,
-          "sma_50": 66.64216,
-          "sma_200": 61.563851572015004,
-          "ema_8": 60.33736006540149,
-          "ema_21": 62.955384477121115,
-          "stoch_k": 24.26431246655963,
-          "stoch_d": 20.840021401819115,
-          "rvol": 0.9378713274423686
-        },
         {
           "date": "2026-10-14",
           "high": 59.03,
@@ -3094,6 +3081,19 @@
           "stoch_k": 3.725315882619243,
           "stoch_d": 10.170363968116755,
           "rvol": 1.4723557327880523
+        },
+        {
+          "date": "2026-10-20",
+          "high": 55.2365,
+          "low": 54.4,
+          "close": 54.8,
+          "sma_50": 65.31296,
+          "sma_200": 61.603330482623505,
+          "ema_8": 56.94051670001529,
+          "ema_21": 60.277646507703224,
+          "stoch_k": 2.484464961875605,
+          "stoch_d": 5.1754406604202225,
+          "rvol": 1.2588699753205566
         }
       ]
     },
@@ -3104,7 +3104,7 @@
       "default_eval": {
         "status": "DISQUALIFIED: Trend Failure",
         "regime": null,
-        "current_price": 325.86,
+        "current_price": 319.87,
         "dist_to_ema21_pct": null,
         "stoch_k": null,
         "stoch_d": null,
@@ -3116,19 +3116,6 @@
         "reason": "Price/SMA50/SMA200 not in required trend order"
       },
       "snapshot": [
-        {
-          "date": "2026-10-13",
-          "high": 344.125,
-          "low": 333.79,
-          "close": 334.2,
-          "sma_50": 320.6372,
-          "sma_200": 326.88695,
-          "ema_8": 344.43466410294013,
-          "ema_21": 332.8272907614252,
-          "stoch_k": 71.33125384736364,
-          "stoch_d": 80.34356545869296,
-          "rvol": 0.9703921814606454
-        },
         {
           "date": "2026-10-14",
           "high": 335.96,
@@ -3180,6 +3167,19 @@
           "stoch_k": 18.265028212999777,
           "stoch_d": 25.033566845862122,
           "rvol": 0.7999547304726048
+        },
+        {
+          "date": "2026-10-20",
+          "high": 325.64,
+          "low": 316.72,
+          "close": 319.87,
+          "sma_50": 319.2736,
+          "sma_200": 327.10645,
+          "ema_8": 329.1001391992771,
+          "ema_21": 329.28695472951125,
+          "stoch_k": 13.912056812429965,
+          "stoch_d": 17.99627178437583,
+          "rvol": 0.7704410924919215
         }
       ]
     }
@@ -3187,7 +3187,7 @@
   "errors": [
     {
       "ticker": "SKHY",
-      "error": "only 71 trading days returned, need at least 300"
+      "error": "only 72 trading days returned, need at least 300"
     }
   ]
 }
