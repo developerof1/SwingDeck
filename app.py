@@ -91,9 +91,17 @@ def badge(status: str) -> str:
     return STATUS_BADGE.get(status, f"{YELLOW} {status}")
 
 
+# Regime is left out of the compact strip: it can never fail once Trend has passed
+# (Trend already requires price > 200-SMA, which is the only way Regime could fail),
+# so it carries no information except on already-DISQUALIFIED rows - where the Reason
+# column and inspector drawer already cover it.
+PIPELINE_BALL_KEYS = ("trend", "location", "oscillator", "confirmation")
+
+
 def checklist_cell(steps) -> str:
-    """The 5-step pipeline as a row of traffic-light balls, in pipeline order."""
-    return "".join(STEP_CIRCLE[s.passed] for s in steps)
+    """The 4 decision-relevant pipeline steps as a row of traffic-light balls, in order."""
+    by_key = {s.key: s for s in steps}
+    return "".join(STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key)
 
 
 def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
@@ -243,7 +251,7 @@ def main() -> None:
         selection_mode="single-row",
         column_config={
             "Price": st.column_config.NumberColumn(format="$%.2f"),
-            "Pipeline": st.column_config.TextColumn(help="Trend → Regime → Location → Oscillator → Confirmation"),
+            "Pipeline": st.column_config.TextColumn(help="Trend → Location → Oscillator → Confirmation"),
             "Thesis": st.column_config.TextColumn(width="medium"),
             "Reason": st.column_config.TextColumn(width="medium"),
         },
