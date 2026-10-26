@@ -213,7 +213,7 @@ def main() -> None:
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Monitored", len(rows))
-    col2.metric(f"{GREEN} Actionable (ENTER)", enter_count)
+    col2.metric(f"{GREEN} Actionable", enter_count)
     col3.metric(f"{YELLOW} Near Setup", waiting_count)
     col4.metric(f"{RED} Disqualified", disqualified_count)
 
