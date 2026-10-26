@@ -73,6 +73,12 @@ class EvalResult:
     stop: float | None = None
     target: float | None = None
     rr: float | None = None
+    # Confirmation is really 3 ANDed sub-checks (breakout, RVOL, R:R), but only RVOL
+    # and R:R ever got their own column - so a row could show both of those green
+    # while the Confirmation ball was still red, because this third one was failing
+    # invisibly. prior_day_high/breakout_ok expose it so it can get a column too.
+    prior_day_high: float | None = None
+    breakout_ok: bool | None = None
     steps: list[StepCheck] = field(default_factory=list)
 
 
@@ -189,7 +195,8 @@ def evaluate_stock(
     if regime is not None:
         prior_day_high = df["high"].iloc[-2]
         swing_low_5d = df["low"].tail(5).min()
-        confirmed = price > prior_day_high and latest["rvol"] >= rvol_thresh
+        breakout_ok = price > prior_day_high
+        confirmed = breakout_ok and latest["rvol"] >= rvol_thresh
 
         entry = prior_day_high + 0.05
         stop = swing_low_5d * (1 - STOP_LOSS_BUFFER_PCT / 100)
@@ -213,6 +220,8 @@ def evaluate_stock(
         else:
             confirmation_detail = f"Confirmed above prior-day high, R:R {rr:.2f}"
     else:
+        prior_day_high = None
+        breakout_ok = None
         confirmation_ok = None
         confirmation_detail = "Not applicable - no valid regime"
     steps.append(StepCheck(STEP_CONFIRMATION, STEP_LABELS[STEP_CONFIRMATION], confirmation_ok, confirmation_detail))
@@ -237,6 +246,8 @@ def evaluate_stock(
         stop=stop,
         target=target,
         rr=rr,
+        prior_day_high=prior_day_high,
+        breakout_ok=breakout_ok,
         steps=steps,
     )
 

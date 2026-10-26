@@ -91,23 +91,33 @@ def badge(status: str) -> str:
     return STATUS_BADGE.get(status, f"{YELLOW} {status}")
 
 
-# Trend and Regime are left out of the compact strip entirely, not just visually
-# separated - both are pass/fail gates with no metric column of their own (Regime
-# also can never fail once Trend has passed: Trend already requires price > 200-SMA,
-# which is the only way Regime's own check could fail). A visual separator was tried
-# first, but 4 balls next to 4 metric columns still read as a 1:1 positional match
-# that wasn't actually true. With only these 3 left, ball 1 = Dist to Support column,
-# ball 2 = Stoch %K column, ball 3 = RVOL/R:R columns - a real 1:1 match, left to
-# right, no mental subtraction required. Trend/Regime are still in the Status badge
-# (DISQUALIFIED) and the inspector drawer's full 5-step breakdown.
-PIPELINE_BALL_KEYS = ("location", "oscillator", "confirmation")
+# Regime is left out: it can never fail once Trend has passed (Trend already requires
+# price > 200-SMA, which is the only way Regime's own check could fail), so it's
+# always green except on an already-DISQUALIFIED row - covered by the Status badge
+# and the inspector's full 5-step breakdown, not worth a ball here.
+#
+# Trend IS shown, but separated from the rest by "|": it's a pass/fail gate with no
+# metric column of its own, whereas the 3 balls after the separator - Location,
+# Oscillator, Confirmation, in that order - are each decided by the step with that
+# exact name and are shown in the exact order they're evaluated in rules_engine.py
+# (Step 3, Step 4, Step 5). The columns to the right are in that same order - Dist to
+# Support, then Stoch %K, then vs Prior-Day High/RVOL/R:R (all 3 of Confirmation's own
+# sub-checks, so nothing it depends on is hidden) - so reading the 3 balls after the
+# separator left to right reproduces the exact same color sequence as reading across
+# those 3 column groups left to right.
+PIPELINE_BALL_KEYS = ("trend", "location", "oscillator", "confirmation")
 
 
 def checklist_cell(steps) -> str:
-    """Location/Oscillator/Confirmation as traffic-light balls, in the same left-to-right
-    order as the Dist to Support / Stoch %K / RVOL+R:R columns they correspond to."""
+    """Trend, then - after a separator - Location/Oscillator/Confirmation, each in the
+    exact order they're evaluated. The 3 balls after the separator read left to right
+    in the same order as the Dist to Support / Stoch %K / (vs Prior-Day High, RVOL,
+    R:R) columns."""
     by_key = {s.key: s for s in steps}
-    return "".join(STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key)
+    balls = [STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key]
+    if len(balls) <= 1:
+        return "".join(balls)
+    return balls[0] + " ❘ " + "".join(balls[1:])
 
 
 def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
@@ -201,11 +211,13 @@ def main() -> None:
             oscillator_passed = by_key["oscillator"].passed if "oscillator" in by_key else None
             rvol_ok = None if result.rvol is None else result.rvol >= rvol_thresh
             rr_ok = None if result.rr is None else result.rr >= MIN_RISK_REWARD
-            # getattr, not result.location_dist_pct: this field was added after the
-            # others, so a stale cached rules_engine module (an old EvalResult class,
-            # missing the field) would otherwise crash the whole page for every user
-            # instead of just degrading this one cell - see the try/except below too.
+            # getattr, not result.X: these fields were added after the others, so a
+            # stale cached rules_engine module (an old EvalResult class, missing the
+            # field) would otherwise crash the whole page for every user instead of
+            # just degrading this one cell - see the try/except below too.
             location_dist_pct = getattr(result, "location_dist_pct", None)
+            prior_day_high = getattr(result, "prior_day_high", None)
+            breakout_ok = getattr(result, "breakout_ok", None)
 
             rows.append(
                 {
@@ -221,6 +233,11 @@ def main() -> None:
                     # rows, where the EMA21 distance isn't what Location actually gates on.
                     "Dist to Support": threshold_cell(location_dist_pct, location_passed, "{:.2f}%"),
                     "Stoch %K": threshold_cell(result.stoch_k, oscillator_passed, "{:.1f}"),
+                    # Confirmation is really 3 ANDed checks - breakout, RVOL, R:R - so
+                    # all 3 need their own column, or the Confirmation ball can show red
+                    # while every *visible* column is green (the breakout check failing
+                    # invisibly). Evaluated first in rules_engine.py, so shown first here.
+                    "vs Prior-Day High": threshold_cell(prior_day_high, breakout_ok, "${:.2f}"),
                     "RVOL": threshold_cell(result.rvol, rvol_ok, "{:.2f}x"),
                     "R:R": threshold_cell(result.rr, rr_ok, "{:.2f}"),
                     "Reason": result.reason,
@@ -281,8 +298,8 @@ def main() -> None:
         column_config={
             "Price": st.column_config.NumberColumn(format="$%.2f"),
             "Pipeline": st.column_config.TextColumn(
-                help="Location → Oscillator → Confirmation, left to right - matches the Dist/Stoch/RVOL+R:R "
-                "columns. Trend and Regime are gates with no metric of their own; see the inspector drawer."
+                help="Trend (gate)  |  Location → Oscillator → Confirmation - in that order, matching the "
+                "Dist to Support / Stoch %K / (vs Prior-Day High, RVOL, R:R) columns to the right"
             ),
             "Thesis": st.column_config.TextColumn(width="medium"),
             "Reason": st.column_config.TextColumn(width="medium"),
