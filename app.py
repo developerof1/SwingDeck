@@ -98,10 +98,9 @@ def checklist_cell(steps) -> str:
 def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
     """A number paired with the traffic-light ball for whether it clears its own
     threshold, so the value reads with context instead of as a bare float."""
-    circle = STEP_CIRCLE[passed]
-    if value is None:
-        return f"{circle} –"
-    return f"{circle} {fmt.format(value)}"
+    if value is None or pd.isna(value):
+        return f"{STEP_CIRCLE[None]} –"
+    return f"{STEP_CIRCLE[passed]} {fmt.format(value)}"
 
 
 def live_eval(entry: dict, location_thresh: float, rvol_thresh: float):
@@ -251,9 +250,12 @@ def main() -> None:
         selected = df.iloc[selected_rows[0]]
         result = selected["_result"]
         with st.expander(f"Details: {selected['Ticker']}", expanded=True):
+            # st.markdown treats single $ as LaTeX math delimiters, so dollar amounts
+            # in the generated detail text must be escaped or they render as a code pill.
             st.markdown(f"**{badge(result.status)}**  ·  Regime: {result.regime or '–'}")
             for step in result.steps:
-                st.markdown(f"{STEP_CIRCLE[step.passed]} **{step.label}** — {step.detail}")
+                detail = step.detail.replace("$", "\\$")
+                st.markdown(f"{STEP_CIRCLE[step.passed]} **{step.label}** — {detail}")
             if result.entry is not None:
                 st.caption("Trade levels (live once ENTER; hypothetical otherwise)")
                 c1, c2, c3, c4 = st.columns(4)

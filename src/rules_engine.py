@@ -212,15 +212,20 @@ def evaluate_stock(
     steps.append(StepCheck(STEP_CONFIRMATION, STEP_LABELS[STEP_CONFIRMATION], confirmation_ok, confirmation_detail))
 
     # Overall status/reason: the first failing step in pipeline order wins, exactly
-    # as the original gated implementation determined it.
+    # as the original gated implementation determined it. The underlying metrics
+    # (dist/stoch/rvol) are raw readings off the latest row and always computable,
+    # so they're included on every result - even a DISQUALIFIED one - to match the
+    # per-step checklist above, which is also evaluated regardless of where the
+    # pipeline actually stops gating. Only entry/stop/target/rr need a regime to
+    # mean anything (the target formula itself differs by regime).
     common = dict(
         ticker=ticker,
         regime=regime,
         current_price=price,
-        dist_to_ema21_pct=dist_ema21 if regime is not None else None,
-        stoch_k=latest["stoch_k"] if regime is not None else None,
-        stoch_d=latest["stoch_d"] if regime is not None else None,
-        rvol=latest["rvol"] if regime is not None else None,
+        dist_to_ema21_pct=dist_ema21,
+        stoch_k=latest["stoch_k"],
+        stoch_d=latest["stoch_d"],
+        rvol=latest["rvol"],
         entry=entry,
         stop=stop,
         target=target,
@@ -231,19 +236,15 @@ def evaluate_stock(
     if not trend_ok:
         return EvalResult(
             status=STATUS_DISQUALIFIED,
-            current_price=price,
             reason="Price/SMA50/SMA200 not in required trend order",
-            ticker=ticker,
-            steps=steps,
+            **common,
         )
 
     if regime is None:
         return EvalResult(
             status=STATUS_DISQUALIFIED,
-            current_price=price,
             reason="Below EMA21 and below SMA200 - no valid regime",
-            ticker=ticker,
-            steps=steps,
+            **common,
         )
 
     if not location_ok:
