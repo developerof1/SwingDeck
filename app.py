@@ -43,7 +43,7 @@ STATUS_BADGE = {
     STATUS_WAIT_CONFIRMATION: f"{YELLOW} WAIT · Confirmation",
 }
 
-FILTER_PILLS = ["All", f"{GREEN} Actionable", f"{YELLOW} WAIT", f"{RED} DISQUALIFIED"]
+FILTER_PILLS = ["All", f"{GREEN} ACTIONABLE", f"{YELLOW} WAIT", f"{RED} DISQUALIFIED"]
 
 st.set_page_config(page_title="SwingDeck", layout="wide")
 
@@ -97,27 +97,24 @@ def badge(status: str) -> str:
 # and the inspector's full 5-step breakdown, not worth a ball here.
 #
 # Trend IS shown, but separated from the rest by "|": it's a pass/fail gate with no
-# metric column of its own, whereas the 3 balls after the separator - Location,
-# Oscillator, Confirmation, in that order - are each decided by the step with that
-# exact name and are shown in the exact order they're evaluated in rules_engine.py
-# (Step 3, Step 4, Step 5). The columns to the right are in that same order - Dist to
-# Support, then Stoch %K, then vs Prior-Day High/RVOL/R:R (all 3 of Confirmation's own
-# sub-checks, so nothing it depends on is hidden) - so reading the 3 balls after the
-# separator left to right reproduces the exact same color sequence as reading across
-# those 3 column groups left to right.
-PIPELINE_BALL_KEYS = ("trend", "location", "oscillator", "confirmation")
-
-
-def checklist_cell(steps) -> str:
-    """Trend, then - after a separator - Location/Oscillator/Confirmation, each in the
-    exact order they're evaluated. The 3 balls after the separator read left to right
-    in the same order as the Dist to Support / Stoch %K / (vs Prior-Day High, RVOL,
-    R:R) columns."""
-    by_key = {s.key: s for s in steps}
-    balls = [STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key]
-    if len(balls) <= 1:
-        return "".join(balls)
-    return balls[0] + " ❘ " + "".join(balls[1:])
+# metric column of its own. After the separator, every remaining ball is exactly one
+# column's pass/fail, in that column's left-to-right order: Location (Dist to
+# Support), Oscillator (Stoch %K), Breakout (vs Prior-Day High), RVOL, R:R. The old
+# single "Confirmation" ball covered 3 columns (Breakout/RVOL/R:R) at once, which is
+# exactly what broke the 1-ball-per-column correspondence - it's split into its 3
+# sub-checks here so every ball has exactly one matching column.
+def checklist_cell(
+    trend_passed: bool | None,
+    location_passed: bool | None,
+    oscillator_passed: bool | None,
+    breakout_ok: bool | None,
+    rvol_ok: bool | None,
+    rr_ok: bool | None,
+) -> str:
+    """Trend, then - after a separator - one ball per column to its right, in the same
+    left-to-right order: Location, Oscillator, Breakout, RVOL, R:R."""
+    rest = [STEP_CIRCLE[p] for p in (location_passed, oscillator_passed, breakout_ok, rvol_ok, rr_ok)]
+    return STEP_CIRCLE[trend_passed] + " ❘ " + "".join(rest)
 
 
 def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
@@ -207,6 +204,7 @@ def main() -> None:
             result = live_eval(entry, location_thresh, rvol_thresh)
 
             by_key = {s.key: s for s in result.steps}
+            trend_passed = by_key["trend"].passed if "trend" in by_key else None
             location_passed = by_key["location"].passed if "location" in by_key else None
             oscillator_passed = by_key["oscillator"].passed if "oscillator" in by_key else None
             rvol_ok = None if result.rvol is None else result.rvol >= rvol_thresh
@@ -224,7 +222,9 @@ def main() -> None:
                     "Status": badge(result.status),
                     "Ticker": entry["ticker"],
                     "Sector": entry.get("sector"),
-                    "Pipeline": checklist_cell(result.steps),
+                    "Pipeline": checklist_cell(
+                        trend_passed, location_passed, oscillator_passed, breakout_ok, rvol_ok, rr_ok
+                    ),
                     "Price": result.current_price,
                     # Reuses the Location step's own pass/fail and its regime-appropriate
                     # distance (nearest-EMA for Momentum, 200-SMA for Pullback) instead of
@@ -276,7 +276,7 @@ def main() -> None:
         return
 
     active_pill = st.pills("Filter", FILTER_PILLS, default="All", label_visibility="collapsed")
-    if active_pill == f"{GREEN} Actionable":
+    if active_pill == f"{GREEN} ACTIONABLE":
         df = df[df["_result"].apply(lambda r: r.status == STATUS_ENTER)]
     elif active_pill == f"{YELLOW} WAIT":
         df = df[df["_result"].apply(lambda r: r.status not in (STATUS_ENTER, STATUS_DISQUALIFIED))]
@@ -298,8 +298,8 @@ def main() -> None:
         column_config={
             "Price": st.column_config.NumberColumn(format="$%.2f"),
             "Pipeline": st.column_config.TextColumn(
-                help="Trend (gate)  |  Location → Oscillator → Confirmation - in that order, matching the "
-                "Dist to Support / Stoch %K / (vs Prior-Day High, RVOL, R:R) columns to the right"
+                help="Trend (gate)  |  Location → Oscillator → Breakout → RVOL → R:R - one ball per column "
+                "to the right, in that order"
             ),
             "Thesis": st.column_config.TextColumn(width="medium"),
             "Reason": st.column_config.TextColumn(width="medium"),
