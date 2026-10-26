@@ -297,7 +297,23 @@ def main() -> None:
     col4.metric(f"{RED} Disqualified", disqualified_count)
 
     if not rows:
-        st.info("No tickers match the current sector filter.")
+        if eval_errors:
+            # Surface *why* here too, not just in the "N failed to evaluate" warning
+            # above - this used to return before ever reaching the error-detail
+            # expander at the bottom of the page, hiding the actual exception text
+            # behind a misleading "no tickers match the filter" message.
+            st.info("No tickers to show - every evaluated ticker failed (see details below).")
+        else:
+            st.info("No tickers match the current sector filter.")
+        if errors:
+            with st.expander(f"Data unavailable for {len(errors)} ticker(s)", expanded=True):
+                error_df = pd.DataFrame(
+                    [
+                        {"Ticker": e["ticker"], "Sector": sector_by_ticker.get(e["ticker"]), "Reason": e["error"]}
+                        for e in errors
+                    ]
+                )
+                st.dataframe(error_df, width="stretch", hide_index=True)
         return
 
     active_pill = st.pills("Filter", FILTER_PILLS, default="All", label_visibility="collapsed")
