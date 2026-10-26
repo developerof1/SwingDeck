@@ -193,38 +193,56 @@ def main() -> None:
     selected_sectors = st.sidebar.multiselect("Sectors", options=all_sectors, default=all_sectors)
 
     rows = []
+    eval_errors = []
     for entry in data["results"]:
         if entry.get("sector") not in selected_sectors:
             continue
-        result = live_eval(entry, location_thresh, rvol_thresh)
+        try:
+            result = live_eval(entry, location_thresh, rvol_thresh)
 
-        by_key = {s.key: s for s in result.steps}
-        location_passed = by_key["location"].passed if "location" in by_key else None
-        oscillator_passed = by_key["oscillator"].passed if "oscillator" in by_key else None
-        rvol_ok = None if result.rvol is None else result.rvol >= rvol_thresh
-        rr_ok = None if result.rr is None else result.rr >= MIN_RISK_REWARD
+            by_key = {s.key: s for s in result.steps}
+            location_passed = by_key["location"].passed if "location" in by_key else None
+            oscillator_passed = by_key["oscillator"].passed if "oscillator" in by_key else None
+            rvol_ok = None if result.rvol is None else result.rvol >= rvol_thresh
+            rr_ok = None if result.rr is None else result.rr >= MIN_RISK_REWARD
+            # getattr, not result.location_dist_pct: this field was added after the
+            # others, so a stale cached rules_engine module (an old EvalResult class,
+            # missing the field) would otherwise crash the whole page for every user
+            # instead of just degrading this one cell - see the try/except below too.
+            location_dist_pct = getattr(result, "location_dist_pct", None)
 
-        rows.append(
-            {
-                "Status": badge(result.status),
-                "Ticker": entry["ticker"],
-                "Sector": entry.get("sector"),
-                "Pipeline": checklist_cell(result.steps),
-                "Price": result.current_price,
-                # Reuses the Location step's own pass/fail and its regime-appropriate
-                # distance (nearest-EMA for Momentum, 200-SMA for Pullback) instead of
-                # recomputing a check against dist_to_ema21_pct alone - that recompute
-                # could silently disagree with the Pipeline ball on Pullback-regime
-                # rows, where the EMA21 distance isn't what Location actually gates on.
-                "Dist to Support": threshold_cell(result.location_dist_pct, location_passed, "{:.2f}%"),
-                "Stoch %K": threshold_cell(result.stoch_k, oscillator_passed, "{:.1f}"),
-                "RVOL": threshold_cell(result.rvol, rvol_ok, "{:.2f}x"),
-                "R:R": threshold_cell(result.rr, rr_ok, "{:.2f}"),
-                "Reason": result.reason,
-                "Thesis": entry.get("thesis") or "–",
-                "_result": result,
-            }
+            rows.append(
+                {
+                    "Status": badge(result.status),
+                    "Ticker": entry["ticker"],
+                    "Sector": entry.get("sector"),
+                    "Pipeline": checklist_cell(result.steps),
+                    "Price": result.current_price,
+                    # Reuses the Location step's own pass/fail and its regime-appropriate
+                    # distance (nearest-EMA for Momentum, 200-SMA for Pullback) instead of
+                    # recomputing a check against dist_to_ema21_pct alone - that recompute
+                    # could silently disagree with the Pipeline ball on Pullback-regime
+                    # rows, where the EMA21 distance isn't what Location actually gates on.
+                    "Dist to Support": threshold_cell(location_dist_pct, location_passed, "{:.2f}%"),
+                    "Stoch %K": threshold_cell(result.stoch_k, oscillator_passed, "{:.1f}"),
+                    "RVOL": threshold_cell(result.rvol, rvol_ok, "{:.2f}x"),
+                    "R:R": threshold_cell(result.rr, rr_ok, "{:.2f}"),
+                    "Reason": result.reason,
+                    "Thesis": entry.get("thesis") or "–",
+                    "_result": result,
+                }
+            )
+        except Exception as exc:
+            # One bad ticker (stale cached module, unexpected data shape, etc.) should
+            # degrade to "this row is missing", never take down the page for everyone.
+            eval_errors.append({"ticker": entry["ticker"], "error": f"{type(exc).__name__}: {exc}"})
+
+    if eval_errors:
+        st.warning(
+            f"{len(eval_errors)} ticker(s) failed to evaluate and are missing from the table below "
+            "- see details under the table."
         )
+        errors = errors + eval_errors
 
     df = pd.DataFrame(rows)
     if not df.empty:
