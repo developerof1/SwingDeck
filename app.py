@@ -99,9 +99,19 @@ PIPELINE_BALL_KEYS = ("trend", "location", "oscillator", "confirmation")
 
 
 def checklist_cell(steps) -> str:
-    """The 4 decision-relevant pipeline steps as a row of traffic-light balls, in order."""
+    """The 4 decision-relevant pipeline steps as a row of traffic-light balls, in order.
+
+    A gap separates the first ball (Trend, a pass/fail gate with no metric column of
+    its own) from the next 3 (Location/Oscillator/Confirmation), which line up 1:1
+    with the Dist to Support / Stoch %K / RVOL+R:R columns to the right - without the
+    gap, 4 balls next to 4 metric columns invites reading them as a 1:1 positional
+    match, which they aren't.
+    """
     by_key = {s.key: s for s in steps}
-    return "".join(STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key)
+    balls = [STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key]
+    if len(balls) <= 1:
+        return "".join(balls)
+    return balls[0] + " ❘ " + "".join(balls[1:])
 
 
 def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
@@ -188,9 +198,9 @@ def main() -> None:
             continue
         result = live_eval(entry, location_thresh, rvol_thresh)
 
-        oscillator_step = next((s for s in result.steps if s.key == "oscillator"), None)
-        oscillator_passed = oscillator_step.passed if oscillator_step else None
-        dist_ok = None if result.dist_to_ema21_pct is None else result.dist_to_ema21_pct <= location_thresh
+        by_key = {s.key: s for s in result.steps}
+        location_passed = by_key["location"].passed if "location" in by_key else None
+        oscillator_passed = by_key["oscillator"].passed if "oscillator" in by_key else None
         rvol_ok = None if result.rvol is None else result.rvol >= rvol_thresh
         rr_ok = None if result.rr is None else result.rr >= MIN_RISK_REWARD
 
@@ -201,12 +211,17 @@ def main() -> None:
                 "Sector": entry.get("sector"),
                 "Pipeline": checklist_cell(result.steps),
                 "Price": result.current_price,
-                "Dist to 21-EMA": threshold_cell(result.dist_to_ema21_pct, dist_ok, "{:.2f}%"),
+                # Reuses the Location step's own pass/fail and its regime-appropriate
+                # distance (nearest-EMA for Momentum, 200-SMA for Pullback) instead of
+                # recomputing a check against dist_to_ema21_pct alone - that recompute
+                # could silently disagree with the Pipeline ball on Pullback-regime
+                # rows, where the EMA21 distance isn't what Location actually gates on.
+                "Dist to Support": threshold_cell(result.location_dist_pct, location_passed, "{:.2f}%"),
                 "Stoch %K": threshold_cell(result.stoch_k, oscillator_passed, "{:.1f}"),
                 "RVOL": threshold_cell(result.rvol, rvol_ok, "{:.2f}x"),
                 "R:R": threshold_cell(result.rr, rr_ok, "{:.2f}"),
-                "Thesis": entry.get("thesis") or "–",
                 "Reason": result.reason,
+                "Thesis": entry.get("thesis") or "–",
                 "_result": result,
             }
         )
@@ -251,7 +266,9 @@ def main() -> None:
         selection_mode="single-row",
         column_config={
             "Price": st.column_config.NumberColumn(format="$%.2f"),
-            "Pipeline": st.column_config.TextColumn(help="Trend → Location → Oscillator → Confirmation"),
+            "Pipeline": st.column_config.TextColumn(
+                help="Trend (gate)  |  Location → Oscillator → Confirmation (map to the columns to the right)"
+            ),
             "Thesis": st.column_config.TextColumn(width="medium"),
             "Reason": st.column_config.TextColumn(width="medium"),
         },

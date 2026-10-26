@@ -61,6 +61,11 @@ class EvalResult:
     regime: str | None = None
     current_price: float | None = None
     dist_to_ema21_pct: float | None = None
+    # The distance the Location step actually gates on - nearest-of-EMA8/EMA21 in a
+    # Momentum regime, distance-to-200-SMA in a Pullback regime. Distinct from
+    # dist_to_ema21_pct above, which is always the EMA21 distance specifically and
+    # isn't what's being tested once the regime is Pullback.
+    location_dist_pct: float | None = None
     stoch_k: float | None = None
     stoch_d: float | None = None
     rvol: float | None = None
@@ -143,14 +148,15 @@ def evaluate_stock(
     # Step 3: Location Test
     if regime == REGIME_MOMENTUM:
         dist_ema8 = _pct_distance(price, latest["ema_8"])
-        nearest = min(dist_ema8, dist_ema21)
-        location_ok = nearest <= location_thresh
-        location_detail = f"{nearest:.2f}% from nearest EMA (needs ≤{location_thresh:.1f}%)"
+        location_dist = min(dist_ema8, dist_ema21)
+        location_ok = location_dist <= location_thresh
+        location_detail = f"{location_dist:.2f}% from nearest EMA (needs ≤{location_thresh:.1f}%)"
     elif regime == REGIME_PULLBACK:
-        dist_sma200 = _pct_distance(price, latest["sma_200"])
-        location_ok = dist_sma200 <= location_thresh
-        location_detail = f"{dist_sma200:.2f}% from 200-SMA (needs ≤{location_thresh:.1f}%)"
+        location_dist = _pct_distance(price, latest["sma_200"])
+        location_ok = location_dist <= location_thresh
+        location_detail = f"{location_dist:.2f}% from 200-SMA (needs ≤{location_thresh:.1f}%)"
     else:
+        location_dist = None
         location_ok = None
         location_detail = "Not applicable - no valid regime"
     steps.append(StepCheck(STEP_LOCATION, STEP_LABELS[STEP_LOCATION], location_ok, location_detail))
@@ -223,6 +229,7 @@ def evaluate_stock(
         regime=regime,
         current_price=price,
         dist_to_ema21_pct=dist_ema21,
+        location_dist_pct=location_dist,
         stoch_k=latest["stoch_k"],
         stoch_d=latest["stoch_d"],
         rvol=latest["rvol"],
