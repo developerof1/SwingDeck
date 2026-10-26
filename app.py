@@ -43,7 +43,7 @@ STATUS_BADGE = {
     STATUS_WAIT_CONFIRMATION: f"{YELLOW} WAIT · Confirmation",
 }
 
-FILTER_PILLS = ["All", f"{GREEN} ENTER", f"{YELLOW} WAIT", f"{RED} DISQUALIFIED"]
+FILTER_PILLS = ["All", f"{GREEN} Actionable", f"{YELLOW} WAIT", f"{RED} DISQUALIFIED"]
 
 st.set_page_config(page_title="SwingDeck", layout="wide")
 
@@ -91,27 +91,23 @@ def badge(status: str) -> str:
     return STATUS_BADGE.get(status, f"{YELLOW} {status}")
 
 
-# Regime is left out of the compact strip: it can never fail once Trend has passed
-# (Trend already requires price > 200-SMA, which is the only way Regime could fail),
-# so it carries no information except on already-DISQUALIFIED rows - where the Reason
-# column and inspector drawer already cover it.
-PIPELINE_BALL_KEYS = ("trend", "location", "oscillator", "confirmation")
+# Trend and Regime are left out of the compact strip entirely, not just visually
+# separated - both are pass/fail gates with no metric column of their own (Regime
+# also can never fail once Trend has passed: Trend already requires price > 200-SMA,
+# which is the only way Regime's own check could fail). A visual separator was tried
+# first, but 4 balls next to 4 metric columns still read as a 1:1 positional match
+# that wasn't actually true. With only these 3 left, ball 1 = Dist to Support column,
+# ball 2 = Stoch %K column, ball 3 = RVOL/R:R columns - a real 1:1 match, left to
+# right, no mental subtraction required. Trend/Regime are still in the Status badge
+# (DISQUALIFIED) and the inspector drawer's full 5-step breakdown.
+PIPELINE_BALL_KEYS = ("location", "oscillator", "confirmation")
 
 
 def checklist_cell(steps) -> str:
-    """The 4 decision-relevant pipeline steps as a row of traffic-light balls, in order.
-
-    A gap separates the first ball (Trend, a pass/fail gate with no metric column of
-    its own) from the next 3 (Location/Oscillator/Confirmation), which line up 1:1
-    with the Dist to Support / Stoch %K / RVOL+R:R columns to the right - without the
-    gap, 4 balls next to 4 metric columns invites reading them as a 1:1 positional
-    match, which they aren't.
-    """
+    """Location/Oscillator/Confirmation as traffic-light balls, in the same left-to-right
+    order as the Dist to Support / Stoch %K / RVOL+R:R columns they correspond to."""
     by_key = {s.key: s for s in steps}
-    balls = [STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key]
-    if len(balls) <= 1:
-        return "".join(balls)
-    return balls[0] + " ❘ " + "".join(balls[1:])
+    return "".join(STEP_CIRCLE[by_key[key].passed] for key in PIPELINE_BALL_KEYS if key in by_key)
 
 
 def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
@@ -263,7 +259,7 @@ def main() -> None:
         return
 
     active_pill = st.pills("Filter", FILTER_PILLS, default="All", label_visibility="collapsed")
-    if active_pill == f"{GREEN} ENTER":
+    if active_pill == f"{GREEN} Actionable":
         df = df[df["_result"].apply(lambda r: r.status == STATUS_ENTER)]
     elif active_pill == f"{YELLOW} WAIT":
         df = df[df["_result"].apply(lambda r: r.status not in (STATUS_ENTER, STATUS_DISQUALIFIED))]
@@ -285,7 +281,8 @@ def main() -> None:
         column_config={
             "Price": st.column_config.NumberColumn(format="$%.2f"),
             "Pipeline": st.column_config.TextColumn(
-                help="Trend (gate)  |  Location → Oscillator → Confirmation (map to the columns to the right)"
+                help="Location → Oscillator → Confirmation, left to right - matches the Dist/Stoch/RVOL+R:R "
+                "columns. Trend and Regime are gates with no metric of their own; see the inspector drawer."
             ),
             "Thesis": st.column_config.TextColumn(width="medium"),
             "Reason": st.column_config.TextColumn(width="medium"),
