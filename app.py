@@ -16,6 +16,7 @@ import streamlit as st
 from src.rules_engine import (
     DEFAULT_LOCATION_THRESHOLD_PCT,
     DEFAULT_RVOL_THRESHOLD,
+    MIN_RISK_REWARD,
     STATUS_DISQUALIFIED,
     STATUS_ENTER,
     STATUS_WAIT_CONFIRMATION,
@@ -182,6 +183,7 @@ def main() -> None:
         oscillator_step = next(s for s in result.steps if s.key == "oscillator")
         dist_ok = None if result.dist_to_ema21_pct is None else result.dist_to_ema21_pct <= location_thresh
         rvol_ok = None if result.rvol is None else result.rvol >= rvol_thresh
+        rr_ok = None if result.rr is None else result.rr >= MIN_RISK_REWARD
 
         rows.append(
             {
@@ -193,6 +195,7 @@ def main() -> None:
                 "Dist to 21-EMA": threshold_cell(result.dist_to_ema21_pct, dist_ok, "{:.2f}%"),
                 "Stoch %K": threshold_cell(result.stoch_k, oscillator_step.passed, "{:.1f}"),
                 "RVOL": threshold_cell(result.rvol, rvol_ok, "{:.2f}x"),
+                "R:R": threshold_cell(result.rr, rr_ok, "{:.2f}"),
                 "Thesis": entry.get("thesis") or "–",
                 "Reason": result.reason,
                 "_result": result,
