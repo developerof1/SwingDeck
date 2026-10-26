@@ -175,10 +175,16 @@ Each stock must be evaluated sequentially through the following rules:
 * **Momentum Mode:** `Stochastic %K(14,3,3) crosses above %D(14,3,3)` where `%K` is between **40 and 65**.
 * **Pullback Mode:** `Stochastic %K(14,3,3) crosses above %D(14,3,3)` from oversold territory (**%K < 20**).
 * *Resolved ambiguity:* "crosses above" is evaluated over the **most recent 2 trading days** (i.e., the cross happened today or yesterday), not strictly today-only — otherwise a signal goes stale the moment a day passes between data refreshes.
+* **Multi-timeframe alignment (Elder Triple Screen-style):** the daily condition above must additionally agree with the higher timeframes, both derived from the same fetched daily OHLCV (no extra API calls):
+  * **Weekly:** `Stochastic %K(14,3,3) crosses above %D(14,3,3)` on the most recently *closed* weekly bar.
+  * **Monthly:** `Stochastic %K(14,3,3)` is rising (current closed monthly bar > prior monthly bar).
+  * A ticker without enough history yet for a weekly/monthly reading degrades to non-blocking on that layer rather than failing the step — only an explicit "no" on a computable reading blocks it.
+  * This stays strictly inside Step 4, inside an already-qualified Momentum/Pullback regime — it is **not** the separate, explicitly out-of-scope idea of using a higher timeframe to bypass Step 1's trend gate for a reversal/bottom-fishing entry (a different strategy, deferred to its own future view).
 * **Fail Action:** Status = 🟡 **`WAIT: Trigger Pending (Stoch)`**
 
 ### Step 5: Confirmation & Position Sizing Engine
 * **Condition:** `Current Price > Prior Day High AND RVOL >= 1.2`
+* **Grace window (Steps 3 & 4):** Location and the Oscillator Trigger don't have to hold on the exact same day Step 5's breakout+RVOL condition fires — each is allowed to have last qualified within the preceding **5 calendar days** instead of strictly today, since a real base/breakout commonly plays out over a few days rather than landing on one bar. The "last qualified" date for each is carried forward run-to-run in `results.json` (see Section 8). Step 5's own breakout+RVOL condition is unaffected — always evaluated same-day.
 * **Trade Calculation Rules:**
   * `Entry Price`: `Prior Day High + $0.05` (Breakout Confirmation)
   * `Stop Loss`: `Swing Low of last 5 days - 0.5%`.
@@ -202,9 +208,10 @@ Each stock must be evaluated sequentially through the following rules:
 
 2. **Main Traffic Light Data Table:**
    * Row styling / badges reflecting status (🟢 Green, 🟡 Yellow, 🔴 Red).
-   * **Columns:** `Ticker`, `Sector`, `Status`, `Current Price`, `Regime`, `Dist to 21-EMA %`, `Stoch %K/%D`, `RVOL`, `Suggested Entry`, `Stop Loss`, `Target Price`, `R:R Ratio`.
+   * **Columns:** `Ticker`, `Sector`, `Status`, `Days in Regime`, `Current Price`, `Regime`, `Dist to 21-EMA %`, `Stoch %K/%D`, `RVOL`, `Suggested Entry`, `Stop Loss`, `Target Price`, `R:R Ratio`.
+   * **Days in Regime:** calendar days since the ticker's regime (Momentum Continuation / Pullback Value / disqualified) last changed, from `results.json`'s per-ticker `state.regime_since` (see Section 8) — kept in the main grid rather than the detail panel since it's a quick, per-row signal of how long a setup has been building, not a long text field.
    * **Sortable by column header**, ascending/descending, for every column — the implementation (`st.dataframe`) sorts all columns uniformly, including `Status`; pinning `Status` to pipeline order while leaving other columns sortable isn't supported by the chosen UI primitive and was treated as a minor, acceptable deviation rather than building a custom grid for it.
-   * **Expandable row detail:** selecting a row shows the ticker's `thesis` text and the pipeline's `reason` string (not shown in the main grid — too long to fit as a column).
+   * **Expandable row detail:** selecting a row shows the ticker's `thesis` text and the pipeline's `reason` string (not shown in the main grid — too long and too repetitive across tickers to fit as a column).
 
 3. **Sidebar Controls:**
    * **Parameter Sliders:**
@@ -230,7 +237,7 @@ Each stock must be evaluated sequentially through the following rules:
 * **Data Provider:** Tiingo only (free tier) for v1 — see Section 4. yfinance fallback deferred until actually needed.
 * **Scheduled Refresh (no external database):**
   * A GitHub Actions workflow (`.github/workflows/refresh_data.yml`) runs weekdays at 11:00 UTC (overnight US time, after EOD data has settled) and can also be triggered manually via `workflow_dispatch`.
-  * It executes `scripts/refresh_job.py`, which fetches market data via Tiingo, runs the rules engine with default thresholds, and writes `results.json` — including, per ticker, both the default-threshold evaluation and a small 5-row indicator snapshot.
+  * It executes `scripts/refresh_job.py`, which fetches market data via Tiingo, runs the rules engine with default thresholds, and writes `results.json` — including, per ticker, the default-threshold evaluation, a small 5-row indicator snapshot (now including weekly/monthly Stochastic columns for Step 4's multi-timeframe check), and a `state` object (`regime_since`, `location_last_ok_date`, `oscillator_last_triggered_date`) diffed against the previous run's `results.json` — this is what drives the UI's `Days in Regime` column and Step 3/4's grace window (Section 5).
   * The workflow commits and pushes `results.json` back to the repo using the GitHub Actions-provided token (`permissions: contents: write`) — no external secret needed for this step beyond `TIINGO_API_KEY`, which must be set as a GitHub Actions repository secret.
   * Streamlit Community Cloud auto-redeploys on every push to the watched branch, so the live app picks up new results automatically without ever calling the data provider itself.
 * **Interactive thresholds without live data:** `app.py` never calls Tiingo. When the sidebar sliders move, it re-runs the same `rules_engine.evaluate_stock()` locally against the 5-row snapshot stored per ticker in `results.json` — this is enough data for the 5-day swing low, prior-day-high, and stochastic-cross lookback checks, since those only ever examine the last few rows. SMA 50/200, EMA 8/21, and Stochastic %K/%D themselves are precomputed server-side (they need the full history) and carried through the snapshot as-is.

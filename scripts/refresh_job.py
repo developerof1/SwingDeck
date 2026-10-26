@@ -13,7 +13,7 @@ from datetime import date, timedelta
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from src.data_engine import MIN_HISTORY_DAYS, add_indicators, snapshot_tail, to_dataframe
+from src.data_engine import MIN_HISTORY_DAYS, add_indicators, add_multi_timeframe_stoch, snapshot_tail, to_dataframe
 from src.providers.tiingo_provider import TiingoError, fetch_daily_prices
 from src.rules_engine import evaluate_stock
 
@@ -29,7 +29,24 @@ def load_watchlist() -> list[dict]:
         return json.load(f)
 
 
-def evaluate_ticker(entry: dict, start_date: str) -> dict:
+def load_prior_state() -> dict[str, dict]:
+    """Best-effort read of yesterday's results.json (if any) so each ticker's
+    regime-start date and Location/Oscillator "last qualified" dates (the
+    rules_engine.evaluate_stock grace window) carry forward day to day instead of
+    resetting on every run. A missing or corrupt file is treated the same as every
+    ticker running for the first time - never fatal to the refresh.
+    """
+    if not os.path.exists(RESULTS_PATH):
+        return {}
+    try:
+        with open(RESULTS_PATH) as f:
+            prior = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return {}
+    return {r["ticker"]: r.get("state", {}) for r in prior.get("results", [])}
+
+
+def evaluate_ticker(entry: dict, start_date: str, prior_state: dict, today: str) -> dict:
     ticker = entry["ticker"]
     raw = fetch_daily_prices(ticker, start_date)
     df = to_dataframe(raw)
@@ -37,7 +54,21 @@ def evaluate_ticker(entry: dict, start_date: str) -> dict:
         raise ValueError(f"only {len(df)} trading days returned, need at least {MIN_HISTORY_DAYS}")
 
     df = add_indicators(df)
-    result = evaluate_stock(ticker, df)
+    df = add_multi_timeframe_stoch(df)
+
+    prior = prior_state.get(ticker, {})
+    result = evaluate_stock(
+        ticker,
+        df,
+        location_last_ok_date=prior.get("location_last_ok_date"),
+        oscillator_last_triggered_date=prior.get("oscillator_last_triggered_date"),
+    )
+
+    regime_since = today if result.regime != prior.get("regime") else prior.get("regime_since", today)
+    location_last_ok_date = today if result.location_ok_today else prior.get("location_last_ok_date")
+    oscillator_last_triggered_date = (
+        today if result.oscillator_triggered_today else prior.get("oscillator_last_triggered_date")
+    )
 
     return {
         "ticker": ticker,
@@ -57,12 +88,23 @@ def evaluate_ticker(entry: dict, start_date: str) -> dict:
             "rr": result.rr,
             "reason": result.reason,
         },
+        # Carried forward run-to-run (see load_prior_state) - "Days in Regime" in
+        # app.py's main table is derived from regime_since; location_last_ok_date and
+        # oscillator_last_triggered_date feed rules_engine's grace window next run.
+        "state": {
+            "regime": result.regime,
+            "regime_since": regime_since,
+            "location_last_ok_date": location_last_ok_date,
+            "oscillator_last_triggered_date": oscillator_last_triggered_date,
+        },
         "snapshot": snapshot_tail(df, rows=5),
     }
 
 
 def main() -> None:
     watchlist = load_watchlist()
+    prior_state = load_prior_state()
+    today = date.today().isoformat()
 
     override = os.environ.get(TICKERS_OVERRIDE_ENV, "").strip()
     debug_mode = bool(override)
@@ -81,7 +123,7 @@ def main() -> None:
     for entry in watchlist:
         ticker = entry["ticker"]
         try:
-            results.append(evaluate_ticker(entry, start_date))
+            results.append(evaluate_ticker(entry, start_date, prior_state, today))
         except (TiingoError, ValueError) as exc:
             errors.append({"ticker": ticker, "error": str(exc)})
 
@@ -96,7 +138,7 @@ def main() -> None:
         return
 
     output = {
-        "generated_at": date.today().isoformat(),
+        "generated_at": today,
         "results": results,
         "errors": errors,
     }

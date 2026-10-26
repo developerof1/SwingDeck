@@ -9,6 +9,7 @@ live data fetch.
 
 import json
 import os
+from datetime import date
 
 import pandas as pd
 import streamlit as st
@@ -128,7 +129,28 @@ def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
 def live_eval(entry: dict, location_thresh: float, rvol_thresh: float):
     snapshot_df = pd.DataFrame(entry["snapshot"])
     snapshot_df["date"] = pd.to_datetime(snapshot_df["date"])
-    return evaluate_stock(entry["ticker"], snapshot_df, location_thresh, rvol_thresh)
+    state = entry.get("state") or {}
+    return evaluate_stock(
+        entry["ticker"],
+        snapshot_df,
+        location_thresh,
+        rvol_thresh,
+        location_last_ok_date=state.get("location_last_ok_date"),
+        oscillator_last_triggered_date=state.get("oscillator_last_triggered_date"),
+    )
+
+
+def days_in_regime(entry: dict, as_of: str) -> int | None:
+    """Calendar days since this ticker's regime (Momentum/Pullback/none) last
+    changed, per refresh_job.py's day-over-day state diffing. None if no prior-state
+    history exists yet for this ticker (e.g. right after this feature's first deploy)."""
+    since = (entry.get("state") or {}).get("regime_since")
+    if not since:
+        return None
+    try:
+        return (date.fromisoformat(as_of) - date.fromisoformat(since)).days
+    except ValueError:
+        return None
 
 
 def main() -> None:
@@ -220,6 +242,10 @@ def main() -> None:
             rows.append(
                 {
                     "Status": badge(result.status),
+                    # Driven by refresh_job.py's day-over-day regime diffing - a quick
+                    # scan of how long a setup has been building, not shown in the
+                    # detail panel since it's already visible here per row.
+                    "Days in Regime": days_in_regime(entry, data["generated_at"]),
                     "Ticker": entry["ticker"],
                     "Sector": entry.get("sector"),
                     "Pipeline": checklist_cell(
@@ -240,7 +266,6 @@ def main() -> None:
                     "vs Prior-Day High": threshold_cell(prior_day_high, breakout_ok, "${:.2f}"),
                     "RVOL": threshold_cell(result.rvol, rvol_ok, "{:.2f}x"),
                     "R:R": threshold_cell(result.rr, rr_ok, "{:.2f}"),
-                    "Reason": result.reason,
                     "Thesis": entry.get("thesis") or "–",
                     "_result": result,
                 }
@@ -297,12 +322,14 @@ def main() -> None:
         selection_mode="single-row",
         column_config={
             "Price": st.column_config.NumberColumn(format="$%.2f"),
+            "Days in Regime": st.column_config.NumberColumn(
+                format="%d", help="Calendar days since this ticker's regime (Momentum/Pullback/none) last changed"
+            ),
             "Pipeline": st.column_config.TextColumn(
                 help="Trend (gate)  |  Location → Oscillator → Breakout → RVOL → R:R - one ball per column "
                 "to the right, in that order"
             ),
             "Thesis": st.column_config.TextColumn(width="medium"),
-            "Reason": st.column_config.TextColumn(width="medium"),
         },
     )
 
@@ -314,6 +341,8 @@ def main() -> None:
             # st.markdown treats single $ as LaTeX math delimiters, so dollar amounts
             # in the generated detail text must be escaped or they render as a code pill.
             st.markdown(f"**{badge(result.status)}**  ·  Regime: {result.regime or '–'}")
+            escaped_reason = result.reason.replace("$", "\\$")
+            st.markdown(f"_{escaped_reason}_")
             for step in result.steps:
                 detail = step.detail.replace("$", "\\$")
                 st.markdown(f"{STEP_CIRCLE[step.passed]} **{step.label}** — {detail}")

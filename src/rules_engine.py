@@ -5,6 +5,8 @@ app.py (5-row snapshot, user-adjustable thresholds via the sidebar sliders).
 
 from dataclasses import dataclass, field
 
+import pandas as pd
+
 STATUS_DISQUALIFIED = "DISQUALIFIED: Trend Failure"
 STATUS_WAIT_LOCATION = "WAIT: Extended (Location)"
 STATUS_WAIT_TRIGGER = "WAIT: Trigger Pending (Stoch)"
@@ -23,6 +25,15 @@ STOCH_CROSS_LOOKBACK_DAYS = 2
 MOMENTUM_STOCH_K_MIN = 40
 MOMENTUM_STOCH_K_MAX = 65
 PULLBACK_STOCH_K_OVERSOLD = 20
+
+# Location and Oscillator don't have to hold on the exact same calendar day Step 5's
+# breakout+RVOL trigger fires - a multi-day base (pull back to the EMA, oscillator
+# turns, THEN the breakout bar prints a couple days later once price has already
+# drifted outside the Location band) is normal, and requiring literal same-day
+# coincidence on all three was missing those setups. Each one just has to have been
+# true within this many calendar days of today. Confirmation itself (breakout + RVOL)
+# stays strictly same-day - this only widens the window on the two steps that feed it.
+GRACE_WINDOW_DAYS = 5
 
 # Step keys/labels, in pipeline order - shared by the UI to render the checklist.
 STEP_TREND = "trend"
@@ -79,6 +90,13 @@ class EvalResult:
     # invisibly. prior_day_high/breakout_ok expose it so it can get a column too.
     prior_day_high: float | None = None
     breakout_ok: bool | None = None
+    # Today's raw Location/Oscillator reading, *before* GRACE_WINDOW_DAYS is applied -
+    # callers that persist state (refresh_job.py) need this to know whether to bump
+    # the stored "last qualified" date forward, as opposed to `steps[...].passed`
+    # (STEP_LOCATION/STEP_OSCILLATOR), which already reflects the grace-extended gate
+    # used to decide whether the pipeline keeps going.
+    location_ok_today: bool | None = None
+    oscillator_triggered_today: bool | None = None
     steps: list[StepCheck] = field(default_factory=list)
 
 
@@ -96,18 +114,72 @@ def _stoch_crossed_up(df, lookback_days: int) -> bool:
     return False
 
 
+def _within_grace(last_date: str | None, as_of, days: int) -> bool:
+    """True if `last_date` (an ISO date string, or None/missing) falls within `days`
+    calendar days at or before `as_of` (today's row's date)."""
+    if not last_date:
+        return False
+    try:
+        last = pd.Timestamp(last_date).normalize()
+    except (ValueError, TypeError):
+        return False
+    delta = (pd.Timestamp(as_of).normalize() - last).days
+    return 0 <= delta <= days
+
+
+def _weekly_crossed_up(latest) -> bool | None:
+    """None (indeterminate, non-blocking) if the ticker doesn't have enough history
+    yet for a weekly reading - only an explicit False blocks the Oscillator step."""
+    k, d = latest.get("weekly_stoch_k"), latest.get("weekly_stoch_d")
+    k_prev, d_prev = latest.get("weekly_stoch_k_prev"), latest.get("weekly_stoch_d_prev")
+    if any(v is None or pd.isna(v) for v in (k, d, k_prev, d_prev)):
+        return None
+    return bool(k_prev <= d_prev and k > d)
+
+
+def _monthly_rising(latest) -> bool | None:
+    k, k_prev = latest.get("monthly_stoch_k"), latest.get("monthly_stoch_k_prev")
+    if any(v is None or pd.isna(v) for v in (k, k_prev)):
+        return None
+    return bool(k > k_prev)
+
+
+def _mtf_gate(weekly_cross: bool | None, monthly_rising: bool | None) -> bool:
+    """Missing higher-timeframe history degrades to non-blocking rather than failing
+    the trigger outright - only an explicit False from a computable reading blocks."""
+    return weekly_cross is not False and monthly_rising is not False
+
+
+def _mtf_detail(weekly_cross: bool | None, monthly_rising: bool | None) -> str:
+    def fmt(ok: bool | None) -> str:
+        return "yes" if ok else ("no" if ok is False else "n/a")
+
+    return f"weekly cross-up: {fmt(weekly_cross)}, monthly rising: {fmt(monthly_rising)}"
+
+
 def evaluate_stock(
     ticker: str,
     df,
     location_thresh: float = DEFAULT_LOCATION_THRESHOLD_PCT,
     rvol_thresh: float = DEFAULT_RVOL_THRESHOLD,
+    location_last_ok_date: str | None = None,
+    oscillator_last_triggered_date: str | None = None,
+    grace_days: int = GRACE_WINDOW_DAYS,
 ) -> EvalResult:
     """Evaluate one ticker's latest row through the 5-step pipeline.
 
-    `df` must already carry the indicator columns from data_engine.add_indicators
-    (sma_50, sma_200, ema_8, ema_21, stoch_k, stoch_d, rvol) and have at least 5 rows
-    of raw high/low/close, sorted ascending by date - either the full fetched history
-    or a short snapshot tail both work (see data_engine.snapshot_tail).
+    `df` must already carry the indicator columns from data_engine.add_indicators and
+    data_engine.add_multi_timeframe_stoch (sma_50, sma_200, ema_8, ema_21, stoch_k,
+    stoch_d, rvol, weekly_stoch_*, monthly_stoch_*) and have at least 5 rows of raw
+    high/low/close, sorted ascending by date - either the full fetched history or a
+    short snapshot tail both work (see data_engine.snapshot_tail).
+
+    `location_last_ok_date`/`oscillator_last_triggered_date` are the ISO dates those
+    steps last qualified as of a *previous* run (see refresh_job.py's prior-state
+    diffing) - they let those two steps keep gating the pipeline forward for up to
+    `grace_days` after they last held true, instead of requiring them to be true on
+    the exact same day as Step 5's breakout+RVOL confirmation. Omit them (the default)
+    to evaluate today's row in isolation, with no grace window applied.
 
     Every step is evaluated regardless of whether an earlier one failed, so callers
     can render a full pass/fail checklist (`EvalResult.steps`) instead of only the
@@ -155,39 +227,63 @@ def evaluate_stock(
     if regime == REGIME_MOMENTUM:
         dist_ema8 = _pct_distance(price, latest["ema_8"])
         location_dist = min(dist_ema8, dist_ema21)
-        location_ok = location_dist <= location_thresh
+        location_ok_today = bool(location_dist <= location_thresh)
         location_detail = f"{location_dist:.2f}% from nearest EMA (needs ≤{location_thresh:.1f}%)"
     elif regime == REGIME_PULLBACK:
         location_dist = _pct_distance(price, latest["sma_200"])
-        location_ok = location_dist <= location_thresh
+        location_ok_today = bool(location_dist <= location_thresh)
         location_detail = f"{location_dist:.2f}% from 200-SMA (needs ≤{location_thresh:.1f}%)"
     else:
         location_dist = None
-        location_ok = None
+        location_ok_today = None
         location_detail = "Not applicable - no valid regime"
+
+    if location_ok_today is None:
+        location_grace = False
+    else:
+        location_grace = (not location_ok_today) and _within_grace(
+            location_last_ok_date, latest["date"], grace_days
+        )
+    location_ok = None if location_ok_today is None else (location_ok_today or location_grace)
+    if location_grace:
+        location_detail += f" - outside today, but qualified within the last {grace_days}d"
     steps.append(StepCheck(STEP_LOCATION, STEP_LABELS[STEP_LOCATION], location_ok, location_detail))
 
     # Step 4: Oscillator Trigger
     crossed = _stoch_crossed_up(df, STOCH_CROSS_LOOKBACK_DAYS)
+    weekly_cross = _weekly_crossed_up(latest)
+    monthly_rising = _monthly_rising(latest)
+    mtf_ok = _mtf_gate(weekly_cross, monthly_rising)
+    mtf_note = _mtf_detail(weekly_cross, monthly_rising)
     stoch_k = latest["stoch_k"]
     if regime == REGIME_MOMENTUM:
         in_range = MOMENTUM_STOCH_K_MIN <= stoch_k <= MOMENTUM_STOCH_K_MAX
-        trigger_ok = crossed and in_range
+        oscillator_triggered_today = bool(crossed and in_range and mtf_ok)
         trigger_detail = (
             f"%K {stoch_k:.1f} ({'in' if in_range else 'outside'} "
             f"{MOMENTUM_STOCH_K_MIN}-{MOMENTUM_STOCH_K_MAX} range), "
-            f"{'crossed up' if crossed else 'no recent %K/%D cross'}"
+            f"{'crossed up' if crossed else 'no recent %K/%D cross'}; {mtf_note}"
         )
     elif regime == REGIME_PULLBACK:
         oversold = stoch_k < PULLBACK_STOCH_K_OVERSOLD
-        trigger_ok = crossed and oversold
+        oscillator_triggered_today = bool(crossed and oversold and mtf_ok)
         trigger_detail = (
             f"%K {stoch_k:.1f} ({'oversold' if oversold else 'not oversold'}, "
-            f"needs <{PULLBACK_STOCH_K_OVERSOLD}), {'crossed up' if crossed else 'no recent %K/%D cross'}"
+            f"needs <{PULLBACK_STOCH_K_OVERSOLD}), {'crossed up' if crossed else 'no recent %K/%D cross'}; {mtf_note}"
         )
     else:
-        trigger_ok = None
+        oscillator_triggered_today = None
         trigger_detail = "Not applicable - no valid regime"
+
+    if oscillator_triggered_today is None:
+        oscillator_grace = False
+    else:
+        oscillator_grace = (not oscillator_triggered_today) and _within_grace(
+            oscillator_last_triggered_date, latest["date"], grace_days
+        )
+    trigger_ok = None if oscillator_triggered_today is None else (oscillator_triggered_today or oscillator_grace)
+    if oscillator_grace:
+        trigger_detail += f" - outside today, but triggered within the last {grace_days}d"
     steps.append(StepCheck(STEP_OSCILLATOR, STEP_LABELS[STEP_OSCILLATOR], trigger_ok, trigger_detail))
 
     # Step 5: Confirmation & Position Sizing
@@ -227,12 +323,10 @@ def evaluate_stock(
     steps.append(StepCheck(STEP_CONFIRMATION, STEP_LABELS[STEP_CONFIRMATION], confirmation_ok, confirmation_detail))
 
     # Overall status/reason: the first failing step in pipeline order wins, exactly
-    # as the original gated implementation determined it. The underlying metrics
-    # (dist/stoch/rvol) are raw readings off the latest row and always computable,
-    # so they're included on every result - even a DISQUALIFIED one - to match the
-    # per-step checklist above, which is also evaluated regardless of where the
-    # pipeline actually stops gating. Only entry/stop/target/rr need a regime to
-    # mean anything (the target formula itself differs by regime).
+    # as the original gated implementation determined it. location_ok/trigger_ok are
+    # already grace-extended above, so a ticker whose Location/Oscillator qualified a
+    # few days ago but not today can still reach Confirmation instead of getting stuck
+    # re-reporting WAIT: Extended/Trigger Pending every day in between.
     common = dict(
         ticker=ticker,
         regime=regime,
@@ -248,6 +342,8 @@ def evaluate_stock(
         rr=rr,
         prior_day_high=prior_day_high,
         breakout_ok=breakout_ok,
+        location_ok_today=location_ok_today,
+        oscillator_triggered_today=oscillator_triggered_today,
         steps=steps,
     )
 

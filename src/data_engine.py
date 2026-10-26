@@ -1,10 +1,12 @@
 """Converts raw Tiingo OHLCV rows into an indicator-enriched DataFrame.
 
 Only the long-window indicators (needing the full fetched history) live here:
-SMA 50/200, EMA 8/21, Stochastic(14,3,3), RVOL. Short-window values that only ever
-need the last few rows (prior-day high, 5-day swing low) are computed inside
-rules_engine.evaluate_stock() instead, so they work identically whether it's given
-the full history or just a short tail-end snapshot (see app.py).
+SMA 50/200, EMA 8/21, Stochastic(14,3,3), RVOL, plus the weekly/monthly Stochastic
+readings used for the multi-timeframe Oscillator Trigger check (rules_engine.py Step
+4). Short-window values that only ever need the last few rows (prior-day high, 5-day
+swing low) are computed inside rules_engine.evaluate_stock() instead, so they work
+identically whether it's given the full history or just a short tail-end snapshot
+(see app.py).
 """
 
 import pandas as pd
@@ -35,6 +37,17 @@ def to_dataframe(raw_prices: list[dict]) -> pd.DataFrame:
     )
 
 
+def _stochastic(df: pd.DataFrame, k_period: int = 14, k_smooth: int = 3, d_smooth: int = 3) -> tuple[pd.Series, pd.Series]:
+    """Shared Stochastic %K/%D math - used for the daily series and, resampled, for
+    the weekly/monthly series below, so all three timeframes agree on the formula."""
+    low = df["low"].rolling(k_period).min()
+    high = df["high"].rolling(k_period).max()
+    raw_k = 100 * (df["close"] - low) / (high - low)
+    k = raw_k.rolling(k_smooth).mean()
+    d = k.rolling(d_smooth).mean()
+    return k, d
+
+
 def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
     """Append SMA 50/200, EMA 8/21, Stochastic(14,3,3), and RVOL columns."""
     df = df.copy()
@@ -43,16 +56,66 @@ def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df["sma_200"] = df["close"].rolling(200).mean()
     df["ema_8"] = df["close"].ewm(span=8, adjust=False).mean()
     df["ema_21"] = df["close"].ewm(span=21, adjust=False).mean()
-
-    low_14 = df["low"].rolling(14).min()
-    high_14 = df["high"].rolling(14).max()
-    raw_k = 100 * (df["close"] - low_14) / (high_14 - low_14)
-    df["stoch_k"] = raw_k.rolling(3).mean()
-    df["stoch_d"] = df["stoch_k"].rolling(3).mean()
+    df["stoch_k"], df["stoch_d"] = _stochastic(df)
 
     vol_sma_20 = df["volume"].rolling(20).mean()
     df["rvol"] = df["volume"] / vol_sma_20
 
+    return df
+
+
+def _resample_ohlcv(df: pd.DataFrame, rule: str) -> pd.DataFrame:
+    agg = df.set_index("date").resample(rule).agg(
+        {"open": "first", "high": "max", "low": "min", "close": "last", "volume": "sum"}
+    )
+    return agg.dropna(subset=["close"]).reset_index()
+
+
+def add_multi_timeframe_stoch(df: pd.DataFrame) -> pd.DataFrame:
+    """Attach the weekly and monthly Stochastic readings to every daily row, for the
+    Step 4 Oscillator Trigger's multi-timeframe alignment check: monthly %K rising +
+    weekly %K/%D cross-up, alongside the existing daily condition (Elder Triple
+    Screen-style - see swingdeck-reversal-view-future memory for the related, but
+    explicitly separate, reversal-trade idea this is NOT part of).
+
+    Reuses the daily OHLCV already fetched - no extra Tiingo calls. A weekly/monthly
+    resample bin is labeled by its period-end date, so merge_asof(direction="backward")
+    against the daily date always matches the most recently *completed* higher-
+    timeframe bar, never the still-forming current one - keeps the signal stable
+    instead of flickering as an in-progress week/month develops.
+    """
+    df = df.copy().sort_values("date")
+
+    weekly = _resample_ohlcv(df, "W-FRI")
+    weekly["stoch_k"], weekly["stoch_d"] = _stochastic(weekly)
+    weekly["stoch_k_prev"] = weekly["stoch_k"].shift(1)
+    weekly["stoch_d_prev"] = weekly["stoch_d"].shift(1)
+
+    monthly = _resample_ohlcv(df, "ME")
+    monthly["stoch_k"], _monthly_d = _stochastic(monthly)
+    monthly["stoch_k_prev"] = monthly["stoch_k"].shift(1)
+
+    df = pd.merge_asof(
+        df,
+        weekly[["date", "stoch_k", "stoch_d", "stoch_k_prev", "stoch_d_prev"]].rename(
+            columns={
+                "stoch_k": "weekly_stoch_k",
+                "stoch_d": "weekly_stoch_d",
+                "stoch_k_prev": "weekly_stoch_k_prev",
+                "stoch_d_prev": "weekly_stoch_d_prev",
+            }
+        ),
+        on="date",
+        direction="backward",
+    )
+    df = pd.merge_asof(
+        df,
+        monthly[["date", "stoch_k", "stoch_k_prev"]].rename(
+            columns={"stoch_k": "monthly_stoch_k", "stoch_k_prev": "monthly_stoch_k_prev"}
+        ),
+        on="date",
+        direction="backward",
+    )
     return df
 
 
@@ -68,6 +131,12 @@ SNAPSHOT_COLUMNS = [
     "stoch_k",
     "stoch_d",
     "rvol",
+    "weekly_stoch_k",
+    "weekly_stoch_d",
+    "weekly_stoch_k_prev",
+    "weekly_stoch_d_prev",
+    "monthly_stoch_k",
+    "monthly_stoch_k_prev",
 ]
 
 
@@ -77,7 +146,9 @@ def snapshot_tail(df: pd.DataFrame, rows: int = 5) -> list[dict]:
     This is enough for rules_engine.evaluate_stock() to be re-run later (e.g. when the
     UI's threshold sliders move) without needing the full fetched history or another
     Tiingo call - the 5-day swing low and prior-day-high calculations only ever look at
-    the last few rows, and SMA/EMA/Stochastic are already computed here, not re-derived.
+    the last few rows, and SMA/EMA/Stochastic (daily and weekly/monthly) are already
+    computed here, not re-derived. Requires add_multi_timeframe_stoch to have already
+    been run, or the weekly_*/monthly_* columns won't exist.
     """
     tail = df.tail(rows).copy()
     tail["date"] = tail["date"].dt.strftime("%Y-%m-%d")
