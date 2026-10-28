@@ -238,6 +238,15 @@ def main() -> None:
             location_dist_pct = getattr(result, "location_dist_pct", None)
             prior_day_high = getattr(result, "prior_day_high", None)
             breakout_ok = getattr(result, "breakout_ok", None)
+            # Only meaningful once Trend has actually failed - blank (None) otherwise,
+            # same convention as Entry/Stop/Target being blank pre-Step-5. Kept as raw
+            # floats (not threshold_cell strings) so the columns sort numerically.
+            price_vs_sma50_pct = (
+                getattr(result, "price_vs_sma50_pct", None) if trend_passed is False else None
+            )
+            sma50_vs_sma200_pct = (
+                getattr(result, "sma50_vs_sma200_pct", None) if trend_passed is False else None
+            )
 
             rows.append(
                 {
@@ -252,6 +261,12 @@ def main() -> None:
                         trend_passed, location_passed, oscillator_passed, breakout_ok, rvol_ok, rr_ok
                     ),
                     "Price": result.current_price,
+                    # Blank unless Trend actually failed - see price_vs_sma50_pct comment
+                    # above. Distinguishes a "price-only" gap (SMA50 already above SMA200,
+                    # could clear on one good day) from a "structural" one (SMA50 itself
+                    # still below SMA200, resolves over weeks regardless of tomorrow's price).
+                    "Price vs SMA50 %": price_vs_sma50_pct,
+                    "SMA50 vs SMA200 %": sma50_vs_sma200_pct,
                     # Reuses the Location step's own pass/fail and its regime-appropriate
                     # distance (nearest-EMA for Momentum, 200-SMA for Pullback) instead of
                     # recomputing a check against dist_to_ema21_pct alone - that recompute
@@ -338,6 +353,14 @@ def main() -> None:
         selection_mode="single-row",
         column_config={
             "Price": st.column_config.NumberColumn(format="$%.2f"),
+            "Price vs SMA50 %": st.column_config.NumberColumn(
+                format="%.2f", help="Signed % distance of price from the 50-SMA. Only shown once Trend has "
+                "failed - negative means price is below the 50-SMA."
+            ),
+            "SMA50 vs SMA200 %": st.column_config.NumberColumn(
+                format="%.2f", help="Signed % distance of the 50-SMA from the 200-SMA. Negative means a "
+                "structural gap (death cross) that resolves over weeks, not a single good price day."
+            ),
             "Days in Regime": st.column_config.NumberColumn(
                 format="%d", help="Calendar days since this ticker's regime (Momentum/Pullback/none) last changed"
             ),

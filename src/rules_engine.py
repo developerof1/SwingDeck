@@ -80,6 +80,15 @@ class EvalResult:
     stoch_k: float | None = None
     stoch_d: float | None = None
     rvol: float | None = None
+    # Step 1's compound gate (Price > SMA50 AND SMA50 > SMA200) collapses to one
+    # DISQUALIFIED status regardless of how close a ticker is - these two let the UI
+    # distinguish a "price-only" gap (could clear tomorrow on a good day) from a
+    # "structural" gap (SMA50 still below SMA200, resolves over weeks not days).
+    # Signed, not absolute - negative means price/SMA50 is below the level it's
+    # measured against. Always computed (sma_50/sma_200 are present on every row),
+    # regardless of whether Step 1 actually failed.
+    price_vs_sma50_pct: float | None = None
+    sma50_vs_sma200_pct: float | None = None
     entry: float | None = None
     stop: float | None = None
     target: float | None = None
@@ -192,16 +201,20 @@ def evaluate_stock(
     steps: list[StepCheck] = []
 
     # Step 1: Macro Trend Filter (hard gate)
-    trend_ok = bool(price > latest["sma_50"] > latest["sma_200"])
+    sma_50 = latest["sma_50"]
+    sma_200 = latest["sma_200"]
+    trend_ok = bool(price > sma_50 > sma_200)
+    price_vs_sma50_pct = (price - sma_50) / sma_50 * 100
+    sma50_vs_sma200_pct = (sma_50 - sma_200) / sma_200 * 100
     steps.append(
         StepCheck(
             STEP_TREND,
             STEP_LABELS[STEP_TREND],
             trend_ok,
-            f"Price ${price:.2f} {'>' if price > latest['sma_50'] else '≤'} "
-            f"50-SMA ${latest['sma_50']:.2f} "
-            f"{'>' if latest['sma_50'] > latest['sma_200'] else '≤'} "
-            f"200-SMA ${latest['sma_200']:.2f}",
+            f"Price ${price:.2f} {'>' if price > sma_50 else '≤'} "
+            f"50-SMA ${sma_50:.2f} "
+            f"{'>' if sma_50 > sma_200 else '≤'} "
+            f"200-SMA ${sma_200:.2f}",
         )
     )
 
@@ -332,6 +345,8 @@ def evaluate_stock(
         regime=regime,
         current_price=price,
         dist_to_ema21_pct=dist_ema21,
+        price_vs_sma50_pct=price_vs_sma50_pct,
+        sma50_vs_sma200_pct=sma50_vs_sma200_pct,
         location_dist_pct=location_dist,
         stoch_k=latest["stoch_k"],
         stoch_d=latest["stoch_d"],
@@ -348,9 +363,13 @@ def evaluate_stock(
     )
 
     if not trend_ok:
+        gap_kind = "structural gap" if sma50_vs_sma200_pct < 0 else "price-only gap"
         return EvalResult(
             status=STATUS_DISQUALIFIED,
-            reason="Price/SMA50/SMA200 not in required trend order",
+            reason=(
+                f"Price {price_vs_sma50_pct:+.2f}% vs 50-SMA (${sma_50:.2f}); "
+                f"50-SMA {sma50_vs_sma200_pct:+.2f}% vs 200-SMA (${sma_200:.2f}) - {gap_kind}"
+            ),
             **common,
         )
 

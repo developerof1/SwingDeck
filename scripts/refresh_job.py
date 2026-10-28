@@ -79,6 +79,8 @@ def evaluate_ticker(entry: dict, start_date: str, prior_state: dict, today: str)
             "regime": result.regime,
             "current_price": result.current_price,
             "dist_to_ema21_pct": result.dist_to_ema21_pct,
+            "price_vs_sma50_pct": result.price_vs_sma50_pct,
+            "sma50_vs_sma200_pct": result.sma50_vs_sma200_pct,
             "stoch_k": result.stoch_k,
             "stoch_d": result.stoch_d,
             "rvol": result.rvol,
