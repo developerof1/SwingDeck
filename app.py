@@ -9,7 +9,7 @@ live data fetch.
 
 import json
 import os
-from datetime import date
+from datetime import date, timedelta
 
 import pandas as pd
 import streamlit as st
@@ -153,6 +153,32 @@ def days_in_regime(entry: dict, as_of: str) -> int | None:
         return None
 
 
+def staleness_banner(generated_at: str) -> None:
+    """Surfaces how far results.json is behind schedule, counting only trading
+    (weekday) days so a Monday check doesn't falsely flag the Friday-to-Monday gap -
+    see the 2026-10-28 grace-window TypeError incident that silently broke the
+    nightly refresh for 2 days before anyone noticed from the UI alone."""
+    try:
+        generated = date.fromisoformat(generated_at)
+    except ValueError:
+        st.caption(f"Last refreshed: {generated_at}")
+        return
+
+    today = date.today()
+    missed_trading_days = (
+        len(pd.bdate_range(generated + timedelta(days=1), today)) if generated < today else 0
+    )
+    if missed_trading_days >= 2:
+        st.error(
+            f"{RED} Last refreshed {generated_at} — {missed_trading_days} trading day(s) behind. "
+            "The nightly GitHub Actions refresh may be failing — check the Actions tab."
+        )
+    elif missed_trading_days == 1:
+        st.warning(f"{YELLOW} Last refreshed {generated_at} — today's refresh hasn't landed yet.")
+    else:
+        st.caption(f"{GREEN} Last refreshed: {generated_at}")
+
+
 def main() -> None:
     if not check_password():
         st.stop()
@@ -167,7 +193,7 @@ def main() -> None:
         st.info("No data yet - waiting for the first scheduled refresh to run.")
         return
 
-    st.caption(f"Last refreshed: {data['generated_at']}")
+    staleness_banner(data["generated_at"])
 
     success_count = len(data.get("results", []))
     errors = data.get("errors", [])
