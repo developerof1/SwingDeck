@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 import pandas as pd
 
 STATUS_DISQUALIFIED = "DISQUALIFIED: Trend Failure"
+STATUS_WATCH = "WATCH: Approaching Trend Qualification"
 STATUS_WAIT_LOCATION = "WAIT: Extended (Location)"
 STATUS_WAIT_TRIGGER = "WAIT: Trigger Pending (Stoch)"
 STATUS_WAIT_CONFIRMATION = "WAIT: Awaiting Confirmation"
@@ -18,6 +19,13 @@ REGIME_PULLBACK = "Pullback Value"
 
 DEFAULT_LOCATION_THRESHOLD_PCT = 1.5
 DEFAULT_RVOL_THRESHOLD = 1.2
+# A DISQUALIFIED (Trend Failure) ticker is reclassified WATCH instead when it's
+# structurally healthy (50-SMA already above 200-SMA - not a death cross that takes
+# weeks to resolve) and price is within this many percent of crossing back above the
+# 50-SMA. Note: within the not-trend_ok branch, "structurally healthy" already implies
+# price is at/below the 50-SMA (if both price>50-SMA and 50-SMA>200-SMA held, Step 1
+# would have passed outright) - so no separate sign-case handling is needed here.
+DEFAULT_WATCH_THRESHOLD_PCT = 5.0
 STOP_LOSS_BUFFER_PCT = 0.5
 TARGET_RISK_MULTIPLE = 2.5
 MIN_RISK_REWARD = 2.0
@@ -174,6 +182,7 @@ def evaluate_stock(
     df,
     location_thresh: float = DEFAULT_LOCATION_THRESHOLD_PCT,
     rvol_thresh: float = DEFAULT_RVOL_THRESHOLD,
+    watch_thresh: float = DEFAULT_WATCH_THRESHOLD_PCT,
     location_last_ok_date: str | None = None,
     oscillator_last_triggered_date: str | None = None,
     grace_days: int = GRACE_WINDOW_DAYS,
@@ -366,9 +375,10 @@ def evaluate_stock(
     )
 
     if not trend_ok:
+        is_watch = sma50_vs_sma200_pct > 0 and price_vs_sma50_pct >= -watch_thresh
         gap_kind = "structural gap" if sma50_vs_sma200_pct < 0 else "price-only gap"
         return EvalResult(
-            status=STATUS_DISQUALIFIED,
+            status=STATUS_WATCH if is_watch else STATUS_DISQUALIFIED,
             reason=(
                 f"Price {price_vs_sma50_pct:+.2f}% vs 50-SMA (${sma_50:.2f}); "
                 f"50-SMA {sma50_vs_sma200_pct:+.2f}% vs 200-SMA (${sma_200:.2f}) - {gap_kind}"

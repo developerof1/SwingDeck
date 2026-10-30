@@ -17,12 +17,14 @@ import streamlit as st
 from src.rules_engine import (
     DEFAULT_LOCATION_THRESHOLD_PCT,
     DEFAULT_RVOL_THRESHOLD,
+    DEFAULT_WATCH_THRESHOLD_PCT,
     MIN_RISK_REWARD,
     STATUS_DISQUALIFIED,
     STATUS_ENTER,
     STATUS_WAIT_CONFIRMATION,
     STATUS_WAIT_LOCATION,
     STATUS_WAIT_TRIGGER,
+    STATUS_WATCH,
     evaluate_stock,
 )
 
@@ -30,21 +32,39 @@ REPO_ROOT = os.path.dirname(__file__)
 RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
 WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
 
-GREEN, RED, YELLOW = "\U0001f7e2", "\U0001f534", "\U0001f7e1"
+GREEN, RED, YELLOW, BLUE = "\U0001f7e2", "\U0001f534", "\U0001f7e1", "\U0001f535"
 
 # True/False/None pass state -> the same traffic-light ball everywhere in the UI
 # (status badges, the per-step pipeline checklist, and the threshold-context cells).
 STEP_CIRCLE = {True: GREEN, False: RED, None: YELLOW}
 
-STATUS_BADGE = {
-    STATUS_ENTER: f"{GREEN} ENTER",
-    STATUS_DISQUALIFIED: f"{RED} DISQUALIFIED",
-    STATUS_WAIT_LOCATION: f"{YELLOW} WAIT · Extended",
-    STATUS_WAIT_TRIGGER: f"{YELLOW} WAIT · Oscillator",
-    STATUS_WAIT_CONFIRMATION: f"{YELLOW} WAIT · Confirmation",
+# Collapsed to the 4 canonical names everywhere a status is shown (main grid "Status"
+# column, the filter pills, the detail-panel headline) - the 3 WAIT sub-statuses all
+# read as plain "WAIT" now. The sub-status qualifier that used to live in this badge
+# moved to STATUS_DESCRIPTOR, shown as its own second line in the detail panel only.
+STATUS_ICON = {
+    STATUS_ENTER: GREEN,
+    STATUS_WATCH: BLUE,
+    STATUS_WAIT_LOCATION: YELLOW,
+    STATUS_WAIT_TRIGGER: YELLOW,
+    STATUS_WAIT_CONFIRMATION: YELLOW,
+    STATUS_DISQUALIFIED: RED,
+}
+STATUS_GROUP_LABEL = {
+    STATUS_ENTER: "ACTIONABLE",
+    STATUS_WATCH: "WATCH",
+    STATUS_WAIT_LOCATION: "WAIT",
+    STATUS_WAIT_TRIGGER: "WAIT",
+    STATUS_WAIT_CONFIRMATION: "WAIT",
+    STATUS_DISQUALIFIED: "DISQUALIFIED",
+}
+STATUS_DESCRIPTOR = {
+    STATUS_WAIT_LOCATION: "Extended (Location)",
+    STATUS_WAIT_TRIGGER: "Trigger Pending (Oscillator)",
+    STATUS_WAIT_CONFIRMATION: "Awaiting Confirmation",
 }
 
-FILTER_PILLS = ["All", f"{GREEN} ACTIONABLE", f"{YELLOW} WAIT", f"{RED} DISQUALIFIED"]
+FILTER_PILLS = ["All", f"{GREEN} ACTIONABLE", f"{YELLOW} WAIT", f"{BLUE} WATCH", f"{RED} DISQUALIFIED"]
 
 st.set_page_config(page_title="SwingDeck", layout="wide")
 
@@ -89,7 +109,9 @@ def load_watchlist(path: str) -> list[dict]:
 
 
 def badge(status: str) -> str:
-    return STATUS_BADGE.get(status, f"{YELLOW} {status}")
+    icon = STATUS_ICON.get(status, YELLOW)
+    label = STATUS_GROUP_LABEL.get(status, status)
+    return f"{icon} {label}"
 
 
 # Regime is left out: it can never fail once Trend has passed (Trend already requires
@@ -126,7 +148,7 @@ def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
     return f"{STEP_CIRCLE[passed]} {fmt.format(value)}"
 
 
-def live_eval(entry: dict, location_thresh: float, rvol_thresh: float):
+def live_eval(entry: dict, location_thresh: float, rvol_thresh: float, watch_thresh: float):
     snapshot_df = pd.DataFrame(entry["snapshot"])
     snapshot_df["date"] = pd.to_datetime(snapshot_df["date"])
     state = entry.get("state") or {}
@@ -135,6 +157,7 @@ def live_eval(entry: dict, location_thresh: float, rvol_thresh: float):
         snapshot_df,
         location_thresh,
         rvol_thresh,
+        watch_thresh,
         location_last_ok_date=state.get("location_last_ok_date"),
         oscillator_last_triggered_date=state.get("oscillator_last_triggered_date"),
     )
@@ -223,6 +246,11 @@ def main() -> None:
     rvol_thresh = st.sidebar.slider(
         "Min RVOL Threshold", min_value=1.0, max_value=2.0, value=DEFAULT_RVOL_THRESHOLD, step=0.05
     )
+    watch_thresh = st.sidebar.slider(
+        "Watch Threshold %", min_value=1.0, max_value=15.0, value=DEFAULT_WATCH_THRESHOLD_PCT, step=0.5,
+        help="A Trend Failure ticker is reclassified WATCH when it's within this % of crossing back above "
+        "its 50-SMA, and its 50-SMA is already above its 200-SMA (not a structural death-cross gap).",
+    )
 
     all_sectors = sorted({w.get("sector") for w in watchlist if w.get("sector")})
     st.markdown(
@@ -249,7 +277,7 @@ def main() -> None:
         if entry.get("sector") not in selected_sectors:
             continue
         try:
-            result = live_eval(entry, location_thresh, rvol_thresh)
+            result = live_eval(entry, location_thresh, rvol_thresh, watch_thresh)
 
             by_key = {s.key: s for s in result.steps}
             trend_passed = by_key["trend"].passed if "trend" in by_key else None
@@ -329,13 +357,15 @@ def main() -> None:
 
     enter_count = sum(1 for r in rows if r["_result"].status == STATUS_ENTER)
     disqualified_count = sum(1 for r in rows if r["_result"].status == STATUS_DISQUALIFIED)
-    waiting_count = len(rows) - enter_count - disqualified_count
+    watch_count = sum(1 for r in rows if r["_result"].status == STATUS_WATCH)
+    waiting_count = len(rows) - enter_count - disqualified_count - watch_count
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4, col5 = st.columns(5)
     col1.metric("Total Monitored", len(rows))
     col2.metric(f"{GREEN} Actionable", enter_count)
     col3.metric(f"{YELLOW} Near Setup", waiting_count)
-    col4.metric(f"{RED} Disqualified", disqualified_count)
+    col4.metric(f"{BLUE} Watch", watch_count)
+    col5.metric(f"{RED} Disqualified", disqualified_count)
 
     if not rows:
         if eval_errors:
@@ -361,7 +391,9 @@ def main() -> None:
     if active_pill == f"{GREEN} ACTIONABLE":
         df = df[df["_result"].apply(lambda r: r.status == STATUS_ENTER)]
     elif active_pill == f"{YELLOW} WAIT":
-        df = df[df["_result"].apply(lambda r: r.status not in (STATUS_ENTER, STATUS_DISQUALIFIED))]
+        df = df[df["_result"].apply(lambda r: r.status not in (STATUS_ENTER, STATUS_DISQUALIFIED, STATUS_WATCH))]
+    elif active_pill == f"{BLUE} WATCH":
+        df = df[df["_result"].apply(lambda r: r.status == STATUS_WATCH)]
     elif active_pill == f"{RED} DISQUALIFIED":
         df = df[df["_result"].apply(lambda r: r.status == STATUS_DISQUALIFIED)]
     df = df.reset_index(drop=True)
@@ -406,6 +438,9 @@ def main() -> None:
             # st.markdown treats single $ as LaTeX math delimiters, so dollar amounts
             # in the generated detail text must be escaped or they render as a code pill.
             st.markdown(f"**{badge(result.status)}**  ·  Regime: {result.regime or '–'}")
+            descriptor = STATUS_DESCRIPTOR.get(result.status)
+            if descriptor:
+                st.caption(descriptor)
             escaped_reason = result.reason.replace("$", "\\$")
             st.markdown(f"_{escaped_reason}_")
             for step in result.steps:
