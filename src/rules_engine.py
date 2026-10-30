@@ -132,7 +132,10 @@ def _within_grace(last_date: str | None, as_of, days: int) -> bool:
         last = pd.Timestamp(last_date).normalize()
     except (ValueError, TypeError):
         return False
-    delta = (pd.Timestamp(as_of).normalize() - last).days
+    as_of_ts = pd.Timestamp(as_of)
+    if as_of_ts.tzinfo is not None:
+        as_of_ts = as_of_ts.tz_localize(None)
+    delta = (as_of_ts.normalize() - last).days
     return 0 <= delta <= days
 
 
