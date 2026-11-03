@@ -28,6 +28,15 @@ RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
 HISTORY_BUFFER_DAYS = 500  # calendar days requested, comfortably covers 252+ trading days
 TICKERS_OVERRIDE_ENV = "TICKERS_OVERRIDE"  # comma-separated subset for cheap manual debugging runs
 
+# Tiingo's free tier allows ~50 requests/hour. A full watchlist run already spends
+# one request per ticker on fetch_daily_prices (price), so a nightly metadata call
+# for every ticker too would roughly double that and blow the budget on its own -
+# confirmed by hitting HTTP 429 partway through a real run. Company names barely
+# ever change, so metadata is only fetched for tickers missing a cached name
+# (new additions to watchlist.json), capped per run so a large backfill can't
+# exceed the hourly quota either - it just completes gradually over a few nights.
+MAX_META_FETCHES_PER_RUN = 10
+
 
 def load_watchlist() -> list[dict]:
     with open(WATCHLIST_PATH) as f:
@@ -51,14 +60,17 @@ def load_prior_names() -> dict[str, str]:
     return {r["ticker"]: r["name"] for r in prior.get("results", []) if r.get("name")}
 
 
-def evaluate_ticker(entry: dict, start_date: str, prior_names: dict[str, str]) -> dict:
+def evaluate_ticker(entry: dict, start_date: str, prior_names: dict[str, str], meta_budget: list[int]) -> dict:
     ticker = entry["ticker"]
     raw = fetch_daily_prices(ticker, start_date)  # TiingoError propagates to main()'s except
     df = add_continuation_indicators(to_dataframe(raw))
     result = evaluate_stock(ticker, df)
 
-    meta = fetch_ticker_meta(ticker)
-    name = (meta or {}).get("name") or prior_names.get(ticker)
+    name = prior_names.get(ticker)
+    if not name and meta_budget[0] > 0:
+        meta_budget[0] -= 1
+        meta = fetch_ticker_meta(ticker)
+        name = (meta or {}).get("name")
 
     return {
         "ticker": ticker,
@@ -98,11 +110,12 @@ def main() -> None:
 
     results = []
     errors = []
+    meta_budget = [MAX_META_FETCHES_PER_RUN]
 
     for entry in watchlist:
         ticker = entry["ticker"]
         try:
-            results.append(evaluate_ticker(entry, start_date, prior_names))
+            results.append(evaluate_ticker(entry, start_date, prior_names, meta_budget))
         except TiingoError as exc:
             errors.append({"ticker": ticker, "error": str(exc)})
 
@@ -113,6 +126,17 @@ def main() -> None:
         for r in results:
             extra = f" ({r['data_invalid_reason']})" if r["status"] == "DATA_INVALID" else ""
             print(f"  {r['ticker']} ({r['name'] or 'no name'}): {r['status']}{extra}")
+        for err in errors:
+            print(f"  ERROR {err['ticker']}: {err['error']}")
+        return
+
+    if not results and watchlist:
+        # Every ticker failed (e.g. Tiingo outage, rate limit, bad API key) - never
+        # overwrite yesterday's good results.json with an empty one. The live app
+        # would otherwise show "no qualified/developing stocks" instead of the
+        # true, if stale, prior scan. Leave results.json untouched; the next
+        # scheduled run tries again.
+        print(f"All {len(watchlist)} ticker(s) failed - leaving {RESULTS_PATH} untouched. Errors:")
         for err in errors:
             print(f"  ERROR {err['ticker']}: {err['error']}")
         return
