@@ -1,10 +1,10 @@
-"""SwingDeck - AI Watchlist swing trading dashboard.
+"""SwingDeck - Momentum Continuation overview (docs/SwingDeck_V2_Refactoring_Spec.md).
 
-Reads precomputed results.json (written nightly by scripts/refresh_job.py via GitHub
-Actions - see docs/SPEC.md Section 8). Never calls Tiingo directly. The sidebar
-threshold sliders re-run the same rules_engine.evaluate_stock() locally against the
-small per-ticker snapshot stored in results.json, so they're interactive without any
-live data fetch.
+Reads precomputed results.json (written nightly by scripts/refresh_job.py via
+GitHub Actions - see docs/SPEC.md Section 8). Never calls Tiingo directly, and -
+unlike the archived V1 app - never re-runs the rules engine either: there are no
+more interactive thresholds, so every row's status is exactly what refresh_job.py
+already decided. app.py is a pure view layer over results.json + status_mapping.
 """
 
 import json
@@ -14,59 +14,78 @@ from datetime import date, timedelta
 import pandas as pd
 import streamlit as st
 
-from src.rules_engine import (
-    DEFAULT_LOCATION_THRESHOLD_PCT,
-    DEFAULT_RVOL_THRESHOLD,
-    DEFAULT_WATCH_THRESHOLD_PCT,
-    MIN_RISK_REWARD,
-    STATUS_DISQUALIFIED,
-    STATUS_ENTER,
-    STATUS_WAIT_CONFIRMATION,
-    STATUS_WAIT_LOCATION,
-    STATUS_WAIT_TRIGGER,
-    STATUS_WATCH,
-    evaluate_stock,
+from src.status_mapping import (
+    GROUP_DEVELOPING,
+    GROUP_OTHER,
+    GROUP_QUALIFIED,
+    GROUP_UNKNOWN,
+    QUALIFIED_REASON,
+    badge_text,
+    other_monitored_reason,
+    ui_group_for_status,
 )
 
 REPO_ROOT = os.path.dirname(__file__)
 RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
 WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
 
-GREEN, RED, YELLOW, BLUE = "\U0001f7e2", "\U0001f534", "\U0001f7e1", "\U0001f535"
+DOT_GREEN, DOT_AMBER, DOT_NEUTRAL = "\U0001f7e2", "\U0001f7e1", "⚪"
+GROUP_DOT = {GROUP_QUALIFIED: DOT_GREEN, GROUP_DEVELOPING: DOT_AMBER, GROUP_OTHER: DOT_NEUTRAL, GROUP_UNKNOWN: DOT_NEUTRAL}
 
-# True/False/None pass state -> the same traffic-light ball everywhere in the UI
-# (status badges, the per-step pipeline checklist, and the threshold-context cells).
-STEP_CIRCLE = {True: GREEN, False: RED, None: YELLOW}
-
-# Collapsed to the 4 canonical names everywhere a status is shown (main grid "Status"
-# column, the filter pills, the detail-panel headline) - the 3 WAIT sub-statuses all
-# read as plain "WAIT" now. The sub-status qualifier that used to live in this badge
-# moved to STATUS_DESCRIPTOR, shown as its own second line in the detail panel only.
-STATUS_ICON = {
-    STATUS_ENTER: GREEN,
-    STATUS_WATCH: BLUE,
-    STATUS_WAIT_LOCATION: YELLOW,
-    STATUS_WAIT_TRIGGER: YELLOW,
-    STATUS_WAIT_CONFIRMATION: YELLOW,
-    STATUS_DISQUALIFIED: RED,
-}
-STATUS_GROUP_LABEL = {
-    STATUS_ENTER: "ACTIONABLE",
-    STATUS_WATCH: "WATCH",
-    STATUS_WAIT_LOCATION: "WAIT",
-    STATUS_WAIT_TRIGGER: "WAIT",
-    STATUS_WAIT_CONFIRMATION: "WAIT",
-    STATUS_DISQUALIFIED: "DISQUALIFIED",
-}
-STATUS_DESCRIPTOR = {
-    STATUS_WAIT_LOCATION: "Extended (Location)",
-    STATUS_WAIT_TRIGGER: "Trigger Pending (Oscillator)",
-    STATUS_WAIT_CONFIRMATION: "Awaiting Confirmation",
-}
-
-FILTER_PILLS = ["All", f"{GREEN} ACTIONABLE", f"{YELLOW} WAIT", f"{BLUE} WATCH", f"{RED} DISQUALIFIED"]
+FILTER_SHORTLIST = "shortlist"
+FILTER_QUALIFIED = "qualified"
+FILTER_DEVELOPING = "developing"
+FILTER_OTHER = "other"
 
 st.set_page_config(page_title="SwingDeck", layout="wide")
+
+CUSTOM_CSS = """
+<style>
+.setup-label {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #22c55e;
+    border-bottom: 2px solid #22c55e;
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.25rem;
+}
+div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownContainer"] p {
+    margin-bottom: 0;
+}
+.sd-row-ticker {
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+.sd-row-name {
+    color: rgba(250, 250, 250, 0.6);
+    font-size: 0.95rem;
+}
+.sd-row-reason {
+    color: rgba(250, 250, 250, 0.75);
+    font-size: 0.9rem;
+    margin-top: 0.15rem;
+}
+.sd-badge {
+    display: inline-block;
+    background: rgba(245, 158, 11, 0.18);
+    color: #f59e0b;
+    border-radius: 4px;
+    padding: 0.05rem 0.4rem;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    margin-right: 0.4rem;
+}
+.sd-badge-invalid {
+    background: rgba(148, 163, 184, 0.18);
+    color: rgba(250, 250, 250, 0.75);
+}
+.sd-dot {
+    font-size: 0.7rem;
+}
+</style>
+"""
 
 
 def check_password() -> bool:
@@ -103,365 +122,211 @@ def load_results(path: str) -> dict:
         return json.load(f)
 
 
-def load_watchlist(path: str) -> list[dict]:
-    with open(path) as f:
-        return json.load(f)
-
-
-def badge(status: str) -> str:
-    icon = STATUS_ICON.get(status, YELLOW)
-    label = STATUS_GROUP_LABEL.get(status, status)
-    return f"{icon} {label}"
-
-
-# Regime is left out: it can never fail once Trend has passed (Trend already requires
-# price > 200-SMA, which is the only way Regime's own check could fail), so it's
-# always green except on an already-DISQUALIFIED row - covered by the Status badge
-# and the inspector's full 5-step breakdown, not worth a ball here.
-#
-# Trend IS shown, but separated from the rest by "|": it's a pass/fail gate with no
-# metric column of its own. After the separator, every remaining ball is exactly one
-# column's pass/fail, in that column's left-to-right order: Location (Dist to
-# Support), Oscillator (Stoch %K), Breakout (vs Prior-Day High), RVOL, R:R. The old
-# single "Confirmation" ball covered 3 columns (Breakout/RVOL/R:R) at once, which is
-# exactly what broke the 1-ball-per-column correspondence - it's split into its 3
-# sub-checks here so every ball has exactly one matching column.
-def checklist_cell(
-    trend_passed: bool | None,
-    location_passed: bool | None,
-    oscillator_passed: bool | None,
-    breakout_ok: bool | None,
-    rvol_ok: bool | None,
-    rr_ok: bool | None,
-) -> str:
-    """Trend, then - after a separator - one ball per column to its right, in the same
-    left-to-right order: Location, Oscillator, Breakout, RVOL, R:R."""
-    rest = [STEP_CIRCLE[p] for p in (location_passed, oscillator_passed, breakout_ok, rvol_ok, rr_ok)]
-    return STEP_CIRCLE[trend_passed] + " ❘ " + "".join(rest)
-
-
-def threshold_cell(value: float | None, passed: bool | None, fmt: str) -> str:
-    """A number paired with the traffic-light ball for whether it clears its own
-    threshold, so the value reads with context instead of as a bare float."""
-    if value is None or pd.isna(value):
-        return f"{STEP_CIRCLE[None]} –"
-    return f"{STEP_CIRCLE[passed]} {fmt.format(value)}"
-
-
-def live_eval(entry: dict, location_thresh: float, rvol_thresh: float, watch_thresh: float):
-    snapshot_df = pd.DataFrame(entry["snapshot"])
-    snapshot_df["date"] = pd.to_datetime(snapshot_df["date"])
-    state = entry.get("state") or {}
-    return evaluate_stock(
-        entry["ticker"],
-        snapshot_df,
-        location_thresh,
-        rvol_thresh,
-        watch_thresh,
-        location_last_ok_date=state.get("location_last_ok_date"),
-        oscillator_last_triggered_date=state.get("oscillator_last_triggered_date"),
-    )
-
-
-def days_in_regime(entry: dict, as_of: str) -> int | None:
-    """Calendar days since this ticker's regime (Momentum/Pullback/none) last
-    changed, per refresh_job.py's day-over-day state diffing. None if no prior-state
-    history exists yet for this ticker (e.g. right after this feature's first deploy)."""
-    since = (entry.get("state") or {}).get("regime_since")
-    if not since:
-        return None
-    try:
-        return (date.fromisoformat(as_of) - date.fromisoformat(since)).days
-    except ValueError:
-        return None
-
-
-def staleness_banner(generated_at: str) -> None:
-    """Surfaces how far results.json is behind schedule, counting only trading
-    (weekday) days so a Monday check doesn't falsely flag the Friday-to-Monday gap -
-    see the 2026-10-28 grace-window TypeError incident that silently broke the
-    nightly refresh for 2 days before anyone noticed from the UI alone."""
+def staleness_banner(generated_at: str | None) -> None:
+    """Demoted operational safety net (not part of either new spec doc, not
+    forbidden by them either) - the only signal that the nightly GitHub Actions
+    refresh might be failing, for a single-user app with no other monitoring.
+    Counts only weekdays so a Monday check doesn't false-flag the Fri->Mon gap."""
+    if not generated_at:
+        return
     try:
         generated = date.fromisoformat(generated_at)
     except ValueError:
-        st.caption(f"Last refreshed: {generated_at}")
         return
 
     today = date.today()
-    missed_trading_days = (
-        len(pd.bdate_range(generated + timedelta(days=1), today)) if generated < today else 0
-    )
+    missed_trading_days = len(pd.bdate_range(generated + timedelta(days=1), today)) if generated < today else 0
     if missed_trading_days >= 2:
-        st.error(
-            f"{RED} Last refreshed {generated_at} — {missed_trading_days} trading day(s) behind. "
-            "The nightly GitHub Actions refresh may be failing — check the Actions tab."
+        st.warning(
+            f"Refresh is {missed_trading_days} trading day(s) behind (last: {generated_at}) - "
+            "check the GitHub Actions tab."
         )
     elif missed_trading_days == 1:
-        st.warning(f"{YELLOW} Last refreshed {generated_at} — today's refresh hasn't landed yet.")
+        st.caption(f"Today's refresh hasn't landed yet - last data is from {generated_at}.")
+
+
+def render_header() -> None:
+    left, right = st.columns([5, 1])
+    with left:
+        st.markdown("### SwingDeck")
+    with right:
+        if st.button("⚙️ Settings", use_container_width=True):
+            open_settings_dialog()
+
+
+@st.dialog("Settings")
+def open_settings_dialog() -> None:
+    st.caption("Nothing configurable here yet - thresholds are fixed per the Momentum Continuation spec.")
+    if st.button("Log out"):
+        st.session_state["authenticated"] = False
+        st.rerun()
+
+
+def render_session_line(evaluated_session: str | None, generated_at: str | None) -> None:
+    st.markdown('<span class="setup-label">Momentum Continuation</span>', unsafe_allow_html=True)
+    session_text = evaluated_session or "unavailable"
+    st.caption(f"EOD data: {session_text}", help=f"Last refreshed: {generated_at or 'unknown'}")
+
+
+def render_count_cards(counts: dict) -> str:
+    """Three count cards acting as filter buttons. Returns the (possibly updated)
+    filter_mode. Counts are always computed from the full result set, independent
+    of the current filter - see the caller."""
+    mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button(
+            f"{DOT_GREEN} Qualified\n\n### {counts[GROUP_QUALIFIED]}",
+            use_container_width=True,
+            type="primary" if mode in (FILTER_SHORTLIST, FILTER_QUALIFIED) else "secondary",
+        ):
+            mode = FILTER_QUALIFIED
+    with col2:
+        if st.button(
+            f"{DOT_AMBER} Developing\n\n### {counts[GROUP_DEVELOPING]}",
+            use_container_width=True,
+            type="primary" if mode in (FILTER_SHORTLIST, FILTER_DEVELOPING) else "secondary",
+        ):
+            mode = FILTER_DEVELOPING
+    with col3:
+        if st.button(
+            f"{DOT_NEUTRAL} Other monitored\n\n### {counts[GROUP_OTHER] + counts[GROUP_UNKNOWN]}",
+            use_container_width=True,
+            type="primary" if mode == FILTER_OTHER else "secondary",
+        ):
+            mode = FILTER_OTHER
+
+    if mode != FILTER_SHORTLIST:
+        if st.button("← Show shortlist"):
+            mode = FILTER_SHORTLIST
+
+    st.session_state["filter_mode"] = mode
+    return mode
+
+
+def render_row(result: dict) -> None:
+    group = result["ui_group"]
+    dot = GROUP_DOT.get(group, DOT_NEUTRAL)
+    name = result.get("name")
+    name_html = f'<span class="sd-row-name"> &nbsp;{name}</span>' if name else ""
+
+    if group == GROUP_QUALIFIED:
+        reason_html = f'<div class="sd-row-reason">{QUALIFIED_REASON}</div>'
+    elif group == GROUP_DEVELOPING:
+        badges = result.get("developing_badges") or []
+        pills = "".join(f'<span class="sd-badge">{badge_text(b)}</span>' for b in badges)
+        reason_html = f'<div class="sd-row-reason">{pills}</div>'
+    elif group == GROUP_OTHER:
+        reason_text, is_invalid = other_monitored_reason(result)
+        css_class = "sd-badge sd-badge-invalid" if is_invalid else ""
+        reason_html = (
+            f'<div class="sd-row-reason"><span class="{css_class}">{reason_text}</span></div>'
+            if is_invalid
+            else f'<div class="sd-row-reason">{reason_text}</div>'
+        )
     else:
-        st.caption(f"{GREEN} Last refreshed: {generated_at}")
+        reason_html = f'<div class="sd-row-reason">Unrecognized status: {result.get("status")}</div>'
+
+    with st.container(border=True):
+        top_left, top_right = st.columns([8, 1])
+        with top_left:
+            st.markdown(
+                f'<span class="sd-row-ticker">{result["ticker"]}</span>{name_html}', unsafe_allow_html=True
+            )
+            st.markdown(reason_html, unsafe_allow_html=True)
+        with top_right:
+            st.markdown(f'<div class="sd-dot" style="text-align:right">{dot}</div>', unsafe_allow_html=True)
+
+
+def render_section(title: str, rows: list[dict], empty_message: str) -> None:
+    st.markdown(f"**{title} ({len(rows)})**")
+    if not rows:
+        st.caption(empty_message)
+        return
+    for result in rows:
+        render_row(result)
 
 
 def main() -> None:
     if not check_password():
         st.stop()
 
-    data = load_results(RESULTS_PATH)
-    watchlist = load_watchlist(WATCHLIST_PATH)
-    sector_by_ticker = {w["ticker"]: w.get("sector") for w in watchlist}
+    st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
-    st.title("SwingDeck")
+    try:
+        data = load_results(RESULTS_PATH)
+    except (FileNotFoundError, json.JSONDecodeError):
+        render_header()
+        st.error("No scan data available yet - the refresh job hasn't produced results.json.")
+        return
 
-    if not data.get("generated_at"):
+    if not data.get("generated_at") and not data.get("results"):
+        render_header()
         st.info("No data yet - waiting for the first scheduled refresh to run.")
         return
 
-    staleness_banner(data["generated_at"])
+    render_header()
+    staleness_banner(data.get("generated_at"))
+    render_session_line(data.get("evaluated_session"), data.get("generated_at"))
 
-    success_count = len(data.get("results", []))
+    results = data.get("results", [])
     errors = data.get("errors", [])
-    error_count = len(errors)
-    total_watchlist = success_count + error_count
 
-    if error_count and success_count == 0:
-        st.error(
-            f"This refresh couldn't evaluate any of the {total_watchlist} tickers. "
-            "Showing the error details below instead of a results table."
-        )
-        error_df = pd.DataFrame(
-            [
-                {"Ticker": e["ticker"], "Sector": sector_by_ticker.get(e["ticker"]), "Reason": e["error"]}
-                for e in errors
-            ]
-        )
-        st.dataframe(error_df, width="stretch", hide_index=True)
-        return
-    elif error_count:
-        st.warning(f"{error_count} of {total_watchlist} tickers couldn't be refreshed this run - see details below the table.")
+    for r in results:
+        r.setdefault("ui_group", ui_group_for_status(r.get("status")))
 
-    st.sidebar.header("Parameters")
-    location_thresh = st.sidebar.slider(
-        "Location Threshold %", min_value=0.5, max_value=3.0, value=DEFAULT_LOCATION_THRESHOLD_PCT, step=0.1
-    )
-    rvol_thresh = st.sidebar.slider(
-        "Min RVOL Threshold", min_value=1.0, max_value=2.0, value=DEFAULT_RVOL_THRESHOLD, step=0.05
-    )
-    watch_thresh = st.sidebar.slider(
-        "Watch Threshold %", min_value=1.0, max_value=15.0, value=DEFAULT_WATCH_THRESHOLD_PCT, step=0.5,
-        help="A Trend Failure ticker is reclassified WATCH when it's within this % of crossing back above "
-        "its 50-SMA, and its 50-SMA is already above its 200-SMA (not a structural death-cross gap).",
-    )
+    by_group: dict[str, list[dict]] = {GROUP_QUALIFIED: [], GROUP_DEVELOPING: [], GROUP_OTHER: [], GROUP_UNKNOWN: []}
+    for r in results:
+        by_group.setdefault(r["ui_group"], []).append(r)
 
-    all_sectors = sorted({w.get("sector") for w in watchlist if w.get("sector")})
-    st.markdown(
-        """
-        <style>
-        [data-testid="stMultiSelect"] div:has(> [data-testid="stMultiSelectTagsContainer"]) {
-            height: auto !important;
-            max-height: 420px !important;
-            overflow-y: auto !important;
-        }
-        [data-testid="stMultiSelectTagsContainer"] {
-            height: auto !important;
-            max-height: none !important;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-    selected_sectors = st.sidebar.multiselect("Sectors", options=all_sectors, default=all_sectors)
-
-    rows = []
-    eval_errors = []
-    for entry in data["results"]:
-        if entry.get("sector") not in selected_sectors:
-            continue
-        try:
-            result = live_eval(entry, location_thresh, rvol_thresh, watch_thresh)
-
-            by_key = {s.key: s for s in result.steps}
-            trend_passed = by_key["trend"].passed if "trend" in by_key else None
-            location_passed = by_key["location"].passed if "location" in by_key else None
-            oscillator_passed = by_key["oscillator"].passed if "oscillator" in by_key else None
-            rvol_ok = None if result.rvol is None else result.rvol >= rvol_thresh
-            rr_ok = None if result.rr is None else result.rr >= MIN_RISK_REWARD
-            # getattr, not result.X: these fields were added after the others, so a
-            # stale cached rules_engine module (an old EvalResult class, missing the
-            # field) would otherwise crash the whole page for every user instead of
-            # just degrading this one cell - see the try/except below too.
-            location_dist_pct = getattr(result, "location_dist_pct", None)
-            prior_day_high = getattr(result, "prior_day_high", None)
-            breakout_ok = getattr(result, "breakout_ok", None)
-            # Only meaningful once Trend has actually failed - blank (None) otherwise,
-            # same convention as Entry/Stop/Target being blank pre-Step-5. Kept as raw
-            # floats (not threshold_cell strings) so the columns sort numerically.
-            price_vs_sma50_pct = (
-                getattr(result, "price_vs_sma50_pct", None) if trend_passed is False else None
-            )
-            sma50_vs_sma200_pct = (
-                getattr(result, "sma50_vs_sma200_pct", None) if trend_passed is False else None
-            )
-
-            rows.append(
-                {
-                    "Status": badge(result.status),
-                    # Driven by refresh_job.py's day-over-day regime diffing - a quick
-                    # scan of how long a setup has been building, not shown in the
-                    # detail panel since it's already visible here per row.
-                    "Days in Regime": days_in_regime(entry, data["generated_at"]),
-                    "Ticker": entry["ticker"],
-                    "Sector": entry.get("sector"),
-                    "Pipeline": checklist_cell(
-                        trend_passed, location_passed, oscillator_passed, breakout_ok, rvol_ok, rr_ok
-                    ),
-                    "Price": result.current_price,
-                    # Blank unless Trend actually failed - see price_vs_sma50_pct comment
-                    # above. Distinguishes a "price-only" gap (SMA50 already above SMA200,
-                    # could clear on one good day) from a "structural" one (SMA50 itself
-                    # still below SMA200, resolves over weeks regardless of tomorrow's price).
-                    "Price vs SMA50 %": price_vs_sma50_pct,
-                    "SMA50 vs SMA200 %": sma50_vs_sma200_pct,
-                    # Reuses the Location step's own pass/fail and its regime-appropriate
-                    # distance (nearest-EMA for Momentum, 200-SMA for Pullback) instead of
-                    # recomputing a check against dist_to_ema21_pct alone - that recompute
-                    # could silently disagree with the Pipeline ball on Pullback-regime
-                    # rows, where the EMA21 distance isn't what Location actually gates on.
-                    "Dist to Support": threshold_cell(location_dist_pct, location_passed, "{:.2f}%"),
-                    "Stoch %K": threshold_cell(result.stoch_k, oscillator_passed, "{:.1f}"),
-                    # Confirmation is really 3 ANDed checks - breakout, RVOL, R:R - so
-                    # all 3 need their own column, or the Confirmation ball can show red
-                    # while every *visible* column is green (the breakout check failing
-                    # invisibly). Evaluated first in rules_engine.py, so shown first here.
-                    "vs Prior-Day High": threshold_cell(prior_day_high, breakout_ok, "${:.2f}"),
-                    "RVOL": threshold_cell(result.rvol, rvol_ok, "{:.2f}x"),
-                    "R:R": threshold_cell(result.rr, rr_ok, "{:.2f}"),
-                    "Thesis": entry.get("thesis") or "–",
-                    "_result": result,
-                }
-            )
-        except Exception as exc:
-            # One bad ticker (stale cached module, unexpected data shape, etc.) should
-            # degrade to "this row is missing", never take down the page for everyone.
-            eval_errors.append({"ticker": entry["ticker"], "error": f"{type(exc).__name__}: {exc}"})
-
-    if eval_errors:
-        st.warning(
-            f"{len(eval_errors)} ticker(s) failed to evaluate and are missing from the table below "
-            "- see details under the table."
-        )
-        errors = errors + eval_errors
-
-    df = pd.DataFrame(rows)
-    if not df.empty:
-        df = df.sort_values("Status", ascending=False, kind="stable").reset_index(drop=True)
-
-    enter_count = sum(1 for r in rows if r["_result"].status == STATUS_ENTER)
-    disqualified_count = sum(1 for r in rows if r["_result"].status == STATUS_DISQUALIFIED)
-    watch_count = sum(1 for r in rows if r["_result"].status == STATUS_WATCH)
-    waiting_count = len(rows) - enter_count - disqualified_count - watch_count
-
-    col1, col2, col3, col4, col5 = st.columns(5)
-    col1.metric("Total Monitored", len(rows))
-    col2.metric(f"{GREEN} Actionable", enter_count)
-    col3.metric(f"{YELLOW} Near Setup", waiting_count)
-    col4.metric(f"{BLUE} Watch", watch_count)
-    col5.metric(f"{RED} Disqualified", disqualified_count)
-
-    if not rows:
-        if eval_errors:
-            # Surface *why* here too, not just in the "N failed to evaluate" warning
-            # above - this used to return before ever reaching the error-detail
-            # expander at the bottom of the page, hiding the actual exception text
-            # behind a misleading "no tickers match the filter" message.
-            st.info("No tickers to show - every evaluated ticker failed (see details below).")
-        else:
-            st.info("No tickers match the current sector filter.")
-        if errors:
-            with st.expander(f"Data unavailable for {len(errors)} ticker(s)", expanded=True):
-                error_df = pd.DataFrame(
-                    [
-                        {"Ticker": e["ticker"], "Sector": sector_by_ticker.get(e["ticker"]), "Reason": e["error"]}
-                        for e in errors
-                    ]
-                )
-                st.dataframe(error_df, width="stretch", hide_index=True)
-        return
-
-    active_pill = st.pills("Filter", FILTER_PILLS, default="All", label_visibility="collapsed")
-    if active_pill == f"{GREEN} ACTIONABLE":
-        df = df[df["_result"].apply(lambda r: r.status == STATUS_ENTER)]
-    elif active_pill == f"{YELLOW} WAIT":
-        df = df[df["_result"].apply(lambda r: r.status not in (STATUS_ENTER, STATUS_DISQUALIFIED, STATUS_WATCH))]
-    elif active_pill == f"{BLUE} WATCH":
-        df = df[df["_result"].apply(lambda r: r.status == STATUS_WATCH)]
-    elif active_pill == f"{RED} DISQUALIFIED":
-        df = df[df["_result"].apply(lambda r: r.status == STATUS_DISQUALIFIED)]
-    df = df.reset_index(drop=True)
-
-    if df.empty:
-        st.info("No tickers match the current filter.")
-        return
-
-    display_df = df.drop(columns=["_result"])
-    event = st.dataframe(
-        display_df,
-        width="stretch",
-        hide_index=True,
-        on_select="rerun",
-        selection_mode="single-row",
-        column_config={
-            "Price": st.column_config.NumberColumn(format="$%.2f"),
-            "Price vs SMA50 %": st.column_config.NumberColumn(
-                format="%.2f", help="Signed % distance of price from the 50-SMA. Only shown once Trend has "
-                "failed - negative means price is below the 50-SMA."
-            ),
-            "SMA50 vs SMA200 %": st.column_config.NumberColumn(
-                format="%.2f", help="Signed % distance of the 50-SMA from the 200-SMA. Negative means a "
-                "structural gap (death cross) that resolves over weeks, not a single good price day."
-            ),
-            "Days in Regime": st.column_config.NumberColumn(
-                format="%d", help="Calendar days since this ticker's regime (Momentum/Pullback/none) last changed"
-            ),
-            "Pipeline": st.column_config.TextColumn(
-                help="Trend (gate)  |  Location → Oscillator → Breakout → RVOL → R:R - one ball per column "
-                "to the right, in that order"
-            ),
-            "Thesis": st.column_config.TextColumn(width="medium"),
-        },
-    )
-
-    selected_rows = event.selection.rows if event and event.selection else []
-    if selected_rows:
-        selected = df.iloc[selected_rows[0]]
-        result = selected["_result"]
-        with st.expander(f"Details: {selected['Ticker']}", expanded=True):
-            # st.markdown treats single $ as LaTeX math delimiters, so dollar amounts
-            # in the generated detail text must be escaped or they render as a code pill.
-            st.markdown(f"**{badge(result.status)}**  ·  Regime: {result.regime or '–'}")
-            descriptor = STATUS_DESCRIPTOR.get(result.status)
-            if descriptor:
-                st.caption(descriptor)
-            escaped_reason = result.reason.replace("$", "\\$")
-            st.markdown(f"_{escaped_reason}_")
-            for step in result.steps:
-                detail = step.detail.replace("$", "\\$")
-                st.markdown(f"{STEP_CIRCLE[step.passed]} **{step.label}** — {detail}")
-            if result.entry is not None:
-                st.caption("Trade levels (live once ENTER; hypothetical otherwise)")
-                c1, c2, c3, c4 = st.columns(4)
-                c1.metric("Entry", f"${result.entry:.2f}")
-                c2.metric("Stop", f"${result.stop:.2f}")
-                c3.metric("Target", f"${result.target:.2f}")
-                c4.metric("R:R", f"{result.rr:.2f}")
+    counts = {g: len(rows) for g, rows in by_group.items()}
+    for g in (GROUP_QUALIFIED, GROUP_DEVELOPING, GROUP_OTHER, GROUP_UNKNOWN):
+        counts.setdefault(g, 0)
 
     if errors:
-        with st.expander(f"Data unavailable for {len(errors)} ticker(s)"):
-            error_df = pd.DataFrame(
-                [
-                    {"Ticker": e["ticker"], "Sector": sector_by_ticker.get(e["ticker"]), "Reason": e["error"]}
-                    for e in errors
-                ]
-            )
+        st.warning(f"Couldn't fetch data for {len(errors)} ticker(s) this run - see details below.")
+
+    evaluated_session = data.get("evaluated_session")
+    off_session = [
+        r for r in results if evaluated_session and r.get("evaluated_session") and r["evaluated_session"] != evaluated_session
+    ]
+    if off_session:
+        tickers = ", ".join(r["ticker"] for r in off_session)
+        st.info(f"{len(off_session)} ticker(s) evaluated on a different session than {evaluated_session}: {tickers}")
+
+    mode = render_count_cards(counts)
+
+    qualified_rows = by_group.get(GROUP_QUALIFIED, [])
+    developing_rows = by_group.get(GROUP_DEVELOPING, [])
+    other_rows = by_group.get(GROUP_OTHER, []) + by_group.get(GROUP_UNKNOWN, [])
+
+    st.divider()
+
+    if mode == FILTER_QUALIFIED:
+        render_section("Qualified", qualified_rows, "No qualified stocks in this scan.")
+    elif mode == FILTER_DEVELOPING:
+        render_section("Developing", developing_rows, "No developing stocks in this scan.")
+    elif mode == FILTER_OTHER:
+        render_section("Other monitored", other_rows, "Nothing in Other monitored.")
+    else:
+        if not qualified_rows and not developing_rows:
+            st.info("No qualified or developing stocks in this scan.")
+            if other_rows:
+                st.caption(f"{len(other_rows)} ticker(s) in Other monitored.")
+        else:
+            if not qualified_rows:
+                st.caption("No qualified stocks in this scan.")
+            else:
+                render_section("Qualified", qualified_rows, "No qualified stocks in this scan.")
+            if not developing_rows:
+                st.caption("No developing stocks in this scan.")
+            else:
+                render_section("Developing", developing_rows, "No developing stocks in this scan.")
+
+    if errors:
+        with st.expander(f"Couldn't fetch {len(errors)} ticker(s)"):
+            error_df = pd.DataFrame([{"Ticker": e["ticker"], "Reason": e["error"]} for e in errors])
             st.dataframe(error_df, width="stretch", hide_index=True)
 
 

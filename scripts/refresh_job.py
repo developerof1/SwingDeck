@@ -1,26 +1,31 @@
 """Entrypoint for the nightly GitHub Actions refresh (see .github/workflows/refresh_data.yml).
 
-Fetches fresh data for every ticker in watchlist.json, runs the rules engine with
-default thresholds, and writes results.json - the only thing app.py reads at runtime.
-Per-ticker failures (bad symbol, insufficient history, Tiingo outage) are caught and
-recorded in the "errors" list rather than aborting the whole run.
+Fetches fresh data for every ticker in watchlist.json, runs the Momentum
+Continuation engine, and writes results.json - the only thing app.py reads at
+runtime. Per-ticker fetch failures (bad symbol, insufficient history read from
+Tiingo, Tiingo outage) are caught and recorded in the "errors" list rather than
+aborting the whole run; insufficient *completed-session* history is a different
+thing - that's a DATA_INVALID status from the engine itself (a real Other
+Monitored row with a reason), not a fetch error - see evaluate_ticker() below.
 """
 
 import json
 import os
 import sys
+from collections import Counter
 from datetime import date, timedelta
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from src.data_engine import MIN_HISTORY_DAYS, add_indicators, add_multi_timeframe_stoch, snapshot_tail, to_dataframe
-from src.providers.tiingo_provider import TiingoError, fetch_daily_prices
+from src.data_engine import add_continuation_indicators, to_dataframe
+from src.providers.tiingo_provider import TiingoError, fetch_daily_prices, fetch_ticker_meta
 from src.rules_engine import evaluate_stock
+from src.status_mapping import ui_group_for_status
 
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
 WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
 RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
-HISTORY_BUFFER_DAYS = 500  # calendar days requested, comfortably covers 300 trading days
+HISTORY_BUFFER_DAYS = 500  # calendar days requested, comfortably covers 252+ trading days
 TICKERS_OVERRIDE_ENV = "TICKERS_OVERRIDE"  # comma-separated subset for cheap manual debugging runs
 
 
@@ -29,12 +34,12 @@ def load_watchlist() -> list[dict]:
         return json.load(f)
 
 
-def load_prior_state() -> dict[str, dict]:
-    """Best-effort read of yesterday's results.json (if any) so each ticker's
-    regime-start date and Location/Oscillator "last qualified" dates (the
-    rules_engine.evaluate_stock grace window) carry forward day to day instead of
-    resetting on every run. A missing or corrupt file is treated the same as every
-    ticker running for the first time - never fatal to the refresh.
+def load_prior_names() -> dict[str, str]:
+    """Best-effort read of yesterday's results.json purely as a resilience
+    fallback - if tonight's Tiingo metadata call fails, fall back to the last
+    name we successfully fetched rather than showing a blank. Not state in the
+    V1 sense (no grace windows/regimes survive here); a missing or corrupt prior
+    file just means every ticker falls back to no cached name, never fatal.
     """
     if not os.path.exists(RESULTS_PATH):
         return {}
@@ -43,69 +48,41 @@ def load_prior_state() -> dict[str, dict]:
             prior = json.load(f)
     except (json.JSONDecodeError, OSError):
         return {}
-    return {r["ticker"]: r.get("state", {}) for r in prior.get("results", [])}
+    return {r["ticker"]: r["name"] for r in prior.get("results", []) if r.get("name")}
 
 
-def evaluate_ticker(entry: dict, start_date: str, prior_state: dict, today: str) -> dict:
+def evaluate_ticker(entry: dict, start_date: str, prior_names: dict[str, str]) -> dict:
     ticker = entry["ticker"]
-    raw = fetch_daily_prices(ticker, start_date)
-    df = to_dataframe(raw)
-    if len(df) < MIN_HISTORY_DAYS:
-        raise ValueError(f"only {len(df)} trading days returned, need at least {MIN_HISTORY_DAYS}")
+    raw = fetch_daily_prices(ticker, start_date)  # TiingoError propagates to main()'s except
+    df = add_continuation_indicators(to_dataframe(raw))
+    result = evaluate_stock(ticker, df)
 
-    df = add_indicators(df)
-    df = add_multi_timeframe_stoch(df)
-
-    prior = prior_state.get(ticker, {})
-    result = evaluate_stock(
-        ticker,
-        df,
-        location_last_ok_date=prior.get("location_last_ok_date"),
-        oscillator_last_triggered_date=prior.get("oscillator_last_triggered_date"),
-    )
-
-    regime_since = today if result.regime != prior.get("regime") else prior.get("regime_since", today)
-    location_last_ok_date = today if result.location_ok_today else prior.get("location_last_ok_date")
-    oscillator_last_triggered_date = (
-        today if result.oscillator_triggered_today else prior.get("oscillator_last_triggered_date")
-    )
+    meta = fetch_ticker_meta(ticker)
+    name = (meta or {}).get("name") or prior_names.get(ticker)
 
     return {
         "ticker": ticker,
+        "name": name,
         "sector": entry.get("sector"),
         "thesis": entry.get("thesis"),
-        "default_eval": {
-            "status": result.status,
-            "regime": result.regime,
-            "current_price": result.current_price,
-            "dist_to_ema21_pct": result.dist_to_ema21_pct,
-            "price_vs_sma50_pct": result.price_vs_sma50_pct,
-            "sma50_vs_sma200_pct": result.sma50_vs_sma200_pct,
-            "stoch_k": result.stoch_k,
-            "stoch_d": result.stoch_d,
-            "rvol": result.rvol,
-            "entry": result.entry,
-            "stop": result.stop,
-            "target": result.target,
-            "rr": result.rr,
-            "reason": result.reason,
-        },
-        # Carried forward run-to-run (see load_prior_state) - "Days in Regime" in
-        # app.py's main table is derived from regime_since; location_last_ok_date and
-        # oscillator_last_triggered_date feed rules_engine's grace window next run.
-        "state": {
-            "regime": result.regime,
-            "regime_since": regime_since,
-            "location_last_ok_date": location_last_ok_date,
-            "oscillator_last_triggered_date": oscillator_last_triggered_date,
-        },
-        "snapshot": snapshot_tail(df, rows=5),
+        "status": result.status,
+        "ui_group": ui_group_for_status(result.status),
+        "evaluated_session": result.evaluated_session,
+        "data_valid": result.data_valid,
+        "recovery_observed": result.recovery_observed,
+        "developing_badges": [
+            {"code": b.code, "measured": b.measured, "threshold": b.threshold} for b in result.developing_badges
+        ],
+        "trend_detail": result.trend_detail,
+        "pullback_detail": result.pullback_detail,
+        "data_invalid_reason": result.data_invalid_reason,
+        "diagnostics": result.diagnostics,
     }
 
 
 def main() -> None:
     watchlist = load_watchlist()
-    prior_state = load_prior_state()
+    prior_names = load_prior_names()
     today = date.today().isoformat()
 
     override = os.environ.get(TICKERS_OVERRIDE_ENV, "").strip()
@@ -125,8 +102,8 @@ def main() -> None:
     for entry in watchlist:
         ticker = entry["ticker"]
         try:
-            results.append(evaluate_ticker(entry, start_date, prior_state, today))
-        except (TiingoError, ValueError) as exc:
+            results.append(evaluate_ticker(entry, start_date, prior_names))
+        except TiingoError as exc:
             errors.append({"ticker": ticker, "error": str(exc)})
 
     if debug_mode:
@@ -134,13 +111,18 @@ def main() -> None:
         # otherwise wipe out the other tickers' real data for everyone reading the app.
         print(f"[debug run, not written to {RESULTS_PATH}] {len(results)} results, {len(errors)} errors")
         for r in results:
-            print(f"  {r['ticker']}: {r['default_eval']['status']} | {r['default_eval']['reason']}")
+            extra = f" ({r['data_invalid_reason']})" if r["status"] == "DATA_INVALID" else ""
+            print(f"  {r['ticker']} ({r['name'] or 'no name'}): {r['status']}{extra}")
         for err in errors:
             print(f"  ERROR {err['ticker']}: {err['error']}")
         return
 
+    session_counts = Counter(r["evaluated_session"] for r in results if r["evaluated_session"])
+    evaluated_session = session_counts.most_common(1)[0][0] if session_counts else None
+
     output = {
         "generated_at": today,
+        "evaluated_session": evaluated_session,
         "results": results,
         "errors": errors,
     }
