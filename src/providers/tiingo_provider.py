@@ -41,3 +41,32 @@ def fetch_daily_prices(ticker: str, start_date: str, api_key: str | None = None)
     if not data:
         raise TiingoError(f"{ticker}: no price data returned for the requested range")
     return data
+
+
+def fetch_ticker_meta(ticker: str, api_key: str | None = None) -> dict | None:
+    """Fetch Tiingo's ticker metadata (company name, etc.) for display purposes only.
+
+    Unlike fetch_daily_prices, this never raises - a company-name lookup failing
+    (missing key, bad symbol, network error, unexpected response shape) should only
+    blank a display field, never abort a ticker's evaluation. Returns None on any
+    failure.
+    """
+    api_key = api_key or os.environ.get("TIINGO_API_KEY")
+    if not api_key:
+        return None
+
+    url = f"{TIINGO_BASE_URL}/{ticker}"
+    try:
+        response = requests.get(url, params={"token": api_key}, timeout=REQUEST_TIMEOUT_SECONDS)
+    except requests.RequestException:
+        return None
+
+    if not response.ok:
+        return None
+
+    try:
+        data = response.json()
+    except ValueError:
+        return None
+
+    return data if isinstance(data, dict) else None

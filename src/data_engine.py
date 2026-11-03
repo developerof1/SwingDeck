@@ -153,3 +153,62 @@ def snapshot_tail(df: pd.DataFrame, rows: int = 5) -> list[dict]:
     tail = df.tail(rows).copy()
     tail["date"] = tail["date"].dt.strftime("%Y-%m-%d")
     return tail[SNAPSHOT_COLUMNS].to_dict("records")
+
+
+# --- Momentum Continuation indicators (see docs/Momentum Continuation V2 — Logic.md) ---
+# Self-contained and deliberately independent of add_indicators() above: the live
+# Momentum Continuation path must never depend on V1's indicator set (ema_8, stoch,
+# rvol, weekly/monthly stoch), which only src/rules_engine_v1.py (archived) still uses.
+
+ATR_PERIOD = 14
+# Conventional alpha = 2/(N+1) for a 20-period EMA. NOT the same constant as V1's
+# ema_21 column (span=21 -> alpha=2/22) - this is simply the standard 20-period EMA
+# formula, spelled out as alpha per the spec's exact wording.
+EMA20_ALPHA = 2 / 21
+HIGHEST_HIGH_WINDOW = 20
+DECLINE_LOOKBACK_SESSIONS = 3
+SMA50_TREND_LOOKBACK_SESSIONS = 20
+
+
+def _wilder_atr(df: pd.DataFrame, period: int = ATR_PERIOD) -> pd.Series:
+    """Wilder-smoothed Average True Range. Seeded with a simple average of the
+    first `period` true-range values, then recursively smoothed - the standard
+    Wilder method, distinct from an EMA-based ATR."""
+    prev_close = df["close"].shift(1)
+    true_range = pd.concat(
+        [
+            df["high"] - df["low"],
+            (df["high"] - prev_close).abs(),
+            (df["low"] - prev_close).abs(),
+        ],
+        axis=1,
+    ).max(axis=1)
+
+    atr = pd.Series(index=df.index, dtype="float64")
+    seed_idx = period  # true_range[0] is NaN (no prev_close); the first `period`
+    # valid true-range values are indices 1..period, so the seed lands at index `period`.
+    if len(true_range) > seed_idx:
+        atr.iloc[seed_idx] = true_range.iloc[1 : seed_idx + 1].mean()
+        for i in range(seed_idx + 1, len(true_range)):
+            atr.iloc[i] = (atr.iloc[i - 1] * (period - 1) + true_range.iloc[i]) / period
+    return atr
+
+
+def add_continuation_indicators(df: pd.DataFrame) -> pd.DataFrame:
+    """Indicators for the Momentum Continuation setup: sma_50/sma_200 (trend gate),
+    sma_50_prev20 (SMA50 20 sessions ago, for the "still rising" trend condition),
+    atr_14 (Wilder), ema_20 (alpha=2/21), highest_high_20 (rolling max of `high`
+    over the latest 20 sessions, inclusive of the evaluation session),
+    close_3ago (close 3 sessions ago, for the recent-decline condition), and
+    prev_session_high (for the optional recovery_observed annotation).
+    """
+    df = df.copy()
+    df["sma_50"] = df["close"].rolling(50).mean()
+    df["sma_200"] = df["close"].rolling(200).mean()
+    df["sma_50_prev20"] = df["sma_50"].shift(SMA50_TREND_LOOKBACK_SESSIONS)
+    df["atr_14"] = _wilder_atr(df)
+    df["ema_20"] = df["close"].ewm(alpha=EMA20_ALPHA, adjust=False).mean()
+    df["highest_high_20"] = df["high"].rolling(HIGHEST_HIGH_WINDOW).max()
+    df["close_3ago"] = df["close"].shift(DECLINE_LOOKBACK_SESSIONS)
+    df["prev_session_high"] = df["high"].shift(1)
+    return df
