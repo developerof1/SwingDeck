@@ -1,5 +1,13 @@
 # Technical Specification: AI Watchlist Swing Trading Streamlit Dashboard
 
+> **Archived (V1).** This document describes the original 5-step pipeline, now
+> archived as `src/rules_engine_v1.py` and no longer wired into the live app. The
+> live engine and UI are described in `docs/Momentum Continuation V2 — Logic.md`
+> and `docs/SwingDeck_V2_Refactoring_Spec.md`; `docs/V1_RULES_ENGINE_QA.md` covers
+> how this archived engine behaves, for research comparisons. Sections 1-7 below
+> (pipeline, indicators, rules, UI) are V1-only; Sections 8-9 (deployment, git-as-DB
+> persistence, codebase layout conventions) still broadly apply to the new engine.
+
 ## 1. Project Overview & Objective
 
 Build a Python-based **Streamlit web application** that automatically evaluates a custom AI Watchlist against a systematic **5-Step Swing Trading Ruleset**.
