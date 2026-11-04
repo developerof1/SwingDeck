@@ -139,6 +139,9 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     padding: 0.9rem 1.1rem 1rem;
     background: rgba(255, 255, 255, 0.02);
     transition: background-color 0.1s, border-color 0.1s;
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
 }
 .sd-card-active {
     background: rgba(148, 163, 184, 0.14);
@@ -164,10 +167,11 @@ div[class*="st-key-sd_card_"]:hover .sd-card {
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] {
     position: absolute !important;
     inset: 0 !important;
-    z-index: 2 !important;
+    z-index: 10 !important;
     margin: 0 !important;
     width: 100% !important;
     height: 100% !important;
+    pointer-events: auto !important;
 }
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
     width: 100% !important;
@@ -178,6 +182,7 @@ div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
     box-shadow: none !important;
     opacity: 0 !important;
     cursor: pointer;
+    pointer-events: auto !important;
     padding: 0 !important;
     margin: 0 !important;
 }
@@ -333,12 +338,15 @@ def render_count_cards(counts: dict) -> str:
     for col, (target_mode, dot, label, count, active) in zip(cols, specs):
         with col, st.container(key=f"sd_card_{target_mode}"):
             card_class = "sd-card sd-card-active" if active else "sd-card"
-            st.markdown(
+            # st.html(), not st.markdown() - renders raw HTML with none of
+            # Streamlit's own markdown-container wrapping/spacing, so the
+            # card's actual rendered box can't drift from what the CSS
+            # overlay math (inset: 0 on the sibling button) assumes.
+            st.html(
                 f'<div class="{card_class}">'
                 f'<div class="sd-card-label">{dot} {label}</div>'
                 f'<div class="sd-card-count">{count}</div>'
-                f"</div>",
-                unsafe_allow_html=True,
+                f"</div>"
             )
             if st.button(label, key=f"sd_card_btn_{target_mode}", use_container_width=True):
                 # Clicking the already-active single-group card toggles back to
@@ -378,9 +386,6 @@ def render_row(result: dict) -> None:
     else:
         reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>Unrecognized status: {result.get("status")}</div>'
 
-    # One HTML block, and a single top-level .sd-row div within it (not two
-    # sibling divs) - see the CSS comment above .sd-row for why that single
-    # wrapper matters for getting Streamlit out of the way of our spacing.
     row_html = (
         '<div class="sd-row">'
         '<div class="sd-row-top">'
@@ -394,7 +399,12 @@ def render_row(result: dict) -> None:
         "</div>"
     )
     with st.container(border=True):
-        st.markdown(row_html, unsafe_allow_html=True)
+        # st.html(), not st.markdown() - renders raw HTML with none of
+        # Streamlit's own markdown-container wrapping/spacing. Two rounds of
+        # !important overrides against that wrapping still wasn't enough, so
+        # this sidesteps the fight entirely instead of guessing at Streamlit's
+        # internal stylesheet a third time.
+        st.html(row_html)
 
 
 def render_section(title: str, rows: list[dict], empty_message: str) -> None:
