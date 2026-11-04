@@ -159,19 +159,19 @@ div[data-testid="stButton"] > button {
    ::first-line is a real, standards-supported way to size the rendered
    first line of a block differently from the rest of it. */
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
-    position: relative;
-    padding-left: 1.65rem;
+    position: relative !important;
+    padding-left: 1.3rem !important;
 }
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button p {
-    white-space: pre-line;
-    font-size: 1.3rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-top: 0.15rem;
+    white-space: pre-line !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin-top: 0.15rem !important;
 }
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button p::first-line {
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
 }
 /* The status dot, as a CSS pseudo-element rather than an inline emoji in
    the label text - an emoji on only the first line ("<dot> Qualified")
@@ -181,11 +181,11 @@ div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button p::first-line
    plain and equally indented, with the dot positioned independently. */
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button::before {
     content: "";
-    position: absolute;
-    left: 0.8rem;
+    position: absolute !important;
+    left: 0.6rem;
     top: 0.95rem;
-    width: 0.6rem;
-    height: 0.6rem;
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: 50%;
     background: rgba(148, 163, 184, 0.7);
 }
