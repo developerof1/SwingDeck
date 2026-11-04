@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03",
+  "generated_at": "2026-11-04T18:29+00:00",
   "evaluated_session": "2026-11-03",
   "results": [
     {
@@ -394,7 +394,7 @@
     },
     {
       "ticker": "BABA",
-      "name": null,
+      "name": "Alibaba Group Holding Ltd",
       "sector": "Big Tech & Hyperscalers",
       "thesis": "High-volatility international cloud/AI swing trade",
       "status": "INELIGIBLE_TREND",
@@ -433,7 +433,7 @@
     },
     {
       "ticker": "KLAC",
-      "name": null,
+      "name": "KLA Corp",
       "sector": "Advanced Packaging & Equipment",
       "thesis": "Process control & inspection; institutional favorite for MA retests",
       "status": "INELIGIBLE_TREND",
@@ -472,7 +472,7 @@
     },
     {
       "ticker": "CRDO",
-      "name": null,
+      "name": "Credo Technology Group Holding Ltd",
       "sector": "Networking & Interconnects",
       "thesis": "Active Electrical Cables; rapid momentum expansion setups",
       "status": "INELIGIBLE_TREND",
@@ -511,7 +511,7 @@
     },
     {
       "ticker": "AMD",
-      "name": null,
+      "name": "Advanced Micro Devices Inc",
       "sector": "Chips & Hardware",
       "thesis": "High beta runner; large weekly price swings",
       "status": "INELIGIBLE_PULLBACK",
@@ -550,7 +550,7 @@
     },
     {
       "ticker": "PLTR",
-      "name": null,
+      "name": "Palantir Technologies Inc - Class A",
       "sector": "SaaS with AI Story",
       "thesis": "Retail/institutional favorite; extreme momentum range swings",
       "status": "INELIGIBLE_PULLBACK",
@@ -589,7 +589,7 @@
     },
     {
       "ticker": "SNPS",
-      "name": null,
+      "name": "Synopsys Inc",
       "sector": "EDA & Custom Silicon",
       "thesis": "Chip design automation; tight consolidation and breakout setups",
       "status": "INELIGIBLE_TREND",
@@ -628,7 +628,7 @@
     },
     {
       "ticker": "META",
-      "name": null,
+      "name": "Meta Platforms Inc - Class A",
       "sector": "Big Tech & Hyperscalers",
       "thesis": "Ad-tech monetization; strong momentum breakouts on volume",
       "status": "INELIGIBLE_TREND",
@@ -667,7 +667,7 @@
     },
     {
       "ticker": "MSFT",
-      "name": null,
+      "name": "Microsoft Corporation",
       "sector": "Big Tech & Hyperscalers",
       "thesis": "Core AI cloud enabler; highly predictable moving average bounces",
       "status": "CANDIDATE",
@@ -706,7 +706,7 @@
     },
     {
       "ticker": "AAPL",
-      "name": null,
+      "name": "Apple Inc",
       "sector": "Big Tech & Hyperscalers",
       "thesis": "On-device AI rollout; deep liquidity and clean support zones",
       "status": "INELIGIBLE_PULLBACK",
@@ -745,7 +745,7 @@
     },
     {
       "ticker": "SAP",
-      "name": null,
+      "name": "Sap SE",
       "sector": "Big Tech & Hyperscalers",
       "thesis": "Enterprise AI integration; high-volume European leader",
       "status": "CANDIDATE",
