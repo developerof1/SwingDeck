@@ -133,14 +133,27 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
    `key=` gives each card a stable, unique class (st-key-<key>) so this
    overlay rule is scoped to just these three cards and can't affect any
    other button on the page (Settings, Log in, ...). */
+/* Screenshot evidence (a real cursor test) showed the clickable area landing
+   as a separate block *below* the visible card, not overlaid on it - i.e.
+   `position: absolute` was never actually taking hold on the button (if it
+   had applied but against the wrong ancestor, it would have landed somewhere
+   far away, not neatly in the next normal-flow slot). So: stop depending on
+   `position: absolute` working at all. The card gets a fixed height, and the
+   button - confirmed to render immediately after it, in normal document flow
+   - gets pulled up over it with a matching negative top margin instead. This
+   only needs normal block layout math, not a positioning context that may or
+   may not be getting established correctly. */
 .sd-card {
     border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 10px;
     padding: 0.9rem 1.1rem 1rem;
     background: rgba(255, 255, 255, 0.02);
     transition: background-color 0.1s, border-color 0.1s;
-    position: relative;
-    z-index: 1;
+    height: 92px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     pointer-events: none;
 }
 .sd-card-active {
@@ -158,31 +171,23 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     margin-top: 0.15rem;
     line-height: 1.1;
 }
-div[class*="st-key-sd_card_"] {
-    position: relative !important;
-}
 div[class*="st-key-sd_card_"]:hover .sd-card {
     border-color: rgba(148, 163, 184, 0.45);
 }
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] {
-    position: absolute !important;
-    inset: 0 !important;
-    z-index: 10 !important;
-    margin: 0 !important;
+    margin-top: -92px !important;
+    margin-bottom: 0 !important;
     width: 100% !important;
-    height: 100% !important;
-    pointer-events: auto !important;
 }
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
     width: 100% !important;
-    height: 100% !important;
+    height: 92px !important;
     min-height: unset !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     opacity: 0 !important;
     cursor: pointer;
-    pointer-events: auto !important;
     padding: 0 !important;
     margin: 0 !important;
 }
