@@ -139,64 +139,62 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     margin-top: 1.5rem;
 }
 
-/* Count cards are real st.button widgets (see render_count_cards) - no
-   overlay, no separate click target, so there's nothing that can drift out
-   of alignment with what's visible. Only cosmetic: give them some size/
-   padding, and replace Streamlit's hardcoded bold-red "primary" style
-   (reads as an alert, not "selected") with a subtle neutral highlight. */
-div[data-testid="stButton"] > button {
-    padding: 0.55rem 0.8rem;
+/* Count cards: a real HTML "stat card" (label on top, large number below) -
+   st.button's label is plain text/limited-Markdown only and can't render
+   that two-line layout (confirmed the hard way, across several attempts to
+   fake it with a single button's own label). The actual click target is a
+   fully transparent st.button pulled up over the card with a matching
+   negative top margin - st.container's `key=` gives each card a stable,
+   unique class (st-key-<key>) so this is scoped to just these three cards.
+   The card itself is pointer-events: none so it can never intercept a
+   click meant for the button beneath it. */
+.sd-card {
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 10px;
-    text-align: left;
+    padding: 0.9rem 1.1rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    transition: background-color 0.1s, border-color 0.1s;
+    height: 92px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: none;
 }
-/* The card buttons' labels contain a literal \n (name, then the count) -
-   browsers collapse raw newlines to whitespace by default, so this tells
-   them to respect it as a real line break instead. Scoped to the cards'
-   own containers (not every button on the page) since this also sets the
-   base font-size - that's meant for the count (the second, non-first
-   line), with ::first-line below shrinking just the label line back down.
-   A native button label can't hold two differently-sized <span>s, but
-   ::first-line is a real, standards-supported way to size the rendered
-   first line of a block differently from the rest of it. */
+.sd-card-active {
+    background: rgba(148, 163, 184, 0.14);
+    border-color: rgba(148, 163, 184, 0.55);
+}
+.sd-card-label {
+    font-size: 1.1rem;
+    color: rgba(250, 250, 250, 0.9) !important;
+}
+.sd-card-count {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #fafafa !important;
+    margin-top: 0.15rem;
+    line-height: 1.1;
+}
+div[class*="st-key-sd_card_"]:hover .sd-card {
+    border-color: rgba(148, 163, 184, 0.45);
+}
+div[class*="st-key-sd_card_"] div[data-testid="stButton"] {
+    margin-top: -92px !important;
+    margin-bottom: 0 !important;
+    width: 100% !important;
+}
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
-    position: relative !important;
-    padding-left: 1.3rem !important;
-}
-div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button p {
-    white-space: pre-line !important;
-    font-size: 1.3rem !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-    margin-top: 0.15rem !important;
-}
-div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button p::first-line {
-    font-size: 0.85rem !important;
-    font-weight: 600 !important;
-}
-/* The status dot, as a CSS pseudo-element rather than an inline emoji in
-   the label text - an emoji on only the first line ("<dot> Qualified")
-   pushes that line's actual text start to the right of the plain count
-   line below it ("2"), a left-alignment mismatch ::first-line can't fix
-   (it doesn't support padding/text-indent). This keeps both text lines
-   plain and equally indented, with the dot positioned independently. */
-div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button::before {
-    content: "";
-    position: absolute !important;
-    left: 0.6rem;
-    top: 0.95rem;
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: rgba(148, 163, 184, 0.7);
-}
-div[class*="st-key-sd_card_qualified"] div[data-testid="stButton"] > button::before {
-    background: #22c55e;
-}
-div[class*="st-key-sd_card_developing"] div[data-testid="stButton"] > button::before {
-    background: #f59e0b;
-}
-div[class*="st-key-sd_card_other"] div[data-testid="stButton"] > button::before {
-    background: #c4b5fd;
+    width: 100% !important;
+    height: 92px !important;
+    min-height: unset !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 div[data-testid="stButton"] > button[kind="primary"] {
     background-color: rgba(148, 163, 184, 0.16) !important;
@@ -360,53 +358,55 @@ def render_count_cards(counts: dict) -> str:
     filter_mode. Counts are always computed from the full result set,
     independent of the current filter - see the caller.
 
-    Each card is a single real st.button (see _toggle_filter_mode's
-    docstring for why a plain `if st.button(...): ...` was itself buggy,
-    separately from the overlay-click-target issues fixed earlier) - no
-    overlay, no separate click target, so there is nothing that can drift
-    out of alignment with what's visible.
+    Each card is real HTML (.sd-card: label line + large bold count line,
+    see CUSTOM_CSS) with a fully transparent st.button pulled up over it as
+    the actual click target - restored from an earlier round after
+    confirming the click bug reported against *this* design (screenshots
+    showing "click Developing, Qualified's content shows") was actually the
+    stale-active-flag timing bug _toggle_filter_mode's docstring describes,
+    not a flaw in the overlay positioning itself. Dropping the whole HTML
+    card design at the time was an overcorrection - the on_click callback
+    alone fixes the real bug, with no need to give up the two-line stat-card
+    layout a plain button's own label can't render anyway.
     """
     mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
 
     specs = [
-        (FILTER_QUALIFIED, "Qualified", counts[GROUP_QUALIFIED], mode in (FILTER_SHORTLIST, FILTER_QUALIFIED)),
-        (FILTER_DEVELOPING, "Developing", counts[GROUP_DEVELOPING], mode in (FILTER_SHORTLIST, FILTER_DEVELOPING)),
+        (FILTER_QUALIFIED, DOT_GREEN, "Qualified", counts[GROUP_QUALIFIED], mode in (FILTER_SHORTLIST, FILTER_QUALIFIED)),
+        (
+            FILTER_DEVELOPING,
+            DOT_AMBER,
+            "Developing",
+            counts[GROUP_DEVELOPING],
+            mode in (FILTER_SHORTLIST, FILTER_DEVELOPING),
+        ),
         (
             FILTER_OTHER,
+            DOT_NEUTRAL,
             "Other monitored",
             counts[GROUP_OTHER] + counts[GROUP_UNKNOWN],
             mode == FILTER_OTHER,
         ),
     ]
 
-    # Each card is wrapped in its own keyed container (st-key-sd_card_<mode>,
-    # confirmed behavior for st.container's key=) purely so the dot color CSS
-    # below can target each card individually - this is a styling-only
-    # wrapper around a single real, visible button, not a second element
-    # competing for clicks, so it can't reintroduce the earlier
-    # click-misalignment bugs the overlay technique had.
     cols = st.columns(3)
-    for col, (target_mode, label, count, active) in zip(cols, specs):
+    for col, (target_mode, dot, label, count, active) in zip(cols, specs):
         with col, st.container(key=f"sd_card_{target_mode}"):
-            # No emoji in the label text itself: a line starting with "<dot>
-            # Qualified" and a line with just "2" don't actually start at the
-            # same left edge once both are left-aligned - the dot's own
-            # width pushes "Qualified"'s first letter right of where "2"
-            # sits, a plain structural fact of mixing an inline glyph with
-            # text across two lines that ::first-line can't correct (it
-            # doesn't support padding/text-indent). The dot is rendered as a
-            # CSS ::before pseudo-element instead (see CUSTOM_CSS), so both
-            # text lines are plain, equally-indented text with nothing above.
-            #
-            # A literal \n survives into the button's label (confirmed via
-            # AppTest - clean_text() only dedents/strips, it doesn't
-            # collapse internal newlines) - paired with CSS below, this
-            # renders as a real two-line label.
+            card_class = "sd-card sd-card-active" if active else "sd-card"
+            # st.html(), not st.markdown() - renders raw HTML with none of
+            # Streamlit's own markdown-container wrapping/spacing, so the
+            # card's actual rendered box can't drift from what the CSS
+            # overlay math (negative margin-top on the button below) assumes.
+            st.html(
+                f'<div class="{card_class}">'
+                f'<div class="sd-card-label">{dot} {label}</div>'
+                f'<div class="sd-card-count">{count}</div>'
+                f"</div>"
+            )
             st.button(
-                f"{label}\n{count}",
+                label,
                 key=f"sd_card_btn_{target_mode}",
                 use_container_width=True,
-                type="primary" if active else "secondary",
                 on_click=_toggle_filter_mode,
                 args=(target_mode,),
             )
