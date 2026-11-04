@@ -266,21 +266,34 @@ def render_session_line(evaluated_session: str | None, generated_at: str | None)
     st.caption(f"EOD data: {session_text}  ·  Refreshed: {refreshed_text}")
 
 
-def render_count_cards(counts: dict) -> str:
-    """Three count cards acting as filter buttons. Returns the (possibly updated)
-    filter_mode. Counts are always computed from the full result set, independent
-    of the current filter - see the caller.
+def _toggle_filter_mode(target_mode: str) -> None:
+    """on_click callback - Streamlit runs this *before* the script reruns, so
+    by the time render_count_cards computes `active` flags for styling, the
+    mode is already up to date. The previous version checked `if st.button(...)`
+    *after* rendering and updated a local `mode` variable only after the
+    button whose own styling had already been decided from the *previous*
+    render's mode - the card that looked highlighted and the section shown
+    below were each one click out of sync with the other, and with the
+    actual click just made. That was the real bug behind the reported
+    "click Developing, Qualified's content shows" behavior - not the earlier
+    (also real, now-fixed) overlay click-target misalignment."""
+    current = st.session_state.get("filter_mode", FILTER_SHORTLIST)
+    # Clicking the already-active single-group card toggles back to the
+    # default Shortlist view - the only way back now that there's no
+    # separate "Show shortlist" reset control.
+    st.session_state["filter_mode"] = FILTER_SHORTLIST if current == target_mode else target_mode
 
-    Three different "real HTML card + invisible overlay button as the actual
-    click target" techniques were each tried and each produced a different
-    real-browser bug (unclickable, click landing below the card instead of on
-    it, clicks landing on the wrong card entirely) that couldn't be diagnosed
-    further without browser devtools. Dropped the overlay approach entirely -
-    each card is now a single real st.button, so there is no separate click
-    target that can drift out of alignment with what's visible; this trades
-    away the mockup's two-line "label / large number" layout (a plain button
-    label can't render that) for a guarantee that the clicked card is always
-    the card that responds.
+
+def render_count_cards(counts: dict) -> str:
+    """Three count cards acting as filter buttons. Returns the current
+    filter_mode. Counts are always computed from the full result set,
+    independent of the current filter - see the caller.
+
+    Each card is a single real st.button (see _toggle_filter_mode's
+    docstring for why a plain `if st.button(...): ...` was itself buggy,
+    separately from the overlay-click-target issues fixed earlier) - no
+    overlay, no separate click target, so there is nothing that can drift
+    out of alignment with what's visible.
     """
     mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
 
@@ -305,18 +318,15 @@ def render_count_cards(counts: dict) -> str:
     cols = st.columns(3)
     for col, (target_mode, dot, label, count, active) in zip(cols, specs):
         with col:
-            if st.button(
+            st.button(
                 f"{dot} {label}  **{count}**",
                 key=f"sd_card_btn_{target_mode}",
                 use_container_width=True,
                 type="primary" if active else "secondary",
-            ):
-                # Clicking the already-active single-group card toggles back to
-                # the default Shortlist view - this is the only way back now
-                # that there's no separate "Show shortlist" reset control.
-                mode = FILTER_SHORTLIST if mode == target_mode else target_mode
+                on_click=_toggle_filter_mode,
+                args=(target_mode,),
+            )
 
-    st.session_state["filter_mode"] = mode
     return mode
 
 
