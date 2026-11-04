@@ -53,19 +53,37 @@ CUSTOM_CSS = """
 div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownContainer"] p {
     margin-bottom: 0;
 }
+/* Each row is a single HTML block (see render_row) rather than several
+   separate st.markdown/st.columns calls - Streamlit inserts its own ~1rem
+   gap between sibling elements/columns, which was producing uneven spacing
+   between the ticker line and the reason line, and inconsistent bottom
+   padding, that no amount of margin tweaking on the individual pieces could
+   fix. One block with internal flexbox layout gives exact control instead. */
+.sd-row-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+}
+.sd-row-left {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
 .sd-row-ticker {
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     color: #fafafa !important;
 }
 .sd-row-name {
     color: rgba(250, 250, 250, 0.6) !important;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
 }
 .sd-row-reason, .sd-row-reason * {
     color: rgba(250, 250, 250, 0.75) !important;
-    font-size: 0.9rem;
-    margin-top: 0.15rem;
+    font-size: 1rem;
+    margin-top: 0.35rem;
 }
 .sd-badge {
     display: inline-block;
@@ -74,7 +92,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
     border-radius: 4px;
     padding: 0.05rem 0.4rem;
     font-weight: 600;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     letter-spacing: 0.02em;
     margin-right: 0.4rem;
 }
@@ -83,7 +101,8 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
     color: rgba(250, 250, 250, 0.75) !important;
 }
 .sd-dot {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    flex-shrink: 0;
 }
 
 /* Count cards: a real HTML "stat card" (label on top, large number below),
@@ -92,7 +111,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
    transparent st.button absolutely positioned over the card - st.container's
    `key=` gives each card a stable, unique class (st-key-<key>) so this
    overlay rule is scoped to just these three cards and can't affect any
-   other button on the page (Settings, Log in, Show shortlist, ...). */
+   other button on the page (Settings, Log in, ...). */
 .sd-card {
     border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 10px;
@@ -105,7 +124,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
     border-color: rgba(148, 163, 184, 0.55);
 }
 .sd-card-label {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     color: rgba(250, 250, 250, 0.9) !important;
 }
 .sd-card-count {
@@ -297,11 +316,10 @@ def render_count_cards(counts: dict) -> str:
                 unsafe_allow_html=True,
             )
             if st.button(label, key=f"sd_card_btn_{target_mode}"):
-                mode = target_mode
-
-    if mode != FILTER_SHORTLIST:
-        if st.button("← Show shortlist"):
-            mode = FILTER_SHORTLIST
+                # Clicking the already-active single-group card toggles back to
+                # the default Shortlist view - this is the only way back now
+                # that there's no separate "Show shortlist" reset control.
+                mode = FILTER_SHORTLIST if mode == target_mode else target_mode
 
     st.session_state["filter_mode"] = mode
     return mode
@@ -318,7 +336,7 @@ def render_row(result: dict) -> None:
     group = result["ui_group"]
     dot = GROUP_DOT.get(group, DOT_NEUTRAL)
     name = result.get("name")
-    name_html = f'<span class="sd-row-name" {_REASON_STYLE}> &nbsp;{name}</span>' if name else ""
+    name_html = f'<span class="sd-row-name" {_REASON_STYLE}>{name}</span>' if name else ""
 
     if group == GROUP_QUALIFIED:
         reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{QUALIFIED_REASON}</div>'
@@ -335,16 +353,21 @@ def render_row(result: dict) -> None:
     else:
         reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>Unrecognized status: {result.get("status")}</div>'
 
+    # One HTML block, not several separate st.markdown/st.columns calls -
+    # Streamlit's own inter-element gap between separate calls was producing
+    # uneven spacing that per-element margins couldn't fully control.
+    row_html = (
+        '<div class="sd-row-top">'
+        '<div class="sd-row-left">'
+        f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>'
+        f"{name_html}"
+        "</div>"
+        f'<div class="sd-dot">{dot}</div>'
+        "</div>"
+        f"{reason_html}"
+    )
     with st.container(border=True):
-        top_left, top_right = st.columns([8, 1])
-        with top_left:
-            st.markdown(
-                f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>{name_html}',
-                unsafe_allow_html=True,
-            )
-            st.markdown(reason_html, unsafe_allow_html=True)
-        with top_right:
-            st.markdown(f'<div class="sd-dot" style="text-align:right">{dot}</div>', unsafe_allow_html=True)
+        st.markdown(row_html, unsafe_allow_html=True)
 
 
 def render_section(title: str, rows: list[dict], empty_message: str) -> None:
