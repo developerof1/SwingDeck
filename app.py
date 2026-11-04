@@ -139,9 +139,17 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
    padding, and replace Streamlit's hardcoded bold-red "primary" style
    (reads as an alert, not "selected") with a subtle neutral highlight. */
 div[data-testid="stButton"] > button {
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1.1rem;
     border-radius: 10px;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: left;
+}
+/* The card buttons' labels contain a literal \n (icon+name, then a bold
+   count) - the browser collapses raw newlines to whitespace by default,
+   so this tells it to respect them as real line breaks instead. */
+div[data-testid="stButton"] > button p {
+    white-space: pre-line;
 }
 div[data-testid="stButton"] > button[kind="primary"] {
     background-color: rgba(148, 163, 184, 0.16) !important;
@@ -325,8 +333,16 @@ def render_count_cards(counts: dict) -> str:
     cols = st.columns(3)
     for col, (target_mode, dot, label, count, active) in zip(cols, specs):
         with col:
+            # A literal \n survives into the button's label (confirmed via
+            # AppTest - clean_text() only dedents/strips, it doesn't collapse
+            # internal newlines) - paired with `white-space: pre-line` in
+            # CUSTOM_CSS, this renders as a real two-line label (icon+name,
+            # then a bold count) without any overlay or separate click
+            # target, so it can't reintroduce the earlier click-misalignment
+            # bugs. A native button label can't mix font sizes within itself,
+            # so the count is bold rather than dramatically larger.
             st.button(
-                f"{dot} {label}  **{count}**",
+                f"{dot} {label}\n**{count}**",
                 key=f"sd_card_btn_{target_mode}",
                 use_container_width=True,
                 type="primary" if active else "secondary",
