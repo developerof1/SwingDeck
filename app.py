@@ -149,27 +149,54 @@ div[data-testid="stButton"] > button {
     border-radius: 10px;
     text-align: left;
 }
-/* The card buttons' labels contain a literal \n (icon+name, then the
-   count) - browsers collapse raw newlines to whitespace by default, so
-   this tells them to respect it as a real line break instead. Scoped to
-   the cards' own container (not every button on the page) since this also
-   sets the base font-size - that's meant for the count (the second,
-   non-first line), with ::first-line below shrinking just the label line
-   back down. A native button label can't hold two differently-sized
-   <span>s, but ::first-line is a real, standards-supported way to size the
-   rendered first line of a block differently from the rest of it.
-   Sized down from an earlier, too-large pass that was both visually heavy
-   and wide enough to wrap "Other monitored" onto two lines. */
-div[class*="st-key-sd_cards_row"] div[data-testid="stButton"] > button p {
+/* The card buttons' labels contain a literal \n (name, then the count) -
+   browsers collapse raw newlines to whitespace by default, so this tells
+   them to respect it as a real line break instead. Scoped to the cards'
+   own containers (not every button on the page) since this also sets the
+   base font-size - that's meant for the count (the second, non-first
+   line), with ::first-line below shrinking just the label line back down.
+   A native button label can't hold two differently-sized <span>s, but
+   ::first-line is a real, standards-supported way to size the rendered
+   first line of a block differently from the rest of it. */
+div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
+    position: relative;
+    padding-left: 1.65rem;
+}
+div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button p {
     white-space: pre-line;
     font-size: 1.3rem;
     font-weight: 700;
     line-height: 1.2;
     margin-top: 0.15rem;
 }
-div[class*="st-key-sd_cards_row"] div[data-testid="stButton"] > button p::first-line {
+div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button p::first-line {
     font-size: 0.85rem;
     font-weight: 600;
+}
+/* The status dot, as a CSS pseudo-element rather than an inline emoji in
+   the label text - an emoji on only the first line ("<dot> Qualified")
+   pushes that line's actual text start to the right of the plain count
+   line below it ("2"), a left-alignment mismatch ::first-line can't fix
+   (it doesn't support padding/text-indent). This keeps both text lines
+   plain and equally indented, with the dot positioned independently. */
+div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button::before {
+    content: "";
+    position: absolute;
+    left: 0.8rem;
+    top: 0.95rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: rgba(148, 163, 184, 0.7);
+}
+div[class*="st-key-sd_card_qualified"] div[data-testid="stButton"] > button::before {
+    background: #22c55e;
+}
+div[class*="st-key-sd_card_developing"] div[data-testid="stButton"] > button::before {
+    background: #f59e0b;
+}
+div[class*="st-key-sd_card_other"] div[data-testid="stButton"] > button::before {
+    background: #c4b5fd;
 }
 div[data-testid="stButton"] > button[kind="primary"] {
     background-color: rgba(148, 163, 184, 0.16) !important;
@@ -301,7 +328,7 @@ def render_session_line(evaluated_session: str | None, generated_at: str | None)
         # mislabeled with a timezone it was never actually recorded in.
         local_dt = dt.astimezone(DISPLAY_TZ) if dt.tzinfo else dt
         tz_label = local_dt.tzname() if dt.tzinfo else ""
-        refreshed_text = f"{local_dt.strftime('%b %d, %Y, %H:%M')} {tz_label}".strip()
+        refreshed_text = f"{local_dt.strftime('%b %d, %Y, %I:%M %p')} {tz_label}".strip()
     else:
         refreshed_text = "unknown"
     # Shown inline, matching the approved mockup - EOD date is the prominent half,
@@ -342,45 +369,47 @@ def render_count_cards(counts: dict) -> str:
     mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
 
     specs = [
-        (FILTER_QUALIFIED, DOT_GREEN, "Qualified", counts[GROUP_QUALIFIED], mode in (FILTER_SHORTLIST, FILTER_QUALIFIED)),
-        (
-            FILTER_DEVELOPING,
-            DOT_AMBER,
-            "Developing",
-            counts[GROUP_DEVELOPING],
-            mode in (FILTER_SHORTLIST, FILTER_DEVELOPING),
-        ),
+        (FILTER_QUALIFIED, "Qualified", counts[GROUP_QUALIFIED], mode in (FILTER_SHORTLIST, FILTER_QUALIFIED)),
+        (FILTER_DEVELOPING, "Developing", counts[GROUP_DEVELOPING], mode in (FILTER_SHORTLIST, FILTER_DEVELOPING)),
         (
             FILTER_OTHER,
-            DOT_NEUTRAL,
             "Other monitored",
             counts[GROUP_OTHER] + counts[GROUP_UNKNOWN],
             mode == FILTER_OTHER,
         ),
     ]
 
-    # Wrapped in its own keyed container (st-key-sd_cards_row, confirmed
-    # behavior for st.container's key=) purely so the ::first-line/font-size
-    # CSS below can be scoped to just these three buttons' two-line labels,
-    # without guessing whether st.button's own `key=` gets the same class.
-    with st.container(key="sd_cards_row"):
-        cols = st.columns(3)
-        for col, (target_mode, dot, label, count, active) in zip(cols, specs):
-            with col:
-                # A literal \n survives into the button's label (confirmed via
-                # AppTest - clean_text() only dedents/strips, it doesn't
-                # collapse internal newlines) - paired with CSS below, this
-                # renders as a real two-line label (icon+name, then a count)
-                # without any overlay or separate click target, so it can't
-                # reintroduce the earlier click-misalignment bugs.
-                st.button(
-                    f"{dot} {label}\n{count}",
-                    key=f"sd_card_btn_{target_mode}",
-                    use_container_width=True,
-                    type="primary" if active else "secondary",
-                    on_click=_toggle_filter_mode,
-                    args=(target_mode,),
-                )
+    # Each card is wrapped in its own keyed container (st-key-sd_card_<mode>,
+    # confirmed behavior for st.container's key=) purely so the dot color CSS
+    # below can target each card individually - this is a styling-only
+    # wrapper around a single real, visible button, not a second element
+    # competing for clicks, so it can't reintroduce the earlier
+    # click-misalignment bugs the overlay technique had.
+    cols = st.columns(3)
+    for col, (target_mode, label, count, active) in zip(cols, specs):
+        with col, st.container(key=f"sd_card_{target_mode}"):
+            # No emoji in the label text itself: a line starting with "<dot>
+            # Qualified" and a line with just "2" don't actually start at the
+            # same left edge once both are left-aligned - the dot's own
+            # width pushes "Qualified"'s first letter right of where "2"
+            # sits, a plain structural fact of mixing an inline glyph with
+            # text across two lines that ::first-line can't correct (it
+            # doesn't support padding/text-indent). The dot is rendered as a
+            # CSS ::before pseudo-element instead (see CUSTOM_CSS), so both
+            # text lines are plain, equally-indented text with nothing above.
+            #
+            # A literal \n survives into the button's label (confirmed via
+            # AppTest - clean_text() only dedents/strips, it doesn't
+            # collapse internal newlines) - paired with CSS below, this
+            # renders as a real two-line label.
+            st.button(
+                f"{label}\n{count}",
+                key=f"sd_card_btn_{target_mode}",
+                use_container_width=True,
+                type="primary" if active else "secondary",
+                on_click=_toggle_filter_mode,
+                args=(target_mode,),
+            )
 
     return mode
 
