@@ -53,24 +53,33 @@ CUSTOM_CSS = """
 div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownContainer"] p {
     margin-bottom: 0;
 }
-/* Each row is a single HTML block, and a single top-level element within
-   that block (.sd-row wraps both the ticker line and the reason line) - not
-   several separate st.markdown/st.columns calls, and not two sibling
-   top-level divs either. Streamlit applies its own default margin to the
-   *direct* children of stMarkdownContainer, which fought any margin I set
-   directly on two sibling divs; with one wrapping div as the sole direct
-   child, that default margin only ever touches the outside of the whole
-   row, and every internal gap is fully mine to control. */
-div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownContainer"] > .sd-row {
-    margin: 0 !important;
-    padding: 0 !important;
+/* Pin the bordered row box's own padding explicitly (only rows use
+   st.container(border=True) in this app), instead of leaving the top/bottom
+   whitespace around the row content to Streamlit's default container
+   padding - same reasoning as the row-internal reset below: explicit beats
+   implicit for anything the mockup needs to look deliberate. */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    padding: 0.9rem 1.1rem !important;
+}
+/* Row spacing: Streamlit's default element spacing isn't only applied to
+   *direct* children of stMarkdownContainer - it was still reaching .sd-row-top
+   and .sd-row-reason as nested descendants even after wrapping them in one
+   .sd-row block, overriding the explicit gap below. Rather than guess at
+   Streamlit's exact selector again, every element under .sd-row is reset to
+   zero margin/padding here (no !important - deliberately losing to Streamlit's
+   own rules is fine, that's not what sets the real gap), and then the one gap
+   we actually want is added back with !important, which outranks any
+   non-!important rule regardless of specificity or nesting depth. */
+div[data-testid="stMarkdownContainer"] .sd-row,
+div[data-testid="stMarkdownContainer"] .sd-row * {
+    margin: 0;
+    padding: 0;
 }
 .sd-row-top {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 0.6rem;
-    margin: 0 !important;
 }
 .sd-row-left {
     display: flex;
@@ -81,19 +90,21 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
 .sd-row-ticker {
     font-weight: 700;
     font-size: 1.25rem;
+    line-height: 1.3;
     color: #fafafa !important;
 }
 .sd-row-name {
     color: rgba(250, 250, 250, 0.6) !important;
     font-size: 1.05rem;
+    line-height: 1.3;
 }
 .sd-row-reason, .sd-row-reason * {
     color: rgba(250, 250, 250, 0.75) !important;
     font-size: 1rem;
+    line-height: 1.3;
 }
 .sd-row-reason {
-    margin-top: 0.4rem !important;
-    margin-bottom: 0 !important;
+    margin-top: 0.45rem !important;
 }
 .sd-badge {
     display: inline-block;
@@ -145,26 +156,30 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
     line-height: 1.1;
 }
 div[class*="st-key-sd_card_"] {
-    position: relative;
+    position: relative !important;
 }
 div[class*="st-key-sd_card_"]:hover .sd-card {
     border-color: rgba(148, 163, 184, 0.45);
 }
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    margin: 0;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: unset !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    opacity: 0;
+    opacity: 0 !important;
     cursor: pointer;
     padding: 0 !important;
+    margin: 0 !important;
 }
 </style>
 """
@@ -325,7 +340,7 @@ def render_count_cards(counts: dict) -> str:
                 f"</div>",
                 unsafe_allow_html=True,
             )
-            if st.button(label, key=f"sd_card_btn_{target_mode}"):
+            if st.button(label, key=f"sd_card_btn_{target_mode}", use_container_width=True):
                 # Clicking the already-active single-group card toggles back to
                 # the default Shortlist view - this is the only way back now
                 # that there's no separate "Show shortlist" reset control.
