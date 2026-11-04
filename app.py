@@ -10,6 +10,7 @@ already decided. app.py is a pure view layer over results.json + status_mapping.
 import json
 import os
 from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 import streamlit as st
@@ -28,6 +29,11 @@ from src.status_mapping import (
 REPO_ROOT = os.path.dirname(__file__)
 RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
 WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
+
+# America/Chicago correctly resolves to CST or CDT depending on the date
+# (zoneinfo applies US DST rules automatically) - refresh_job.py stores
+# generated_at in UTC; this is purely a display-time conversion.
+DISPLAY_TZ = ZoneInfo("America/Chicago")
 
 DOT_GREEN, DOT_AMBER, DOT_NEUTRAL = "\U0001f7e2", "\U0001f7e1", "⚪"
 GROUP_DOT = {GROUP_QUALIFIED: DOT_GREEN, GROUP_DEVELOPING: DOT_AMBER, GROUP_OTHER: DOT_NEUTRAL, GROUP_UNKNOWN: DOT_NEUTRAL}
@@ -139,7 +145,7 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
    padding, and replace Streamlit's hardcoded bold-red "primary" style
    (reads as an alert, not "selected") with a subtle neutral highlight. */
 div[data-testid="stButton"] > button {
-    padding: 0.85rem 1.1rem;
+    padding: 0.55rem 0.8rem;
     border-radius: 10px;
     text-align: left;
 }
@@ -147,20 +153,22 @@ div[data-testid="stButton"] > button {
    count) - browsers collapse raw newlines to whitespace by default, so
    this tells them to respect it as a real line break instead. Scoped to
    the cards' own container (not every button on the page) since this also
-   sets the base font-size large - that's meant for the count (the second,
+   sets the base font-size - that's meant for the count (the second,
    non-first line), with ::first-line below shrinking just the label line
    back down. A native button label can't hold two differently-sized
    <span>s, but ::first-line is a real, standards-supported way to size the
-   rendered first line of a block differently from the rest of it. */
+   rendered first line of a block differently from the rest of it.
+   Sized down from an earlier, too-large pass that was both visually heavy
+   and wide enough to wrap "Other monitored" onto two lines. */
 div[class*="st-key-sd_cards_row"] div[data-testid="stButton"] > button p {
     white-space: pre-line;
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    line-height: 1.25;
-    margin-top: 0.3rem;
+    line-height: 1.2;
+    margin-top: 0.15rem;
 }
 div[class*="st-key-sd_cards_row"] div[data-testid="stButton"] > button p::first-line {
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 div[data-testid="stButton"] > button[kind="primary"] {
@@ -286,7 +294,16 @@ def render_session_line(evaluated_session: str | None, generated_at: str | None)
     st.markdown('<span class="setup-label">Momentum Continuation</span>', unsafe_allow_html=True)
     session_text = _format_session_date(evaluated_session)
     dt = _parse_generated_at(generated_at)
-    refreshed_text = dt.strftime("%b %d, %Y, %H:%M UTC") if dt else "unknown"
+    if dt:
+        # Only tz-aware datetimes (current schema: a full UTC timestamp) can
+        # be converted - the legacy bare-date fallback parses to a naive
+        # datetime with no real time-of-day, so it's shown as-is rather than
+        # mislabeled with a timezone it was never actually recorded in.
+        local_dt = dt.astimezone(DISPLAY_TZ) if dt.tzinfo else dt
+        tz_label = local_dt.tzname() if dt.tzinfo else ""
+        refreshed_text = f"{local_dt.strftime('%b %d, %Y, %H:%M')} {tz_label}".strip()
+    else:
+        refreshed_text = "unknown"
     # Shown inline, matching the approved mockup - EOD date is the prominent half,
     # refresh time is secondary (smaller/muted via st.caption) but still visible
     # on the same line rather than hidden behind an interaction.
