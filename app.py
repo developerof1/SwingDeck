@@ -86,28 +86,56 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
     font-size: 0.7rem;
 }
 
-/* Count cards: give the buttons some card-like weight, and replace Streamlit's
-   default bold-red "primary" styling with a subtle neutral highlight for the
-   active card(s) - a loud red reads as an alert/danger state, not "selected". */
-div[data-testid="stButton"] > button {
-    padding: 0.85rem 1rem;
+/* Count cards: a real HTML "stat card" (label on top, large number below),
+   since st.button's label is plain text/limited-Markdown only and can't
+   render that two-line layout. The actual click target is a fully
+   transparent st.button absolutely positioned over the card - st.container's
+   `key=` gives each card a stable, unique class (st-key-<key>) so this
+   overlay rule is scoped to just these three cards and can't affect any
+   other button on the page (Settings, Log in, Show shortlist, ...). */
+.sd-card {
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 10px;
+    padding: 0.9rem 1.1rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    transition: background-color 0.1s, border-color 0.1s;
+}
+.sd-card-active {
+    background: rgba(148, 163, 184, 0.14);
+    border-color: rgba(148, 163, 184, 0.55);
+}
+.sd-card-label {
     font-size: 0.95rem;
+    color: rgba(250, 250, 250, 0.9) !important;
 }
-div[data-testid="stButton"] > button[kind="primary"] {
-    background-color: rgba(148, 163, 184, 0.14) !important;
-    border: 1px solid rgba(148, 163, 184, 0.5) !important;
+.sd-card-count {
+    font-size: 1.9rem;
+    font-weight: 700;
     color: #fafafa !important;
+    margin-top: 0.15rem;
+    line-height: 1.1;
+}
+div[class*="st-key-sd_card_"] {
+    position: relative;
+}
+div[class*="st-key-sd_card_"]:hover .sd-card {
+    border-color: rgba(148, 163, 184, 0.45);
+}
+div[class*="st-key-sd_card_"] div[data-testid="stButton"] {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    margin: 0;
+}
+div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+    border: none !important;
     box-shadow: none !important;
-}
-div[data-testid="stButton"] > button[kind="primary"]:hover,
-div[data-testid="stButton"] > button[kind="primary"]:focus {
-    background-color: rgba(148, 163, 184, 0.22) !important;
-    border-color: rgba(148, 163, 184, 0.7) !important;
-    color: #fafafa !important;
-}
-div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    border-color: rgba(148, 163, 184, 0.45) !important;
+    opacity: 0;
+    cursor: pointer;
+    padding: 0 !important;
 }
 </style>
 """
@@ -201,9 +229,21 @@ def open_settings_dialog() -> None:
         st.rerun()
 
 
+def _format_session_date(session: str | None) -> str:
+    """Formats an evaluated_session ISO date ("2026-11-03") the same human style
+    as the refresh timestamp ("Nov 03, 2026"), so the two halves of the EOD line
+    don't mix a raw-ISO date with a human-formatted one."""
+    if not session:
+        return "unavailable"
+    try:
+        return date.fromisoformat(session).strftime("%b %d, %Y")
+    except ValueError:
+        return session
+
+
 def render_session_line(evaluated_session: str | None, generated_at: str | None) -> None:
     st.markdown('<span class="setup-label">Momentum Continuation</span>', unsafe_allow_html=True)
-    session_text = evaluated_session or "unavailable"
+    session_text = _format_session_date(evaluated_session)
     dt = _parse_generated_at(generated_at)
     refreshed_text = dt.strftime("%b %d, %Y, %H:%M UTC") if dt else "unknown"
     # Shown inline, matching the approved mockup - EOD date is the prominent half,
@@ -215,35 +255,49 @@ def render_session_line(evaluated_session: str | None, generated_at: str | None)
 def render_count_cards(counts: dict) -> str:
     """Three count cards acting as filter buttons. Returns the (possibly updated)
     filter_mode. Counts are always computed from the full result set, independent
-    of the current filter - see the caller."""
+    of the current filter - see the caller.
+
+    st.button's label is plain text/limited-Markdown only - it can't render the
+    mockup's two-line "label on top, large number below" stat-card layout, and
+    its built-in primary/secondary "kind" styling is a hardcoded bold red that
+    reads as an alert rather than "selected". So each card is built as real
+    HTML (see .sd-card in CUSTOM_CSS) with a fully transparent st.button
+    absolutely positioned on top of it as the actual click target - see the
+    `div[class*="st-key-sd_card_"]` rules in CUSTOM_CSS.
+    """
     mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
 
-    # st.button labels support a small Markdown subset (bold, italics, emoji) but
-    # not headers - an earlier "### {count}" literally rendered as the text
-    # "### 2" instead of a large number. Bold is the safe, supported way to give
-    # the count visual weight here.
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button(
-            f"{DOT_GREEN} Qualified  **{counts[GROUP_QUALIFIED]}**",
-            use_container_width=True,
-            type="primary" if mode in (FILTER_SHORTLIST, FILTER_QUALIFIED) else "secondary",
-        ):
-            mode = FILTER_QUALIFIED
-    with col2:
-        if st.button(
-            f"{DOT_AMBER} Developing  **{counts[GROUP_DEVELOPING]}**",
-            use_container_width=True,
-            type="primary" if mode in (FILTER_SHORTLIST, FILTER_DEVELOPING) else "secondary",
-        ):
-            mode = FILTER_DEVELOPING
-    with col3:
-        if st.button(
-            f"{DOT_NEUTRAL} Other monitored  **{counts[GROUP_OTHER] + counts[GROUP_UNKNOWN]}**",
-            use_container_width=True,
-            type="primary" if mode == FILTER_OTHER else "secondary",
-        ):
-            mode = FILTER_OTHER
+    specs = [
+        (FILTER_QUALIFIED, DOT_GREEN, "Qualified", counts[GROUP_QUALIFIED], mode in (FILTER_SHORTLIST, FILTER_QUALIFIED)),
+        (
+            FILTER_DEVELOPING,
+            DOT_AMBER,
+            "Developing",
+            counts[GROUP_DEVELOPING],
+            mode in (FILTER_SHORTLIST, FILTER_DEVELOPING),
+        ),
+        (
+            FILTER_OTHER,
+            DOT_NEUTRAL,
+            "Other monitored",
+            counts[GROUP_OTHER] + counts[GROUP_UNKNOWN],
+            mode == FILTER_OTHER,
+        ),
+    ]
+
+    cols = st.columns(3)
+    for col, (target_mode, dot, label, count, active) in zip(cols, specs):
+        with col, st.container(key=f"sd_card_{target_mode}"):
+            card_class = "sd-card sd-card-active" if active else "sd-card"
+            st.markdown(
+                f'<div class="{card_class}">'
+                f'<div class="sd-card-label">{dot} {label}</div>'
+                f'<div class="sd-card-count">{count}</div>'
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+            if st.button(label, key=f"sd_card_btn_{target_mode}"):
+                mode = target_mode
 
     if mode != FILTER_SHORTLIST:
         if st.button("← Show shortlist"):
@@ -253,34 +307,40 @@ def render_count_cards(counts: dict) -> str:
     return mode
 
 
+#  Plain `class="sd-row-reason"` text was rendering link-blue despite the
+#  !important class rule - rather than keep chasing Streamlit's internal CSS
+#  cascade blind, every text node here also carries an inline `style` color,
+#  which no external stylesheet (Streamlit's or ours) can outrank.
+_REASON_STYLE = 'style="color: rgba(250, 250, 250, 0.75) !important;"'
+
+
 def render_row(result: dict) -> None:
     group = result["ui_group"]
     dot = GROUP_DOT.get(group, DOT_NEUTRAL)
     name = result.get("name")
-    name_html = f'<span class="sd-row-name"> &nbsp;{name}</span>' if name else ""
+    name_html = f'<span class="sd-row-name" {_REASON_STYLE}> &nbsp;{name}</span>' if name else ""
 
     if group == GROUP_QUALIFIED:
-        reason_html = f'<div class="sd-row-reason">{QUALIFIED_REASON}</div>'
+        reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{QUALIFIED_REASON}</div>'
     elif group == GROUP_DEVELOPING:
         badges = result.get("developing_badges") or []
         pills = "".join(f'<span class="sd-badge">{badge_text(b)}</span>' for b in badges)
         reason_html = f'<div class="sd-row-reason">{pills}</div>'
     elif group == GROUP_OTHER:
         reason_text, is_invalid = other_monitored_reason(result)
-        css_class = "sd-badge sd-badge-invalid" if is_invalid else ""
-        reason_html = (
-            f'<div class="sd-row-reason"><span class="{css_class}">{reason_text}</span></div>'
-            if is_invalid
-            else f'<div class="sd-row-reason">{reason_text}</div>'
-        )
+        if is_invalid:
+            reason_html = f'<div class="sd-row-reason"><span class="sd-badge sd-badge-invalid">{reason_text}</span></div>'
+        else:
+            reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{reason_text}</div>'
     else:
-        reason_html = f'<div class="sd-row-reason">Unrecognized status: {result.get("status")}</div>'
+        reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>Unrecognized status: {result.get("status")}</div>'
 
     with st.container(border=True):
         top_left, top_right = st.columns([8, 1])
         with top_left:
             st.markdown(
-                f'<span class="sd-row-ticker">{result["ticker"]}</span>{name_html}', unsafe_allow_html=True
+                f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>{name_html}',
+                unsafe_allow_html=True,
             )
             st.markdown(reason_html, unsafe_allow_html=True)
         with top_right:
