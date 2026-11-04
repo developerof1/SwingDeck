@@ -126,70 +126,30 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     flex-shrink: 0;
 }
 
-/* Count cards: a real HTML "stat card" (label on top, large number below),
-   since st.button's label is plain text/limited-Markdown only and can't
-   render that two-line layout. The actual click target is a fully
-   transparent st.button absolutely positioned over the card - st.container's
-   `key=` gives each card a stable, unique class (st-key-<key>) so this
-   overlay rule is scoped to just these three cards and can't affect any
-   other button on the page (Settings, Log in, ...). */
-/* Screenshot evidence (a real cursor test) showed the clickable area landing
-   as a separate block *below* the visible card, not overlaid on it - i.e.
-   `position: absolute` was never actually taking hold on the button (if it
-   had applied but against the wrong ancestor, it would have landed somewhere
-   far away, not neatly in the next normal-flow slot). So: stop depending on
-   `position: absolute` working at all. The card gets a fixed height, and the
-   button - confirmed to render immediately after it, in normal document flow
-   - gets pulled up over it with a matching negative top margin instead. This
-   only needs normal block layout math, not a positioning context that may or
-   may not be getting established correctly. */
-.sd-card {
-    border: 1px solid rgba(148, 163, 184, 0.25);
+/* Count cards are real st.button widgets (see render_count_cards) - no
+   overlay, no separate click target, so there's nothing that can drift out
+   of alignment with what's visible. Only cosmetic: give them some size/
+   padding, and replace Streamlit's hardcoded bold-red "primary" style
+   (reads as an alert, not "selected") with a subtle neutral highlight. */
+div[data-testid="stButton"] > button {
+    padding: 0.75rem 1rem;
     border-radius: 10px;
-    padding: 0.9rem 1.1rem 1rem;
-    background: rgba(255, 255, 255, 0.02);
-    transition: background-color 0.1s, border-color 0.1s;
-    height: 92px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    pointer-events: none;
+    font-size: 1.05rem;
 }
-.sd-card-active {
-    background: rgba(148, 163, 184, 0.14);
-    border-color: rgba(148, 163, 184, 0.55);
-}
-.sd-card-label {
-    font-size: 1.1rem;
-    color: rgba(250, 250, 250, 0.9) !important;
-}
-.sd-card-count {
-    font-size: 1.9rem;
-    font-weight: 700;
+div[data-testid="stButton"] > button[kind="primary"] {
+    background-color: rgba(148, 163, 184, 0.16) !important;
+    border: 1px solid rgba(148, 163, 184, 0.55) !important;
     color: #fafafa !important;
-    margin-top: 0.15rem;
-    line-height: 1.1;
-}
-div[class*="st-key-sd_card_"]:hover .sd-card {
-    border-color: rgba(148, 163, 184, 0.45);
-}
-div[class*="st-key-sd_card_"] div[data-testid="stButton"] {
-    margin-top: -92px !important;
-    margin-bottom: 0 !important;
-    width: 100% !important;
-}
-div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
-    width: 100% !important;
-    height: 92px !important;
-    min-height: unset !important;
-    background: transparent !important;
-    border: none !important;
     box-shadow: none !important;
-    opacity: 0 !important;
-    cursor: pointer;
-    padding: 0 !important;
-    margin: 0 !important;
+}
+div[data-testid="stButton"] > button[kind="primary"]:hover,
+div[data-testid="stButton"] > button[kind="primary"]:focus {
+    background-color: rgba(148, 163, 184, 0.24) !important;
+    border-color: rgba(148, 163, 184, 0.75) !important;
+    color: #fafafa !important;
+}
+div[data-testid="stButton"] > button[kind="secondary"]:hover {
+    border-color: rgba(148, 163, 184, 0.45) !important;
 }
 </style>
 """
@@ -311,13 +271,16 @@ def render_count_cards(counts: dict) -> str:
     filter_mode. Counts are always computed from the full result set, independent
     of the current filter - see the caller.
 
-    st.button's label is plain text/limited-Markdown only - it can't render the
-    mockup's two-line "label on top, large number below" stat-card layout, and
-    its built-in primary/secondary "kind" styling is a hardcoded bold red that
-    reads as an alert rather than "selected". So each card is built as real
-    HTML (see .sd-card in CUSTOM_CSS) with a fully transparent st.button
-    absolutely positioned on top of it as the actual click target - see the
-    `div[class*="st-key-sd_card_"]` rules in CUSTOM_CSS.
+    Three different "real HTML card + invisible overlay button as the actual
+    click target" techniques were each tried and each produced a different
+    real-browser bug (unclickable, click landing below the card instead of on
+    it, clicks landing on the wrong card entirely) that couldn't be diagnosed
+    further without browser devtools. Dropped the overlay approach entirely -
+    each card is now a single real st.button, so there is no separate click
+    target that can drift out of alignment with what's visible; this trades
+    away the mockup's two-line "label / large number" layout (a plain button
+    label can't render that) for a guarantee that the clicked card is always
+    the card that responds.
     """
     mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
 
@@ -341,19 +304,13 @@ def render_count_cards(counts: dict) -> str:
 
     cols = st.columns(3)
     for col, (target_mode, dot, label, count, active) in zip(cols, specs):
-        with col, st.container(key=f"sd_card_{target_mode}"):
-            card_class = "sd-card sd-card-active" if active else "sd-card"
-            # st.html(), not st.markdown() - renders raw HTML with none of
-            # Streamlit's own markdown-container wrapping/spacing, so the
-            # card's actual rendered box can't drift from what the CSS
-            # overlay math (inset: 0 on the sibling button) assumes.
-            st.html(
-                f'<div class="{card_class}">'
-                f'<div class="sd-card-label">{dot} {label}</div>'
-                f'<div class="sd-card-count">{count}</div>'
-                f"</div>"
-            )
-            if st.button(label, key=f"sd_card_btn_{target_mode}", use_container_width=True):
+        with col:
+            if st.button(
+                f"{dot} {label}  **{count}**",
+                key=f"sd_card_btn_{target_mode}",
+                use_container_width=True,
+                type="primary" if active else "secondary",
+            ):
                 # Clicking the already-active single-group card toggles back to
                 # the default Shortlist view - this is the only way back now
                 # that there's no separate "Show shortlist" reset control.
