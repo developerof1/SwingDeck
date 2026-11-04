@@ -53,17 +53,24 @@ CUSTOM_CSS = """
 div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownContainer"] p {
     margin-bottom: 0;
 }
-/* Each row is a single HTML block (see render_row) rather than several
-   separate st.markdown/st.columns calls - Streamlit inserts its own ~1rem
-   gap between sibling elements/columns, which was producing uneven spacing
-   between the ticker line and the reason line, and inconsistent bottom
-   padding, that no amount of margin tweaking on the individual pieces could
-   fix. One block with internal flexbox layout gives exact control instead. */
+/* Each row is a single HTML block, and a single top-level element within
+   that block (.sd-row wraps both the ticker line and the reason line) - not
+   several separate st.markdown/st.columns calls, and not two sibling
+   top-level divs either. Streamlit applies its own default margin to the
+   *direct* children of stMarkdownContainer, which fought any margin I set
+   directly on two sibling divs; with one wrapping div as the sole direct
+   child, that default margin only ever touches the outside of the whole
+   row, and every internal gap is fully mine to control. */
+div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownContainer"] > .sd-row {
+    margin: 0 !important;
+    padding: 0 !important;
+}
 .sd-row-top {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 0.6rem;
+    margin: 0 !important;
 }
 .sd-row-left {
     display: flex;
@@ -83,7 +90,10 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
 .sd-row-reason, .sd-row-reason * {
     color: rgba(250, 250, 250, 0.75) !important;
     font-size: 1rem;
-    margin-top: 0.35rem;
+}
+.sd-row-reason {
+    margin-top: 0.4rem !important;
+    margin-bottom: 0 !important;
 }
 .sd-badge {
     display: inline-block;
@@ -353,10 +363,11 @@ def render_row(result: dict) -> None:
     else:
         reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>Unrecognized status: {result.get("status")}</div>'
 
-    # One HTML block, not several separate st.markdown/st.columns calls -
-    # Streamlit's own inter-element gap between separate calls was producing
-    # uneven spacing that per-element margins couldn't fully control.
+    # One HTML block, and a single top-level .sd-row div within it (not two
+    # sibling divs) - see the CSS comment above .sd-row for why that single
+    # wrapper matters for getting Streamlit out of the way of our spacing.
     row_html = (
+        '<div class="sd-row">'
         '<div class="sd-row-top">'
         '<div class="sd-row-left">'
         f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>'
@@ -365,6 +376,7 @@ def render_row(result: dict) -> None:
         f'<div class="sd-dot">{dot}</div>'
         "</div>"
         f"{reason_html}"
+        "</div>"
     )
     with st.container(border=True):
         st.markdown(row_html, unsafe_allow_html=True)
