@@ -141,15 +141,27 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
 div[data-testid="stButton"] > button {
     padding: 0.85rem 1.1rem;
     border-radius: 10px;
-    font-size: 1.1rem;
-    line-height: 1.6;
     text-align: left;
 }
-/* The card buttons' labels contain a literal \n (icon+name, then a bold
-   count) - the browser collapses raw newlines to whitespace by default,
-   so this tells it to respect them as real line breaks instead. */
-div[data-testid="stButton"] > button p {
+/* The card buttons' labels contain a literal \n (icon+name, then the
+   count) - browsers collapse raw newlines to whitespace by default, so
+   this tells them to respect it as a real line break instead. Scoped to
+   the cards' own container (not every button on the page) since this also
+   sets the base font-size large - that's meant for the count (the second,
+   non-first line), with ::first-line below shrinking just the label line
+   back down. A native button label can't hold two differently-sized
+   <span>s, but ::first-line is a real, standards-supported way to size the
+   rendered first line of a block differently from the rest of it. */
+div[class*="st-key-sd_cards_row"] div[data-testid="stButton"] > button p {
     white-space: pre-line;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 0.3rem;
+}
+div[class*="st-key-sd_cards_row"] div[data-testid="stButton"] > button p::first-line {
+    font-size: 1rem;
+    font-weight: 600;
 }
 div[data-testid="stButton"] > button[kind="primary"] {
     background-color: rgba(148, 163, 184, 0.16) !important;
@@ -330,25 +342,28 @@ def render_count_cards(counts: dict) -> str:
         ),
     ]
 
-    cols = st.columns(3)
-    for col, (target_mode, dot, label, count, active) in zip(cols, specs):
-        with col:
-            # A literal \n survives into the button's label (confirmed via
-            # AppTest - clean_text() only dedents/strips, it doesn't collapse
-            # internal newlines) - paired with `white-space: pre-line` in
-            # CUSTOM_CSS, this renders as a real two-line label (icon+name,
-            # then a bold count) without any overlay or separate click
-            # target, so it can't reintroduce the earlier click-misalignment
-            # bugs. A native button label can't mix font sizes within itself,
-            # so the count is bold rather than dramatically larger.
-            st.button(
-                f"{dot} {label}\n**{count}**",
-                key=f"sd_card_btn_{target_mode}",
-                use_container_width=True,
-                type="primary" if active else "secondary",
-                on_click=_toggle_filter_mode,
-                args=(target_mode,),
-            )
+    # Wrapped in its own keyed container (st-key-sd_cards_row, confirmed
+    # behavior for st.container's key=) purely so the ::first-line/font-size
+    # CSS below can be scoped to just these three buttons' two-line labels,
+    # without guessing whether st.button's own `key=` gets the same class.
+    with st.container(key="sd_cards_row"):
+        cols = st.columns(3)
+        for col, (target_mode, dot, label, count, active) in zip(cols, specs):
+            with col:
+                # A literal \n survives into the button's label (confirmed via
+                # AppTest - clean_text() only dedents/strips, it doesn't
+                # collapse internal newlines) - paired with CSS below, this
+                # renders as a real two-line label (icon+name, then a count)
+                # without any overlay or separate click target, so it can't
+                # reintroduce the earlier click-misalignment bugs.
+                st.button(
+                    f"{dot} {label}\n{count}",
+                    key=f"sd_card_btn_{target_mode}",
+                    use_container_width=True,
+                    type="primary" if active else "secondary",
+                    on_click=_toggle_filter_mode,
+                    args=(target_mode,),
+                )
 
     return mode
 
