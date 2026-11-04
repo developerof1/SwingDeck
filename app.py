@@ -9,7 +9,7 @@ already decided. app.py is a pure view layer over results.json + status_mapping.
 
 import json
 import os
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 import pandas as pd
 import streamlit as st
@@ -56,20 +56,21 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
 .sd-row-ticker {
     font-weight: 700;
     font-size: 1.05rem;
+    color: #fafafa !important;
 }
 .sd-row-name {
-    color: rgba(250, 250, 250, 0.6);
+    color: rgba(250, 250, 250, 0.6) !important;
     font-size: 0.95rem;
 }
-.sd-row-reason {
-    color: rgba(250, 250, 250, 0.75);
+.sd-row-reason, .sd-row-reason * {
+    color: rgba(250, 250, 250, 0.75) !important;
     font-size: 0.9rem;
     margin-top: 0.15rem;
 }
 .sd-badge {
     display: inline-block;
     background: rgba(245, 158, 11, 0.18);
-    color: #f59e0b;
+    color: #f59e0b !important;
     border-radius: 4px;
     padding: 0.05rem 0.4rem;
     font-weight: 600;
@@ -79,10 +80,34 @@ div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownConta
 }
 .sd-badge-invalid {
     background: rgba(148, 163, 184, 0.18);
-    color: rgba(250, 250, 250, 0.75);
+    color: rgba(250, 250, 250, 0.75) !important;
 }
 .sd-dot {
     font-size: 0.7rem;
+}
+
+/* Count cards: give the buttons some card-like weight, and replace Streamlit's
+   default bold-red "primary" styling with a subtle neutral highlight for the
+   active card(s) - a loud red reads as an alert/danger state, not "selected". */
+div[data-testid="stButton"] > button {
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+div[data-testid="stButton"] > button[kind="primary"] {
+    background-color: rgba(148, 163, 184, 0.14) !important;
+    border: 1px solid rgba(148, 163, 184, 0.5) !important;
+    color: #fafafa !important;
+    box-shadow: none !important;
+}
+div[data-testid="stButton"] > button[kind="primary"]:hover,
+div[data-testid="stButton"] > button[kind="primary"]:focus {
+    background-color: rgba(148, 163, 184, 0.22) !important;
+    border-color: rgba(148, 163, 184, 0.7) !important;
+    color: #fafafa !important;
+}
+div[data-testid="stButton"] > button[kind="secondary"]:hover {
+    border-color: rgba(148, 163, 184, 0.45) !important;
 }
 </style>
 """
@@ -122,27 +147,41 @@ def load_results(path: str) -> dict:
         return json.load(f)
 
 
+def _parse_generated_at(raw: str | None) -> datetime | None:
+    """generated_at may be a bare date (old results.json, pre-timestamp schema)
+    or a full ISO timestamp (current schema) - accept either."""
+    if not raw:
+        return None
+    try:
+        return datetime.fromisoformat(raw)
+    except ValueError:
+        pass
+    try:
+        return datetime.combine(date.fromisoformat(raw), datetime.min.time())
+    except ValueError:
+        return None
+
+
 def staleness_banner(generated_at: str | None) -> None:
     """Demoted operational safety net (not part of either new spec doc, not
     forbidden by them either) - the only signal that the nightly GitHub Actions
     refresh might be failing, for a single-user app with no other monitoring.
-    Counts only weekdays so a Monday check doesn't false-flag the Fri->Mon gap."""
-    if not generated_at:
-        return
-    try:
-        generated = date.fromisoformat(generated_at)
-    except ValueError:
+    Counts only weekdays so a Monday check doesn't false-flag the Fri->Mon gap.
+    Only genuinely concerning staleness (refresh missed outright) interrupts with
+    a banner; "today's refresh just hasn't landed yet" is normal every morning
+    and belongs in the EOD line's own context, not a second competing line."""
+    dt = _parse_generated_at(generated_at)
+    if dt is None:
         return
 
+    generated = dt.date()
     today = date.today()
     missed_trading_days = len(pd.bdate_range(generated + timedelta(days=1), today)) if generated < today else 0
     if missed_trading_days >= 2:
         st.warning(
-            f"Refresh is {missed_trading_days} trading day(s) behind (last: {generated_at}) - "
+            f"Refresh is {missed_trading_days} trading day(s) behind (last: {generated.isoformat()}) - "
             "check the GitHub Actions tab."
         )
-    elif missed_trading_days == 1:
-        st.caption(f"Today's refresh hasn't landed yet - last data is from {generated_at}.")
 
 
 def render_header() -> None:
@@ -165,7 +204,12 @@ def open_settings_dialog() -> None:
 def render_session_line(evaluated_session: str | None, generated_at: str | None) -> None:
     st.markdown('<span class="setup-label">Momentum Continuation</span>', unsafe_allow_html=True)
     session_text = evaluated_session or "unavailable"
-    st.caption(f"EOD data: {session_text}", help=f"Last refreshed: {generated_at or 'unknown'}")
+    dt = _parse_generated_at(generated_at)
+    refreshed_text = dt.strftime("%b %d, %Y, %H:%M UTC") if dt else "unknown"
+    # Shown inline, matching the approved mockup - EOD date is the prominent half,
+    # refresh time is secondary (smaller/muted via st.caption) but still visible
+    # on the same line rather than hidden behind an interaction.
+    st.caption(f"EOD data: {session_text}  ·  Refreshed: {refreshed_text}")
 
 
 def render_count_cards(counts: dict) -> str:
@@ -174,24 +218,28 @@ def render_count_cards(counts: dict) -> str:
     of the current filter - see the caller."""
     mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
 
+    # st.button labels support a small Markdown subset (bold, italics, emoji) but
+    # not headers - an earlier "### {count}" literally rendered as the text
+    # "### 2" instead of a large number. Bold is the safe, supported way to give
+    # the count visual weight here.
     col1, col2, col3 = st.columns(3)
     with col1:
         if st.button(
-            f"{DOT_GREEN} Qualified\n\n### {counts[GROUP_QUALIFIED]}",
+            f"{DOT_GREEN} Qualified  **{counts[GROUP_QUALIFIED]}**",
             use_container_width=True,
             type="primary" if mode in (FILTER_SHORTLIST, FILTER_QUALIFIED) else "secondary",
         ):
             mode = FILTER_QUALIFIED
     with col2:
         if st.button(
-            f"{DOT_AMBER} Developing\n\n### {counts[GROUP_DEVELOPING]}",
+            f"{DOT_AMBER} Developing  **{counts[GROUP_DEVELOPING]}**",
             use_container_width=True,
             type="primary" if mode in (FILTER_SHORTLIST, FILTER_DEVELOPING) else "secondary",
         ):
             mode = FILTER_DEVELOPING
     with col3:
         if st.button(
-            f"{DOT_NEUTRAL} Other monitored\n\n### {counts[GROUP_OTHER] + counts[GROUP_UNKNOWN]}",
+            f"{DOT_NEUTRAL} Other monitored  **{counts[GROUP_OTHER] + counts[GROUP_UNKNOWN]}**",
             use_container_width=True,
             type="primary" if mode == FILTER_OTHER else "secondary",
         ):

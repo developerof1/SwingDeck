@@ -13,7 +13,7 @@ import json
 import os
 import sys
 from collections import Counter
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -95,7 +95,9 @@ def evaluate_ticker(entry: dict, start_date: str, prior_names: dict[str, str], m
 def main() -> None:
     watchlist = load_watchlist()
     prior_names = load_prior_names()
-    today = date.today().isoformat()
+    # Full timestamp (not just a date) so the UI can show an actual "Refreshed at"
+    # time, not only a day - matches the approved mockup's inline refresh caption.
+    generated_at = datetime.now(timezone.utc).isoformat(timespec="minutes")
 
     override = os.environ.get(TICKERS_OVERRIDE_ENV, "").strip()
     debug_mode = bool(override)
@@ -145,7 +147,7 @@ def main() -> None:
     evaluated_session = session_counts.most_common(1)[0][0] if session_counts else None
 
     output = {
-        "generated_at": today,
+        "generated_at": generated_at,
         "evaluated_session": evaluated_session,
         "results": results,
         "errors": errors,
