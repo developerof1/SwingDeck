@@ -125,6 +125,13 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     font-size: 0.75rem;
     flex-shrink: 0;
 }
+.sd-section-header {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+.sd-section-spaced {
+    margin-top: 1.5rem;
+}
 
 /* Count cards are real st.button widgets (see render_count_cards) - no
    overlay, no separate click target, so there's nothing that can drift out
@@ -379,8 +386,12 @@ def render_row(result: dict) -> None:
         st.html(row_html)
 
 
-def render_section(title: str, rows: list[dict], empty_message: str) -> None:
-    st.markdown(f"**{title} ({len(rows)})**")
+def render_section(title: str, rows: list[dict], empty_message: str, spaced: bool = False) -> None:
+    """`spaced=True` adds extra top margin before the header - used for a
+    second section (e.g. Developing) directly following another section's
+    rows, so it doesn't read as cramped against the last row above it."""
+    css_class = "sd-section-header sd-section-spaced" if spaced else "sd-section-header"
+    st.markdown(f'<div class="{css_class}"><strong>{title} ({len(rows)})</strong></div>', unsafe_allow_html=True)
     if not rows:
         st.caption(empty_message)
         return
@@ -455,14 +466,12 @@ def main() -> None:
             if other_rows:
                 st.caption(f"{len(other_rows)} ticker(s) in Other monitored.")
         else:
-            if not qualified_rows:
-                st.caption("No qualified stocks in this scan.")
-            else:
-                render_section("Qualified", qualified_rows, "No qualified stocks in this scan.")
-            if not developing_rows:
-                st.caption("No developing stocks in this scan.")
-            else:
-                render_section("Developing", developing_rows, "No developing stocks in this scan.")
+            # Always render_section() for both - previously an empty
+            # Developing section skipped straight to st.caption(), dropping
+            # its "Developing (0)" header entirely instead of showing an
+            # empty-but-labeled section.
+            render_section("Qualified", qualified_rows, "No qualified stocks in this scan.")
+            render_section("Developing", developing_rows, "No developing stocks in this scan.", spaced=True)
 
     if errors:
         with st.expander(f"Couldn't fetch {len(errors)} ticker(s)"):
