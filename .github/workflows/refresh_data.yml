@@ -2,9 +2,20 @@ name: Daily Data Refresh
 
 on:
   schedule:
-    # 11:00 UTC ~= 6-7am US Eastern depending on DST - overnight run, after EOD data
-    # has fully settled, ready before market open. Weekdays only.
-    - cron: "0 11 * * 1-5"
+    # GitHub Actions free-tier cron has no execution-time guarantee - commit
+    # history showed the old 11:00 UTC trigger actually completing anywhere
+    # from 15:00 to 20:39 UTC (a 4-9.5h delay), landing mid-trading-day
+    # instead of before market open. 02:23 UTC is ~9-10pm US Eastern the
+    # evening the session just closed (well after Tiingo's EOD data settles,
+    # comfortably before the next day's ~13:30-14:30 UTC market open even
+    # with a similar multi-hour delay), and :23 avoids the top-of-hour
+    # congestion GitHub's docs cite as a common delay cause.
+    #
+    # Because 02:23 UTC falls before the ~04:00-05:00 UTC US-midnight
+    # threshold, it's still the *previous* US calendar evening - so this
+    # triggers Tue-Sat UTC (not Mon-Fri) to correctly capture Mon-Fri US
+    # trading sessions: "Tuesday 02:23 UTC" = "Monday evening ET", etc.
+    - cron: "23 2 * * 2-6"
   workflow_dispatch:
     inputs:
       tickers:
