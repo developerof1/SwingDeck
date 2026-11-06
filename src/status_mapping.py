@@ -153,17 +153,20 @@ def badge_text(badge: dict) -> str:
 
 
 def _location_clause(result: dict) -> str:
-    """The Location leg of the pipeline chain: always states what's actually
-    being measured (price's % distance from its reference EMA) and how it's
-    moving - whether or not the gate has passed - instead of a content-free
-    "reached zone" that read as a pass/fail bit with no number attached."""
+    """The Location leg of the pipeline chain. While pending, the exact %
+    distance is the decision-relevant number (it says how close); once the
+    gate has passed, that number stops adding anything - "within 3.0% of
+    EMA8" already says everything "0.3% from EMA8 (within 3.0%)" did, without
+    restating the fixed 3.0% threshold as if it were a second, different fact.
+    Recency (today vs. via grace) is what matters once it's passed, not the
+    exact percentage."""
     detail = result.get("location_detail") or {}
     dpct = detail.get("dpct")
     if dpct is None:
         return "Price-to-EMA reading unavailable"
     ema_label = _ema_label(detail.get("ema_ref_is_ema8"))
     if detail.get("pass"):
-        base = f"Price {dpct:.1f}% from {ema_label} (within {LOCATION_PROXIMITY_PCT:.1f}%)"
+        base = f"within {LOCATION_PROXIMITY_PCT:.1f}% of {ema_label}"
         recency = _recency_suffix(detail)
         return f"{base}, {recency}" if recency else base
     direction = direction_of(dpct, detail.get("dpct_prev"))

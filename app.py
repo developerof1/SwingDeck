@@ -129,11 +129,6 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     background: rgba(148, 163, 184, 0.18);
     color: rgba(250, 250, 250, 0.75) !important;
 }
-.sd-badge-recovery {
-    background: rgba(34, 197, 94, 0.18);
-    color: #22c55e !important;
-    margin-left: 0.4rem;
-}
 .sd-dot {
     font-size: 0.75rem;
     flex-shrink: 0;
@@ -434,7 +429,12 @@ def render_row(result: dict) -> None:
     name = result.get("name")
     name_html = f'<span class="sd-row-name" {_REASON_STYLE}>{name}</span>' if name else ""
 
-    recovery_html = f'<span class="sd-badge sd-badge-recovery">{RECOVERY_TAG}</span>' if has_recovery_tag(result) else ""
+    # Plain text, not a badge - recovery_observed is explicitly informational-only
+    # (docs/Momentum Continuation V2 — Logic.md §7, "never changes status"), so it
+    # shouldn't visually compete with the actual gate verdict via a colored pill.
+    # " | " (not "→", which is reserved for the sequential Trend->Location->
+    # Oscillator pipeline) marks it as a separate, independent data point.
+    recovery_html = f" | {RECOVERY_TAG}" if has_recovery_tag(result) else ""
 
     if group == GROUP_QUALIFIED:
         reason_html = (

@@ -168,13 +168,17 @@ def test_other_monitored_reason_reports_compound_failure_count():
     assert "3 of 5 trend conditions failing" in reason
 
 
-def test_qualified_reason_never_says_the_word_zone_and_always_shows_magnitude():
+def test_qualified_reason_never_says_the_word_zone():
+    # A passed Location leg states the fixed threshold, not the per-ticker %
+    # distance - once it's passed, "within 3.0% of EMA8" already says
+    # everything "0.3% from EMA8 (within 3.0%)" did, without restating the
+    # constant threshold as if it were a second fact.
     result = {
         "location_detail": {"pass": True, "sessions_ago": 0, "dpct": 1.4, "ema_ref_is_ema8": True},
         "oscillator_detail": {"pass": True, "sessions_ago": 0, "stoch_k": 22.4},
     }
     reason = qualified_reason(result)
-    assert reason == "Trend OK → Price 1.4% from EMA8 (within 3.0%), today → Stochastic crossed up from oversold (%K 22.4), today."
+    assert reason == "Trend OK → within 3.0% of EMA8, today → Stochastic crossed up from oversold (%K 22.4), today."
     assert "zone" not in reason.lower()
 
 
@@ -194,7 +198,7 @@ def test_developing_reason_shows_direction_on_a_pending_oscillator_leg():
         "oscillator_detail": {"pass": False, "stoch_k": 56.8, "stoch_k_prev": 60.0, "in_zone": False},
     }
     reason = developing_reason(result)
-    assert reason.startswith("Trend OK → Price 1.8% from EMA8 (within 3.0%), triggered 2 sessions ago")
+    assert reason.startswith("Trend OK → within 3.0% of EMA8, triggered 2 sessions ago")
     assert "56.8" in reason
     assert "closing in" in reason  # 56.8 < 60.0 prev -> moving toward the trigger
     assert "zone" not in reason.lower()
