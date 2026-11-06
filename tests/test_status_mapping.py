@@ -41,7 +41,8 @@ def test_badge_text_location_pending_never_says_the_word_zone():
     location = {"code": "LOCATION_PENDING", "measured": 4.2, "threshold": 3.0, "direction": "closing_in", "ema_label": "EMA21"}
     text = badge_text(location)
     assert "zone" not in text.lower()
-    assert "4.2%" in text and "EMA21" in text and "3.0%" in text and "closing in" in text
+    assert "4.2%" in text and "EMA21" in text and "3.0%" in text
+    assert text.startswith("LOCATION PENDING | Closing in")
 
 
 def test_badge_text_oscillator_pending_in_zone_beats_direction():
@@ -53,25 +54,29 @@ def test_badge_text_oscillator_pending_in_zone_beats_direction():
         "in_zone": True,
     }
     text = badge_text(oscillator)
-    assert "already oversold" in text
-    assert "drifting away" not in text
+    assert "already oversold" in text.lower()
+    assert "Rising" not in text
 
 
-def test_badge_text_oscillator_pending_direction_variants_all_resolve():
+def test_badge_text_oscillator_pending_direction_leads_the_clause():
+    # The measured number next to its fixed threshold (56.8 vs. 30) is a
+    # comparison the reader can already make - which way %K is *moving* is
+    # the one fact a single snapshot can't give them, so it leads.
     base = {"code": "OSCILLATOR_PENDING", "measured": 56.8, "threshold": 30.0, "in_zone": False}
     closing_in = badge_text({**base, "direction": "closing_in"})
     drifting_away = badge_text({**base, "direction": "drifting_away"})
     holding_steady = badge_text({**base, "direction": "holding_steady"})
     unknown = badge_text({**base, "direction": None})
 
-    assert "closing in" in closing_in
-    assert "drifting away" in drifting_away
-    assert "holding flat" in holding_steady
-    # Flat and unknown must read differently - both used to collapse into the
-    # same silent "no direction shown" message.
+    assert closing_in.startswith("OSCILLATOR PENDING | Falling")
+    assert drifting_away.startswith("OSCILLATOR PENDING | Rising")
+    assert holding_steady.startswith("OSCILLATOR PENDING | Flat")
+    assert unknown.startswith("OSCILLATOR PENDING | %K")  # no false claim when direction is unknown
+    # Flat and unknown must still read differently from each other.
     assert holding_steady != unknown
     for text in (closing_in, drifting_away, holding_steady, unknown):
-        assert "56.8" in text and "oversold trigger" in text
+        assert "56.8" in text
+        assert "above the ≤30 oversold trigger" not in text  # redundant with the number itself
 
 
 def test_data_invalid_is_flagged_distinctly_from_plain_ineligibility():
@@ -192,16 +197,17 @@ def test_qualified_reason_flags_grace_about_to_expire():
     assert "grace expires next session" in reason
 
 
-def test_developing_reason_shows_direction_on_a_pending_oscillator_leg():
+def test_developing_reason_leads_with_direction_on_a_pending_oscillator_leg():
     result = {
         "location_detail": {"pass": True, "sessions_ago": 2, "dpct": 1.8, "ema_ref_is_ema8": True},
         "oscillator_detail": {"pass": False, "stoch_k": 56.8, "stoch_k_prev": 60.0, "in_zone": False},
     }
     reason = developing_reason(result)
     assert reason.startswith("Trend OK → within 3.0% of EMA8, triggered 2 sessions ago")
+    assert "Falling" in reason  # 56.8 < 60.0 prev -> moving toward the trigger
     assert "56.8" in reason
-    assert "closing in" in reason  # 56.8 < 60.0 prev -> moving toward the trigger
     assert "zone" not in reason.lower()
+    assert "above the ≤30 oversold trigger" not in reason  # redundant with the number itself
 
 
 def test_developing_reason_flat_oscillator_reading_says_so_explicitly():
@@ -210,7 +216,7 @@ def test_developing_reason_flat_oscillator_reading_says_so_explicitly():
         "oscillator_detail": {"pass": False, "stoch_k": 56.8, "stoch_k_prev": 56.8, "in_zone": False},
     }
     reason = developing_reason(result)
-    assert "holding flat" in reason
+    assert "Flat" in reason
 
 
 def test_developing_reason_both_legs_pending():
@@ -219,10 +225,10 @@ def test_developing_reason_both_legs_pending():
         "oscillator_detail": {"pass": False, "stoch_k": 56.8, "stoch_k_prev": 50.0, "in_zone": False},
     }
     reason = developing_reason(result)
-    assert "Price 4.2% from EMA8, needs ≤3.0%" in reason
-    assert "closing in" in reason  # location improving (5.0 -> 4.2)
-    assert "above the ≤30 oversold trigger" in reason
-    assert "drifting away" in reason  # oscillator worsening (50.0 -> 56.8)
+    assert "Closing in" in reason  # location improving (5.0 -> 4.2)
+    assert "4.2% from EMA8 (target ≤3.0%)" in reason
+    assert "Rising" in reason  # oscillator worsening (50.0 -> 56.8)
+    assert "56.8 (target ≤30)" in reason
 
 
 def test_developing_reason_oscillator_already_in_zone_says_awaiting_cross():
@@ -231,7 +237,7 @@ def test_developing_reason_oscillator_already_in_zone_says_awaiting_cross():
         "oscillator_detail": {"pass": False, "stoch_k": 27.0, "stoch_d": 29.0, "in_zone": True},
     }
     reason = developing_reason(result)
-    assert "already oversold" in reason and "awaiting the bullish cross" in reason
+    assert "Already oversold" in reason and "awaiting the bullish cross" in reason
 
 
 def test_has_recovery_tag_reflects_recovery_observed():

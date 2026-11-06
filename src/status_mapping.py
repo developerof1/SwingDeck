@@ -61,16 +61,24 @@ BADGE_LABEL = {
     BADGE_OSCILLATOR_PENDING: "OSCILLATOR PENDING",
 }
 
-# direction_of(...) -> a short clause, or "" (direction unknown/not applicable)
-# so callers can drop the clause entirely rather than print "unknown". Every
-# branch (including the flat case) must resolve to *something* - "not yet in
-# zone" swallowing "holding flat" was a real gap, not a cosmetic one, since a
-# reading that's dead flat vs. one that's actively worsening read as the same
-# message otherwise.
-_DIRECTION_PHRASE = {
-    "closing_in": "closing in",
-    "drifting_away": "drifting away",
-    "holding_steady": "holding flat",
+# direction_of(...) -> a leading verb, or "" (direction unknown/not applicable)
+# so callers can drop it entirely rather than print "unknown". Leads the
+# clause, not trails it: a snapshot number next to its fixed threshold tells
+# you nothing a reader can't work out themselves (56.8 > 30 is obvious once
+# both are on screen) - which way it's *moving* is the one fact that isn't
+# derivable from a single reading, so that's what goes first. Two separate
+# wordings for the same three codes - "Falling"/"Rising" read naturally for
+# an oscillator value, "Closing in"/"Drifting away" for a shrinking/growing
+# distance - rather than forcing one verb to serve both.
+_LOCATION_DIRECTION_LEAD = {
+    "closing_in": "Closing in",
+    "drifting_away": "Drifting away",
+    "holding_steady": "Flat",
+}
+_OSCILLATOR_DIRECTION_LEAD = {
+    "closing_in": "Falling",
+    "drifting_away": "Rising",
+    "holding_steady": "Flat",
 }
 
 RECOVERY_TAG = "↑ Closed above prior high"
@@ -113,16 +121,16 @@ def _recency_suffix(detail: dict) -> str:
 
 
 def _location_pending_phrase(dpct: float, direction: str | None, ema_label: str) -> str:
-    """Spells out the actual condition ("needs <=3.0% from its EMA") rather
+    """Spells out the actual condition ("target <=3.0% from its EMA") rather
     than naming it "the zone" - that noun meant nothing on its own, and this
     gate and the Oscillator gate below each have their own unrelated zone, so
     reusing the word between them was actively misleading, not just vague.
     `direction` is an already-resolved direction_of(...) code, not raw
     readings - callers compute it themselves since the two call sites
     (the live clause and the archived Badge) get it from different places."""
-    phrase = _DIRECTION_PHRASE.get(direction or "")
-    base = f"Price {dpct:.1f}% from {ema_label}, needs ≤{LOCATION_PROXIMITY_PCT:.1f}%"
-    return f"{base} — {phrase}" if phrase else base
+    lead = _LOCATION_DIRECTION_LEAD.get(direction or "")
+    base = f"{dpct:.1f}% from {ema_label} (target ≤{LOCATION_PROXIMITY_PCT:.1f}%)"
+    return f"{lead} — {base}" if lead else base
 
 
 def _oscillator_pending_phrase(stoch_k: float, direction: str | None, in_zone) -> str:
@@ -131,10 +139,10 @@ def _oscillator_pending_phrase(stoch_k: float, direction: str | None, in_zone) -
     on a cross" vs. "still falling toward oversold" are genuinely different
     situations a direction clause alone can't distinguish."""
     if in_zone:
-        return f"%K {stoch_k:.1f} — already oversold (≤{OSCILLATOR_ZONE_MAX:.0f}), awaiting the bullish cross"
-    phrase = _DIRECTION_PHRASE.get(direction or "")
-    base = f"%K {stoch_k:.1f}, above the ≤{OSCILLATOR_ZONE_MAX:.0f} oversold trigger"
-    return f"{base} — {phrase}" if phrase else base
+        return f"Already oversold (%K {stoch_k:.1f} ≤{OSCILLATOR_ZONE_MAX:.0f}), awaiting the bullish cross"
+    lead = _OSCILLATOR_DIRECTION_LEAD.get(direction or "")
+    base = f"%K {stoch_k:.1f} (target ≤{OSCILLATOR_ZONE_MAX:.0f})"
+    return f"{lead} — {base}" if lead else base
 
 
 def badge_text(badge: dict) -> str:
