@@ -20,9 +20,11 @@ from src.status_mapping import (
     GROUP_OTHER,
     GROUP_QUALIFIED,
     GROUP_UNKNOWN,
-    QUALIFIED_REASON,
-    badge_text,
+    RECOVERY_TAG,
+    developing_reason,
+    has_recovery_tag,
     other_monitored_reason,
+    qualified_reason,
     ui_group_for_status,
 )
 
@@ -126,6 +128,11 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
 .sd-badge-invalid {
     background: rgba(148, 163, 184, 0.18);
     color: rgba(250, 250, 250, 0.75) !important;
+}
+.sd-badge-recovery {
+    background: rgba(34, 197, 94, 0.18);
+    color: #22c55e !important;
+    margin-left: 0.4rem;
 }
 .sd-dot {
     font-size: 0.75rem;
@@ -427,12 +434,16 @@ def render_row(result: dict) -> None:
     name = result.get("name")
     name_html = f'<span class="sd-row-name" {_REASON_STYLE}>{name}</span>' if name else ""
 
+    recovery_html = f'<span class="sd-badge sd-badge-recovery">{RECOVERY_TAG}</span>' if has_recovery_tag(result) else ""
+
     if group == GROUP_QUALIFIED:
-        reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{QUALIFIED_REASON}</div>'
+        reason_html = (
+            f'<div class="sd-row-reason" {_REASON_STYLE}>{qualified_reason(result)}{recovery_html}</div>'
+        )
     elif group == GROUP_DEVELOPING:
-        badges = result.get("developing_badges") or []
-        pills = "".join(f'<span class="sd-badge">{badge_text(b)}</span>' for b in badges)
-        reason_html = f'<div class="sd-row-reason">{pills}</div>'
+        reason_html = (
+            f'<div class="sd-row-reason" {_REASON_STYLE}>{developing_reason(result)}{recovery_html}</div>'
+        )
     elif group == GROUP_OTHER:
         reason_text, is_invalid = other_monitored_reason(result)
         if is_invalid:

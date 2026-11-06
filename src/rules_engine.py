@@ -51,11 +51,21 @@ BADGE_OSCILLATOR_PENDING = "OSCILLATOR_PENDING"
 @dataclass
 class Badge:
     """One Developing reason: which gate (Location/Oscillator) is still
-    pending, today's measured value, and the threshold it needs to clear."""
+    pending, today's measured value, and the threshold it needs to clear.
+
+    direction ("closing_in"/"drifting_away"/"holding_steady"/None) and, for
+    the Oscillator badge, in_zone, exist purely so status_mapping.py can say
+    not just *how far* but *which way it's moving* - a bare measured-vs-
+    threshold number was flagged as near-useless on its own (see
+    swingdeck-message-overhaul-todo memory). ema_label (Location only) names
+    which EMA the measured distance is actually from."""
 
     code: str
     measured: float
     threshold: float
+    direction: str | None = None
+    in_zone: bool | None = None
+    ema_label: str | None = None
 
 
 @dataclass
@@ -73,9 +83,11 @@ class EvalResult:
     #  "monthly_stoch_k_prev", "monthly_pass", "weekly_stoch_k",
     #  "weekly_stoch_k_prev", "weekly_pass"}
     trend_detail: dict = field(default_factory=dict)
-    # {"dpct", "ema_ref", "pass_today", "pass", "sessions_ago"}
+    # {"dpct", "dpct_prev", "ema_ref", "ema_ref_is_ema8", "pass_today", "pass",
+    #  "sessions_ago"}
     location_detail: dict = field(default_factory=dict)
-    # {"stoch_k", "stoch_d", "pass_today", "pass", "sessions_ago"}
+    # {"stoch_k", "stoch_d", "stoch_k_prev", "in_zone", "pass_today", "pass",
+    #  "sessions_ago"}
     oscillator_detail: dict = field(default_factory=dict)
     data_invalid_reason: str | None = None
     recovery_observed: bool | None = None
@@ -84,6 +96,19 @@ class EvalResult:
 
 def _finite(value) -> bool:
     return value is not None and pd.notna(value)
+
+
+def _direction(current, prev) -> str | None:
+    """Lower is always "closer to qualifying" for both diagnostics this feeds
+    (Location's %-from-EMA, Oscillator's %K) - so one comparison serves both.
+    None when either reading is missing (e.g. no prior-session value yet)."""
+    if not (_finite(current) and _finite(prev)):
+        return None
+    if current < prev:
+        return "closing_in"
+    if current > prev:
+        return "drifting_away"
+    return "holding_steady"
 
 
 def _compute_trend_detail(latest) -> dict:
@@ -149,16 +174,32 @@ def _gate_status(ok_values: list) -> dict:
     return {"pass_today": pass_today, "pass": sessions_ago is not None, "sessions_ago": sessions_ago}
 
 
+def _as_bool_or_none(value) -> bool | None:
+    return bool(value) if _finite(value) else None
+
+
 def _compute_location_detail(df: pd.DataFrame) -> dict:
     latest = df.iloc[-1]
     gate = _gate_status(_window_values(df, "location_ok"))
-    return {"dpct": latest.get("location_dpct"), "ema_ref": latest.get("ema_ref"), **gate}
+    return {
+        "dpct": latest.get("location_dpct"),
+        "dpct_prev": latest.get("location_dpct_prev"),
+        "ema_ref": latest.get("ema_ref"),
+        "ema_ref_is_ema8": _as_bool_or_none(latest.get("ema_ref_is_ema8")),
+        **gate,
+    }
 
 
 def _compute_oscillator_detail(df: pd.DataFrame) -> dict:
     latest = df.iloc[-1]
     gate = _gate_status(_window_values(df, "oscillator_trigger_ok"))
-    return {"stoch_k": latest.get("stoch_k"), "stoch_d": latest.get("stoch_d"), **gate}
+    return {
+        "stoch_k": latest.get("stoch_k"),
+        "stoch_d": latest.get("stoch_d"),
+        "stoch_k_prev": latest.get("stoch_k_prev"),
+        "in_zone": _as_bool_or_none(latest.get("oscillator_in_zone")),
+        **gate,
+    }
 
 
 def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
@@ -203,11 +244,17 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
 
     if not data_valid:
         sessions = len(df)
-        reason = (
-            f"Only {sessions} completed sessions available, need at least {DATA_VALID_MIN_SESSIONS}"
-            if sessions < DATA_VALID_MIN_SESSIONS
-            else "Missing or non-finite indicator values for the evaluation session"
-        )
+        if sessions < DATA_VALID_MIN_SESSIONS:
+            reason = f"Only {sessions} completed sessions available, need at least {DATA_VALID_MIN_SESSIONS}"
+        else:
+            missing_field = next(
+                (name for name in REQUIRED_FIELDS if not _finite(latest.get(name))), None
+            )
+            reason = (
+                f"Missing/non-finite value for '{missing_field}' on the evaluation session"
+                if missing_field
+                else "Missing or non-finite indicator values for the evaluation session"
+            )
         return EvalResult(status=STATUS_DATA_INVALID, data_invalid_reason=reason, **common)
 
     trend_pass = bool(
@@ -239,7 +286,13 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
     badges = []
     if not location_pass:
         badges.append(
-            Badge(code=BADGE_LOCATION_PENDING, measured=location_detail["dpct"], threshold=LOCATION_PROXIMITY_PCT)
+            Badge(
+                code=BADGE_LOCATION_PENDING,
+                measured=location_detail["dpct"],
+                threshold=LOCATION_PROXIMITY_PCT,
+                direction=_direction(location_detail.get("dpct"), location_detail.get("dpct_prev")),
+                ema_label="EMA8" if location_detail.get("ema_ref_is_ema8") else "EMA21",
+            )
         )
     if not oscillator_pass:
         badges.append(
@@ -247,6 +300,8 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
                 code=BADGE_OSCILLATOR_PENDING,
                 measured=oscillator_detail["stoch_k"],
                 threshold=OSCILLATOR_ZONE_MAX,
+                direction=_direction(oscillator_detail.get("stoch_k"), oscillator_detail.get("stoch_k_prev")),
+                in_zone=oscillator_detail.get("in_zone"),
             )
         )
 

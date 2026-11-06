@@ -84,7 +84,15 @@ def evaluate_ticker(entry: dict, start_date: str, prior_names: dict[str, str], m
         "data_valid": result.data_valid,
         "recovery_observed": result.recovery_observed,
         "developing_badges": [
-            {"code": b.code, "measured": b.measured, "threshold": b.threshold} for b in result.developing_badges
+            {
+                "code": b.code,
+                "measured": b.measured,
+                "threshold": b.threshold,
+                "direction": b.direction,
+                "in_zone": b.in_zone,
+                "ema_label": b.ema_label,
+            }
+            for b in result.developing_badges
         ],
         "trend_detail": result.trend_detail,
         "location_detail": result.location_detail,

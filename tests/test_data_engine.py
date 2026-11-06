@@ -87,6 +87,37 @@ def test_oscillator_trigger_ok_requires_crossover_and_oversold_zone():
     )
 
 
+def test_ema_ref_is_ema8_flag_matches_ema_ref_choice():
+    df = _daily_df(60)
+    result = add_continuation_indicators(df)
+    last = result.iloc[-1]
+    assert bool(last["ema_ref_is_ema8"]) == (last["ema_ref"] == pytest.approx(last["ema_8"]))
+
+
+def test_location_dpct_prev_is_a_one_session_shift():
+    df = _daily_df(60)
+    result = add_continuation_indicators(df)
+    assert result["location_dpct_prev"].iloc[-1] == pytest.approx(result["location_dpct"].iloc[-2])
+    assert pd.isna(result["location_dpct_prev"].iloc[0])
+
+
+def test_stoch_k_prev_is_a_one_session_shift():
+    df = _daily_df(60)
+    result = add_continuation_indicators(df)
+    assert result["stoch_k_prev"].iloc[-1] == pytest.approx(result["stoch_k"].iloc[-2])
+    assert pd.isna(result["stoch_k_prev"].iloc[0])
+
+
+def test_oscillator_in_zone_matches_the_zone_condition_alone():
+    df = _daily_df(60)
+    result = add_continuation_indicators(df)
+    k, d = result["stoch_k"], result["stoch_d"]
+    expected = (k <= OSCILLATOR_ZONE_MAX) | (d <= OSCILLATOR_ZONE_MAX)
+    pd.testing.assert_series_equal(
+        result["oscillator_in_zone"].fillna(False), expected.fillna(False), check_names=False
+    )
+
+
 def test_monthly_and_weekly_stoch_use_only_completed_bars():
     # A long enough history (several years) so weekly/monthly resampling has
     # multiple completed bins; every row's weekly/monthly reading must come

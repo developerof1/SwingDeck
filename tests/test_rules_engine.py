@@ -43,10 +43,14 @@ BASELINE_ROW = {
     "ema_8": 100.0,
     "ema_21": 100.0,
     "ema_ref": 100.0,
+    "ema_ref_is_ema8": True,
     "location_dpct": 1.0,  # <= 3.0 -> location_ok
+    "location_dpct_prev": 1.5,  # higher than today -> closing_in
     "location_ok": True,
     "stoch_k": 25.0,
     "stoch_d": 20.0,
+    "stoch_k_prev": 30.0,  # higher than today -> closing_in
+    "oscillator_in_zone": True,
     "oscillator_trigger_ok": True,
     "prev_session_high": 97.0,  # close (100) > prev_session_high -> recovery True
 }
@@ -164,6 +168,52 @@ class TestOscillatorGate:
         badge = next(b for b in result.developing_badges if b.code == BADGE_OSCILLATOR_PENDING)
         assert badge.measured == pytest.approx(38.1)
         assert badge.threshold == pytest.approx(30.0)
+
+
+class TestBadgeDirectionAndContext:
+    def test_location_badge_carries_direction_and_ema_label(self):
+        overrides = {i: {"location_ok": False} for i in range(GRACE_WINDOW_SESSIONS + 1)}
+        overrides[0].update({"location_dpct": 4.2, "location_dpct_prev": 5.0, "ema_ref_is_ema8": False})
+        result = evaluate_stock("TEST", _df(overrides=overrides))
+        badge = next(b for b in result.developing_badges if b.code == BADGE_LOCATION_PENDING)
+        assert badge.direction == "closing_in"
+        assert badge.ema_label == "EMA21"
+
+    def test_location_badge_direction_drifting_away(self):
+        overrides = {i: {"location_ok": False} for i in range(GRACE_WINDOW_SESSIONS + 1)}
+        overrides[0].update({"location_dpct": 5.0, "location_dpct_prev": 4.2})
+        result = evaluate_stock("TEST", _df(overrides=overrides))
+        badge = next(b for b in result.developing_badges if b.code == BADGE_LOCATION_PENDING)
+        assert badge.direction == "drifting_away"
+
+    def test_location_badge_direction_unknown_without_prior_reading(self):
+        overrides = {i: {"location_ok": False} for i in range(GRACE_WINDOW_SESSIONS + 1)}
+        overrides[0].update({"location_dpct": 4.2, "location_dpct_prev": float("nan")})
+        result = evaluate_stock("TEST", _df(overrides=overrides))
+        badge = next(b for b in result.developing_badges if b.code == BADGE_LOCATION_PENDING)
+        assert badge.direction is None
+
+    def test_oscillator_badge_in_zone_flag(self):
+        overrides = {i: {"oscillator_trigger_ok": False} for i in range(GRACE_WINDOW_SESSIONS + 1)}
+        overrides[0].update({"stoch_k": 28.0, "stoch_d": 32.0, "oscillator_in_zone": True})
+        result = evaluate_stock("TEST", _df(overrides=overrides))
+        badge = next(b for b in result.developing_badges if b.code == BADGE_OSCILLATOR_PENDING)
+        assert badge.in_zone is True
+
+    def test_oscillator_badge_direction_falling_toward_zone(self):
+        overrides = {i: {"oscillator_trigger_ok": False} for i in range(GRACE_WINDOW_SESSIONS + 1)}
+        overrides[0].update({"stoch_k": 38.1, "stoch_k_prev": 45.0, "oscillator_in_zone": False})
+        result = evaluate_stock("TEST", _df(overrides=overrides))
+        badge = next(b for b in result.developing_badges if b.code == BADGE_OSCILLATOR_PENDING)
+        assert badge.direction == "closing_in"
+        assert badge.in_zone is False
+
+
+class TestDataInvalidReasonNamesTheMissingField:
+    def test_missing_field_is_named_when_session_count_is_sufficient(self):
+        result = evaluate_stock("TEST", _df(overrides={0: {"monthly_stoch_k": float("nan")}}))
+        assert result.status == STATUS_DATA_INVALID
+        assert "monthly_stoch_k" in result.data_invalid_reason
 
 
 class TestDevelopingBothPending:

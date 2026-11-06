@@ -215,6 +215,15 @@ def add_continuation_indicators(df: pd.DataFrame) -> pd.DataFrame:
     - EMAref is whichever of EMA8/EMA21 sits closer to price, tie -> EMA8), daily
     Stochastic(14,3,3) and the derived oscillator_trigger_ok (Oscillator Gate), and
     prev_session_high (for the non-gating recovery_observed annotation).
+
+    Also attaches a handful of non-gating diagnostic columns that only exist to
+    drive the "magnitude / direction / recency" UI messaging in status_mapping.py
+    (never read by any pass/fail check here or in rules_engine.py):
+    ema_ref_is_ema8 (which EMA the Location badge should name), location_dpct_prev
+    and stoch_k_prev (yesterday's reading, to say "closing in" vs "drifting away"),
+    and oscillator_in_zone (today's zone condition on its own, independent of
+    whether the crossover also fired - distinguishes "already oversold, just
+    waiting on the cross" from "not oversold yet").
     """
     df = df.copy().sort_values("date").reset_index(drop=True)
 
@@ -225,17 +234,21 @@ def add_continuation_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df["ema_8"] = df["close"].ewm(span=8, adjust=False).mean()
     df["ema_21"] = df["close"].ewm(span=21, adjust=False).mean()
     df["stoch_k"], df["stoch_d"] = _stochastic(df)
+    df["stoch_k_prev"] = df["stoch_k"].shift(1)
 
     df = _add_mtf_stoch(df)
 
     dist_8 = (df["close"] - df["ema_8"]).abs()
     dist_21 = (df["close"] - df["ema_21"]).abs()
-    df["ema_ref"] = df["ema_8"].where(dist_8 <= dist_21, df["ema_21"])
+    df["ema_ref_is_ema8"] = dist_8 <= dist_21
+    df["ema_ref"] = df["ema_8"].where(df["ema_ref_is_ema8"], df["ema_21"])
     df["location_dpct"] = (df["close"] - df["ema_ref"]).abs() / df["ema_ref"] * 100
+    df["location_dpct_prev"] = df["location_dpct"].shift(1)
     df["location_ok"] = df["location_dpct"] <= LOCATION_PROXIMITY_PCT
 
-    crossover = (df["stoch_k"] > df["stoch_d"]) & (df["stoch_k"].shift(1) <= df["stoch_d"].shift(1))
+    crossover = (df["stoch_k"] > df["stoch_d"]) & (df["stoch_k_prev"] <= df["stoch_d"].shift(1))
     zone = (df["stoch_k"] <= OSCILLATOR_ZONE_MAX) | (df["stoch_d"] <= OSCILLATOR_ZONE_MAX)
+    df["oscillator_in_zone"] = zone
     df["oscillator_trigger_ok"] = crossover & zone
 
     df["prev_session_high"] = df["high"].shift(1)

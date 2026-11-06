@@ -97,7 +97,24 @@ else:
 `recovery_observed = Close_today > High_previous_session`. Informational only; never changes
 status.
 
-8. Out of scope
+8. UI messaging diagnostics (non-gating)
+
+Every status/badge message rendered by `src/status_mapping.py` is held to a three-part bar:
+magnitude (the actual measured number, not just a pass/fail bit), direction (is the reading
+closing in on its threshold or drifting away from it), and recency (how many sessions ago a
+grace-window gate actually triggered, and how much grace is left). None of the fields below
+participate in eligibility math - they exist solely to drive that messaging:
+
+- `ema_ref_is_ema8` - which of EMA8/EMA21 the Location Gate's `EMAref` resolved to this session,
+  so the UI can name it ("4.2% from EMA21") instead of leaving it implicit.
+- `location_dpct_prev` / `stoch_k_prev` (daily) - yesterday's reading of the same metric, so a
+  still-pending Location or Oscillator gate can be described as "closing in" or "drifting away",
+  not just a bare snapshot.
+- `oscillator_in_zone` - today's `Zone` condition (`%K<=30 OR %D<=30`) evaluated on its own,
+  independent of whether `Crossover` also fired - distinguishes "already oversold, just waiting
+  on the cross" from "not oversold yet."
+
+9. Out of scope
 
 - Profitability claims or optimized thresholds.
 - Stops, targets, position sizing, R:R, automated orders.
