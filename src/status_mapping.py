@@ -97,9 +97,13 @@ def has_recovery_tag(result: dict) -> bool:
 
 
 def _ema_label(ema_ref_is_ema8) -> str:
+    """Prefixed "Daily" because the Trend Gate's MTF layer also surfaces
+    monthly/weekly %K readings (see _trend_failure_headline below) - without
+    a timeframe prefix here, a reader can't tell this EMA/%K apart from
+    those."""
     if ema_ref_is_ema8 is None:
-        return "EMA"
-    return "EMA8" if ema_ref_is_ema8 else "EMA21"
+        return "Daily EMA"
+    return "Daily EMA8" if ema_ref_is_ema8 else "Daily EMA21"
 
 
 def _recency_suffix(detail: dict) -> str:
@@ -139,9 +143,9 @@ def _oscillator_pending_phrase(stoch_k: float, direction: str | None, in_zone) -
     on a cross" vs. "still falling toward oversold" are genuinely different
     situations a direction clause alone can't distinguish."""
     if in_zone:
-        return f"Already oversold (%K {stoch_k:.1f} ≤{OSCILLATOR_ZONE_MAX:.0f}), awaiting the bullish cross"
+        return f"Already oversold (Daily %K {stoch_k:.1f} ≤{OSCILLATOR_ZONE_MAX:.0f}), awaiting the bullish cross"
     lead = _OSCILLATOR_DIRECTION_LEAD.get(direction or "")
-    base = f"%K {stoch_k:.1f} (target ≤{OSCILLATOR_ZONE_MAX:.0f})"
+    base = f"Daily %K {stoch_k:.1f} (target ≤{OSCILLATOR_ZONE_MAX:.0f})"
     return f"{lead} — {base}" if lead else base
 
 
@@ -152,7 +156,8 @@ def badge_text(badge: dict) -> str:
     code = badge["code"]
     label = BADGE_LABEL.get(code, code)
     if code == BADGE_LOCATION_PENDING:
-        phrase = _location_pending_phrase(badge["measured"], badge.get("direction"), badge.get("ema_label") or "EMA")
+        ema_label = f"Daily {badge['ema_label']}" if badge.get("ema_label") else "Daily EMA"
+        phrase = _location_pending_phrase(badge["measured"], badge.get("direction"), ema_label)
         return f"{label} | {phrase}"
     if code == BADGE_OSCILLATOR_PENDING:
         phrase = _oscillator_pending_phrase(badge["measured"], badge.get("direction"), badge.get("in_zone"))
@@ -187,9 +192,9 @@ def _oscillator_clause(result: dict) -> str:
     detail = result.get("oscillator_detail") or {}
     stoch_k = detail.get("stoch_k")
     if stoch_k is None:
-        return "Stochastic reading unavailable"
+        return "Daily Stochastic reading unavailable"
     if detail.get("pass"):
-        base = f"Stochastic crossed up from oversold (%K {stoch_k:.1f})"
+        base = f"Daily Stochastic crossed up from oversold (%K {stoch_k:.1f})"
         recency = _recency_suffix(detail)
         return f"{base}, {recency}" if recency else base
     direction = direction_of(stoch_k, detail.get("stoch_k_prev"))

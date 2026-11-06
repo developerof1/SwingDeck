@@ -71,7 +71,7 @@ def test_badge_text_oscillator_pending_direction_leads_the_clause():
     assert closing_in.startswith("OSCILLATOR PENDING | Falling")
     assert drifting_away.startswith("OSCILLATOR PENDING | Rising")
     assert holding_steady.startswith("OSCILLATOR PENDING | Flat")
-    assert unknown.startswith("OSCILLATOR PENDING | %K")  # no false claim when direction is unknown
+    assert unknown.startswith("OSCILLATOR PENDING | Daily %K")  # no false claim when direction is unknown
     # Flat and unknown must still read differently from each other.
     assert holding_steady != unknown
     for text in (closing_in, drifting_away, holding_steady, unknown):
@@ -183,7 +183,7 @@ def test_qualified_reason_never_says_the_word_zone():
         "oscillator_detail": {"pass": True, "sessions_ago": 0, "stoch_k": 22.4},
     }
     reason = qualified_reason(result)
-    assert reason == "Trend OK → within 3.0% of EMA8, today → Stochastic crossed up from oversold (%K 22.4), today."
+    assert reason == "Trend OK → within 3.0% of Daily EMA8, today → Daily Stochastic crossed up from oversold (%K 22.4), today."
     assert "zone" not in reason.lower()
 
 
@@ -203,7 +203,7 @@ def test_developing_reason_leads_with_direction_on_a_pending_oscillator_leg():
         "oscillator_detail": {"pass": False, "stoch_k": 56.8, "stoch_k_prev": 60.0, "in_zone": False},
     }
     reason = developing_reason(result)
-    assert reason.startswith("Trend OK → within 3.0% of EMA8, triggered 2 sessions ago")
+    assert reason.startswith("Trend OK → within 3.0% of Daily EMA8, triggered 2 sessions ago")
     assert "Falling" in reason  # 56.8 < 60.0 prev -> moving toward the trigger
     assert "56.8" in reason
     assert "zone" not in reason.lower()
@@ -226,9 +226,9 @@ def test_developing_reason_both_legs_pending():
     }
     reason = developing_reason(result)
     assert "Closing in" in reason  # location improving (5.0 -> 4.2)
-    assert "4.2% from EMA8 (target ≤3.0%)" in reason
+    assert "4.2% from Daily EMA8 (target ≤3.0%)" in reason
     assert "Rising" in reason  # oscillator worsening (50.0 -> 56.8)
-    assert "56.8 (target ≤30)" in reason
+    assert "Daily %K 56.8 (target ≤30)" in reason
 
 
 def test_developing_reason_oscillator_already_in_zone_says_awaiting_cross():
