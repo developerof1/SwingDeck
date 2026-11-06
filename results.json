@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T09:32+00:00",
+  "generated_at": "2026-11-06T19:54+00:00",
   "evaluated_session": "2026-11-05",
   "results": [
     {
@@ -700,7 +700,10 @@
         {
           "code": "OSCILLATOR_PENDING",
           "measured": 56.82508491239526,
-          "threshold": 30
+          "threshold": 30,
+          "direction": "drifting_away",
+          "in_zone": false,
+          "ema_label": null
         }
       ],
       "trend_detail": {
@@ -721,7 +724,9 @@
       },
       "location_detail": {
         "dpct": 0.2707578476829395,
+        "dpct_prev": 1.905350990493176,
         "ema_ref": 343.2406490063774,
+        "ema_ref_is_ema8": true,
         "pass_today": true,
         "pass": true,
         "sessions_ago": 0
@@ -729,6 +734,8 @@
       "oscillator_detail": {
         "stoch_k": 56.82508491239526,
         "stoch_d": 45.33050079613514,
+        "stoch_k_prev": 43.54069825851886,
+        "in_zone": false,
         "pass_today": false,
         "pass": false,
         "sessions_ago": null
@@ -756,7 +763,10 @@
         {
           "code": "OSCILLATOR_PENDING",
           "measured": 72.75179468511301,
-          "threshold": 30
+          "threshold": 30,
+          "direction": "drifting_away",
+          "in_zone": false,
+          "ema_label": null
         }
       ],
       "trend_detail": {
@@ -777,7 +787,9 @@
       },
       "location_detail": {
         "dpct": 2.886455384841764,
+        "dpct_prev": 2.2553026580621127,
         "ema_ref": 236.69782294383447,
+        "ema_ref_is_ema8": true,
         "pass_today": true,
         "pass": true,
         "sessions_ago": 0
@@ -785,6 +797,8 @@
       "oscillator_detail": {
         "stoch_k": 72.75179468511301,
         "stoch_d": 63.89806853342185,
+        "stoch_k_prev": 62.44638456294894,
+        "in_zone": false,
         "pass_today": false,
         "pass": false,
         "sessions_ago": null
