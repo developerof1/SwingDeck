@@ -25,7 +25,8 @@ from src.status_mapping import ui_group_for_status
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
 WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
 RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
-HISTORY_BUFFER_DAYS = 500  # calendar days requested, comfortably covers 252+ trading days
+HISTORY_BUFFER_DAYS = 750  # calendar days requested, comfortably covers the 420+ trading
+# sessions rules_engine.DATA_VALID_MIN_SESSIONS now requires for Monthly Stochastic warm-up
 TICKERS_OVERRIDE_ENV = "TICKERS_OVERRIDE"  # comma-separated subset for cheap manual debugging runs
 
 # Tiingo's free tier allows ~50 requests/hour. A full watchlist run already spends
@@ -86,7 +87,8 @@ def evaluate_ticker(entry: dict, start_date: str, prior_names: dict[str, str], m
             {"code": b.code, "measured": b.measured, "threshold": b.threshold} for b in result.developing_badges
         ],
         "trend_detail": result.trend_detail,
-        "pullback_detail": result.pullback_detail,
+        "location_detail": result.location_detail,
+        "oscillator_detail": result.oscillator_detail,
         "data_invalid_reason": result.data_invalid_reason,
         "diagnostics": result.diagnostics,
     }

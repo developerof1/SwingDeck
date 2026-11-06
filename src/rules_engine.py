@@ -1,50 +1,57 @@
 """Momentum Continuation - the sole live setup (docs/Momentum Continuation V2 —
 Logic.md). Pure logic, no I/O, no prior-run state - unlike the archived V1 engine
-(src/rules_engine_v1.py), there are no grace windows or regimes to carry forward,
-so evaluate_stock() only ever needs the latest completed bar plus the lookback
-columns already attached by data_engine.add_continuation_indicators().
+(src/rules_engine_v1.py), the only "state" this reads is the 5-session grace
+window each of Location and Oscillator carry, and that's read straight off the
+indicator-enriched tail of `df`, not stored anywhere. evaluate_stock() only ever
+needs the last GRACE_WINDOW_SESSIONS+1 rows plus the lookback columns already
+attached by data_engine.add_continuation_indicators().
 """
 
 from dataclasses import dataclass, field
 
 import pandas as pd
 
+from src.data_engine import LOCATION_PROXIMITY_PCT, OSCILLATOR_ZONE_MAX
+
 STATUS_DATA_INVALID = "DATA_INVALID"
 STATUS_INELIGIBLE_TREND = "INELIGIBLE_TREND"
-STATUS_INELIGIBLE_PULLBACK = "INELIGIBLE_PULLBACK"
 STATUS_DEVELOPING = "DEVELOPING"
 STATUS_CANDIDATE = "CANDIDATE"
 
-# Candidate pullback/location bands (ATR units).
-DEPTH_MIN, DEPTH_MAX = 1.0, 3.0
-EMA_PROX_MIN, EMA_PROX_MAX = -1.0, 0.5
+# Step 2 (Location) and Step 3 (Oscillator) each pass if their condition holds
+# today, or held on any of the prior GRACE_WINDOW_SESSIONS sessions.
+GRACE_WINDOW_SESSIONS = 5
 
-# Developing's looser floor/ceiling - shares Candidate's EMA-proximity floor (-1.0)
-# and depth ceiling (3.0), so the only two ways a stock can be Developing-not-
-# Candidate are a shallow depth in [0.5, 1.0) or an EMA distance in (0.5, 1.0].
-DEV_DEPTH_MIN = 0.5
-DEV_EMA_PROX_MAX = 1.0
-
-DATA_VALID_MIN_SESSIONS = 252
+# Monthly Stochastic(14,3,3) needs ~14 months for the first raw %K, +2 months for
+# %K's own 3-period smoothing, +2 more for %D's, +1 for the "rising vs. prior
+# month" check - roughly 19 months (~400 trading sessions). 420 adds a margin so
+# the Trend Gate's monthly layer is never evaluated on an under-warmed value.
+DATA_VALID_MIN_SESSIONS = 420
 
 REQUIRED_FIELDS = (
     "sma_200",
     "sma_50",
     "sma_50_prev20",
-    "atr_14",
-    "ema_20",
-    "highest_high_20",
-    "close_3ago",
+    "ema_8",
+    "ema_21",
+    "stoch_k",
+    "stoch_d",
+    "weekly_stoch_k",
+    "weekly_stoch_d",
+    "weekly_stoch_k_prev",
+    "monthly_stoch_k",
+    "monthly_stoch_d",
+    "monthly_stoch_k_prev",
 )
 
-BADGE_SHALLOW_PULLBACK = "SHALLOW_PULLBACK"
-BADGE_EXTENDED_FROM_EMA20 = "EXTENDED_FROM_EMA20"
+BADGE_LOCATION_PENDING = "LOCATION_PENDING"
+BADGE_OSCILLATOR_PENDING = "OSCILLATOR_PENDING"
 
 
 @dataclass
 class Badge:
-    """One Developing near-miss reason: which Candidate-only sub-condition
-    missed, by how much, and what it needed."""
+    """One Developing reason: which gate (Location/Oscillator) is still
+    pending, today's measured value, and the threshold it needs to clear."""
 
     code: str
     measured: float
@@ -58,14 +65,18 @@ class EvalResult:
     evaluated_session: str | None = None  # ISO date of the evaluation bar
     data_valid: bool = False
     trend_pass: bool | None = None
-    pullback_pass: bool | None = None
+    location_pass: bool | None = None
+    oscillator_pass: bool | None = None
     developing_badges: list[Badge] = field(default_factory=list)
-    # {"close_gt_sma200": bool, "sma50_gt_sma200": bool, "sma50_rising": bool,
-    #  "close": float, "sma_50": float, "sma_200": float, "sma_50_prev20": float}
+    # {"close", "sma_50", "sma_200", "sma_50_prev20", "close_gt_sma200",
+    #  "sma50_gt_sma200", "sma50_rising", "monthly_stoch_k", "monthly_stoch_d",
+    #  "monthly_stoch_k_prev", "monthly_pass", "weekly_stoch_k",
+    #  "weekly_stoch_k_prev", "weekly_pass"}
     trend_detail: dict = field(default_factory=dict)
-    # {"decline": bool, "depth_atr": float, "ema_dist_atr": float,
-    #  "close_3ago": float, "atr_14": float, "highest_high_20": float, "ema_20": float}
-    pullback_detail: dict = field(default_factory=dict)
+    # {"dpct", "ema_ref", "pass_today", "pass", "sessions_ago"}
+    location_detail: dict = field(default_factory=dict)
+    # {"stoch_k", "stoch_d", "pass_today", "pass", "sessions_ago"}
+    oscillator_detail: dict = field(default_factory=dict)
     data_invalid_reason: str | None = None
     recovery_observed: bool | None = None
     diagnostics: dict = field(default_factory=dict)
@@ -78,7 +89,22 @@ def _finite(value) -> bool:
 def _compute_trend_detail(latest) -> dict:
     close, sma_50, sma_200 = latest.get("close"), latest.get("sma_50"), latest.get("sma_200")
     sma_50_prev20 = latest.get("sma_50_prev20")
-    detail = {"close": close, "sma_50": sma_50, "sma_200": sma_200, "sma_50_prev20": sma_50_prev20}
+    monthly_k, monthly_d = latest.get("monthly_stoch_k"), latest.get("monthly_stoch_d")
+    monthly_k_prev = latest.get("monthly_stoch_k_prev")
+    weekly_k, weekly_k_prev = latest.get("weekly_stoch_k"), latest.get("weekly_stoch_k_prev")
+
+    detail = {
+        "close": close,
+        "sma_50": sma_50,
+        "sma_200": sma_200,
+        "sma_50_prev20": sma_50_prev20,
+        "monthly_stoch_k": monthly_k,
+        "monthly_stoch_d": monthly_d,
+        "monthly_stoch_k_prev": monthly_k_prev,
+        "weekly_stoch_k": weekly_k,
+        "weekly_stoch_k_prev": weekly_k_prev,
+    }
+
     if all(_finite(v) for v in (close, sma_50, sma_200, sma_50_prev20)):
         detail["close_gt_sma200"] = bool(close > sma_200)
         detail["sma50_gt_sma200"] = bool(sma_50 > sma_200)
@@ -87,40 +113,63 @@ def _compute_trend_detail(latest) -> dict:
         detail["close_gt_sma200"] = None
         detail["sma50_gt_sma200"] = None
         detail["sma50_rising"] = None
-    return detail
 
-
-def _compute_pullback_detail(latest) -> dict:
-    close = latest.get("close")
-    close_3ago = latest.get("close_3ago")
-    atr_14 = latest.get("atr_14")
-    highest_high_20 = latest.get("highest_high_20")
-    ema_20 = latest.get("ema_20")
-    detail = {
-        "close_3ago": close_3ago,
-        "atr_14": atr_14,
-        "highest_high_20": highest_high_20,
-        "ema_20": ema_20,
-    }
-    if all(_finite(v) for v in (close, close_3ago, atr_14, highest_high_20, ema_20)) and atr_14 > 0:
-        detail["decline"] = bool(close < close_3ago)
-        detail["depth_atr"] = (highest_high_20 - close) / atr_14
-        detail["ema_dist_atr"] = (close - ema_20) / atr_14
+    if all(_finite(v) for v in (monthly_k, monthly_d, monthly_k_prev)):
+        detail["monthly_pass"] = bool(monthly_k > monthly_d or monthly_k > monthly_k_prev)
     else:
-        detail["decline"] = None
-        detail["depth_atr"] = None
-        detail["ema_dist_atr"] = None
+        detail["monthly_pass"] = None
+
+    if all(_finite(v) for v in (weekly_k, weekly_k_prev)):
+        detail["weekly_pass"] = bool(weekly_k > weekly_k_prev and weekly_k >= 20)
+    else:
+        detail["weekly_pass"] = None
+
     return detail
+
+
+def _window_values(df: pd.DataFrame, column: str) -> list:
+    """Oldest -> newest (today last), one boolean per session over the grace
+    window - location_ok/oscillator_trigger_ok are plain boolean columns (a
+    comparison against a still-NaN warm-up value evaluates to False, never
+    NaN), so no finiteness handling is needed here."""
+    return [bool(v) for v in df[column].tail(GRACE_WINDOW_SESSIONS + 1)]
+
+
+def _gate_status(ok_values: list) -> dict:
+    """pass_today: did it hold on the latest session. pass: did it hold today
+    or on any of the prior GRACE_WINDOW_SESSIONS sessions. sessions_ago: how
+    many sessions before today it last held (0 = today), None if never in the
+    window - lets the UI say e.g. "triggered 3 sessions ago"."""
+    pass_today = bool(ok_values[-1]) if ok_values else False
+    sessions_ago = None
+    for offset, ok in enumerate(reversed(ok_values)):
+        if ok:
+            sessions_ago = offset
+            break
+    return {"pass_today": pass_today, "pass": sessions_ago is not None, "sessions_ago": sessions_ago}
+
+
+def _compute_location_detail(df: pd.DataFrame) -> dict:
+    latest = df.iloc[-1]
+    gate = _gate_status(_window_values(df, "location_ok"))
+    return {"dpct": latest.get("location_dpct"), "ema_ref": latest.get("ema_ref"), **gate}
+
+
+def _compute_oscillator_detail(df: pd.DataFrame) -> dict:
+    latest = df.iloc[-1]
+    gate = _gate_status(_window_values(df, "oscillator_trigger_ok"))
+    return {"stoch_k": latest.get("stoch_k"), "stoch_d": latest.get("stoch_d"), **gate}
 
 
 def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
     """Evaluate one ticker's latest completed bar.
 
     `df` must already carry the columns from data_engine.add_continuation_indicators
-    (sma_50, sma_200, sma_50_prev20, atr_14, ema_20, highest_high_20, close_3ago,
-    prev_session_high), sorted ascending by date. Only the last row is evaluated -
-    historical rows exist solely to let the rolling/shifted indicator columns be
-    computed upstream; no prior-run state is read or written here.
+    (sma_50/sma_200/sma_50_prev20, monthly/weekly stochastic, ema_8/ema_21,
+    location_dpct/location_ok, daily stoch_k/stoch_d/oscillator_trigger_ok,
+    prev_session_high), sorted ascending by date. Only the last GRACE_WINDOW_SESSIONS+1
+    rows are read - earlier rows exist solely to let the rolling/shifted/resampled
+    indicator columns be computed upstream; no prior-run state is read or written here.
     """
     latest = df.iloc[-1]
     evaluated_session = (
@@ -130,12 +179,8 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
     data_valid = len(df) >= DATA_VALID_MIN_SESSIONS and all(
         _finite(latest.get(field_name)) for field_name in REQUIRED_FIELDS
     )
-    atr_14 = latest.get("atr_14")
-    if data_valid and not (_finite(atr_14) and atr_14 > 0):
-        data_valid = False
 
     trend_detail = _compute_trend_detail(latest)
-    pullback_detail = _compute_pullback_detail(latest)
 
     close = latest.get("close")
     prev_session_high = latest.get("prev_session_high")
@@ -146,15 +191,13 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
         evaluated_session=evaluated_session,
         data_valid=data_valid,
         trend_detail=trend_detail,
-        pullback_detail=pullback_detail,
         recovery_observed=recovery_observed,
         diagnostics={
             "close": close,
             "sma_50": latest.get("sma_50"),
             "sma_200": latest.get("sma_200"),
-            "atr_14": atr_14,
-            "ema_20": latest.get("ema_20"),
-            "highest_high_20": latest.get("highest_high_20"),
+            "ema_8": latest.get("ema_8"),
+            "ema_21": latest.get("ema_21"),
         },
     )
 
@@ -168,33 +211,52 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
         return EvalResult(status=STATUS_DATA_INVALID, data_invalid_reason=reason, **common)
 
     trend_pass = bool(
-        trend_detail["close_gt_sma200"] and trend_detail["sma50_gt_sma200"] and trend_detail["sma50_rising"]
+        trend_detail["close_gt_sma200"]
+        and trend_detail["sma50_gt_sma200"]
+        and trend_detail["sma50_rising"]
+        and trend_detail["monthly_pass"]
+        and trend_detail["weekly_pass"]
     )
     if not trend_pass:
         return EvalResult(status=STATUS_INELIGIBLE_TREND, trend_pass=False, **common)
 
-    decline = pullback_detail["decline"]
-    depth_atr = pullback_detail["depth_atr"]
-    ema_dist_atr = pullback_detail["ema_dist_atr"]
+    location_detail = _compute_location_detail(df)
+    oscillator_detail = _compute_oscillator_detail(df)
+    location_pass = location_detail["pass"]
+    oscillator_pass = oscillator_detail["pass"]
 
-    candidate_pass = bool(decline and DEPTH_MIN <= depth_atr <= DEPTH_MAX and EMA_PROX_MIN <= ema_dist_atr <= EMA_PROX_MAX)
-    if candidate_pass:
-        return EvalResult(status=STATUS_CANDIDATE, trend_pass=True, pullback_pass=True, **common)
-
-    developing_pass = bool(
-        decline
-        and DEV_DEPTH_MIN <= depth_atr <= DEPTH_MAX
-        and EMA_PROX_MIN <= ema_dist_atr <= DEV_EMA_PROX_MAX
-        and (depth_atr < DEPTH_MIN or ema_dist_atr > EMA_PROX_MAX)
-    )
-    if developing_pass:
-        badges = []
-        if depth_atr < DEPTH_MIN:
-            badges.append(Badge(code=BADGE_SHALLOW_PULLBACK, measured=depth_atr, threshold=DEPTH_MIN))
-        if ema_dist_atr > EMA_PROX_MAX:
-            badges.append(Badge(code=BADGE_EXTENDED_FROM_EMA20, measured=ema_dist_atr, threshold=EMA_PROX_MAX))
+    if location_pass and oscillator_pass:
         return EvalResult(
-            status=STATUS_DEVELOPING, trend_pass=True, pullback_pass=False, developing_badges=badges, **common
+            status=STATUS_CANDIDATE,
+            trend_pass=True,
+            location_pass=True,
+            oscillator_pass=True,
+            location_detail=location_detail,
+            oscillator_detail=oscillator_detail,
+            **common,
         )
 
-    return EvalResult(status=STATUS_INELIGIBLE_PULLBACK, trend_pass=True, pullback_pass=False, **common)
+    badges = []
+    if not location_pass:
+        badges.append(
+            Badge(code=BADGE_LOCATION_PENDING, measured=location_detail["dpct"], threshold=LOCATION_PROXIMITY_PCT)
+        )
+    if not oscillator_pass:
+        badges.append(
+            Badge(
+                code=BADGE_OSCILLATOR_PENDING,
+                measured=oscillator_detail["stoch_k"],
+                threshold=OSCILLATOR_ZONE_MAX,
+            )
+        )
+
+    return EvalResult(
+        status=STATUS_DEVELOPING,
+        trend_pass=True,
+        location_pass=location_pass,
+        oscillator_pass=oscillator_pass,
+        location_detail=location_detail,
+        oscillator_detail=oscillator_detail,
+        developing_badges=badges,
+        **common,
+    )

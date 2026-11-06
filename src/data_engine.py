@@ -11,8 +11,6 @@ identically whether it's given the full history or just a short tail-end snapsho
 
 import pandas as pd
 
-MIN_HISTORY_DAYS = 300
-
 
 def to_dataframe(raw_prices: list[dict]) -> pd.DataFrame:
     """Normalize Tiingo's raw JSON rows into a sorted OHLCV DataFrame using adjusted prices.
@@ -157,58 +155,88 @@ def snapshot_tail(df: pd.DataFrame, rows: int = 5) -> list[dict]:
 
 # --- Momentum Continuation indicators (see docs/Momentum Continuation V2 — Logic.md) ---
 # Self-contained and deliberately independent of add_indicators() above: the live
-# Momentum Continuation path must never depend on V1's indicator set (ema_8, stoch,
-# rvol, weekly/monthly stoch), which only src/rules_engine_v1.py (archived) still uses.
+# Momentum Continuation path must never depend on V1's indicator set computed there
+# - only the private _stochastic()/_resample_ohlcv() math helpers are shared.
 
-ATR_PERIOD = 14
-# Conventional alpha = 2/(N+1) for a 20-period EMA. NOT the same constant as V1's
-# ema_21 column (span=21 -> alpha=2/22) - this is simply the standard 20-period EMA
-# formula, spelled out as alpha per the spec's exact wording.
-EMA20_ALPHA = 2 / 21
-HIGHEST_HIGH_WINDOW = 20
-DECLINE_LOOKBACK_SESSIONS = 3
 SMA50_TREND_LOOKBACK_SESSIONS = 20
+LOCATION_PROXIMITY_PCT = 3.0
+OSCILLATOR_ZONE_MAX = 30
 
 
-def _wilder_atr(df: pd.DataFrame, period: int = ATR_PERIOD) -> pd.Series:
-    """Wilder-smoothed Average True Range. Seeded with a simple average of the
-    first `period` true-range values, then recursively smoothed - the standard
-    Wilder method, distinct from an EMA-based ATR."""
-    prev_close = df["close"].shift(1)
-    true_range = pd.concat(
-        [
-            df["high"] - df["low"],
-            (df["high"] - prev_close).abs(),
-            (df["low"] - prev_close).abs(),
-        ],
-        axis=1,
-    ).max(axis=1)
+def _add_mtf_stoch(df: pd.DataFrame) -> pd.DataFrame:
+    """Attaches the latest *completed* weekly and monthly Stochastic(14,3,3)
+    readings to every daily row, for the Trend Gate's Layer 2 MTF momentum veto
+    (Monthly %K>%D or rising; Weekly %K rising and >=20 - see evaluate_stock's
+    _compute_trend_detail). A weekly/monthly resample bin is labeled by its
+    period-end date, so merge_asof(direction="backward") against the daily date
+    always matches the most recently *completed* higher-timeframe bar, never
+    the still-forming current one. Reuses the daily OHLCV already fetched - no
+    extra Tiingo calls.
+    """
+    weekly = _resample_ohlcv(df, "W-FRI")
+    weekly["stoch_k"], weekly["stoch_d"] = _stochastic(weekly)
+    weekly["stoch_k_prev"] = weekly["stoch_k"].shift(1)
 
-    atr = pd.Series(index=df.index, dtype="float64")
-    seed_idx = period  # true_range[0] is NaN (no prev_close); the first `period`
-    # valid true-range values are indices 1..period, so the seed lands at index `period`.
-    if len(true_range) > seed_idx:
-        atr.iloc[seed_idx] = true_range.iloc[1 : seed_idx + 1].mean()
-        for i in range(seed_idx + 1, len(true_range)):
-            atr.iloc[i] = (atr.iloc[i - 1] * (period - 1) + true_range.iloc[i]) / period
-    return atr
+    monthly = _resample_ohlcv(df, "ME")
+    monthly["stoch_k"], monthly["stoch_d"] = _stochastic(monthly)
+    monthly["stoch_k_prev"] = monthly["stoch_k"].shift(1)
+
+    df = pd.merge_asof(
+        df,
+        weekly[["date", "stoch_k", "stoch_d", "stoch_k_prev"]].rename(
+            columns={
+                "stoch_k": "weekly_stoch_k",
+                "stoch_d": "weekly_stoch_d",
+                "stoch_k_prev": "weekly_stoch_k_prev",
+            }
+        ),
+        on="date",
+        direction="backward",
+    )
+    df = pd.merge_asof(
+        df,
+        monthly[["date", "stoch_k", "stoch_d", "stoch_k_prev"]].rename(
+            columns={
+                "stoch_k": "monthly_stoch_k",
+                "stoch_d": "monthly_stoch_d",
+                "stoch_k_prev": "monthly_stoch_k_prev",
+            }
+        ),
+        on="date",
+        direction="backward",
+    )
+    return df
 
 
 def add_continuation_indicators(df: pd.DataFrame) -> pd.DataFrame:
-    """Indicators for the Momentum Continuation setup: sma_50/sma_200 (trend gate),
-    sma_50_prev20 (SMA50 20 sessions ago, for the "still rising" trend condition),
-    atr_14 (Wilder), ema_20 (alpha=2/21), highest_high_20 (rolling max of `high`
-    over the latest 20 sessions, inclusive of the evaluation session),
-    close_3ago (close 3 sessions ago, for the recent-decline condition), and
-    prev_session_high (for the optional recovery_observed annotation).
+    """Indicators for the Momentum Continuation setup: sma_50/sma_200/sma_50_prev20
+    (Trend Gate Layer 1), monthly/weekly Stochastic (Trend Gate Layer 2 MTF veto),
+    ema_8/ema_21 and the derived ema_ref/location_dpct/location_ok (Location Gate
+    - EMAref is whichever of EMA8/EMA21 sits closer to price, tie -> EMA8), daily
+    Stochastic(14,3,3) and the derived oscillator_trigger_ok (Oscillator Gate), and
+    prev_session_high (for the non-gating recovery_observed annotation).
     """
-    df = df.copy()
+    df = df.copy().sort_values("date").reset_index(drop=True)
+
     df["sma_50"] = df["close"].rolling(50).mean()
     df["sma_200"] = df["close"].rolling(200).mean()
     df["sma_50_prev20"] = df["sma_50"].shift(SMA50_TREND_LOOKBACK_SESSIONS)
-    df["atr_14"] = _wilder_atr(df)
-    df["ema_20"] = df["close"].ewm(alpha=EMA20_ALPHA, adjust=False).mean()
-    df["highest_high_20"] = df["high"].rolling(HIGHEST_HIGH_WINDOW).max()
-    df["close_3ago"] = df["close"].shift(DECLINE_LOOKBACK_SESSIONS)
+
+    df["ema_8"] = df["close"].ewm(span=8, adjust=False).mean()
+    df["ema_21"] = df["close"].ewm(span=21, adjust=False).mean()
+    df["stoch_k"], df["stoch_d"] = _stochastic(df)
+
+    df = _add_mtf_stoch(df)
+
+    dist_8 = (df["close"] - df["ema_8"]).abs()
+    dist_21 = (df["close"] - df["ema_21"]).abs()
+    df["ema_ref"] = df["ema_8"].where(dist_8 <= dist_21, df["ema_21"])
+    df["location_dpct"] = (df["close"] - df["ema_ref"]).abs() / df["ema_ref"] * 100
+    df["location_ok"] = df["location_dpct"] <= LOCATION_PROXIMITY_PCT
+
+    crossover = (df["stoch_k"] > df["stoch_d"]) & (df["stoch_k"].shift(1) <= df["stoch_d"].shift(1))
+    zone = (df["stoch_k"] <= OSCILLATOR_ZONE_MAX) | (df["stoch_d"] <= OSCILLATOR_ZONE_MAX)
+    df["oscillator_trigger_ok"] = crossover & zone
+
     df["prev_session_high"] = df["high"].shift(1)
     return df
