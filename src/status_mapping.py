@@ -12,6 +12,7 @@ grace window is left) - so a row is self-explanatory without opening a detail
 panel.
 """
 
+from src.data_engine import LOCATION_PROXIMITY_PCT, OSCILLATOR_ZONE_MAX
 from src.rules_engine import (
     BADGE_LOCATION_PENDING,
     BADGE_OSCILLATOR_PENDING,
@@ -20,6 +21,7 @@ from src.rules_engine import (
     STATUS_DATA_INVALID,
     STATUS_DEVELOPING,
     STATUS_INELIGIBLE_TREND,
+    direction_of,
 )
 
 GROUP_QUALIFIED = "qualified"
@@ -59,15 +61,19 @@ BADGE_LABEL = {
     BADGE_OSCILLATOR_PENDING: "OSCILLATOR PENDING",
 }
 
-# badge["direction"] -> a short clause, or "" (direction unknown/not applicable)
-# so callers can drop the clause entirely rather than print "unknown".
+# direction_of(...) -> a short clause, or "" (direction unknown/not applicable)
+# so callers can drop the clause entirely rather than print "unknown". Every
+# branch (including the flat case) must resolve to *something* - "not yet in
+# zone" swallowing "holding flat" was a real gap, not a cosmetic one, since a
+# reading that's dead flat vs. one that's actively worsening read as the same
+# message otherwise.
 _DIRECTION_PHRASE = {
     "closing_in": "closing in",
     "drifting_away": "drifting away",
-    "holding_steady": "holding steady",
+    "holding_steady": "holding flat",
 }
 
-RECOVERY_TAG = "↑ Follow-through"
+RECOVERY_TAG = "↑ Closed above prior high"
 
 
 def ui_group_for_status(status: str) -> str:
@@ -82,81 +88,101 @@ def has_recovery_tag(result: dict) -> bool:
     return bool(result.get("recovery_observed"))
 
 
-def _location_progress_phrase(badge: dict) -> str:
-    """Magnitude + direction for a still-pending Location gate, e.g.
-    "4.2% from EMA8 (max 3.0%), closing in"."""
-    ema_label = badge.get("ema_label") or "EMA"
-    direction = _DIRECTION_PHRASE.get(badge.get("direction") or "")
-    base = f"{badge['measured']:.1f}% from {ema_label} (max {badge['threshold']:.1f}%)"
-    return f"{base}, {direction}" if direction else base
+def _ema_label(ema_ref_is_ema8) -> str:
+    if ema_ref_is_ema8 is None:
+        return "EMA"
+    return "EMA8" if ema_ref_is_ema8 else "EMA21"
 
 
-def _oscillator_progress_phrase(badge: dict) -> str:
-    """Magnitude + direction + in_zone for a still-pending Oscillator gate.
-    in_zone (already <=30 today, just no crossover yet) takes priority over
-    direction - it's the more decision-relevant fact of the two."""
-    stoch_k, threshold = badge["measured"], badge["threshold"]
-    if badge.get("in_zone"):
-        return f"%K {stoch_k:.1f}, in the ≤{threshold:.0f} zone, awaiting bullish cross"
-    direction = badge.get("direction")
-    if direction == "closing_in":
-        return f"%K {stoch_k:.1f}, falling toward ≤{threshold:.0f}"
-    if direction == "drifting_away":
-        return f"%K {stoch_k:.1f}, moving away from ≤{threshold:.0f}"
-    return f"%K {stoch_k:.1f}, not yet ≤{threshold:.0f}"
-
-
-def badge_text(badge: dict) -> str:
-    """badge: a serialized rules_engine.Badge (as stored in results.json).
-    e.g. "LOCATION PENDING | 4.2% from EMA8 (max 3.0%), closing in" /
-    "OSCILLATOR PENDING | %K 38.1, falling toward ≤30"."""
-    code = badge["code"]
-    label = BADGE_LABEL.get(code, code)
-    if code == BADGE_LOCATION_PENDING:
-        return f"{label} | {_location_progress_phrase(badge)}"
-    if code == BADGE_OSCILLATOR_PENDING:
-        return f"{label} | {_oscillator_progress_phrase(badge)}"
-    return f"{label} | {badge['measured']:.1f} · {badge['threshold']:.1f}"
-
-
-def _recency_phrase(verb_phrase: str, detail: dict) -> str:
-    """e.g. verb_phrase="reached zone" + sessions_ago=3 -> "reached zone 3
+def _recency_suffix(detail: dict) -> str:
+    """"" (gate hasn't passed, no recency to report) / "today" / "triggered 3
     sessions ago - grace expires next session". Flags the last 1 session of
-    grace remaining so a Candidate that's about to lapse back to Developing
-    on the next refresh doesn't do so without warning."""
+    grace remaining so a Candidate about to lapse back to Developing on the
+    next refresh doesn't do so without warning."""
     sessions_ago = detail.get("sessions_ago")
     if sessions_ago is None:
-        return f"{verb_phrase} status unknown"
+        return ""
     if sessions_ago == 0:
-        return f"{verb_phrase} today"
+        return "today"
     remaining = GRACE_WINDOW_SESSIONS - sessions_ago
     plural = "" if sessions_ago == 1 else "s"
-    phrase = f"{verb_phrase} {sessions_ago} session{plural} ago"
+    phrase = f"triggered {sessions_ago} session{plural} ago"
     if remaining <= 1:
         phrase += " — grace expires next session"
     return phrase
 
 
+def _location_pending_phrase(dpct: float, direction: str | None, ema_label: str) -> str:
+    """Spells out the actual condition ("needs <=3.0% from its EMA") rather
+    than naming it "the zone" - that noun meant nothing on its own, and this
+    gate and the Oscillator gate below each have their own unrelated zone, so
+    reusing the word between them was actively misleading, not just vague.
+    `direction` is an already-resolved direction_of(...) code, not raw
+    readings - callers compute it themselves since the two call sites
+    (the live clause and the archived Badge) get it from different places."""
+    phrase = _DIRECTION_PHRASE.get(direction or "")
+    base = f"Price {dpct:.1f}% from {ema_label}, needs ≤{LOCATION_PROXIMITY_PCT:.1f}%"
+    return f"{base} — {phrase}" if phrase else base
+
+
+def _oscillator_pending_phrase(stoch_k: float, direction: str | None, in_zone) -> str:
+    """in_zone (already <=30 today, just no crossover yet) takes priority over
+    direction - it's the more decision-relevant fact of the two, and "waiting
+    on a cross" vs. "still falling toward oversold" are genuinely different
+    situations a direction clause alone can't distinguish."""
+    if in_zone:
+        return f"%K {stoch_k:.1f} — already oversold (≤{OSCILLATOR_ZONE_MAX:.0f}), awaiting the bullish cross"
+    phrase = _DIRECTION_PHRASE.get(direction or "")
+    base = f"%K {stoch_k:.1f}, above the ≤{OSCILLATOR_ZONE_MAX:.0f} oversold trigger"
+    return f"{base} — {phrase}" if phrase else base
+
+
+def badge_text(badge: dict) -> str:
+    """badge: a serialized rules_engine.Badge (as stored in results.json).
+    Not currently rendered by app.py (the pipeline-chain sentence below
+    absorbed this) - kept for a future per-gate detail view."""
+    code = badge["code"]
+    label = BADGE_LABEL.get(code, code)
+    if code == BADGE_LOCATION_PENDING:
+        phrase = _location_pending_phrase(badge["measured"], badge.get("direction"), badge.get("ema_label") or "EMA")
+        return f"{label} | {phrase}"
+    if code == BADGE_OSCILLATOR_PENDING:
+        phrase = _oscillator_pending_phrase(badge["measured"], badge.get("direction"), badge.get("in_zone"))
+        return f"{label} | {phrase}"
+    return f"{label} | {badge['measured']:.1f} · {badge['threshold']:.1f}"
+
+
 def _location_clause(result: dict) -> str:
-    """The Location leg of the pipeline chain, whichever state it's in."""
+    """The Location leg of the pipeline chain: always states what's actually
+    being measured (price's % distance from its reference EMA) and how it's
+    moving - whether or not the gate has passed - instead of a content-free
+    "reached zone" that read as a pass/fail bit with no number attached."""
     detail = result.get("location_detail") or {}
+    dpct = detail.get("dpct")
+    if dpct is None:
+        return "Price-to-EMA reading unavailable"
+    ema_label = _ema_label(detail.get("ema_ref_is_ema8"))
     if detail.get("pass"):
-        return f"Location {_recency_phrase('reached zone', detail)}"
-    badge = next(
-        (b for b in result.get("developing_badges") or [] if b.get("code") == BADGE_LOCATION_PENDING), None
-    )
-    return f"Location pending — {_location_progress_phrase(badge)}" if badge else "Location pending"
+        base = f"Price {dpct:.1f}% from {ema_label} (within {LOCATION_PROXIMITY_PCT:.1f}%)"
+        recency = _recency_suffix(detail)
+        return f"{base}, {recency}" if recency else base
+    direction = direction_of(dpct, detail.get("dpct_prev"))
+    return _location_pending_phrase(dpct, direction, ema_label)
 
 
 def _oscillator_clause(result: dict) -> str:
-    """The Oscillator leg of the pipeline chain, whichever state it's in."""
+    """The Oscillator leg of the pipeline chain - same always-show-the-number
+    treatment as _location_clause above."""
     detail = result.get("oscillator_detail") or {}
+    stoch_k = detail.get("stoch_k")
+    if stoch_k is None:
+        return "Stochastic reading unavailable"
     if detail.get("pass"):
-        return f"Oscillator {_recency_phrase('crossed', detail)}"
-    badge = next(
-        (b for b in result.get("developing_badges") or [] if b.get("code") == BADGE_OSCILLATOR_PENDING), None
-    )
-    return f"Oscillator pending — {_oscillator_progress_phrase(badge)}" if badge else "Oscillator pending"
+        base = f"Stochastic crossed up from oversold (%K {stoch_k:.1f})"
+        recency = _recency_suffix(detail)
+        return f"{base}, {recency}" if recency else base
+    direction = direction_of(stoch_k, detail.get("stoch_k_prev"))
+    return _oscillator_pending_phrase(stoch_k, direction, detail.get("in_zone"))
 
 
 def qualified_reason(result: dict) -> str:

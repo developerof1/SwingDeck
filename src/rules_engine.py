@@ -98,8 +98,10 @@ def _finite(value) -> bool:
     return value is not None and pd.notna(value)
 
 
-def _direction(current, prev) -> str | None:
-    """Lower is always "closer to qualifying" for both diagnostics this feeds
+def direction_of(current, prev) -> str | None:
+    """Public (not rules_engine-internal) because status_mapping.py also needs
+    it to describe a *passing* gate's trend, not just a pending badge's. Lower
+    is always "closer to qualifying" for both diagnostics this feeds
     (Location's %-from-EMA, Oscillator's %K) - so one comparison serves both.
     None when either reading is missing (e.g. no prior-session value yet)."""
     if not (_finite(current) and _finite(prev)):
@@ -290,7 +292,7 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
                 code=BADGE_LOCATION_PENDING,
                 measured=location_detail["dpct"],
                 threshold=LOCATION_PROXIMITY_PCT,
-                direction=_direction(location_detail.get("dpct"), location_detail.get("dpct_prev")),
+                direction=direction_of(location_detail.get("dpct"), location_detail.get("dpct_prev")),
                 ema_label="EMA8" if location_detail.get("ema_ref_is_ema8") else "EMA21",
             )
         )
@@ -300,7 +302,7 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
                 code=BADGE_OSCILLATOR_PENDING,
                 measured=oscillator_detail["stoch_k"],
                 threshold=OSCILLATOR_ZONE_MAX,
-                direction=_direction(oscillator_detail.get("stoch_k"), oscillator_detail.get("stoch_k_prev")),
+                direction=direction_of(oscillator_detail.get("stoch_k"), oscillator_detail.get("stoch_k_prev")),
                 in_zone=oscillator_detail.get("in_zone"),
             )
         )
