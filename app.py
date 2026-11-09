@@ -218,6 +218,30 @@ div[data-testid="stButton"] > button[kind="primary"]:focus {
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
     border-color: rgba(148, 163, 184, 0.45) !important;
 }
+
+/* Watchlist selector bar: same shaded/bordered treatment as .sd-card (see above),
+   wrapping the label + dropdown + source badge as one visual unit instead of three
+   loose elements - matches the mockup's bordered selector row. */
+div[class*="st-key-sd_watchlist_bar"] {
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.7rem 1.1rem;
+    margin-bottom: 1rem;
+}
+div[class*="st-key-sd_watchlist_bar"] div[data-testid="stHorizontalBlock"] {
+    align-items: center;
+}
+.sd-watchlist-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: rgba(250, 250, 250, 0.9) !important;
+}
+.sd-watchlist-source {
+    font-size: 0.85rem;
+    color: rgba(250, 250, 250, 0.55) !important;
+    text-align: right;
+}
 </style>
 """
 
@@ -331,9 +355,11 @@ def render_setup_tabs() -> None:
 
 
 def render_watchlist_selector(watchlists: list[dict]) -> str:
-    """Dropdown + "source: <file>" badge (docs/multi_watchlist_selector_specs.md 3.1 #3).
-    Defaults to the first (alphabetically-by-name) watchlist from discover_watchlists() and
-    persists the pick in session_state across reruns, the same way filter_mode already does.
+    """Label + dropdown + "source: <file>" badge, all inline in one shaded/bordered row
+    (docs/multi_watchlist_selector_specs.md 3.1 #3 - the mockup shows this as a single
+    bordered unit, not three loose elements). Defaults to the first (alphabetically-by-name)
+    watchlist from discover_watchlists() and persists the pick in session_state across
+    reruns, the same way filter_mode already does.
     """
     ids = [w["id"] for w in watchlists]
     by_id = {w["id"]: w for w in watchlists}
@@ -341,16 +367,20 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
     if st.session_state.get("selected_watchlist_id") not in ids:
         st.session_state["selected_watchlist_id"] = ids[0]
 
-    left, right = st.columns([5, 2])
-    with left:
-        selected = st.selectbox(
-            "Active Watchlist",
-            options=ids,
-            format_func=lambda wid: f"{by_id[wid]['name']} ({by_id[wid]['ticker_count']} tickers)",
-            key="selected_watchlist_id",
-        )
-    with right:
-        st.caption(f"source: {selected}.json")
+    with st.container(key="sd_watchlist_bar"):
+        label_col, select_col, source_col = st.columns([1.3, 2.4, 3.3])
+        with label_col:
+            st.markdown('<div class="sd-watchlist-label">Active Watchlist</div>', unsafe_allow_html=True)
+        with select_col:
+            selected = st.selectbox(
+                "Active Watchlist",
+                options=ids,
+                format_func=lambda wid: f"{by_id[wid]['name']} ({by_id[wid]['ticker_count']} tickers)",
+                key="selected_watchlist_id",
+                label_visibility="collapsed",
+            )
+        with source_col:
+            st.markdown(f'<div class="sd-watchlist-source">source: {selected}.json</div>', unsafe_allow_html=True)
 
     return selected
 
