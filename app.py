@@ -232,17 +232,17 @@ div[class*="st-key-sd_watchlist_bar"] {
 div[class*="st-key-sd_watchlist_bar"] div[data-testid="stHorizontalBlock"] {
     align-items: center;
 }
-/* stColumn is itself a flex-direction:column container (columns stack their contents
-   vertically) - align-items:center on it centers children horizontally, not vertically,
-   which is why centering the column itself never visibly fixed anything. Instead, give the
-   label/source boxes a fixed height matching the selectbox's own rendered height and center
-   their text *inside that height* - self-contained, doesn't depend on any ancestor's flex
-   direction or on fighting Streamlit's own inline flex styles. */
+/* Streamlit nests every st.markdown() output inside several of its own wrapper divs with
+   flex/sizing behavior that doesn't reliably hand our content the row's true vertical
+   center (confirmed by directly measuring the rendered page - the wrapper chain's reported
+   heights were inconsistent between two otherwise-identical renders, so this isn't worth
+   chasing through Streamlit's internal, version-specific DOM). Pragmatic fix instead of a
+   theoretical one: nudge both up by the empirically-measured offset so their text lines up
+   with the selectbox's real center - re-verify with Playwright (see scratchpad
+   inspect_layout.py) if this ever drifts after a Streamlit upgrade. */
 .sd-watchlist-label,
 .sd-watchlist-source {
-    display: flex;
-    align-items: center;
-    height: 2.5rem;
+    margin-top: -16px;
 }
 .sd-watchlist-label {
     font-weight: 600;
@@ -252,7 +252,7 @@ div[class*="st-key-sd_watchlist_bar"] div[data-testid="stHorizontalBlock"] {
 .sd-watchlist-source {
     font-size: 0.85rem;
     color: rgba(250, 250, 250, 0.55) !important;
-    justify-content: flex-end;
+    text-align: right;
 }
 </style>
 """
