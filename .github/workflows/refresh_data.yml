@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       tickers:
-        description: "Comma-separated tickers to debug (e.g. NVDA). Leave blank for the full watchlist - blank runs are the only ones that update results.json."
+        description: "Comma-separated tickers to debug (e.g. NVDA). Leave blank for all watchlists - blank runs are the only ones that update results/*.json."
         required: false
         default: ""
 
@@ -45,12 +45,12 @@ jobs:
           TICKERS_OVERRIDE: ${{ github.event.inputs.tickers }}
         run: python scripts/refresh_job.py
 
-      - name: Commit and push results.json
+      - name: Commit and push results
         if: ${{ github.event.inputs.tickers == '' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add results.json
+          git add results/
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0

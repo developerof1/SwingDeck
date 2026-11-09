@@ -10,7 +10,7 @@ one-time plan.
 ## 1. Baseline (today)
 
 ```
-watchlist.json (1 list, 38 tickers)
+watchlists/*.json (N named watchlists, e.g. "AI Trade Names" - 38 tickers)
         |
         v
 data_engine.add_continuation_indicators()
@@ -22,23 +22,29 @@ rules_engine (Momentum Continuation only)
 status_mapping (status -> UI text)
         |
         v
-results.json (1 file)
+results/<watchlist_id>.json (1 file per watchlist)
         |
         v
-app.py (1 view, hardcoded label)
+app.py (1 setup view, watchlist selector)
 ```
 
-One watchlist → one engine → one results file → one view. `refresh_job.py` runs this
-whole chain nightly via GitHub Actions and commits `results.json` to git (git-as-DB).
+N watchlists → one engine → N results files → one view with a watchlist selector.
+`refresh_job.py` runs this whole chain nightly via GitHub Actions: it fetches/evaluates
+each unique ticker once regardless of how many watchlists reference it, fans the result
+out into every watchlist's own `results/<id>.json`, and commits `results/` to git
+(git-as-DB). `watchlists/*.json` stays manually edited, same as the old single
+`watchlist.json` was.
 
 ## 2. Growth model: Universe × Setup
 
-Every future ticker evaluation is a cell in this grid. Today we have exactly one cell.
+Every future ticker evaluation is a cell in this grid. Today we have exactly one populated
+cell, but the watchlist mechanism itself now supports any number of rows — adding a second
+named watchlist is just dropping a new `watchlists/<id>.json` file, no code change.
 
 | | Momentum Continuation (live) | Mean Reversion / Pullback (future) | Setup N |
 |---|---|---|---|
-| **Core 38 (current watchlist)** | ✅ shipped | ☐ | ☐ |
-| **Additional named watchlist** | ☐ *(vertical)* | ☐ | ☐ |
+| **AI Trade Names (current watchlist, 38 tickers)** | ✅ shipped | ☐ | ☐ |
+| **Additional named watchlist** | ✅ mechanism shipped — none added yet | ☐ | ☐ |
 | **Broader universe (e.g. S&P 500 slice)** | ☐ *(vertical)* | ☐ | ☐ |
 
 Vertical growth adds **rows**. Horizontal growth adds **columns**. Neither should require
@@ -63,12 +69,14 @@ app.py + watchlist selector
 ```
 
 **Deltas required:**
-- [ ] Replace single `watchlist.json` with a small registry (multiple files, or one file
-  + a `list_id`/`universe_id` field per entry)
-- [ ] `refresh_job.py` loops over registered watchlists, not one hardcoded path
-- [ ] `results.json` → keyed/split by `watchlist_id` (either `results/<watchlist_id>.json`
-  or a `watchlist_id` field per row in one file)
-- [ ] `app.py` gets a watchlist selector; no more hardcoded `WATCHLIST_PATH`/`RESULTS_PATH`
+- [x] Replace single `watchlist.json` with a small registry — `watchlists/*.json`, one
+  self-describing file per watchlist (`src/watchlist_store.py`), no separate registry file
+  to keep in sync
+- [x] `refresh_job.py` loops over registered watchlists, not one hardcoded path — and
+  fetches/evaluates each unique ticker once regardless of how many watchlists reference it
+- [x] `results.json` → keyed/split by `watchlist_id` — `results/<watchlist_id>.json`, one
+  file per watchlist
+- [x] `app.py` gets a watchlist selector; no more hardcoded `WATCHLIST_PATH`/`RESULTS_PATH`
 - [ ] Tiingo fetches for a broad universe are **sequenced/staggered through the day**
   (multiple scheduled runs, each covering a slice) — acceptable because every setup here
   is EOD-based, not day-trading-grade, so "yesterday's close" staying valid for a few
@@ -77,7 +85,7 @@ app.py + watchlist selector
 ## 4. Horizontal growth — parallel setups
 
 ```
-                    watchlist.json
+                   watchlists/*.json
                           |
                           v
      Shared indicator toolkit (SMA/EMA/Stochastic,

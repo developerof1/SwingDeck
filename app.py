@@ -1,10 +1,11 @@
 """SwingDeck - Momentum Continuation overview (docs/SwingDeck_V2_Refactoring_Spec.md).
 
-Reads precomputed results.json (written nightly by scripts/refresh_job.py via
-GitHub Actions - see docs/SPEC.md Section 8). Never calls Tiingo directly, and -
-unlike the archived V1 app - never re-runs the rules engine either: there are no
-more interactive thresholds, so every row's status is exactly what refresh_job.py
-already decided. app.py is a pure view layer over results.json + status_mapping.
+Reads precomputed results/<watchlist_id>.json (written nightly by scripts/refresh_job.py
+via GitHub Actions for every watchlist under watchlists/ - see docs/SPEC.md Section 8).
+Never calls Tiingo directly, and - unlike the archived V1 app - never re-runs the rules
+engine either: there are no more interactive thresholds, so every row's status is exactly
+what refresh_job.py already decided. app.py is a pure view layer over results/*.json +
+status_mapping, plus a watchlist selector over watchlists/*.json (src.watchlist_store).
 """
 
 import json
@@ -27,10 +28,14 @@ from src.status_mapping import (
     qualified_reason,
     ui_group_for_status,
 )
+from src.watchlist_store import discover_watchlists
 
 REPO_ROOT = os.path.dirname(__file__)
-RESULTS_PATH = os.path.join(REPO_ROOT, "results.json")
-WATCHLIST_PATH = os.path.join(REPO_ROOT, "watchlist.json")
+RESULTS_DIR = os.path.join(REPO_ROOT, "results")
+
+
+def results_path(watchlist_id: str) -> str:
+    return os.path.join(RESULTS_DIR, f"{watchlist_id}.json")
 
 # America/Chicago correctly resolves to CST or CDT depending on the date
 # (zoneinfo applies US DST rules automatically) - refresh_job.py stores
@@ -243,8 +248,8 @@ def check_password() -> bool:
 
 
 def load_results(path: str) -> dict:
-    # Deliberately uncached: results.json is precomputed server-side and only ever
-    # changes via a git push + redeploy, but caching here risks showing stale data
+    # Deliberately uncached: each results/<watchlist_id>.json is precomputed server-side and
+    # only ever changes via a git push + redeploy, but caching here risks showing stale data
     # across a redeploy that doesn't fully restart the process. The file is tiny,
     # so re-reading it on every rerun costs nothing.
     with open(path) as f:
@@ -252,7 +257,7 @@ def load_results(path: str) -> dict:
 
 
 def _parse_generated_at(raw: str | None) -> datetime | None:
-    """generated_at may be a bare date (old results.json, pre-timestamp schema)
+    """generated_at may be a bare date (old pre-timestamp schema)
     or a full ISO timestamp (current schema) - accept either."""
     if not raw:
         return None
@@ -317,8 +322,40 @@ def _format_session_date(session: str | None) -> str:
         return session
 
 
-def render_session_line(evaluated_session: str | None, generated_at: str | None) -> None:
+def render_setup_tabs() -> None:
+    """Static single-tab scaffold - "Momentum Continuation" is the only live setup today.
+    Visual scaffolding only (per docs/multi_watchlist_selector_specs.md 3.1 #2): a second
+    setup tab is horizontal-growth work, not part of this change - nothing here implies a
+    setup registry exists yet."""
     st.markdown('<span class="setup-label">Momentum Continuation</span>', unsafe_allow_html=True)
+
+
+def render_watchlist_selector(watchlists: list[dict]) -> str:
+    """Dropdown + "source: <file>" badge (docs/multi_watchlist_selector_specs.md 3.1 #3).
+    Defaults to the first (alphabetically-by-name) watchlist from discover_watchlists() and
+    persists the pick in session_state across reruns, the same way filter_mode already does.
+    """
+    ids = [w["id"] for w in watchlists]
+    by_id = {w["id"]: w for w in watchlists}
+
+    if st.session_state.get("selected_watchlist_id") not in ids:
+        st.session_state["selected_watchlist_id"] = ids[0]
+
+    left, right = st.columns([5, 2])
+    with left:
+        selected = st.selectbox(
+            "Active Watchlist",
+            options=ids,
+            format_func=lambda wid: f"{by_id[wid]['name']} ({by_id[wid]['ticker_count']} tickers)",
+            key="selected_watchlist_id",
+        )
+    with right:
+        st.caption(f"source: {selected}.json")
+
+    return selected
+
+
+def render_session_line(evaluated_session: str | None, generated_at: str | None) -> None:
     session_text = _format_session_date(evaluated_session)
     dt = _parse_generated_at(generated_at)
     if dt:
@@ -493,19 +530,26 @@ def main() -> None:
 
     st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
+    render_header()
+    render_setup_tabs()
+
+    watchlists = discover_watchlists()
+    if not watchlists:
+        st.error("No watchlists configured - add a file under watchlists/.")
+        return
+
+    selected_watchlist_id = render_watchlist_selector(watchlists)
+
     try:
-        data = load_results(RESULTS_PATH)
+        data = load_results(results_path(selected_watchlist_id))
     except (FileNotFoundError, json.JSONDecodeError):
-        render_header()
-        st.error("No scan data available yet - the refresh job hasn't produced results.json.")
+        st.error("No scan data available yet for this watchlist - the refresh job hasn't produced results.")
         return
 
     if not data.get("generated_at") and not data.get("results"):
-        render_header()
         st.info("No data yet - waiting for the first scheduled refresh to run.")
         return
 
-    render_header()
     staleness_banner(data.get("generated_at"))
     render_session_line(data.get("evaluated_session"), data.get("generated_at"))
 

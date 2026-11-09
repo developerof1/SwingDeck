@@ -245,11 +245,11 @@ Each stock must be evaluated sequentially through the following rules:
 * **Data Provider:** Tiingo only (free tier) for v1 — see Section 4. yfinance fallback deferred until actually needed.
 * **Scheduled Refresh (no external database):**
   * A GitHub Actions workflow (`.github/workflows/refresh_data.yml`) runs weekdays at 11:00 UTC (overnight US time, after EOD data has settled) and can also be triggered manually via `workflow_dispatch`.
-  * It executes `scripts/refresh_job.py`, which fetches market data via Tiingo, runs the rules engine with default thresholds, and writes `results.json` — including, per ticker, the default-threshold evaluation, a small 5-row indicator snapshot (now including weekly/monthly Stochastic columns for Step 4's multi-timeframe check), and a `state` object (`regime_since`, `location_last_ok_date`, `oscillator_last_triggered_date`) diffed against the previous run's `results.json` — this is what drives the UI's `Days in Regime` column and Step 3/4's grace window (Section 5).
-  * The workflow commits and pushes `results.json` back to the repo using the GitHub Actions-provided token (`permissions: contents: write`) — no external secret needed for this step beyond `TIINGO_API_KEY`, which must be set as a GitHub Actions repository secret.
+  * It executes `scripts/refresh_job.py`, which fetches market data via Tiingo once per unique ticker across every watchlist in `watchlists/` (a ticker shared by multiple watchlists is fetched once, not once per watchlist), runs the rules engine with default thresholds, and writes one `results/<watchlist_id>.json` per watchlist — including, per ticker, the default-threshold evaluation, a small 5-row indicator snapshot (now including weekly/monthly Stochastic columns for Step 4's multi-timeframe check), and a `state` object (`regime_since`, `location_last_ok_date`, `oscillator_last_triggered_date`) diffed against the previous run's `results/<watchlist_id>.json` — this is what drives the UI's `Days in Regime` column and Step 3/4's grace window (Section 5).
+  * The workflow commits and pushes `results/*.json` back to the repo using the GitHub Actions-provided token (`permissions: contents: write`) — no external secret needed for this step beyond `TIINGO_API_KEY`, which must be set as a GitHub Actions repository secret.
   * Streamlit Community Cloud auto-redeploys on every push to the watched branch, so the live app picks up new results automatically without ever calling the data provider itself.
 * **Interactive thresholds without live data:** `app.py` never calls Tiingo. When the sidebar sliders move, it re-runs the same `rules_engine.evaluate_stock()` locally against the 5-row snapshot stored per ticker in `results.json` — this is enough data for the 5-day swing low, prior-day-high, and stochastic-cross lookback checks, since those only ever examine the last few rows. SMA 50/200, EMA 8/21, and Stochastic %K/%D themselves are precomputed server-side (they need the full history) and carried through the snapshot as-is.
-* **Persistence Model — Git as the Database:** both `watchlist.json` (edited manually) and `results.json` (written by the scheduled job) are ordinary committed files. There is no external database (Turso, SQLite, etc.) — git's commit history doubles as the audit trail.
+* **Persistence Model — Git as the Database:** both `watchlists/*.json` (edited manually) and `results/*.json` (written by the scheduled job) are ordinary committed files. There is no external database (Turso, SQLite, etc.) — git's commit history doubles as the audit trail.
   * `app.py` is **read-only** with respect to GitHub: it never writes or pushes anything, so it needs no write-scoped token. This is a direct consequence of making watchlist edits manual-only.
   * Trade-off: every data refresh and every manual watchlist edit triggers a full app redeploy (brief downtime / cold start), and the git history accumulates one commit per refresh/edit. Acceptable for a low-frequency, single-user tool.
   * **Commit convention:** tag both automated refresh commits and manual watchlist-edit commits with a `[data]` prefix (e.g. `[data] daily refresh 2026-10-17`, `[data] add ticker: SOFI`) to keep them distinguishable from real code changes in the git log.
@@ -260,19 +260,20 @@ Each stock must be evaluated sequentially through the following rules:
 
 ```text
 SwingDeck/
-├── .github/workflows/refresh_data.yml   # weekday cron -> runs refresh_job.py -> commits results.json
+├── .github/workflows/refresh_data.yml   # weekday cron -> runs refresh_job.py -> commits results/*.json
 ├── .streamlit/
 │   ├── config.toml                      # theme/page config
 │   └── secrets.toml.example             # documents required secret keys; real secrets.toml is gitignored
-├── app.py                               # entrypoint: password gate, layout, reads results.json
+├── app.py                               # entrypoint: password gate, layout, watchlist selector, reads results/*.json
 ├── docs/SPEC.md                         # this document
 ├── src/
 │   ├── providers/tiingo_provider.py      # v1 data source; interface leaves room for a fallback adapter later
 │   ├── data_engine.py                   # indicator calcs: SMA/EMA/Stochastic/RVOL + snapshot serialization
-│   └── rules_engine.py                  # evaluate_stock() - the 5-step pipeline, pure logic
+│   ├── rules_engine.py                  # evaluate_stock() - the 5-step pipeline, pure logic
+│   └── watchlist_store.py               # discover_watchlists()/load_watchlist() over watchlists/*.json
 ├── scripts/refresh_job.py               # entrypoint the GitHub Actions cron calls
-├── watchlist.json                       # manually edited, committed source of truth
-├── results.json                         # written by refresh_job.py, read by app.py
+├── watchlists/<id>.json                 # one file per named watchlist, manually edited, committed
+├── results/<watchlist_id>.json          # one file per watchlist, written by refresh_job.py, read by app.py
 ├── requirements.txt
 ├── runtime.txt                          # pins Python 3.12 for Streamlit Community Cloud
 ├── .gitignore
