@@ -232,6 +232,13 @@ div[class*="st-key-sd_watchlist_bar"] {
 div[class*="st-key-sd_watchlist_bar"] div[data-testid="stHorizontalBlock"] {
     align-items: center;
 }
+/* align-items: center on the row above only centers each column's own box - the column's
+   *inner* content (our label/source divs) still sits at the top of that box unless the
+   column itself is told to center its content too. */
+div[class*="st-key-sd_watchlist_bar"] div[data-testid="stColumn"] {
+    display: flex;
+    align-items: center;
+}
 .sd-watchlist-label {
     font-weight: 600;
     font-size: 0.95rem;
@@ -358,8 +365,12 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
     """Label + dropdown + "source: <file>" badge, all inline in one shaded/bordered row
     (docs/multi_watchlist_selector_specs.md 3.1 #3 - the mockup shows this as a single
     bordered unit, not three loose elements). Defaults to the first (alphabetically-by-name)
-    watchlist from discover_watchlists() and persists the pick in session_state across
-    reruns, the same way filter_mode already does.
+    watchlist from discover_watchlists() and persists the pick in st.session_state across
+    reruns, the same way the status filter_mode (render_count_cards) already does.
+
+    filter_mode=None on the selectbox itself (unrelated to that status filter_mode) turns
+    off BaseWeb's default type-to-filter behavior - click-to-open/click-to-pick only, no
+    typing - since with few watchlists a searchable combobox reads as an editable text box.
     """
     ids = [w["id"] for w in watchlists]
     by_id = {w["id"]: w for w in watchlists}
@@ -378,6 +389,7 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
                 format_func=lambda wid: f"{by_id[wid]['name']} ({by_id[wid]['ticker_count']} tickers)",
                 key="selected_watchlist_id",
                 label_visibility="collapsed",
+                filter_mode=None,
             )
         with source_col:
             st.markdown(f'<div class="sd-watchlist-source">source: {selected}.json</div>', unsafe_allow_html=True)
