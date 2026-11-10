@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T10:04+00:00",
+  "generated_at": "2026-11-10T20:09+00:00",
   "evaluated_session": "2026-11-09",
   "results": [
     {
@@ -156,7 +156,7 @@
     },
     {
       "ticker": "ALGN",
-      "name": null,
+      "name": "Align Technology Inc",
       "sector": "Healthare / Medical Devices",
       "thesis": null,
       "status": "INELIGIBLE_TREND",
@@ -320,7 +320,7 @@
     },
     {
       "ticker": "AOS",
-      "name": null,
+      "name": "A.O. Smith Corp",
       "sector": "Manufacturing",
       "thesis": null,
       "status": "INELIGIBLE_TREND",
@@ -358,7 +358,7 @@
     },
     {
       "ticker": "AMT",
-      "name": null,
+      "name": "American Tower Corp",
       "sector": "REIT",
       "thesis": null,
       "status": "INELIGIBLE_TREND",
@@ -472,7 +472,7 @@
     },
     {
       "ticker": "APD",
-      "name": null,
+      "name": "Air Products & Chemicals Inc",
       "sector": "Basic Materials / Specialty Chemicals",
       "thesis": null,
       "status": "INELIGIBLE_TREND",
@@ -902,7 +902,7 @@
     },
     {
       "ticker": "ALB",
-      "name": null,
+      "name": "Albemarle Corp",
       "sector": "Commodities",
       "thesis": null,
       "status": "INELIGIBLE_TREND",
@@ -1317,6 +1317,221 @@
         "ema_8": 485.36889511172143,
         "ema_21": 518.1879123751545
       }
+    },
+    {
+      "ticker": "BXSL",
+      "name": null,
+      "sector": "Financial / Investments",
+      "thesis": null,
+      "status": "INELIGIBLE_TREND",
+      "ui_group": "other",
+      "evaluated_session": "2026-11-09",
+      "data_valid": true,
+      "recovery_observed": false,
+      "developing_badges": [],
+      "trend_detail": {
+        "close": 23.94,
+        "sma_50": 23.768852444448,
+        "sma_200": 22.8677574503445,
+        "sma_50_prev20": 23.797598222225997,
+        "monthly_stoch_k": 47.334129090762694,
+        "monthly_stoch_d": 38.21949352216661,
+        "monthly_stoch_k_prev": 37.431877662820916,
+        "weekly_stoch_k": 56.09286704653798,
+        "weekly_stoch_k_prev": 54.72264847074282,
+        "close_gt_sma200": true,
+        "sma50_gt_sma200": true,
+        "sma50_rising": false,
+        "monthly_pass": true,
+        "weekly_pass": true
+      },
+      "location_detail": {},
+      "oscillator_detail": {},
+      "data_invalid_reason": null,
+      "diagnostics": {
+        "close": 23.94,
+        "sma_50": 23.768852444448,
+        "sma_200": 22.8677574503445,
+        "ema_8": 23.79193123368063,
+        "ema_21": 23.681645302489112
+      }
+    },
+    {
+      "ticker": "BX",
+      "name": null,
+      "sector": "Financial Services / Asset Management",
+      "thesis": null,
+      "status": "INELIGIBLE_TREND",
+      "ui_group": "other",
+      "evaluated_session": "2026-11-09",
+      "data_valid": true,
+      "recovery_observed": true,
+      "developing_badges": [],
+      "trend_detail": {
+        "close": 124.05,
+        "sma_50": 119.02182302490601,
+        "sma_200": 120.782634875394,
+        "sma_50_prev20": 129.177944153062,
+        "monthly_stoch_k": 29.875241964749648,
+        "monthly_stoch_d": 32.622975708516215,
+        "monthly_stoch_k_prev": 33.100272330700726,
+        "weekly_stoch_k": 30.33782263941976,
+        "weekly_stoch_k_prev": 19.918154761814105,
+        "close_gt_sma200": true,
+        "sma50_gt_sma200": false,
+        "sma50_rising": false,
+        "monthly_pass": false,
+        "weekly_pass": true
+      },
+      "location_detail": {},
+      "oscillator_detail": {},
+      "data_invalid_reason": null,
+      "diagnostics": {
+        "close": 124.05,
+        "sma_50": 119.02182302490601,
+        "sma_200": 120.782634875394,
+        "ema_8": 120.32405126223638,
+        "ema_21": 117.66621710121669
+      }
+    },
+    {
+      "ticker": "BR",
+      "name": null,
+      "sector": "Financial Services / Financial Data & Stock Exchanges",
+      "thesis": null,
+      "status": "DEVELOPING",
+      "ui_group": "developing",
+      "evaluated_session": "2026-11-09",
+      "data_valid": true,
+      "recovery_observed": true,
+      "developing_badges": [
+        {
+          "code": "OSCILLATOR_PENDING",
+          "measured": 85.32320590913056,
+          "threshold": 30,
+          "direction": "drifting_away",
+          "in_zone": false,
+          "ema_label": null
+        }
+      ],
+      "trend_detail": {
+        "close": 192.34,
+        "sma_50": 172.22989947777802,
+        "sma_200": 163.7851105994635,
+        "sma_50_prev20": 168.915436655556,
+        "monthly_stoch_k": 32.34430746808399,
+        "monthly_stoch_d": 24.913563797272463,
+        "monthly_stoch_k_prev": 24.356015766160905,
+        "weekly_stoch_k": 86.7207986039639,
+        "weekly_stoch_k_prev": 82.63491632885145,
+        "close_gt_sma200": true,
+        "sma50_gt_sma200": true,
+        "sma50_rising": true,
+        "monthly_pass": true,
+        "weekly_pass": true
+      },
+      "location_detail": {
+        "dpct": 2.5468128576431814,
+        "dpct_prev": 2.256575406537279,
+        "ema_ref": 187.56311838477993,
+        "ema_ref_is_ema8": true,
+        "pass_today": true,
+        "pass": true,
+        "sessions_ago": 0
+      },
+      "oscillator_detail": {
+        "stoch_k": 85.32320590913056,
+        "stoch_d": 84.8425582667805,
+        "stoch_k_prev": 83.33526965240797,
+        "in_zone": false,
+        "pass_today": false,
+        "pass": false,
+        "sessions_ago": null
+      },
+      "data_invalid_reason": null,
+      "diagnostics": {
+        "close": 192.34,
+        "sma_50": 172.22989947777802,
+        "sma_200": 163.7851105994635,
+        "ema_8": 187.56311838477993,
+        "ema_21": 180.98412583248873
+      }
+    },
+    {
+      "ticker": "BKNG",
+      "name": null,
+      "sector": "Consumer Cyclical / Travel Services",
+      "thesis": null,
+      "status": "INELIGIBLE_TREND",
+      "ui_group": "other",
+      "evaluated_session": "2026-11-09",
+      "data_valid": true,
+      "recovery_observed": false,
+      "developing_badges": [],
+      "trend_detail": {
+        "close": 163.49,
+        "sma_50": 165.578704175752,
+        "sma_200": 174.949151642975,
+        "sma_50_prev20": 185.31033750144002,
+        "monthly_stoch_k": 26.516564465491644,
+        "monthly_stoch_d": 39.68629126885448,
+        "monthly_stoch_k_prev": 43.29060466144821,
+        "weekly_stoch_k": 8.614773445030892,
+        "weekly_stoch_k_prev": 6.804066901226068,
+        "close_gt_sma200": false,
+        "sma50_gt_sma200": false,
+        "sma50_rising": false,
+        "monthly_pass": false,
+        "weekly_pass": false
+      },
+      "location_detail": {},
+      "oscillator_detail": {},
+      "data_invalid_reason": null,
+      "diagnostics": {
+        "close": 163.49,
+        "sma_50": 165.578704175752,
+        "sma_200": 174.949151642975,
+        "ema_8": 160.80575461683088,
+        "ema_21": 159.90369222959774
+      }
+    },
+    {
+      "ticker": "BOTZ",
+      "name": null,
+      "sector": "Technology / Robotics & AI ETF",
+      "thesis": null,
+      "status": "INELIGIBLE_TREND",
+      "ui_group": "other",
+      "evaluated_session": "2026-11-09",
+      "data_valid": true,
+      "recovery_observed": true,
+      "developing_badges": [],
+      "trend_detail": {
+        "close": 31.88,
+        "sma_50": 34.4105,
+        "sma_200": 36.3989932678155,
+        "sma_50_prev20": 35.911300000000004,
+        "monthly_stoch_k": 26.598976099026927,
+        "monthly_stoch_d": 39.85920983778333,
+        "monthly_stoch_k_prev": 40.26580460040506,
+        "weekly_stoch_k": 6.921826851257421,
+        "weekly_stoch_k_prev": 5.116222191089398,
+        "close_gt_sma200": false,
+        "sma50_gt_sma200": false,
+        "sma50_rising": false,
+        "monthly_pass": false,
+        "weekly_pass": false
+      },
+      "location_detail": {},
+      "oscillator_detail": {},
+      "data_invalid_reason": null,
+      "diagnostics": {
+        "close": 31.88,
+        "sma_50": 34.4105,
+        "sma_200": 36.3989932678155,
+        "ema_8": 32.02930070729462,
+        "ema_21": 32.96543221472708
+      }
     }
   ],
   "errors": [
@@ -1347,10 +1562,6 @@
     {
       "ticker": "LAC",
       "error": "LAC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "BXSL",
-      "error": "BXSL: Tiingo returned HTTP 429"
     },
     {
       "ticker": "MTCH",
@@ -1609,10 +1820,6 @@
       "error": "GLW: Tiingo returned HTTP 429"
     },
     {
-      "ticker": "BX",
-      "error": "BX: Tiingo returned HTTP 429"
-    },
-    {
       "ticker": "RBLX",
       "error": "RBLX: Tiingo returned HTTP 429"
     },
@@ -1627,10 +1834,6 @@
     {
       "ticker": "HOOD",
       "error": "HOOD: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "BR",
-      "error": "BR: Tiingo returned HTTP 429"
     },
     {
       "ticker": "CRM",
@@ -1805,10 +2008,6 @@
       "error": "UNP: Tiingo returned HTTP 429"
     },
     {
-      "ticker": "BKNG",
-      "error": "BKNG: Tiingo returned HTTP 429"
-    },
-    {
       "ticker": "XYZ",
       "error": "XYZ: Tiingo returned HTTP 429"
     },
@@ -1939,10 +2138,6 @@
     {
       "ticker": "SNOW",
       "error": "SNOW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "BOTZ",
-      "error": "BOTZ: Tiingo returned HTTP 429"
     },
     {
       "ticker": "LEU",
