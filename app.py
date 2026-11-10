@@ -128,6 +128,96 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
 .sd-section-spaced {
     margin-top: 1.5rem;
 }
+/* Guarantees the same gap above the Other-monitored/errors toggles as the gap between
+   the Qualified and Developing sections above (.sd-section-spaced) - an empty Developing
+   section's "No developing stocks..." caption has no element of its own to carry a
+   margin-top, so this is a dedicated spacer rather than reusing that class directly. */
+.sd-toggle-spacer {
+    margin-top: 1.5rem;
+}
+
+/* Setup accordion header: st.expander's label is plain/markdown text only (confirmed against
+   Streamlit's own source - no raw HTML, so no way to make part of it big and part of it
+   right-aligned within one label string). Built by hand instead: an HTML header row (flex,
+   title left/pills right, title sized to match the "### SwingDeck" page header - 28px/600,
+   confirmed via computed style) with a fully transparent st.button absolutely covering it as
+   the click target, toggling st.session_state rather than st.expander's own expanded state -
+   the same "real HTML box + invisible button overlay" technique proven out for the count
+   cards earlier (see git history), except position:absolute/inset:0 here instead of a fixed
+   negative-margin offset, so it still covers the header correctly if the title ever wraps to
+   a second line at a narrow width. */
+div[class*="st-key-sd_setup_header_"] {
+    position: relative;
+}
+.sd-setup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1rem;
+}
+.sd-setup-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+}
+.sd-setup-chevron {
+    font-size: 0.9rem;
+    color: rgba(250, 250, 250, 0.6) !important;
+    transition: transform 0.15s;
+    flex-shrink: 0;
+}
+.sd-setup-chevron-open {
+    transform: rotate(90deg);
+}
+.sd-setup-title {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 33.6px;
+    color: #fafafa !important;
+}
+.sd-setup-pills {
+    font-size: 1rem;
+    color: rgba(250, 250, 250, 0.85) !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+/* The button's own element-container div (Streamlit applies the "sd_setup_toggle_*" key's
+   class here) is what actually needs position:absolute/inset:0 - Streamlit's own baseline
+   CSS already makes every element-container `position: relative`, which is the *nearest*
+   positioned ancestor for anything placed inside it. Putting the absolute positioning one
+   level deeper, on div[data-testid="stButton"] itself, anchors inset:0 to that already-
+   relative, fit-content-width parent instead of the full header (confirmed via computed
+   styles: the button ended up sized to its own ~16x0px wrapper). Width/height auto
+   overrides Streamlit's default fit-content sizing on this element, now that inset:0 is
+   doing the actual sizing instead. */
+div[class*="st-key-sd_setup_toggle_"] {
+    position: absolute !important;
+    inset: 0;
+    margin: 0 !important;
+    width: auto !important;
+    height: auto !important;
+}
+div[class*="st-key-sd_setup_toggle_"] div[data-testid="stButton"],
+div[class*="st-key-sd_setup_toggle_"] div[data-testid="stButton"] > button {
+    width: 100%;
+    height: 100%;
+}
+div[class*="st-key-sd_setup_toggle_"] div[data-testid="stButton"] > button {
+    min-height: unset !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
+}
 
 /* Watchlist selector bar: shaded/bordered treatment wrapping the label + dropdown +
    source badge as one visual unit instead of three loose elements - matches the
@@ -305,12 +395,24 @@ def _bucket_by_group(results: list[dict]) -> dict[str, list[dict]]:
     return by_group
 
 
-def render_setup_accordion(setup: Setup, setup_data: dict) -> None:
+def _toggle_setup_open(open_key: str) -> None:
+    st.session_state[open_key] = not st.session_state.get(open_key, False)
+
+
+def render_setup_accordion(setup: Setup, setup_data: dict, watchlist_id: str) -> None:
     """One setup's whole section for the active watchlist - header shows live counts even
     while collapsed (so scanning the page tells you what's cooking across every setup without
     opening anything), and auto-expands only if it actually has something to look at. Adding a
     second registered setup gets this same section automatically - nothing here names
-    "Momentum Continuation" or assumes there's only one."""
+    "Momentum Continuation" or assumes there's only one.
+
+    Hand-rolled rather than st.expander (see the .sd-setup-header CSS comment for why) - the
+    open/closed state lives in st.session_state instead of st.expander's own, seeded once per
+    (watchlist, setup) pair from whether that setup actually has anything to look at *in this
+    watchlist*, and left alone after that so a user's manual toggle isn't overwritten by a
+    later rerun. Keying by watchlist_id too (not just setup.id) is what makes switching
+    watchlists re-evaluate the auto-expand default instead of reusing whatever open/closed
+    state a previously-viewed watchlist happened to leave behind."""
     results = setup_data.get("results", [])
     errors = setup_data.get("errors", [])
 
@@ -320,41 +422,72 @@ def render_setup_accordion(setup: Setup, setup_data: dict) -> None:
     other_rows = by_group[GROUP_OTHER] + by_group[GROUP_UNKNOWN]
     q, d, o = len(qualified_rows), len(developing_rows), len(other_rows)
 
-    label = f"{setup.label}   {DOT_GREEN} {q} Qualified · {DOT_AMBER} {d} Developing · {DOT_NEUTRAL} {o} Monitored"
+    open_key = f"setup_open_{watchlist_id}_{setup.id}"
+    if open_key not in st.session_state:
+        st.session_state[open_key] = q > 0 or d > 0
+    is_open = st.session_state[open_key]
 
-    with st.expander(label, expanded=(q > 0 or d > 0)):
-        staleness_banner(setup_data.get("generated_at"))
-        render_session_line(setup_data.get("evaluated_session"), setup_data.get("generated_at"))
+    chevron_class = "sd-setup-chevron sd-setup-chevron-open" if is_open else "sd-setup-chevron"
+    with st.container(key=f"sd_setup_header_{watchlist_id}_{setup.id}"):
+        st.html(
+            '<div class="sd-setup-header">'
+            '<div class="sd-setup-header-left">'
+            f'<span class="{chevron_class}">▶</span>'
+            f'<span class="sd-setup-title">{setup.label}</span>'
+            "</div>"
+            '<div class="sd-setup-pills">'
+            f"{DOT_GREEN} {q} Qualified · {DOT_AMBER} {d} Developing · {DOT_NEUTRAL} {o} Monitored"
+            "</div>"
+            "</div>"
+        )
+        st.button(
+            setup.label,
+            # Deliberately NOT prefixed "sd_setup_header_" like the container key above -
+            # Streamlit applies this key's own class to the button's inner wrapper div, and a
+            # shared prefix made the CSS wildcard below match that wrapper too, handing it
+            # `position: relative` and anchoring the button's `inset: 0` to its own tiny
+            # fit-content box instead of the full header (confirmed via a DOM dump: the
+            # button ended up ~16x0px). A non-overlapping key name avoids the collision.
+            key=f"sd_setup_toggle_{watchlist_id}_{setup.id}",
+            on_click=_toggle_setup_open,
+            args=(open_key,),
+        )
 
-        if errors:
-            st.warning(f"Couldn't fetch data for {len(errors)} ticker(s) this run - see details below.")
+    if not is_open:
+        return
 
-        evaluated_session = setup_data.get("evaluated_session")
-        off_session = [
-            r
-            for r in results
-            if evaluated_session and r.get("evaluated_session") and r["evaluated_session"] != evaluated_session
-        ]
-        if off_session:
-            tickers = ", ".join(r["ticker"] for r in off_session)
-            st.info(f"{len(off_session)} ticker(s) evaluated on a different session than {evaluated_session}: {tickers}")
+    staleness_banner(setup_data.get("generated_at"))
+    render_session_line(setup_data.get("evaluated_session"), setup_data.get("generated_at"))
 
-        render_section("Qualified", qualified_rows, "No qualified stocks in this scan.", setup)
-        render_section("Developing", developing_rows, "No developing stocks in this scan.", setup, spaced=True)
+    if errors:
+        st.warning(f"Couldn't fetch data for {len(errors)} ticker(s) this run - see details below.")
 
-        # A plain disclosure, not a nested st.expander - Streamlit doesn't allow expanders
-        # inside expanders, and this already lives inside the setup's own expander above.
-        if st.toggle(f"Other monitored ({len(other_rows)})", key=f"sd_other_{setup.id}"):
-            if not other_rows:
-                st.caption("Nothing in Other monitored.")
-            else:
-                for result in other_rows:
-                    render_row(result, setup)
+    evaluated_session = setup_data.get("evaluated_session")
+    off_session = [
+        r for r in results if evaluated_session and r.get("evaluated_session") and r["evaluated_session"] != evaluated_session
+    ]
+    if off_session:
+        tickers = ", ".join(r["ticker"] for r in off_session)
+        st.info(f"{len(off_session)} ticker(s) evaluated on a different session than {evaluated_session}: {tickers}")
 
-        if errors:
-            if st.toggle(f"Couldn't fetch {len(errors)} ticker(s)", key=f"sd_errors_{setup.id}"):
-                error_df = pd.DataFrame([{"Ticker": e["ticker"], "Reason": e["error"]} for e in errors])
-                st.dataframe(error_df, width="stretch", hide_index=True)
+    render_section("Qualified", qualified_rows, "No qualified stocks in this scan.", setup)
+    render_section("Developing", developing_rows, "No developing stocks in this scan.", setup, spaced=True)
+
+    st.markdown('<div class="sd-toggle-spacer"></div>', unsafe_allow_html=True)
+
+    # A plain disclosure, not a nested st.expander - Streamlit doesn't allow expanders
+    # inside expanders, and (now) doesn't allow one inside this hand-rolled accordion either.
+    if st.toggle(f"Other monitored ({len(other_rows)})", key=f"sd_other_{watchlist_id}_{setup.id}"):
+        if not other_rows:
+            st.caption("Nothing in Other monitored.")
+        else:
+            for result in other_rows:
+                render_row(result, setup)
+
+    if errors:
+        if st.toggle(f"Couldn't fetch {len(errors)} ticker(s)", key=f"sd_errors_{watchlist_id}_{setup.id}"):
+            error_df = pd.DataFrame([{"Ticker": e["ticker"], "Reason": e["error"]} for e in errors])
+            st.dataframe(error_df, width="stretch", hide_index=True)
 
 
 def render_watchlist_selector(watchlists: list[dict]) -> str:
@@ -498,7 +631,7 @@ def main() -> None:
 
     st.divider()
     for setup in list_setups():
-        render_setup_accordion(setup, setups_doc.get(setup.id, {}))
+        render_setup_accordion(setup, setups_doc.get(setup.id, {}), selected_watchlist_id)
 
 
 main()
