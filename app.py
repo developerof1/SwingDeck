@@ -32,10 +32,15 @@ from src.watchlist_store import discover_watchlists
 
 REPO_ROOT = os.path.dirname(__file__)
 RESULTS_DIR = os.path.join(REPO_ROOT, "results")
+STATE_DIR = os.path.join(REPO_ROOT, "state")
 
 
 def results_path(watchlist_id: str) -> str:
     return os.path.join(RESULTS_DIR, f"{watchlist_id}.json")
+
+
+def status_path() -> str:
+    return os.path.join(STATE_DIR, "refresh_status.json")
 
 # America/Chicago correctly resolves to CST or CDT depending on the date
 # (zoneinfo applies US DST rules automatically) - refresh_job.py stores
@@ -329,6 +334,36 @@ def staleness_banner(generated_at: str | None) -> None:
         )
 
 
+def load_refresh_status() -> dict | None:
+    # Deliberately uncached for the same reason as load_results - small file, only
+    # changes via git push + redeploy, re-reading costs nothing.
+    try:
+        with open(status_path()) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
+
+
+def refresh_health_banner(status: dict | None) -> None:
+    """Complements staleness_banner rather than replacing it: staleness_banner catches
+    "nothing has run in days" (the workflow stopped firing), while this catches "it ran
+    last night but didn't finish" - refresh_job.py now drains a queue across several hourly
+    firings, so a per-watchlist timestamp alone no longer says whether *everything* got
+    refreshed. This is a verdict on the most recently *finished* night (see
+    scripts/refresh_job.py's finalize_night), not a live in-progress counter, so it doesn't
+    read as alarming while tonight's queue is still legitimately mid-drain."""
+    if status is None:
+        return
+    total, completed = status.get("total", 0), status.get("completed", 0)
+    if status.get("status") == "complete":
+        st.caption(f"Last night's refresh completed ({completed}/{total} tickers).")
+    else:
+        st.warning(
+            f"Last night's refresh was incomplete - {completed}/{total} ticker(s) updated before it was abandoned. "
+            "Check the Actions tab."
+        )
+
+
 def render_header() -> None:
     left, right = st.columns([5, 1])
     with left:
@@ -578,6 +613,7 @@ def main() -> None:
     st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
     render_header()
+    refresh_health_banner(load_refresh_status())
     render_setup_tabs()
 
     watchlists = discover_watchlists()
