@@ -1,11 +1,12 @@
-"""SwingDeck - Momentum Continuation overview (docs/SwingDeck_V2_Refactoring_Spec.md).
+"""SwingDeck - watchlist-first overview (docs/trading_setup_accordion_spec.md).
 
 Reads precomputed results/<watchlist_id>.json (written nightly by scripts/refresh_job.py
 via GitHub Actions for every watchlist under watchlists/ - see docs/SPEC.md Section 8).
-Never calls Tiingo directly, and - unlike the archived V1 app - never re-runs the rules
-engine either: there are no more interactive thresholds, so every row's status is exactly
-what refresh_job.py already decided. app.py is a pure view layer over results/*.json +
-status_mapping, plus a watchlist selector over watchlists/*.json (src.watchlist_store).
+Never calls Tiingo directly, and never re-runs any rules engine either: there are no more
+interactive thresholds, so every row's status is exactly what refresh_job.py already decided.
+app.py is a pure view layer: a watchlist selector (src.watchlist_store) over watchlists/*.json,
+then one accordion per setup registered in src.setups, each rendering that setup's own slice
+of the selected watchlist's results via its own reason_for().
 """
 
 import json
@@ -16,18 +17,9 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 import streamlit as st
 
-from src.status_mapping import (
-    GROUP_DEVELOPING,
-    GROUP_OTHER,
-    GROUP_QUALIFIED,
-    GROUP_UNKNOWN,
-    RECOVERY_TAG,
-    developing_reason,
-    has_recovery_tag,
-    other_monitored_reason,
-    qualified_reason,
-    ui_group_for_status,
-)
+from src.setups import list_setups
+from src.setups.base import Setup
+from src.status_mapping import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED, GROUP_UNKNOWN
 from src.watchlist_store import discover_watchlists
 
 REPO_ROOT = os.path.dirname(__file__)
@@ -50,24 +42,10 @@ DISPLAY_TZ = ZoneInfo("America/Chicago")
 DOT_GREEN, DOT_AMBER, DOT_NEUTRAL = "\U0001f7e2", "\U0001f7e1", "⚪"
 GROUP_DOT = {GROUP_QUALIFIED: DOT_GREEN, GROUP_DEVELOPING: DOT_AMBER, GROUP_OTHER: DOT_NEUTRAL, GROUP_UNKNOWN: DOT_NEUTRAL}
 
-FILTER_SHORTLIST = "shortlist"
-FILTER_QUALIFIED = "qualified"
-FILTER_DEVELOPING = "developing"
-FILTER_OTHER = "other"
-
 st.set_page_config(page_title="SwingDeck", layout="wide")
 
 CUSTOM_CSS = """
 <style>
-.setup-label {
-    display: inline-block;
-    font-weight: 600;
-    font-size: 1.05rem;
-    color: #22c55e;
-    border-bottom: 2px solid #22c55e;
-    padding-bottom: 0.35rem;
-    margin-bottom: 0.25rem;
-}
 div[data-testid="stVerticalBlockBorderWrapper"] div[data-testid="stMarkdownContainer"] p {
     margin-bottom: 0;
 }
@@ -151,82 +129,9 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     margin-top: 1.5rem;
 }
 
-/* Count cards: a real HTML "stat card" (label on top, large number below) -
-   st.button's label is plain text/limited-Markdown only and can't render
-   that two-line layout (confirmed the hard way, across several attempts to
-   fake it with a single button's own label). The actual click target is a
-   fully transparent st.button pulled up over the card with a matching
-   negative top margin - st.container's `key=` gives each card a stable,
-   unique class (st-key-<key>) so this is scoped to just these three cards.
-   The card itself is pointer-events: none so it can never intercept a
-   click meant for the button beneath it. */
-.sd-card {
-    border: 1px solid rgba(148, 163, 184, 0.25);
-    border-radius: 10px;
-    padding: 0.9rem 1.1rem 1rem;
-    background: rgba(255, 255, 255, 0.02);
-    transition: background-color 0.1s, border-color 0.1s;
-    height: 92px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    pointer-events: none;
-}
-.sd-card-active {
-    background: rgba(148, 163, 184, 0.14);
-    border-color: rgba(148, 163, 184, 0.55);
-}
-.sd-card-label {
-    font-size: 1.1rem;
-    color: rgba(250, 250, 250, 0.9) !important;
-}
-.sd-card-count {
-    font-size: 1.9rem;
-    font-weight: 700;
-    color: #fafafa !important;
-    margin-top: 0.15rem;
-    line-height: 1.1;
-}
-div[class*="st-key-sd_card_"]:hover .sd-card {
-    border-color: rgba(148, 163, 184, 0.45);
-}
-div[class*="st-key-sd_card_"] div[data-testid="stButton"] {
-    margin-top: -92px !important;
-    margin-bottom: 0 !important;
-    width: 100% !important;
-}
-div[class*="st-key-sd_card_"] div[data-testid="stButton"] > button {
-    width: 100% !important;
-    height: 92px !important;
-    min-height: unset !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    opacity: 0 !important;
-    cursor: pointer;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-div[data-testid="stButton"] > button[kind="primary"] {
-    background-color: rgba(148, 163, 184, 0.16) !important;
-    border: 1px solid rgba(148, 163, 184, 0.55) !important;
-    color: #fafafa !important;
-    box-shadow: none !important;
-}
-div[data-testid="stButton"] > button[kind="primary"]:hover,
-div[data-testid="stButton"] > button[kind="primary"]:focus {
-    background-color: rgba(148, 163, 184, 0.24) !important;
-    border-color: rgba(148, 163, 184, 0.75) !important;
-    color: #fafafa !important;
-}
-div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    border-color: rgba(148, 163, 184, 0.45) !important;
-}
-
-/* Watchlist selector bar: same shaded/bordered treatment as .sd-card (see above),
-   wrapping the label + dropdown + source badge as one visual unit instead of three
-   loose elements - matches the mockup's bordered selector row. */
+/* Watchlist selector bar: shaded/bordered treatment wrapping the label + dropdown +
+   source badge as one visual unit instead of three loose elements - matches the
+   mockup's bordered selector row. */
 div[class*="st-key-sd_watchlist_bar"] {
     border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 10px;
@@ -393,12 +298,63 @@ def _format_session_date(session: str | None) -> str:
         return session
 
 
-def render_setup_tabs() -> None:
-    """Static single-tab scaffold - "Momentum Continuation" is the only live setup today.
-    Visual scaffolding only (per docs/multi_watchlist_selector_specs.md 3.1 #2): a second
-    setup tab is horizontal-growth work, not part of this change - nothing here implies a
-    setup registry exists yet."""
-    st.markdown('<span class="setup-label">Momentum Continuation</span>', unsafe_allow_html=True)
+def _bucket_by_group(results: list[dict]) -> dict[str, list[dict]]:
+    by_group: dict[str, list[dict]] = {GROUP_QUALIFIED: [], GROUP_DEVELOPING: [], GROUP_OTHER: [], GROUP_UNKNOWN: []}
+    for r in results:
+        by_group.setdefault(r.get("ui_group", GROUP_UNKNOWN), []).append(r)
+    return by_group
+
+
+def render_setup_accordion(setup: Setup, setup_data: dict) -> None:
+    """One setup's whole section for the active watchlist - header shows live counts even
+    while collapsed (so scanning the page tells you what's cooking across every setup without
+    opening anything), and auto-expands only if it actually has something to look at. Adding a
+    second registered setup gets this same section automatically - nothing here names
+    "Momentum Continuation" or assumes there's only one."""
+    results = setup_data.get("results", [])
+    errors = setup_data.get("errors", [])
+
+    by_group = _bucket_by_group(results)
+    qualified_rows = by_group[GROUP_QUALIFIED]
+    developing_rows = by_group[GROUP_DEVELOPING]
+    other_rows = by_group[GROUP_OTHER] + by_group[GROUP_UNKNOWN]
+    q, d, o = len(qualified_rows), len(developing_rows), len(other_rows)
+
+    label = f"{setup.label}   {DOT_GREEN} {q} Qualified · {DOT_AMBER} {d} Developing · {DOT_NEUTRAL} {o} Monitored"
+
+    with st.expander(label, expanded=(q > 0 or d > 0)):
+        staleness_banner(setup_data.get("generated_at"))
+        render_session_line(setup_data.get("evaluated_session"), setup_data.get("generated_at"))
+
+        if errors:
+            st.warning(f"Couldn't fetch data for {len(errors)} ticker(s) this run - see details below.")
+
+        evaluated_session = setup_data.get("evaluated_session")
+        off_session = [
+            r
+            for r in results
+            if evaluated_session and r.get("evaluated_session") and r["evaluated_session"] != evaluated_session
+        ]
+        if off_session:
+            tickers = ", ".join(r["ticker"] for r in off_session)
+            st.info(f"{len(off_session)} ticker(s) evaluated on a different session than {evaluated_session}: {tickers}")
+
+        render_section("Qualified", qualified_rows, "No qualified stocks in this scan.", setup)
+        render_section("Developing", developing_rows, "No developing stocks in this scan.", setup, spaced=True)
+
+        # A plain disclosure, not a nested st.expander - Streamlit doesn't allow expanders
+        # inside expanders, and this already lives inside the setup's own expander above.
+        if st.toggle(f"Other monitored ({len(other_rows)})", key=f"sd_other_{setup.id}"):
+            if not other_rows:
+                st.caption("Nothing in Other monitored.")
+            else:
+                for result in other_rows:
+                    render_row(result, setup)
+
+        if errors:
+            if st.toggle(f"Couldn't fetch {len(errors)} ticker(s)", key=f"sd_errors_{setup.id}"):
+                error_df = pd.DataFrame([{"Ticker": e["ticker"], "Reason": e["error"]} for e in errors])
+                st.dataframe(error_df, width="stretch", hide_index=True)
 
 
 def render_watchlist_selector(watchlists: list[dict]) -> str:
@@ -406,11 +362,12 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
     (docs/multi_watchlist_selector_specs.md 3.1 #3 - the mockup shows this as a single
     bordered unit, not three loose elements). Defaults to the first (alphabetically-by-name)
     watchlist from discover_watchlists() and persists the pick in st.session_state across
-    reruns, the same way the status filter_mode (render_count_cards) already does.
+    reruns.
 
-    filter_mode=None on the selectbox itself (unrelated to that status filter_mode) turns
-    off BaseWeb's default type-to-filter behavior - click-to-open/click-to-pick only, no
-    typing - since with few watchlists a searchable combobox reads as an editable text box.
+    filter_mode=None on the selectbox itself (a Streamlit selectbox option, unrelated to any
+    app-level filtering) turns off BaseWeb's default type-to-filter behavior - click-to-open/
+    click-to-pick only, no typing - since with few watchlists a searchable combobox reads as
+    an editable text box.
     """
     ids = [w["id"] for w in watchlists]
     by_id = {w["id"]: w for w in watchlists}
@@ -456,85 +413,6 @@ def render_session_line(evaluated_session: str | None, generated_at: str | None)
     st.caption(f"EOD data: {session_text}  ·  Refreshed: {refreshed_text}")
 
 
-def _toggle_filter_mode(target_mode: str) -> None:
-    """on_click callback - Streamlit runs this *before* the script reruns, so
-    by the time render_count_cards computes `active` flags for styling, the
-    mode is already up to date. The previous version checked `if st.button(...)`
-    *after* rendering and updated a local `mode` variable only after the
-    button whose own styling had already been decided from the *previous*
-    render's mode - the card that looked highlighted and the section shown
-    below were each one click out of sync with the other, and with the
-    actual click just made. That was the real bug behind the reported
-    "click Developing, Qualified's content shows" behavior - not the earlier
-    (also real, now-fixed) overlay click-target misalignment."""
-    current = st.session_state.get("filter_mode", FILTER_SHORTLIST)
-    # Clicking the already-active single-group card toggles back to the
-    # default Shortlist view - the only way back now that there's no
-    # separate "Show shortlist" reset control.
-    st.session_state["filter_mode"] = FILTER_SHORTLIST if current == target_mode else target_mode
-
-
-def render_count_cards(counts: dict) -> str:
-    """Three count cards acting as filter buttons. Returns the current
-    filter_mode. Counts are always computed from the full result set,
-    independent of the current filter - see the caller.
-
-    Each card is real HTML (.sd-card: label line + large bold count line,
-    see CUSTOM_CSS) with a fully transparent st.button pulled up over it as
-    the actual click target - restored from an earlier round after
-    confirming the click bug reported against *this* design (screenshots
-    showing "click Developing, Qualified's content shows") was actually the
-    stale-active-flag timing bug _toggle_filter_mode's docstring describes,
-    not a flaw in the overlay positioning itself. Dropping the whole HTML
-    card design at the time was an overcorrection - the on_click callback
-    alone fixes the real bug, with no need to give up the two-line stat-card
-    layout a plain button's own label can't render anyway.
-    """
-    mode = st.session_state.get("filter_mode", FILTER_SHORTLIST)
-
-    specs = [
-        (FILTER_QUALIFIED, DOT_GREEN, "Qualified", counts[GROUP_QUALIFIED], mode in (FILTER_SHORTLIST, FILTER_QUALIFIED)),
-        (
-            FILTER_DEVELOPING,
-            DOT_AMBER,
-            "Developing",
-            counts[GROUP_DEVELOPING],
-            mode in (FILTER_SHORTLIST, FILTER_DEVELOPING),
-        ),
-        (
-            FILTER_OTHER,
-            DOT_NEUTRAL,
-            "Other monitored",
-            counts[GROUP_OTHER] + counts[GROUP_UNKNOWN],
-            mode == FILTER_OTHER,
-        ),
-    ]
-
-    cols = st.columns(3)
-    for col, (target_mode, dot, label, count, active) in zip(cols, specs):
-        with col, st.container(key=f"sd_card_{target_mode}"):
-            card_class = "sd-card sd-card-active" if active else "sd-card"
-            # st.html(), not st.markdown() - renders raw HTML with none of
-            # Streamlit's own markdown-container wrapping/spacing, so the
-            # card's actual rendered box can't drift from what the CSS
-            # overlay math (negative margin-top on the button below) assumes.
-            st.html(
-                f'<div class="{card_class}">'
-                f'<div class="sd-card-label">{dot} {label}</div>'
-                f'<div class="sd-card-count">{count}</div>'
-                f"</div>"
-            )
-            st.button(
-                label,
-                key=f"sd_card_btn_{target_mode}",
-                use_container_width=True,
-                on_click=_toggle_filter_mode,
-                args=(target_mode,),
-            )
-
-    return mode
-
-
 #  Plain `class="sd-row-reason"` text was rendering link-blue despite the
 #  !important class rule - rather than keep chasing Streamlit's internal CSS
 #  cascade blind, every text node here also carries an inline `style` color,
@@ -542,35 +420,20 @@ def render_count_cards(counts: dict) -> str:
 _REASON_STYLE = 'style="color: rgba(250, 250, 250, 0.75) !important;"'
 
 
-def render_row(result: dict) -> None:
-    group = result["ui_group"]
+def render_row(result: dict, setup: Setup) -> None:
+    """Dispatches to the active setup's own reason_for() rather than hardcoding any one
+    setup's statuses/wording here - this is what lets a second registered setup show up with
+    zero changes to this function."""
+    group = result.get("ui_group", GROUP_UNKNOWN)
     dot = GROUP_DOT.get(group, DOT_NEUTRAL)
     name = result.get("name")
     name_html = f'<span class="sd-row-name" {_REASON_STYLE}>{name}</span>' if name else ""
 
-    # Plain text, not a badge - recovery_observed is explicitly informational-only
-    # (docs/Momentum Continuation V2 — Logic.md §7, "never changes status"), so it
-    # shouldn't visually compete with the actual gate verdict via a colored pill.
-    # " | " (not "→", which is reserved for the sequential Trend->Location->
-    # Oscillator pipeline) marks it as a separate, independent data point.
-    recovery_html = f" | {RECOVERY_TAG}" if has_recovery_tag(result) else ""
-
-    if group == GROUP_QUALIFIED:
-        reason_html = (
-            f'<div class="sd-row-reason" {_REASON_STYLE}>{qualified_reason(result)}{recovery_html}</div>'
-        )
-    elif group == GROUP_DEVELOPING:
-        reason_html = (
-            f'<div class="sd-row-reason" {_REASON_STYLE}>{developing_reason(result)}{recovery_html}</div>'
-        )
-    elif group == GROUP_OTHER:
-        reason_text, is_invalid = other_monitored_reason(result)
-        if is_invalid:
-            reason_html = f'<div class="sd-row-reason"><span class="sd-badge sd-badge-invalid">{reason_text}</span></div>'
-        else:
-            reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{reason_text}</div>'
+    reason_text, is_invalid = setup.reason_for(result)
+    if is_invalid:
+        reason_html = f'<div class="sd-row-reason"><span class="sd-badge sd-badge-invalid">{reason_text}</span></div>'
     else:
-        reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>Unrecognized status: {result.get("status")}</div>'
+        reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{reason_text}</div>'
 
     row_html = (
         '<div class="sd-row">'
@@ -593,7 +456,7 @@ def render_row(result: dict) -> None:
         st.html(row_html)
 
 
-def render_section(title: str, rows: list[dict], empty_message: str, spaced: bool = False) -> None:
+def render_section(title: str, rows: list[dict], empty_message: str, setup: Setup, spaced: bool = False) -> None:
     """`spaced=True` adds extra top margin before the header - used for a
     second section (e.g. Developing) directly following another section's
     rows, so it doesn't read as cramped against the last row above it."""
@@ -603,7 +466,7 @@ def render_section(title: str, rows: list[dict], empty_message: str, spaced: boo
         st.caption(empty_message)
         return
     for result in rows:
-        render_row(result)
+        render_row(result, setup)
 
 
 def main() -> None:
@@ -614,7 +477,6 @@ def main() -> None:
 
     render_header()
     refresh_health_banner(load_refresh_status())
-    render_setup_tabs()
 
     watchlists = discover_watchlists()
     if not watchlists:
@@ -629,69 +491,14 @@ def main() -> None:
         st.error("No scan data available yet for this watchlist - the refresh job hasn't produced results.")
         return
 
-    if not data.get("generated_at") and not data.get("results"):
+    setups_doc = data.get("setups", {})
+    if not setups_doc:
         st.info("No data yet - waiting for the first scheduled refresh to run.")
         return
 
-    staleness_banner(data.get("generated_at"))
-    render_session_line(data.get("evaluated_session"), data.get("generated_at"))
-
-    results = data.get("results", [])
-    errors = data.get("errors", [])
-
-    for r in results:
-        r.setdefault("ui_group", ui_group_for_status(r.get("status")))
-
-    by_group: dict[str, list[dict]] = {GROUP_QUALIFIED: [], GROUP_DEVELOPING: [], GROUP_OTHER: [], GROUP_UNKNOWN: []}
-    for r in results:
-        by_group.setdefault(r["ui_group"], []).append(r)
-
-    counts = {g: len(rows) for g, rows in by_group.items()}
-    for g in (GROUP_QUALIFIED, GROUP_DEVELOPING, GROUP_OTHER, GROUP_UNKNOWN):
-        counts.setdefault(g, 0)
-
-    if errors:
-        st.warning(f"Couldn't fetch data for {len(errors)} ticker(s) this run - see details below.")
-
-    evaluated_session = data.get("evaluated_session")
-    off_session = [
-        r for r in results if evaluated_session and r.get("evaluated_session") and r["evaluated_session"] != evaluated_session
-    ]
-    if off_session:
-        tickers = ", ".join(r["ticker"] for r in off_session)
-        st.info(f"{len(off_session)} ticker(s) evaluated on a different session than {evaluated_session}: {tickers}")
-
-    mode = render_count_cards(counts)
-
-    qualified_rows = by_group.get(GROUP_QUALIFIED, [])
-    developing_rows = by_group.get(GROUP_DEVELOPING, [])
-    other_rows = by_group.get(GROUP_OTHER, []) + by_group.get(GROUP_UNKNOWN, [])
-
     st.divider()
-
-    if mode == FILTER_QUALIFIED:
-        render_section("Qualified", qualified_rows, "No qualified stocks in this scan.")
-    elif mode == FILTER_DEVELOPING:
-        render_section("Developing", developing_rows, "No developing stocks in this scan.")
-    elif mode == FILTER_OTHER:
-        render_section("Other monitored", other_rows, "Nothing in Other monitored.")
-    else:
-        if not qualified_rows and not developing_rows:
-            st.info("No qualified or developing stocks in this scan.")
-            if other_rows:
-                st.caption(f"{len(other_rows)} ticker(s) in Other monitored.")
-        else:
-            # Always render_section() for both - previously an empty
-            # Developing section skipped straight to st.caption(), dropping
-            # its "Developing (0)" header entirely instead of showing an
-            # empty-but-labeled section.
-            render_section("Qualified", qualified_rows, "No qualified stocks in this scan.")
-            render_section("Developing", developing_rows, "No developing stocks in this scan.", spaced=True)
-
-    if errors:
-        with st.expander(f"Couldn't fetch {len(errors)} ticker(s)"):
-            error_df = pd.DataFrame([{"Ticker": e["ticker"], "Reason": e["error"]} for e in errors])
-            st.dataframe(error_df, width="stretch", hide_index=True)
+    for setup in list_setups():
+        render_setup_accordion(setup, setups_doc.get(setup.id, {}))
 
 
 main()

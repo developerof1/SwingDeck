@@ -1,534 +1,538 @@
 {
-  "generated_at": "2026-11-10T20:09+00:00",
-  "evaluated_session": "2026-11-09",
-  "results": [
-    {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc",
-      "sector": "Chips & Hardware",
-      "thesis": "Custom silicon growth; clean trendline support bounces",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
+  "setups": {
+    "momentum_continuation": {
+      "generated_at": "2026-11-10T20:09+00:00",
       "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 319.48,
-        "sma_50": 346.72035738075203,
-        "sma_200": 366.1070444825635,
-        "sma_50_prev20": 370.71840027525,
-        "monthly_stoch_k": 33.502071470502,
-        "monthly_stoch_d": 45.236723378206015,
-        "monthly_stoch_k_prev": 46.514521480022324,
-        "weekly_stoch_k": 3.358386620942658,
-        "weekly_stoch_k_prev": 2.4935335573317388,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 319.48,
-        "sma_50": 346.72035738075203,
-        "sma_200": 366.1070444825635,
-        "ema_8": 316.98290678006407,
-        "ema_21": 329.67410814808613
-      }
-    },
-    {
-      "ticker": "ANET",
-      "name": "Arista Networks Inc",
-      "sector": "Networking & Interconnects",
-      "thesis": "Cloud networking leader; clean 20-day and 50-day EMA support bounces",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 186.17,
-        "sma_50": 192.4636,
-        "sma_200": 166.36195,
-        "sma_50_prev20": 198.47439999999997,
-        "monthly_stoch_k": 75.08321974564292,
-        "monthly_stoch_d": 83.66540784495697,
-        "monthly_stoch_k_prev": 87.78457856077739,
-        "weekly_stoch_k": 22.190537409943385,
-        "weekly_stoch_k_prev": 26.2451591742213,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 186.17,
-        "sma_50": 192.4636,
-        "sma_200": 166.36195,
-        "ema_8": 175.07061976510533,
-        "ema_21": 180.91378352901967
-      }
-    },
-    {
-      "ticker": "ARM",
-      "name": "Arm Holdings plc.",
-      "sector": "Chips & Hardware",
-      "thesis": "High-beta IP licensor; rapid momentum expansion setups off oversold RSI",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 186.3,
-        "sma_50": 251.72420000000002,
-        "sma_200": 231.183525,
-        "sma_50_prev20": 270.1752,
-        "monthly_stoch_k": 41.348153188915354,
-        "monthly_stoch_d": 45.51781281110985,
-        "monthly_stoch_k_prev": 44.53517825413028,
-        "weekly_stoch_k": 4.465388801525028,
-        "weekly_stoch_k_prev": 4.646329764679623,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 186.3,
-        "sma_50": 251.72420000000002,
-        "sma_200": 231.183525,
-        "ema_8": 192.46918026261875,
-        "ema_21": 216.13925907912903
-      }
-    },
-    {
-      "ticker": "ASML",
-      "name": "ASML Holding NV",
-      "sector": "Chips & Hardware",
-      "thesis": "Lithography monopoly; sharp mean-reversion moves off key Fib levels",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 1513.25,
-        "sma_50": 1671.8475989088222,
-        "sma_200": 1596.4227780687856,
-        "sma_50_prev20": 1738.80768693747,
-        "monthly_stoch_k": 76.56035635612862,
-        "monthly_stoch_d": 79.25021852830643,
-        "monthly_stoch_k_prev": 78.37955433329273,
-        "weekly_stoch_k": 11.459803258224369,
-        "weekly_stoch_k_prev": 17.254705337208964,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 1513.25,
-        "sma_50": 1671.8475989088222,
-        "sma_200": 1596.4227780687856,
-        "ema_8": 1504.0759145824043,
-        "ema_21": 1580.9413695308685
-      }
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "sector": "Big Tech & Hyperscalers",
-      "thesis": "AWS re-acceleration; tight technical consolidation patterns",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 266.93,
-        "sma_50": 253.96020000000001,
-        "sma_200": 244.07899999999998,
-        "sma_50_prev20": 258.8546,
-        "monthly_stoch_k": 58.9437134502924,
-        "monthly_stoch_d": 68.39786100104187,
-        "monthly_stoch_k_prev": 73.24909900720793,
-        "weekly_stoch_k": 36.92922809015875,
-        "weekly_stoch_k_prev": 32.69440803844475,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 266.93,
-        "sma_50": 253.96020000000001,
-        "sma_200": 244.07899999999998,
-        "ema_8": 257.98835672604866,
-        "ema_21": 255.24735526614828
-      }
-    },
-    {
-      "ticker": "BABA",
-      "name": "Alibaba Group Holding Ltd",
-      "sector": "Big Tech & Hyperscalers",
-      "thesis": "High-volatility international cloud/AI swing trade",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 105.38,
-        "sma_50": 108.02279999999999,
-        "sma_200": 123.69176633989952,
-        "sma_50_prev20": 116.05460000000001,
-        "monthly_stoch_k": 14.704888394456942,
-        "monthly_stoch_d": 18.84593955359578,
-        "monthly_stoch_k_prev": 22.864534235158345,
-        "weekly_stoch_k": 12.07957023037275,
-        "weekly_stoch_k_prev": 5.934621398717383,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 105.38,
-        "sma_50": 108.02279999999999,
-        "sma_200": 123.69176633989952,
-        "ema_8": 104.84650216760484,
-        "ema_21": 105.06015895240292
-      }
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices Inc",
-      "sector": "Chips & Hardware",
-      "thesis": "High beta runner; large weekly price swings",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 508.58,
-        "sma_50": 547.6736999999999,
-        "sma_200": 417.221875,
-        "sma_50_prev20": 531.2825,
-        "monthly_stoch_k": 79.66307395534119,
-        "monthly_stoch_d": 81.80786557582697,
-        "monthly_stoch_k_prev": 82.08370426076333,
-        "weekly_stoch_k": 30.769400146013396,
-        "weekly_stoch_k_prev": 39.553513094890825,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 508.58,
-        "sma_50": 547.6736999999999,
-        "sma_200": 417.221875,
-        "ema_8": 485.36889511172143,
-        "ema_21": 518.1879123751545
-      }
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "sector": "Big Tech & Hyperscalers",
-      "thesis": "On-device AI rollout; deep liquidity and clean support zones",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 350.69,
-        "sma_50": 336.63349999999997,
-        "sma_200": 299.049161547984,
-        "sma_50_prev20": 323.002679408808,
-        "monthly_stoch_k": 88.93688323585495,
-        "monthly_stoch_d": 83.36556973785508,
-        "monthly_stoch_k_prev": 82.89607861783678,
-        "weekly_stoch_k": 84.96820673990013,
-        "weekly_stoch_k_prev": 89.6512591867803,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 350.69,
-        "sma_50": 336.63349999999997,
-        "sma_200": 299.049161547984,
-        "ema_8": 344.7455777939814,
-        "ema_21": 342.64336122730464
-      }
-    },
-    {
-      "ticker": "ADBE",
-      "name": "Adobe Inc",
-      "sector": "SaaS with AI Story",
-      "thesis": "Creative Cloud AI; frequent mean-reversion bounces after dips",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 237.32,
-        "sma_50": 250.1591,
-        "sma_200": 248.8534,
-        "sma_50_prev20": 257.6333,
-        "monthly_stoch_k": 37.17780903532488,
-        "monthly_stoch_d": 33.22642422112724,
-        "monthly_stoch_k_prev": 34.7782215255366,
-        "weekly_stoch_k": 40.27301538477739,
-        "weekly_stoch_k_prev": 46.96959344716398,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 237.32,
-        "sma_50": 250.1591,
-        "sma_200": 248.8534,
-        "ema_8": 244.87914281573262,
-        "ema_21": 247.4698251415592
-      }
-    },
-    {
-      "ticker": "AMAT",
-      "name": "Applied Materials Inc",
-      "sector": "Advanced Packaging & Equipment",
-      "thesis": "Deposition/etching leader; strong trendline bounces on high volume",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 370.55,
-        "sma_50": 443.0199,
-        "sma_200": 445.035771977654,
-        "sma_50_prev20": 489.59364615694,
-        "monthly_stoch_k": 51.20417821784522,
-        "monthly_stoch_d": 59.654192729942814,
-        "monthly_stoch_k_prev": 57.869793438125804,
-        "weekly_stoch_k": 5.890908570167944,
-        "weekly_stoch_k_prev": 4.084624295373805,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 370.55,
-        "sma_50": 443.0199,
-        "sma_200": 445.035771977654,
-        "ema_8": 365.8690218971739,
-        "ema_21": 397.8347828806373
-      }
-    },
-    {
-      "ticker": "BESIY",
-      "name": "Be Semiconductor Industries NV",
-      "sector": "Advanced Packaging & Equipment",
-      "thesis": "Hybrid bonding for 3D packaging; high-amplitude momentum setup",
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 166.93,
-        "sma_50": 198.7664,
-        "sma_200": 245.61259631812848,
-        "sma_50_prev20": 228.7507,
-        "monthly_stoch_k": 32.96404611274527,
-        "monthly_stoch_d": 43.41472336903529,
-        "monthly_stoch_k_prev": 40.96885279876472,
-        "weekly_stoch_k": 5.0899392766202745,
-        "weekly_stoch_k_prev": 3.656686905117162,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 166.93,
-        "sma_50": 198.7664,
-        "sma_200": 245.61259631812848,
-        "ema_8": 167.5460232205955,
-        "ema_21": 177.44301879222894
-      }
+      "results": [
+        {
+          "ticker": "AVGO",
+          "name": "Broadcom Inc",
+          "sector": "Chips & Hardware",
+          "thesis": "Custom silicon growth; clean trendline support bounces",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 319.48,
+            "sma_50": 346.72035738075203,
+            "sma_200": 366.1070444825635,
+            "sma_50_prev20": 370.71840027525,
+            "monthly_stoch_k": 33.502071470502,
+            "monthly_stoch_d": 45.236723378206015,
+            "monthly_stoch_k_prev": 46.514521480022324,
+            "weekly_stoch_k": 3.358386620942658,
+            "weekly_stoch_k_prev": 2.4935335573317388,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 319.48,
+            "sma_50": 346.72035738075203,
+            "sma_200": 366.1070444825635,
+            "ema_8": 316.98290678006407,
+            "ema_21": 329.67410814808613
+          }
+        },
+        {
+          "ticker": "ANET",
+          "name": "Arista Networks Inc",
+          "sector": "Networking & Interconnects",
+          "thesis": "Cloud networking leader; clean 20-day and 50-day EMA support bounces",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 186.17,
+            "sma_50": 192.4636,
+            "sma_200": 166.36195,
+            "sma_50_prev20": 198.47439999999997,
+            "monthly_stoch_k": 75.08321974564292,
+            "monthly_stoch_d": 83.66540784495697,
+            "monthly_stoch_k_prev": 87.78457856077739,
+            "weekly_stoch_k": 22.190537409943385,
+            "weekly_stoch_k_prev": 26.2451591742213,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 186.17,
+            "sma_50": 192.4636,
+            "sma_200": 166.36195,
+            "ema_8": 175.07061976510533,
+            "ema_21": 180.91378352901967
+          }
+        },
+        {
+          "ticker": "ARM",
+          "name": "Arm Holdings plc.",
+          "sector": "Chips & Hardware",
+          "thesis": "High-beta IP licensor; rapid momentum expansion setups off oversold RSI",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 186.3,
+            "sma_50": 251.72420000000002,
+            "sma_200": 231.183525,
+            "sma_50_prev20": 270.1752,
+            "monthly_stoch_k": 41.348153188915354,
+            "monthly_stoch_d": 45.51781281110985,
+            "monthly_stoch_k_prev": 44.53517825413028,
+            "weekly_stoch_k": 4.465388801525028,
+            "weekly_stoch_k_prev": 4.646329764679623,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 186.3,
+            "sma_50": 251.72420000000002,
+            "sma_200": 231.183525,
+            "ema_8": 192.46918026261875,
+            "ema_21": 216.13925907912903
+          }
+        },
+        {
+          "ticker": "ASML",
+          "name": "ASML Holding NV",
+          "sector": "Chips & Hardware",
+          "thesis": "Lithography monopoly; sharp mean-reversion moves off key Fib levels",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 1513.25,
+            "sma_50": 1671.8475989088222,
+            "sma_200": 1596.4227780687856,
+            "sma_50_prev20": 1738.80768693747,
+            "monthly_stoch_k": 76.56035635612862,
+            "monthly_stoch_d": 79.25021852830643,
+            "monthly_stoch_k_prev": 78.37955433329273,
+            "weekly_stoch_k": 11.459803258224369,
+            "weekly_stoch_k_prev": 17.254705337208964,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 1513.25,
+            "sma_50": 1671.8475989088222,
+            "sma_200": 1596.4227780687856,
+            "ema_8": 1504.0759145824043,
+            "ema_21": 1580.9413695308685
+          }
+        },
+        {
+          "ticker": "AMZN",
+          "name": "Amazon.com Inc",
+          "sector": "Big Tech & Hyperscalers",
+          "thesis": "AWS re-acceleration; tight technical consolidation patterns",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 266.93,
+            "sma_50": 253.96020000000001,
+            "sma_200": 244.07899999999998,
+            "sma_50_prev20": 258.8546,
+            "monthly_stoch_k": 58.9437134502924,
+            "monthly_stoch_d": 68.39786100104187,
+            "monthly_stoch_k_prev": 73.24909900720793,
+            "weekly_stoch_k": 36.92922809015875,
+            "weekly_stoch_k_prev": 32.69440803844475,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 266.93,
+            "sma_50": 253.96020000000001,
+            "sma_200": 244.07899999999998,
+            "ema_8": 257.98835672604866,
+            "ema_21": 255.24735526614828
+          }
+        },
+        {
+          "ticker": "BABA",
+          "name": "Alibaba Group Holding Ltd",
+          "sector": "Big Tech & Hyperscalers",
+          "thesis": "High-volatility international cloud/AI swing trade",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 105.38,
+            "sma_50": 108.02279999999999,
+            "sma_200": 123.69176633989952,
+            "sma_50_prev20": 116.05460000000001,
+            "monthly_stoch_k": 14.704888394456942,
+            "monthly_stoch_d": 18.84593955359578,
+            "monthly_stoch_k_prev": 22.864534235158345,
+            "weekly_stoch_k": 12.07957023037275,
+            "weekly_stoch_k_prev": 5.934621398717383,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 105.38,
+            "sma_50": 108.02279999999999,
+            "sma_200": 123.69176633989952,
+            "ema_8": 104.84650216760484,
+            "ema_21": 105.06015895240292
+          }
+        },
+        {
+          "ticker": "AMD",
+          "name": "Advanced Micro Devices Inc",
+          "sector": "Chips & Hardware",
+          "thesis": "High beta runner; large weekly price swings",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 508.58,
+            "sma_50": 547.6736999999999,
+            "sma_200": 417.221875,
+            "sma_50_prev20": 531.2825,
+            "monthly_stoch_k": 79.66307395534119,
+            "monthly_stoch_d": 81.80786557582697,
+            "monthly_stoch_k_prev": 82.08370426076333,
+            "weekly_stoch_k": 30.769400146013396,
+            "weekly_stoch_k_prev": 39.553513094890825,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 508.58,
+            "sma_50": 547.6736999999999,
+            "sma_200": 417.221875,
+            "ema_8": 485.36889511172143,
+            "ema_21": 518.1879123751545
+          }
+        },
+        {
+          "ticker": "AAPL",
+          "name": "Apple Inc",
+          "sector": "Big Tech & Hyperscalers",
+          "thesis": "On-device AI rollout; deep liquidity and clean support zones",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 350.69,
+            "sma_50": 336.63349999999997,
+            "sma_200": 299.049161547984,
+            "sma_50_prev20": 323.002679408808,
+            "monthly_stoch_k": 88.93688323585495,
+            "monthly_stoch_d": 83.36556973785508,
+            "monthly_stoch_k_prev": 82.89607861783678,
+            "weekly_stoch_k": 84.96820673990013,
+            "weekly_stoch_k_prev": 89.6512591867803,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 350.69,
+            "sma_50": 336.63349999999997,
+            "sma_200": 299.049161547984,
+            "ema_8": 344.7455777939814,
+            "ema_21": 342.64336122730464
+          }
+        },
+        {
+          "ticker": "ADBE",
+          "name": "Adobe Inc",
+          "sector": "SaaS with AI Story",
+          "thesis": "Creative Cloud AI; frequent mean-reversion bounces after dips",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 237.32,
+            "sma_50": 250.1591,
+            "sma_200": 248.8534,
+            "sma_50_prev20": 257.6333,
+            "monthly_stoch_k": 37.17780903532488,
+            "monthly_stoch_d": 33.22642422112724,
+            "monthly_stoch_k_prev": 34.7782215255366,
+            "weekly_stoch_k": 40.27301538477739,
+            "weekly_stoch_k_prev": 46.96959344716398,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 237.32,
+            "sma_50": 250.1591,
+            "sma_200": 248.8534,
+            "ema_8": 244.87914281573262,
+            "ema_21": 247.4698251415592
+          }
+        },
+        {
+          "ticker": "AMAT",
+          "name": "Applied Materials Inc",
+          "sector": "Advanced Packaging & Equipment",
+          "thesis": "Deposition/etching leader; strong trendline bounces on high volume",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 370.55,
+            "sma_50": 443.0199,
+            "sma_200": 445.035771977654,
+            "sma_50_prev20": 489.59364615694,
+            "monthly_stoch_k": 51.20417821784522,
+            "monthly_stoch_d": 59.654192729942814,
+            "monthly_stoch_k_prev": 57.869793438125804,
+            "weekly_stoch_k": 5.890908570167944,
+            "weekly_stoch_k_prev": 4.084624295373805,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 370.55,
+            "sma_50": 443.0199,
+            "sma_200": 445.035771977654,
+            "ema_8": 365.8690218971739,
+            "ema_21": 397.8347828806373
+          }
+        },
+        {
+          "ticker": "BESIY",
+          "name": "Be Semiconductor Industries NV",
+          "sector": "Advanced Packaging & Equipment",
+          "thesis": "Hybrid bonding for 3D packaging; high-amplitude momentum setup",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 166.93,
+            "sma_50": 198.7664,
+            "sma_200": 245.61259631812848,
+            "sma_50_prev20": 228.7507,
+            "monthly_stoch_k": 32.96404611274527,
+            "monthly_stoch_d": 43.41472336903529,
+            "monthly_stoch_k_prev": 40.96885279876472,
+            "weekly_stoch_k": 5.0899392766202745,
+            "weekly_stoch_k_prev": 3.656686905117162,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 166.93,
+            "sma_50": 198.7664,
+            "sma_200": 245.61259631812848,
+            "ema_8": 167.5460232205955,
+            "ema_21": 177.44301879222894
+          }
+        }
+      ],
+      "errors": [
+        {
+          "ticker": "MU",
+          "error": "MU: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TSM",
+          "error": "TSM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ETN",
+          "error": "ETN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NVDA",
+          "error": "NVDA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GOOGL",
+          "error": "GOOGL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "KLAC",
+          "error": "KLAC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CRDO",
+          "error": "CRDO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "PLTR",
+          "error": "PLTR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SNPS",
+          "error": "SNPS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "META",
+          "error": "META: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MSFT",
+          "error": "MSFT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SAP",
+          "error": "SAP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SNOW",
+          "error": "SNOW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NOW",
+          "error": "NOW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CRM",
+          "error": "CRM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LRCX",
+          "error": "LRCX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CAMT",
+          "error": "CAMT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SKHY",
+          "error": "SKHY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SSNLF",
+          "error": "SSNLF: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WDC",
+          "error": "WDC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MRVL",
+          "error": "MRVL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "COHR",
+          "error": "COHR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "VRT",
+          "error": "VRT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CEG",
+          "error": "CEG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "VST",
+          "error": "VST: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SBGSY",
+          "error": "SBGSY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CDNS",
+          "error": "CDNS: Tiingo returned HTTP 429"
+        }
+      ]
     }
-  ],
-  "errors": [
-    {
-      "ticker": "MU",
-      "error": "MU: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TSM",
-      "error": "TSM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ETN",
-      "error": "ETN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NVDA",
-      "error": "NVDA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GOOGL",
-      "error": "GOOGL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "KLAC",
-      "error": "KLAC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CRDO",
-      "error": "CRDO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "PLTR",
-      "error": "PLTR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SNPS",
-      "error": "SNPS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "META",
-      "error": "META: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MSFT",
-      "error": "MSFT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SAP",
-      "error": "SAP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SNOW",
-      "error": "SNOW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NOW",
-      "error": "NOW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CRM",
-      "error": "CRM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LRCX",
-      "error": "LRCX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CAMT",
-      "error": "CAMT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SKHY",
-      "error": "SKHY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SSNLF",
-      "error": "SSNLF: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WDC",
-      "error": "WDC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MRVL",
-      "error": "MRVL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "COHR",
-      "error": "COHR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "VRT",
-      "error": "VRT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CEG",
-      "error": "CEG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "VST",
-      "error": "VST: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SBGSY",
-      "error": "SBGSY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CDNS",
-      "error": "CDNS: Tiingo returned HTTP 429"
-    }
-  ]
+  }
 }

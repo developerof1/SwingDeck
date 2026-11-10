@@ -7,11 +7,14 @@ once per invocation - the workflow fires this hourly, and however many firings i
 drain tonight's queue falls out of the actual ticker count at runtime, not a hardcoded
 schedule. Once the queue is empty, further firings that night are fast no-ops.
 
-Each batch fetches+evaluates just its own tickers (see evaluate_unique_tickers()) and merges
-the results into every affected watchlist's results/<id>.json - preserving rows for tickers
-not in this batch rather than overwriting the whole file (see merge_watchlist_results()). A
-ticker listed in multiple watchlists is still fetched and evaluated exactly once per batch,
-fanned out into every watchlist's own sector/thesis (see build_row()), same as before.
+Each batch fetches every registered trading setup's own indicators+evaluation for its tickers
+(see evaluate_unique_tickers(), src/setups/) and merges the results into every affected
+watchlist's results/<id>.json, nested by setup id - preserving rows for tickers not in this
+batch rather than overwriting the whole file (see merge_watchlist_results()). A ticker listed
+in multiple watchlists is still fetched and evaluated exactly once per batch (per setup),
+fanned out into every watchlist's own sector/thesis (see build_row()), same as before. Adding
+a new trading setup to src/setups/__init__.py's REGISTRY is the only change needed here - this
+file loops over whatever is registered, it never hardcodes which setups exist.
 
 Night boundary: if today's queue is exhausted or doesn't exist yet when a run starts, this
 is a new night - any unfinished stragglers from the last queue are abandoned (not carried
@@ -21,12 +24,18 @@ position rotates each night (see build_fresh_queue()) so a chronically-incomplet
 doesn't always strand the same tail-end tickers.
 
 Per-ticker fetch failures (bad symbol, insufficient history, Tiingo outage) are caught and
-recorded in every affected watchlist's "errors" list rather than aborting the batch; if
-*every* ticker in a batch fails (likely systemic - bad API key, Tiingo outage - not bad
-symbols), the queue is left untouched so the same batch retries next run instead of silently
-"completing" by recording everything as an error. Insufficient *completed-session* history is
-a different thing - that's a DATA_INVALID status from the engine itself (a real Other
-Monitored row with a reason), not a fetch error.
+recorded under every registered setup's "errors" list for the affected watchlist(s) rather
+than aborting the batch; if *every* ticker in a batch fails to even fetch (likely systemic -
+bad API key, Tiingo outage - not bad symbols), the queue is left untouched so the same batch
+retries next run instead of silently "completing" by recording everything as an error.
+Insufficient *completed-session* history is a different thing - that's a DATA_INVALID status
+from the engine itself (a real Other Monitored row with a reason), not a fetch error.
+
+A second kind of failure exists once there's more than one setup: the fetch succeeds, but one
+particular setup's own add_indicators/evaluate/serialize raises. That's caught separately (see
+evaluate_ticker()) so it only blanks *that* setup's row for *that* ticker - it must not look
+like a fetch failure (which would wrongly blank every other setup too) and must not feed the
+all-tickers-failed retry check above, which stays scoped to fetch success only.
 
 The debug override path (TICKERS_OVERRIDE) is unaffected by any of this - it still runs an
 ad hoc one-shot evaluation of just the named tickers, prints a summary, and never touches the
@@ -41,10 +50,9 @@ from datetime import date, datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from src.data_engine import add_continuation_indicators, to_dataframe
+from src.data_engine import to_dataframe
 from src.providers.tiingo_provider import TiingoError, fetch_daily_prices, fetch_ticker_meta
-from src.rules_engine import evaluate_stock
-from src.status_mapping import ui_group_for_status
+from src.setups import list_setups
 from src.watchlist_store import discover_watchlists, load_watchlist
 
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
@@ -93,9 +101,10 @@ def load_prior_names() -> dict[str, str]:
                 prior = json.load(f)
         except (json.JSONDecodeError, OSError):
             continue
-        for r in prior.get("results", []):
-            if r.get("name"):
-                names.setdefault(r["ticker"], r["name"])
+        for setup_doc in prior.get("setups", {}).values():
+            for r in setup_doc.get("results", []):
+                if r.get("name"):
+                    names.setdefault(r["ticker"], r["name"])
     return names
 
 
@@ -164,11 +173,19 @@ def finalize_night(queue: dict) -> None:
 
 
 def evaluate_ticker(ticker: str, start_date: str, prior_names: dict[str, str], meta_budget: list[int]) -> dict:
-    """Fetch + evaluate one ticker, independent of which watchlist(s) it belongs to -
-    sector/thesis (which vary per watchlist) are attached later by build_row()."""
+    """Fetch once, then run every registered setup's own add_indicators/evaluate/serialize
+    against that same raw data - independent of which watchlist(s) this ticker belongs to
+    (sector/thesis, which vary per watchlist, are attached later by build_row()).
+
+    Returns {"ticker", "name", "by_setup": {setup_id: row_dict}, "setup_errors": {setup_id: msg}} -
+    by_setup holds only the setups that succeeded for this ticker; a setup whose own
+    add_indicators/evaluate/serialize raised lands in setup_errors instead, without blocking
+    any other setup's result for the same ticker. setup.add_indicators is always called
+    against the same pristine base_df, never a previous setup's enriched df - see the
+    Setup.add_indicators docstring in src/setups/base.py for why that matters.
+    """
     raw = fetch_daily_prices(ticker, start_date)  # TiingoError propagates to caller
-    df = add_continuation_indicators(to_dataframe(raw))
-    result = evaluate_stock(ticker, df)
+    base_df = to_dataframe(raw)
 
     name = prior_names.get(ticker)
     if not name and meta_budget[0] > 0:
@@ -176,76 +193,92 @@ def evaluate_ticker(ticker: str, start_date: str, prior_names: dict[str, str], m
         meta = fetch_ticker_meta(ticker)
         name = (meta or {}).get("name")
 
-    return {
-        "ticker": ticker,
-        "name": name,
-        "status": result.status,
-        "ui_group": ui_group_for_status(result.status),
-        "evaluated_session": result.evaluated_session,
-        "data_valid": result.data_valid,
-        "recovery_observed": result.recovery_observed,
-        "developing_badges": [
-            {
-                "code": b.code,
-                "measured": b.measured,
-                "threshold": b.threshold,
-                "direction": b.direction,
-                "in_zone": b.in_zone,
-                "ema_label": b.ema_label,
-            }
-            for b in result.developing_badges
-        ],
-        "trend_detail": result.trend_detail,
-        "location_detail": result.location_detail,
-        "oscillator_detail": result.oscillator_detail,
-        "data_invalid_reason": result.data_invalid_reason,
-        "diagnostics": result.diagnostics,
-    }
+    by_setup: dict[str, dict] = {}
+    setup_errors: dict[str, str] = {}
+    for setup in list_setups():
+        try:
+            enriched = setup.add_indicators(base_df)
+            result = setup.evaluate(ticker, enriched)
+            by_setup[setup.id] = setup.serialize(result)
+        except Exception as exc:  # noqa: BLE001 - one setup's bug must not block the others
+            setup_errors[setup.id] = str(exc)
+
+    return {"ticker": ticker, "name": name, "by_setup": by_setup, "setup_errors": setup_errors}
 
 
 def evaluate_unique_tickers(
     tickers: set[str], start_date: str, prior_names: dict[str, str]
-) -> tuple[dict[str, dict], dict[str, str]]:
-    """Fetches and evaluates every ticker in `tickers` exactly once, regardless of how many
-    watchlists reference it - this is the Tiingo-call dedup. Returns
-    (ticker -> evaluation dict, ticker -> error message); exactly one of the two holds per
-    ticker."""
+) -> tuple[dict[str, dict], dict[str, dict]]:
+    """Fetches and evaluates every ticker in `tickers` exactly once (across all registered
+    setups), regardless of how many watchlists reference it - this is the Tiingo-call dedup.
+
+    Returns (ticker -> evaluation dict from evaluate_ticker(), ticker -> {"fetch_error",
+    "setup_errors"}) - a ticker only appears in `errors` if its fetch failed (fetch_error set,
+    evaluations has no entry for it) or at least one setup failed after a successful fetch
+    (fetch_error is None, evaluations[ticker] still holds whatever setups DID succeed)."""
     meta_budget = [MAX_META_FETCHES_PER_RUN]
     evaluations: dict[str, dict] = {}
-    errors: dict[str, str] = {}
+    errors: dict[str, dict] = {}
     for ticker in sorted(tickers):
         try:
-            evaluations[ticker] = evaluate_ticker(ticker, start_date, prior_names, meta_budget)
+            evaluation = evaluate_ticker(ticker, start_date, prior_names, meta_budget)
         except TiingoError as exc:
-            errors[ticker] = str(exc)
+            errors[ticker] = {"fetch_error": str(exc), "setup_errors": {}}
+            continue
+        evaluations[ticker] = evaluation
+        if evaluation["setup_errors"]:
+            errors[ticker] = {"fetch_error": None, "setup_errors": evaluation["setup_errors"]}
     return evaluations, errors
 
 
-def build_row(entry: dict, evaluation: dict) -> dict:
-    """Merges a cached per-ticker evaluation with one watchlist entry's own sector/thesis -
-    the same ticker can carry different sector/thesis text in different watchlists."""
+def build_row(entry: dict, evaluation: dict, setup_id: str) -> dict:
+    """Merges one watchlist entry's own sector/thesis with this ticker's cached result for
+    one setup - the same ticker can carry different sector/thesis text in different
+    watchlists, and a different result per setup."""
     return {
         "ticker": evaluation["ticker"],
         "name": evaluation["name"],
         "sector": entry.get("sector"),
         "thesis": entry.get("thesis"),
-        **{k: v for k, v in evaluation.items() if k not in ("ticker", "name")},
+        **evaluation["by_setup"][setup_id],
     }
 
 
-def print_debug_summary(watchlist_id: str, results: list[dict], errors: list[dict]) -> None:
-    print(f"[debug run, not written] {watchlist_id}: {len(results)} results, {len(errors)} errors")
-    for r in results:
-        extra = f" ({r['data_invalid_reason']})" if r["status"] == "DATA_INVALID" else ""
-        print(f"  {r['ticker']} ({r['name'] or 'no name'}): {r['status']}{extra}")
-    for err in errors:
-        print(f"  ERROR {err['ticker']}: {err['error']}")
+def error_message_for(ticker: str, setup_id: str, errors: dict[str, dict]) -> str | None:
+    """A fetch failure applies to every setup equally; a setup-specific failure applies only
+    to that setup. None means this ticker had no problem under this setup."""
+    err = errors.get(ticker)
+    if not err:
+        return None
+    return err.get("fetch_error") or (err.get("setup_errors") or {}).get(setup_id)
 
 
-def merge_watchlist_results(watchlist_id: str, new_results: list[dict], new_errors: list[dict]) -> None:
-    """Merges this batch's rows into the watchlist's existing results/<id>.json instead of
-    overwriting it - rows for tickers not in this batch are left exactly as they were. A
-    ticker that succeeds this batch clears any stale error recorded for it previously."""
+def print_debug_summary(
+    watchlist_id: str, entries: list[dict], evaluations: dict[str, dict], errors: dict[str, dict]
+) -> None:
+    print(f"[debug run, not written] {watchlist_id}:")
+    for setup in list_setups():
+        print(f"  Setup: {setup.label}")
+        for entry in entries:
+            ticker = entry["ticker"]
+            evaluation = evaluations.get(ticker)
+            if evaluation and setup.id in evaluation["by_setup"]:
+                row = evaluation["by_setup"][setup.id]
+                extra = f" ({row['data_invalid_reason']})" if row["status"] == "DATA_INVALID" else ""
+                print(f"    {ticker} ({evaluation['name'] or 'no name'}): {row['status']}{extra}")
+            else:
+                message = error_message_for(ticker, setup.id, errors) or "unknown error"
+                print(f"    ERROR {ticker}: {message}")
+
+
+def merge_watchlist_results(
+    watchlist_id: str, by_setup_results: dict[str, list[dict]], by_setup_errors: dict[str, list[dict]]
+) -> None:
+    """Merges this batch's rows into the watchlist's existing results/<id>.json, nested by
+    setup_id - one read + one write per watchlist per run, not one round-trip per setup. Rows
+    for a (setup, ticker) pair not touched this batch are left exactly as they were. A ticker
+    that succeeds a setup this batch clears any stale error recorded for it under that same
+    setup previously."""
     path = results_path(watchlist_id)
     prior: dict = {}
     if os.path.exists(path):
@@ -255,36 +288,75 @@ def merge_watchlist_results(watchlist_id: str, new_results: list[dict], new_erro
         except (json.JSONDecodeError, OSError):
             prior = {}
 
-    results_by_ticker = {r["ticker"]: r for r in prior.get("results", [])}
-    for r in new_results:
-        results_by_ticker[r["ticker"]] = r
+    setups_doc: dict = prior.get("setups", {})
+    touched_setup_ids = set(by_setup_results) | set(by_setup_errors)
 
-    errors_by_ticker = {e["ticker"]: e for e in prior.get("errors", [])}
-    for e in new_errors:
-        errors_by_ticker[e["ticker"]] = e
-    for r in new_results:
-        errors_by_ticker.pop(r["ticker"], None)
+    for setup_id in touched_setup_ids:
+        setup_doc = setups_doc.get(setup_id, {})
+        new_results = by_setup_results.get(setup_id, [])
+        new_errors = by_setup_errors.get(setup_id, [])
 
-    merged_results = list(results_by_ticker.values())
-    merged_errors = list(errors_by_ticker.values())
+        results_by_ticker = {r["ticker"]: r for r in setup_doc.get("results", [])}
+        for r in new_results:
+            results_by_ticker[r["ticker"]] = r
 
-    session_counts = Counter(r["evaluated_session"] for r in merged_results if r.get("evaluated_session"))
-    evaluated_session = session_counts.most_common(1)[0][0] if session_counts else None
+        errors_by_ticker = {e["ticker"]: e for e in setup_doc.get("errors", [])}
+        for e in new_errors:
+            errors_by_ticker[e["ticker"]] = e
+        for r in new_results:
+            errors_by_ticker.pop(r["ticker"], None)
 
-    output = {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="minutes"),
-        "evaluated_session": evaluated_session,
-        "results": merged_results,
-        "errors": merged_errors,
-    }
+        merged_results = list(results_by_ticker.values())
+        merged_errors = list(errors_by_ticker.values())
+
+        session_counts = Counter(r["evaluated_session"] for r in merged_results if r.get("evaluated_session"))
+        evaluated_session = session_counts.most_common(1)[0][0] if session_counts else None
+
+        setups_doc[setup_id] = {
+            "generated_at": datetime.now(timezone.utc).isoformat(timespec="minutes"),
+            "evaluated_session": evaluated_session,
+            "results": merged_results,
+            "errors": merged_errors,
+        }
+
+    output = {"setups": setups_doc}
 
     os.makedirs(RESULTS_DIR, exist_ok=True)
     with open(path, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"Merged {len(new_results)} result(s) and {len(new_errors)} error(s) into {path}")
-    for err in new_errors:
-        print(f"  ERROR {err['ticker']}: {err['error']}")
+    total_results = sum(len(v) for v in by_setup_results.values())
+    total_errors = sum(len(v) for v in by_setup_errors.values())
+    print(f"Merged {total_results} result(s) and {total_errors} error(s) into {path}")
+    for setup_id, errs in by_setup_errors.items():
+        for err in errs:
+            print(f"  ERROR [{setup_id}] {err['ticker']}: {err['error']}")
+
+
+def _by_setup_rows_and_errors(
+    entries: list[dict], evaluations: dict[str, dict], errors: dict[str, dict]
+) -> tuple[dict[str, list[dict]], dict[str, list[dict]]]:
+    """Builds this watchlist's results/errors lists for every registered setup, for the given
+    entries (already filtered to tickers in the current batch/override)."""
+    by_setup_results: dict[str, list[dict]] = {}
+    by_setup_errors: dict[str, list[dict]] = {}
+    for setup in list_setups():
+        results = []
+        error_rows = []
+        for entry in entries:
+            ticker = entry["ticker"]
+            evaluation = evaluations.get(ticker)
+            if evaluation and setup.id in evaluation["by_setup"]:
+                results.append(build_row(entry, evaluation, setup.id))
+                continue
+            message = error_message_for(ticker, setup.id, errors)
+            if message:
+                error_rows.append({"ticker": ticker, "error": message})
+        if results:
+            by_setup_results[setup.id] = results
+        if error_rows:
+            by_setup_errors[setup.id] = error_rows
+    return by_setup_results, by_setup_errors
 
 
 def run_debug_override(
@@ -296,17 +368,13 @@ def run_debug_override(
         print(f"No tickers in any watchlist matched {TICKERS_OVERRIDE_ENV}={override!r}")
         return
 
-    evaluations, fetch_errors = evaluate_unique_tickers(tickers_to_evaluate, start_date, prior_names)
+    evaluations, errors = evaluate_unique_tickers(tickers_to_evaluate, start_date, prior_names)
 
     for watchlist in watchlists:
         entries = [e for e in watchlist["tickers"] if e["ticker"].upper() in wanted]
         if not entries:
             continue  # this watchlist has none of the debug-overridden tickers
-        results = [build_row(e, evaluations[e["ticker"]]) for e in entries if e["ticker"] in evaluations]
-        errors = [
-            {"ticker": e["ticker"], "error": fetch_errors[e["ticker"]]} for e in entries if e["ticker"] in fetch_errors
-        ]
-        print_debug_summary(watchlist["id"], results, errors)
+        print_debug_summary(watchlist["id"], entries, evaluations, errors)
 
 
 def run_scheduled_batch(watchlists: list[dict], all_tickers: set[str], start_date: str, prior_names: dict[str, str]) -> None:
@@ -326,27 +394,27 @@ def run_scheduled_batch(watchlists: list[dict], all_tickers: set[str], start_dat
         return
 
     batch_set = set(batch)
-    evaluations, fetch_errors = evaluate_unique_tickers(batch_set, start_date, prior_names)
+    evaluations, errors = evaluate_unique_tickers(batch_set, start_date, prior_names)
 
     if not evaluations:
-        # Every ticker in this batch failed - almost certainly systemic (bad API key,
-        # Tiingo outage) rather than N coincidentally-bad symbols at once. Leave the queue
-        # untouched so the exact same batch retries next run instead of "completing" by
-        # recording a wall of errors.
-        print(f"All {len(batch)} ticker(s) in this batch failed - leaving queue untouched for retry. Errors:")
-        for ticker, err in fetch_errors.items():
-            print(f"  ERROR {ticker}: {err}")
+        # Every ticker in this batch failed to even fetch - almost certainly systemic (bad
+        # API key, Tiingo outage) rather than N coincidentally-bad symbols at once. Leave the
+        # queue untouched so the exact same batch retries next run instead of "completing" by
+        # recording a wall of errors. (A ticker that fetched fine but had every setup's own
+        # evaluate/serialize fail still has an entry in `evaluations` - just an empty
+        # by_setup - so this check only fires on total fetch failure.)
+        print(f"All {len(batch)} ticker(s) in this batch failed to fetch - leaving queue untouched for retry. Errors:")
+        for ticker, err in errors.items():
+            if err.get("fetch_error"):
+                print(f"  ERROR {ticker}: {err['fetch_error']}")
         return
 
     for watchlist in watchlists:
         entries = [e for e in watchlist["tickers"] if e["ticker"] in batch_set]
         if not entries:
             continue  # this watchlist has none of tonight's current batch
-        results = [build_row(e, evaluations[e["ticker"]]) for e in entries if e["ticker"] in evaluations]
-        errors = [
-            {"ticker": e["ticker"], "error": fetch_errors[e["ticker"]]} for e in entries if e["ticker"] in fetch_errors
-        ]
-        merge_watchlist_results(watchlist["id"], results, errors)
+        by_setup_results, by_setup_errors = _by_setup_rows_and_errors(entries, evaluations, errors)
+        merge_watchlist_results(watchlist["id"], by_setup_results, by_setup_errors)
 
     queue["remaining"] = [t for t in queue["remaining"] if t not in batch_set]
     save_queue(queue)

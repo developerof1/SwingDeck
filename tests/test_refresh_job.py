@@ -18,15 +18,22 @@ import scripts.refresh_job as refresh_job
 import src.watchlist_store as watchlist_store
 from src.providers.tiingo_provider import TiingoError
 
+# The one setup currently in src.setups.REGISTRY - evaluate_ticker() is mocked throughout
+# this file (the real add_indicators/evaluate/serialize math is covered by
+# test_data_engine.py/test_rules_engine.py), but refresh_job still calls the real
+# list_setups()/_by_setup_rows_and_errors()/merge_watchlist_results(), so fakes need to key
+# their results under this same setup id for those to find them.
+SETUP_ID = "momentum_continuation"
+
 
 def _write_watchlist(dir_path, filename, name, tickers):
     (dir_path / filename).write_text(json.dumps({"name": name, "tickers": tickers}))
 
 
-def _fake_evaluation(ticker: str) -> dict:
+def _fake_row(ticker: str) -> dict:
+    """One setup's serialized result for one ticker - the shape setup.serialize() produces,
+    nested under evaluation["by_setup"][SETUP_ID]."""
     return {
-        "ticker": ticker,
-        "name": f"{ticker} Inc",
         "status": "CANDIDATE",
         "ui_group": "qualified",
         "evaluated_session": "2026-11-06",
@@ -38,6 +45,18 @@ def _fake_evaluation(ticker: str) -> dict:
         "oscillator_detail": {},
         "data_invalid_reason": None,
         "diagnostics": {},
+    }
+
+
+def _fake_evaluation(ticker: str) -> dict:
+    """The shape evaluate_ticker() returns - ticker/name generic, by_setup holding every
+    registered setup's own row (just the one setup here), setup_errors empty (no setup
+    failed)."""
+    return {
+        "ticker": ticker,
+        "name": f"{ticker} Inc",
+        "by_setup": {SETUP_ID: _fake_row(ticker)},
+        "setup_errors": {},
     }
 
 
@@ -71,7 +90,7 @@ def test_build_row_merges_cached_evaluation_with_entry_metadata():
     entry = {"ticker": "NVDA", "sector": "Chips", "thesis": "AI beta leader"}
     evaluation = _fake_evaluation("NVDA")
 
-    row = refresh_job.build_row(entry, evaluation)
+    row = refresh_job.build_row(entry, evaluation, SETUP_ID)
 
     assert row["ticker"] == "NVDA"
     assert row["name"] == "NVDA Inc"
@@ -106,8 +125,8 @@ def test_shared_ticker_is_fetched_once_across_watchlists(tmp_path, monkeypatch):
     list_a = json.loads((results_dir / "list_a.json").read_text())
     list_b = json.loads((results_dir / "list_b.json").read_text())
 
-    nvda_in_a = next(r for r in list_a["results"] if r["ticker"] == "NVDA")
-    nvda_in_b = next(r for r in list_b["results"] if r["ticker"] == "NVDA")
+    nvda_in_a = next(r for r in list_a["setups"][SETUP_ID]["results"] if r["ticker"] == "NVDA")
+    nvda_in_b = next(r for r in list_b["setups"][SETUP_ID]["results"] if r["ticker"] == "NVDA")
     assert nvda_in_a["thesis"] == "A's thesis"
     assert nvda_in_b["thesis"] == "B's thesis"
     assert nvda_in_a["status"] == nvda_in_b["status"] == "CANDIDATE"
@@ -129,9 +148,9 @@ def test_fetch_failure_recorded_in_every_watchlist_that_references_it(tmp_path, 
     list_a = json.loads((results_dir / "list_a.json").read_text())
     list_b = json.loads((results_dir / "list_b.json").read_text())
 
-    assert [e["ticker"] for e in list_a["errors"]] == ["BADTICKER"]
-    assert [e["ticker"] for e in list_b["errors"]] == ["BADTICKER"]
-    assert [r["ticker"] for r in list_a["results"]] == ["AAPL"]
+    assert [e["ticker"] for e in list_a["setups"][SETUP_ID]["errors"]] == ["BADTICKER"]
+    assert [e["ticker"] for e in list_b["setups"][SETUP_ID]["errors"]] == ["BADTICKER"]
+    assert [r["ticker"] for r in list_a["setups"][SETUP_ID]["results"]] == ["AAPL"]
 
 
 def test_batch_where_every_ticker_fails_leaves_queue_untouched_for_retry(tmp_path, monkeypatch):
@@ -160,21 +179,30 @@ def test_merge_preserves_prior_rows_and_clears_stale_error_on_success(tmp_path, 
     monkeypatch.setattr(refresh_job, "RESULTS_DIR", str(results_dir))
 
     prior = {
-        "generated_at": "2026-11-01T00:00+00:00",
-        "evaluated_session": "2026-10-31",
-        "results": [{"ticker": "KEEPME", "name": "Keep Me Inc", "status": "CANDIDATE", "evaluated_session": "2026-10-31"}],
-        "errors": [{"ticker": "AAPL", "error": "AAPL: Tiingo returned HTTP 429"}],
+        "setups": {
+            SETUP_ID: {
+                "generated_at": "2026-11-01T00:00+00:00",
+                "evaluated_session": "2026-10-31",
+                "results": [
+                    {"ticker": "KEEPME", "name": "Keep Me Inc", "status": "CANDIDATE", "evaluated_session": "2026-10-31"}
+                ],
+                "errors": [{"ticker": "AAPL", "error": "AAPL: Tiingo returned HTTP 429"}],
+            }
+        }
     }
     (results_dir / "watch.json").write_text(json.dumps(prior))
 
+    entry = {"ticker": "AAPL", "sector": None, "thesis": None}
+    aapl_row = refresh_job.build_row(entry, _fake_evaluation("AAPL"), SETUP_ID)
+
     # AAPL now succeeds - its stale error should be cleared - while KEEPME (not in this
     # batch at all) is left exactly as it was.
-    refresh_job.merge_watchlist_results("watch", [_fake_evaluation("AAPL")], [])
+    refresh_job.merge_watchlist_results("watch", {SETUP_ID: [aapl_row]}, {})
 
     merged = json.loads((results_dir / "watch.json").read_text())
-    tickers = {r["ticker"] for r in merged["results"]}
+    tickers = {r["ticker"] for r in merged["setups"][SETUP_ID]["results"]}
     assert tickers == {"KEEPME", "AAPL"}
-    assert merged["errors"] == []
+    assert merged["setups"][SETUP_ID]["errors"] == []
 
 
 def test_queue_drains_across_multiple_runs_within_one_night(tmp_path, monkeypatch):
@@ -203,7 +231,7 @@ def test_queue_drains_across_multiple_runs_within_one_night(tmp_path, monkeypatc
     assert queue_after_second["remaining"] == []
 
     merged = json.loads((results_dir / "list_a.json").read_text())
-    assert {r["ticker"] for r in merged["results"]} == {"AAPL", "MSFT", "GOOG", "AMZN"}
+    assert {r["ticker"] for r in merged["setups"][SETUP_ID]["results"]} == {"AAPL", "MSFT", "GOOG", "AMZN"}
 
 
 def test_night_boundary_abandons_stragglers_and_writes_status(tmp_path, monkeypatch):
@@ -264,8 +292,12 @@ def test_debug_override_never_writes_results(tmp_path, monkeypatch, capsys):
 def test_load_prior_names_merges_across_all_watchlist_result_files(tmp_path, monkeypatch):
     results_dir = tmp_path / "results"
     results_dir.mkdir()
-    (results_dir / "list_a.json").write_text(json.dumps({"results": [{"ticker": "NVDA", "name": "Nvidia Corp"}]}))
-    (results_dir / "list_b.json").write_text(json.dumps({"results": [{"ticker": "AMD", "name": "Advanced Micro Devices"}]}))
+    (results_dir / "list_a.json").write_text(
+        json.dumps({"setups": {SETUP_ID: {"results": [{"ticker": "NVDA", "name": "Nvidia Corp"}]}}})
+    )
+    (results_dir / "list_b.json").write_text(
+        json.dumps({"setups": {SETUP_ID: {"results": [{"ticker": "AMD", "name": "Advanced Micro Devices"}]}}})
+    )
 
     monkeypatch.setattr(refresh_job, "RESULTS_DIR", str(results_dir))
 

@@ -1,2335 +1,2339 @@
 {
-  "generated_at": "2026-11-10T20:09+00:00",
-  "evaluated_session": "2026-11-09",
-  "results": [
-    {
-      "ticker": "APTV",
-      "name": null,
-      "sector": "Manufacturing / Electrical",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
+  "setups": {
+    "momentum_continuation": {
+      "generated_at": "2026-11-10T20:09+00:00",
       "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 39.91,
-        "sma_50": 44.0116,
-        "sma_200": 58.59219999999999,
-        "sma_50_prev20": 46.04160000000001,
-        "monthly_stoch_k": 1.7049432767607515,
-        "monthly_stoch_d": 6.463488977427265,
-        "monthly_stoch_k_prev": 4.538941094304562,
-        "weekly_stoch_k": 5.419400867939788,
-        "weekly_stoch_k_prev": 9.342218905687334,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 39.91,
-        "sma_50": 44.0116,
-        "sma_200": 58.59219999999999,
-        "ema_8": 41.59919692124467,
-        "ema_21": 42.89691158344087
-      }
-    },
-    {
-      "ticker": "BIDU",
-      "name": null,
-      "sector": "Technology / Internet",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 81.03,
-        "sma_50": 85.6002,
-        "sma_200": 112.160925,
-        "sma_50_prev20": 94.4094,
-        "monthly_stoch_k": 5.542085060818088,
-        "monthly_stoch_d": 17.15787550493142,
-        "monthly_stoch_k_prev": 16.865278391316906,
-        "weekly_stoch_k": 6.168316190432684,
-        "weekly_stoch_k_prev": 1.3503419288731593,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 81.03,
-        "sma_50": 85.6002,
-        "sma_200": 112.160925,
-        "ema_8": 79.74932975256151,
-        "ema_21": 80.60480244473717
-      }
-    },
-    {
-      "ticker": "ARCC",
-      "name": null,
-      "sector": "Financial / Investments",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 19.35,
-        "sma_50": 19.049737128464002,
-        "sma_200": 18.3022109423425,
-        "sma_50_prev20": 19.238738539042,
-        "monthly_stoch_k": 73.16413499341384,
-        "monthly_stoch_d": 61.838194731435344,
-        "monthly_stoch_k_prev": 61.88568560873489,
-        "weekly_stoch_k": 50.08175264499158,
-        "weekly_stoch_k_prev": 44.99800597921533,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 19.35,
-        "sma_50": 19.049737128464002,
-        "sma_200": 18.3022109423425,
-        "ema_8": 19.176872777200646,
-        "ema_21": 19.000995031667653
-      }
-    },
-    {
-      "ticker": "BAX",
-      "name": null,
-      "sector": "Healthcare / Manufacturer",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 26.41,
-        "sma_50": 24.5094,
-        "sma_200": 21.4997123149325,
-        "sma_50_prev20": 25.204090971691997,
-        "monthly_stoch_k": 58.11024324104713,
-        "monthly_stoch_d": 58.54124485882048,
-        "monthly_stoch_k_prev": 62.77725429257589,
-        "weekly_stoch_k": 36.11387738529985,
-        "weekly_stoch_k_prev": 32.972117637704365,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 26.41,
-        "sma_50": 24.5094,
-        "sma_200": 21.4997123149325,
-        "ema_8": 25.548663933806,
-        "ema_21": 25.07388751831951
-      }
-    },
-    {
-      "ticker": "ALGN",
-      "name": "Align Technology Inc",
-      "sector": "Healthare / Medical Devices",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 174.26,
-        "sma_50": 150.7123,
-        "sma_200": 168.58545,
-        "sma_50_prev20": 156.4218,
-        "monthly_stoch_k": 36.371516487775494,
-        "monthly_stoch_d": 43.31205233773077,
-        "monthly_stoch_k_prev": 42.733286606176925,
-        "weekly_stoch_k": 40.00299066065234,
-        "weekly_stoch_k_prev": 25.085153275896573,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 174.26,
-        "sma_50": 150.7123,
-        "sma_200": 168.58545,
-        "ema_8": 161.73674345633228,
-        "ema_21": 155.53230906310054
-      }
-    },
-    {
-      "ticker": "BJ",
-      "name": null,
-      "sector": "Retail / Wholesale",
-      "thesis": null,
-      "status": "DEVELOPING",
-      "ui_group": "developing",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [
+      "results": [
         {
-          "code": "OSCILLATOR_PENDING",
-          "measured": 73.05203892464716,
-          "threshold": 30,
-          "direction": "closing_in",
-          "in_zone": false,
-          "ema_label": null
+          "ticker": "APTV",
+          "name": null,
+          "sector": "Manufacturing / Electrical",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 39.91,
+            "sma_50": 44.0116,
+            "sma_200": 58.59219999999999,
+            "sma_50_prev20": 46.04160000000001,
+            "monthly_stoch_k": 1.7049432767607515,
+            "monthly_stoch_d": 6.463488977427265,
+            "monthly_stoch_k_prev": 4.538941094304562,
+            "weekly_stoch_k": 5.419400867939788,
+            "weekly_stoch_k_prev": 9.342218905687334,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 39.91,
+            "sma_50": 44.0116,
+            "sma_200": 58.59219999999999,
+            "ema_8": 41.59919692124467,
+            "ema_21": 42.89691158344087
+          }
+        },
+        {
+          "ticker": "BIDU",
+          "name": null,
+          "sector": "Technology / Internet",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 81.03,
+            "sma_50": 85.6002,
+            "sma_200": 112.160925,
+            "sma_50_prev20": 94.4094,
+            "monthly_stoch_k": 5.542085060818088,
+            "monthly_stoch_d": 17.15787550493142,
+            "monthly_stoch_k_prev": 16.865278391316906,
+            "weekly_stoch_k": 6.168316190432684,
+            "weekly_stoch_k_prev": 1.3503419288731593,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 81.03,
+            "sma_50": 85.6002,
+            "sma_200": 112.160925,
+            "ema_8": 79.74932975256151,
+            "ema_21": 80.60480244473717
+          }
+        },
+        {
+          "ticker": "ARCC",
+          "name": null,
+          "sector": "Financial / Investments",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 19.35,
+            "sma_50": 19.049737128464002,
+            "sma_200": 18.3022109423425,
+            "sma_50_prev20": 19.238738539042,
+            "monthly_stoch_k": 73.16413499341384,
+            "monthly_stoch_d": 61.838194731435344,
+            "monthly_stoch_k_prev": 61.88568560873489,
+            "weekly_stoch_k": 50.08175264499158,
+            "weekly_stoch_k_prev": 44.99800597921533,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 19.35,
+            "sma_50": 19.049737128464002,
+            "sma_200": 18.3022109423425,
+            "ema_8": 19.176872777200646,
+            "ema_21": 19.000995031667653
+          }
+        },
+        {
+          "ticker": "BAX",
+          "name": null,
+          "sector": "Healthcare / Manufacturer",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 26.41,
+            "sma_50": 24.5094,
+            "sma_200": 21.4997123149325,
+            "sma_50_prev20": 25.204090971691997,
+            "monthly_stoch_k": 58.11024324104713,
+            "monthly_stoch_d": 58.54124485882048,
+            "monthly_stoch_k_prev": 62.77725429257589,
+            "weekly_stoch_k": 36.11387738529985,
+            "weekly_stoch_k_prev": 32.972117637704365,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 26.41,
+            "sma_50": 24.5094,
+            "sma_200": 21.4997123149325,
+            "ema_8": 25.548663933806,
+            "ema_21": 25.07388751831951
+          }
+        },
+        {
+          "ticker": "ALGN",
+          "name": "Align Technology Inc",
+          "sector": "Healthare / Medical Devices",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 174.26,
+            "sma_50": 150.7123,
+            "sma_200": 168.58545,
+            "sma_50_prev20": 156.4218,
+            "monthly_stoch_k": 36.371516487775494,
+            "monthly_stoch_d": 43.31205233773077,
+            "monthly_stoch_k_prev": 42.733286606176925,
+            "weekly_stoch_k": 40.00299066065234,
+            "weekly_stoch_k_prev": 25.085153275896573,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 174.26,
+            "sma_50": 150.7123,
+            "sma_200": 168.58545,
+            "ema_8": 161.73674345633228,
+            "ema_21": 155.53230906310054
+          }
+        },
+        {
+          "ticker": "BJ",
+          "name": null,
+          "sector": "Retail / Wholesale",
+          "thesis": null,
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [
+            {
+              "code": "OSCILLATOR_PENDING",
+              "measured": 73.05203892464716,
+              "threshold": 30,
+              "direction": "closing_in",
+              "in_zone": false,
+              "ema_label": null
+            }
+          ],
+          "trend_detail": {
+            "close": 109.8,
+            "sma_50": 98.45739999999999,
+            "sma_200": 94.96045,
+            "sma_50_prev20": 93.851,
+            "monthly_stoch_k": 51.82766299079096,
+            "monthly_stoch_d": 38.01271345238492,
+            "monthly_stoch_k_prev": 34.59164730198688,
+            "weekly_stoch_k": 90.46217499266906,
+            "weekly_stoch_k_prev": 89.98466776515481,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {
+            "dpct": 0.7195937190640486,
+            "dpct_prev": 0.5594218901801455,
+            "ema_ref": 109.01553108550439,
+            "ema_ref_is_ema8": true,
+            "pass_today": true,
+            "pass": true,
+            "sessions_ago": 0
+          },
+          "oscillator_detail": {
+            "stoch_k": 73.05203892464716,
+            "stoch_d": 78.63662134747057,
+            "stoch_k_prev": 78.32570786654814,
+            "in_zone": false,
+            "pass_today": false,
+            "pass": false,
+            "sessions_ago": null
+          },
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 109.8,
+            "sma_50": 98.45739999999999,
+            "sma_200": 94.96045,
+            "ema_8": 109.01553108550439,
+            "ema_21": 105.62981129740162
+          }
+        },
+        {
+          "ticker": "AWK",
+          "name": null,
+          "sector": "Utilities / Water",
+          "thesis": null,
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [
+            {
+              "code": "OSCILLATOR_PENDING",
+              "measured": 84.35985943623548,
+              "threshold": 30,
+              "direction": "closing_in",
+              "in_zone": false,
+              "ema_label": null
+            }
+          ],
+          "trend_detail": {
+            "close": 149.22,
+            "sma_50": 136.9536,
+            "sma_200": 131.94757842041798,
+            "sma_50_prev20": 134.772180073746,
+            "monthly_stoch_k": 70.36961173319374,
+            "monthly_stoch_d": 63.086813035131534,
+            "monthly_stoch_k_prev": 58.868693160230066,
+            "weekly_stoch_k": 89.55496414614193,
+            "weekly_stoch_k_prev": 78.24858134697995,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {
+            "dpct": 1.055434556922467,
+            "dpct_prev": 2.087913624777295,
+            "ema_ref": 147.66152919361048,
+            "ema_ref_is_ema8": true,
+            "pass_today": true,
+            "pass": true,
+            "sessions_ago": 0
+          },
+          "oscillator_detail": {
+            "stoch_k": 84.35985943623548,
+            "stoch_d": 90.2259673966905,
+            "stoch_k_prev": 92.1284502629873,
+            "in_zone": false,
+            "pass_today": false,
+            "pass": false,
+            "sessions_ago": null
+          },
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 149.22,
+            "sma_50": 136.9536,
+            "sma_200": 131.94757842041798,
+            "ema_8": 147.66152919361048,
+            "ema_21": 142.50367280193987
+          }
+        },
+        {
+          "ticker": "AOS",
+          "name": "A.O. Smith Corp",
+          "sector": "Manufacturing",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 65.2,
+            "sma_50": 59.071008857361996,
+            "sma_200": 62.476226106674005,
+            "sma_50_prev20": 59.18341686366401,
+            "monthly_stoch_k": 21.468251917492456,
+            "monthly_stoch_d": 21.196047294538165,
+            "monthly_stoch_k_prev": 17.380698670498884,
+            "weekly_stoch_k": 78.93151747520616,
+            "weekly_stoch_k_prev": 69.99441004502556,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 65.2,
+            "sma_50": 59.071008857361996,
+            "sma_200": 62.476226106674005,
+            "ema_8": 64.54951834146327,
+            "ema_21": 62.27354401771006
+          }
+        },
+        {
+          "ticker": "AMT",
+          "name": "American Tower Corp",
+          "sector": "REIT",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 189.0,
+            "sma_50": 176.745287092096,
+            "sma_200": 174.80641958392647,
+            "sma_50_prev20": 171.205830106352,
+            "monthly_stoch_k": 33.85224416362402,
+            "monthly_stoch_d": 22.61834130909533,
+            "monthly_stoch_k_prev": 18.39308439991363,
+            "weekly_stoch_k": 66.8562401263823,
+            "weekly_stoch_k_prev": 76.89085937321433,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 189.0,
+            "sma_50": 176.745287092096,
+            "sma_200": 174.80641958392647,
+            "ema_8": 189.160897587708,
+            "ema_21": 184.86625580889375
+          }
+        },
+        {
+          "ticker": "AFRM",
+          "name": "Affirm Holdings Inc - Class A",
+          "sector": "Finance",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 68.03,
+            "sma_50": 72.348,
+            "sma_200": 66.48837499999999,
+            "sma_50_prev20": 73.9216,
+            "monthly_stoch_k": 54.710150697363645,
+            "monthly_stoch_d": 54.71984539502927,
+            "monthly_stoch_k_prev": 51.178654693031696,
+            "weekly_stoch_k": 18.5431437172527,
+            "weekly_stoch_k_prev": 26.58746415403525,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 68.03,
+            "sma_50": 72.348,
+            "sma_200": 66.48837499999999,
+            "ema_8": 70.85502744114683,
+            "ema_21": 72.16217847161313
+          }
+        },
+        {
+          "ticker": "BA",
+          "name": null,
+          "sector": "Industrials / Aerospace & Defense",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 172.38,
+            "sma_50": 191.65359999999998,
+            "sma_200": 214.71809999999996,
+            "sma_50_prev20": 209.22459999999998,
+            "monthly_stoch_k": 19.751304125266568,
+            "monthly_stoch_d": 33.75861903050676,
+            "monthly_stoch_k_prev": 34.22707857748377,
+            "weekly_stoch_k": 9.92076951561072,
+            "weekly_stoch_k_prev": 10.189836820356819,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 172.38,
+            "sma_50": 191.65359999999998,
+            "sma_200": 214.71809999999996,
+            "ema_8": 174.39447251811856,
+            "ema_21": 179.89710957787287
+          }
+        },
+        {
+          "ticker": "APD",
+          "name": "Air Products & Chemicals Inc",
+          "sector": "Basic Materials / Specialty Chemicals",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 311.08,
+            "sma_50": 294.17681778730605,
+            "sma_200": 288.60278533755053,
+            "sma_50_prev20": 292.314223166388,
+            "monthly_stoch_k": 84.37292764858732,
+            "monthly_stoch_d": 82.00819421704536,
+            "monthly_stoch_k_prev": 77.05833166735182,
+            "weekly_stoch_k": 85.07321185560504,
+            "weekly_stoch_k_prev": 87.15607231698736,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 311.08,
+            "sma_50": 294.17681778730605,
+            "sma_200": 288.60278533755053,
+            "ema_8": 310.3982413668825,
+            "ema_21": 304.9322095605619
+          }
+        },
+        {
+          "ticker": "ADM",
+          "name": "Archer Daniels Midland Company",
+          "sector": "Commodities / Agricultural",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 69.84,
+            "sma_50": 80.8544,
+            "sma_200": 76.0794680810765,
+            "sma_50_prev20": 81.68645246063201,
+            "monthly_stoch_k": 74.52382106327339,
+            "monthly_stoch_d": 77.62848777916007,
+            "monthly_stoch_k_prev": 78.76308057187671,
+            "weekly_stoch_k": 17.039268238514424,
+            "weekly_stoch_k_prev": 34.17379467676208,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 69.84,
+            "sma_50": 80.8544,
+            "sma_200": 76.0794680810765,
+            "ema_8": 72.34006030946871,
+            "ema_21": 76.00334630583532
+          }
+        },
+        {
+          "ticker": "AAP",
+          "name": "Advance Auto Parts Inc",
+          "sector": "Automotive / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 45.94,
+            "sma_50": 43.226311398354,
+            "sma_200": 51.378997416492496,
+            "sma_50_prev20": 45.626862044658,
+            "monthly_stoch_k": 16.884081887128996,
+            "monthly_stoch_d": 31.803351083741674,
+            "monthly_stoch_k_prev": 26.448022457381086,
+            "weekly_stoch_k": 36.284702000849784,
+            "weekly_stoch_k_prev": 34.70059150401823,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 45.94,
+            "sma_50": 43.226311398354,
+            "sma_200": 51.378997416492496,
+            "ema_8": 46.792488172332384,
+            "ema_21": 45.63467476669358
+          }
+        },
+        {
+          "ticker": "ASO",
+          "name": null,
+          "sector": "Consumer Cyclical / Specialty Retail",
+          "thesis": null,
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [
+            {
+              "code": "OSCILLATOR_PENDING",
+              "measured": 87.94061715947554,
+              "threshold": 30,
+              "direction": "closing_in",
+              "in_zone": false,
+              "ema_label": null
+            }
+          ],
+          "trend_detail": {
+            "close": 71.18,
+            "sma_50": 53.95507025904401,
+            "sma_200": 52.7975260300595,
+            "sma_50_prev20": 48.228549535292004,
+            "monthly_stoch_k": 43.67638153999521,
+            "monthly_stoch_d": 33.04378217952877,
+            "monthly_stoch_k_prev": 26.542767510983243,
+            "weekly_stoch_k": 89.99408884954634,
+            "weekly_stoch_k_prev": 89.52351205706971,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {
+            "dpct": 8.47548730451266,
+            "dpct_prev": 5.0531155265871925,
+            "ema_ref": 65.61851139712637,
+            "ema_ref_is_ema8": true,
+            "pass_today": false,
+            "pass": true,
+            "sessions_ago": 4
+          },
+          "oscillator_detail": {
+            "stoch_k": 87.94061715947554,
+            "stoch_d": 87.36570316739545,
+            "stoch_k_prev": 87.99391752888921,
+            "in_zone": false,
+            "pass_today": false,
+            "pass": false,
+            "sessions_ago": null
+          },
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 71.18,
+            "sma_50": 53.95507025904401,
+            "sma_200": 52.7975260300595,
+            "ema_8": 65.61851139712637,
+            "ema_21": 61.13775959496808
+          }
+        },
+        {
+          "ticker": "AKAM",
+          "name": "Akamai Technologies Inc",
+          "sector": "Technology / Software - Infrastructure",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 80.29,
+            "sma_50": 101.0072,
+            "sma_200": 112.26359999999998,
+            "sma_50_prev20": 110.95559999999999,
+            "monthly_stoch_k": 33.98860136311312,
+            "monthly_stoch_d": 40.76869386342764,
+            "monthly_stoch_k_prev": 42.092610013588384,
+            "weekly_stoch_k": 14.839287491157288,
+            "weekly_stoch_k_prev": 12.407547646716461,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 80.29,
+            "sma_50": 101.0072,
+            "sma_200": 112.26359999999998,
+            "ema_8": 85.37473079542225,
+            "ema_21": 91.4160653356604
+          }
+        },
+        {
+          "ticker": "ACHR",
+          "name": "Archer Aviation Inc - Class A",
+          "sector": "Transportation / Air Travel",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 4.81,
+            "sma_50": 4.8494,
+            "sma_200": 5.67615,
+            "sma_50_prev20": 5.593000000000001,
+            "monthly_stoch_k": 8.528844200690637,
+            "monthly_stoch_d": 7.616434739724717,
+            "monthly_stoch_k_prev": 8.04263565891473,
+            "weekly_stoch_k": 14.372982506459756,
+            "weekly_stoch_k_prev": 7.9292238204897165,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 4.81,
+            "sma_50": 4.8494,
+            "sma_200": 5.67615,
+            "ema_8": 4.314358317610358,
+            "ema_21": 4.3418967896208125
+          }
+        },
+        {
+          "ticker": "AGCO",
+          "name": "AGCO Corp",
+          "sector": "Chemicals / Agricultural",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 116.52,
+            "sma_50": 114.21700000000001,
+            "sma_200": 115.93472792558599,
+            "sma_50_prev20": 112.92352533700802,
+            "monthly_stoch_k": 36.577717688998625,
+            "monthly_stoch_d": 35.87703217926301,
+            "monthly_stoch_k_prev": 32.025765472556834,
+            "weekly_stoch_k": 29.580514208389715,
+            "weekly_stoch_k_prev": 23.518267929634636,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 116.52,
+            "sma_50": 114.21700000000001,
+            "sma_200": 115.93472792558599,
+            "ema_8": 111.35392793481229,
+            "ema_21": 109.8491484371566
+          }
+        },
+        {
+          "ticker": "ABNB",
+          "name": "Airbnb Inc - Class A",
+          "sector": "Hotels and Accommodation",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 190.29,
+            "sma_50": 169.0862,
+            "sma_200": 148.0687,
+            "sma_50_prev20": 171.2758,
+            "monthly_stoch_k": 70.9196018076718,
+            "monthly_stoch_d": 78.72213884481748,
+            "monthly_stoch_k_prev": 79.0086973739839,
+            "weekly_stoch_k": 65.84177242742977,
+            "weekly_stoch_k_prev": 57.013399129220126,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 190.29,
+            "sma_50": 169.0862,
+            "sma_200": 148.0687,
+            "ema_8": 178.09240003799985,
+            "ema_21": 172.90525506744183
+          }
+        },
+        {
+          "ticker": "ABBV",
+          "name": "Abbvie Inc",
+          "sector": "Healthcare / Pharmaceuticals",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 293.3,
+            "sma_50": 271.679200568166,
+            "sma_200": 236.625279215144,
+            "sma_50_prev20": 257.922128292364,
+            "monthly_stoch_k": 91.70763224188977,
+            "monthly_stoch_d": 88.96897655456492,
+            "monthly_stoch_k_prev": 86.92865972901315,
+            "weekly_stoch_k": 87.9793001179163,
+            "weekly_stoch_k_prev": 90.25032241739937,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 293.3,
+            "sma_50": 271.679200568166,
+            "sma_200": 236.625279215144,
+            "ema_8": 290.4171189220852,
+            "ema_21": 285.2493543990369
+          }
+        },
+        {
+          "ticker": "ATKR",
+          "name": null,
+          "sector": "Manufacturing / Electrical",
+          "thesis": null,
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-10-16",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [
+            {
+              "code": "OSCILLATOR_PENDING",
+              "measured": 95.07936507936483,
+              "threshold": 30,
+              "direction": "drifting_away",
+              "in_zone": false,
+              "ema_label": null
+            }
+          ],
+          "trend_detail": {
+            "close": 94.96,
+            "sma_50": 94.147793665352,
+            "sma_200": 76.512871421746,
+            "sma_50_prev20": 87.165426554334,
+            "monthly_stoch_k": 84.55352021979549,
+            "monthly_stoch_d": 74.373253857539,
+            "monthly_stoch_k_prev": 72.12847633120732,
+            "weekly_stoch_k": 99.60113110537607,
+            "weekly_stoch_k_prev": 99.51645671108082,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {
+            "dpct": 0.08628883205700495,
+            "dpct_prev": 0.06880039948924996,
+            "ema_ref": 94.87813076908184,
+            "ema_ref_is_ema8": true,
+            "pass_today": true,
+            "pass": true,
+            "sessions_ago": 0
+          },
+          "oscillator_detail": {
+            "stoch_k": 95.07936507936483,
+            "stoch_d": 95.38392050587095,
+            "stoch_k_prev": 94.36507936507881,
+            "in_zone": false,
+            "pass_today": false,
+            "pass": false,
+            "sessions_ago": null
+          },
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 94.96,
+            "sma_50": 94.147793665352,
+            "sma_200": 76.512871421746,
+            "ema_8": 94.87813076908184,
+            "ema_21": 94.56999640834002
+          }
+        },
+        {
+          "ticker": "ALB",
+          "name": "Albemarle Corp",
+          "sector": "Commodities",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 99.12,
+            "sma_50": 106.709187619774,
+            "sma_200": 146.7961779876365,
+            "sma_50_prev20": 121.021233680996,
+            "monthly_stoch_k": 29.217941266429396,
+            "monthly_stoch_d": 37.181618398139214,
+            "monthly_stoch_k_prev": 37.464062976022696,
+            "weekly_stoch_k": 8.331131075292587,
+            "weekly_stoch_k_prev": 3.008122696019892,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 99.12,
+            "sma_50": 106.709187619774,
+            "sma_200": 146.7961779876365,
+            "ema_8": 96.31607088520029,
+            "ema_21": 97.41303895748433
+          }
+        },
+        {
+          "ticker": "BABA",
+          "name": "Alibaba Group Holding Ltd",
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 105.38,
+            "sma_50": 108.02279999999999,
+            "sma_200": 123.69176633989952,
+            "sma_50_prev20": 116.05460000000001,
+            "monthly_stoch_k": 14.704888394456942,
+            "monthly_stoch_d": 18.84593955359578,
+            "monthly_stoch_k_prev": 22.864534235158345,
+            "weekly_stoch_k": 12.07957023037275,
+            "weekly_stoch_k_prev": 5.934621398717383,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 105.38,
+            "sma_50": 108.02279999999999,
+            "sma_200": 123.69176633989952,
+            "ema_8": 104.84650216760484,
+            "ema_21": 105.06015895240292
+          }
+        },
+        {
+          "ticker": "BBWI",
+          "name": null,
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 21.76,
+            "sma_50": 18.999599999999997,
+            "sma_200": 19.5309492288265,
+            "sma_50_prev20": 18.200847328246,
+            "monthly_stoch_k": 31.14284664036623,
+            "monthly_stoch_d": 30.828846696354205,
+            "monthly_stoch_k_prev": 24.705315253065923,
+            "weekly_stoch_k": 84.22277226086482,
+            "weekly_stoch_k_prev": 86.57517710861248,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 21.76,
+            "sma_50": 18.999599999999997,
+            "sma_200": 19.5309492288265,
+            "ema_8": 22.066352012671274,
+            "ema_21": 21.138769686318902
+          }
+        },
+        {
+          "ticker": "AAPL",
+          "name": "Apple Inc",
+          "sector": "Technology / Hardware",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 350.69,
+            "sma_50": 336.63349999999997,
+            "sma_200": 299.049161547984,
+            "sma_50_prev20": 323.002679408808,
+            "monthly_stoch_k": 88.93688323585495,
+            "monthly_stoch_d": 83.36556973785508,
+            "monthly_stoch_k_prev": 82.89607861783678,
+            "weekly_stoch_k": 84.96820673990013,
+            "weekly_stoch_k_prev": 89.6512591867803,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 350.69,
+            "sma_50": 336.63349999999997,
+            "sma_200": 299.049161547984,
+            "ema_8": 344.7455777939814,
+            "ema_21": 342.64336122730464
+          }
+        },
+        {
+          "ticker": "BHP",
+          "name": null,
+          "sector": "Basic Materials / Other Industrial Metals & Mining",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 82.86,
+            "sma_50": 84.64199428571399,
+            "sma_200": 80.35018035256499,
+            "sma_50_prev20": 88.001784285714,
+            "monthly_stoch_k": 76.62192740516387,
+            "monthly_stoch_d": 81.04223405337028,
+            "monthly_stoch_k_prev": 82.78663922051271,
+            "weekly_stoch_k": 10.17420875689743,
+            "weekly_stoch_k_prev": 15.495722878739462,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 82.86,
+            "sma_50": 84.64199428571399,
+            "sma_200": 80.35018035256499,
+            "ema_8": 80.48974102652426,
+            "ema_21": 81.43166410457545
+          }
+        },
+        {
+          "ticker": "BC",
+          "name": null,
+          "sector": "Automotive / Recreational",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 79.68,
+            "sma_50": 68.8606,
+            "sma_200": 76.57149303417,
+            "sma_50_prev20": 72.896902822086,
+            "monthly_stoch_k": 50.160500672827446,
+            "monthly_stoch_d": 60.74978140346334,
+            "monthly_stoch_k_prev": 56.14121080225767,
+            "weekly_stoch_k": 50.457157990883104,
+            "weekly_stoch_k_prev": 31.837959948910168,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 79.68,
+            "sma_50": 68.8606,
+            "sma_200": 76.57149303417,
+            "ema_8": 76.99256132022073,
+            "ema_21": 72.57317734866056
+          }
+        },
+        {
+          "ticker": "ACN",
+          "name": "Accenture plc - Class A",
+          "sector": "Technology / Consulting",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 254.37,
+            "sma_50": 210.70989285083996,
+            "sma_200": 187.6881106479295,
+            "sma_50_prev20": 183.60822736099198,
+            "monthly_stoch_k": 55.13508671664286,
+            "monthly_stoch_d": 37.81704714704517,
+            "monthly_stoch_k_prev": 35.22026196926453,
+            "weekly_stoch_k": 93.41223945659755,
+            "weekly_stoch_k_prev": 96.12213593521979,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 254.37,
+            "sma_50": 210.70989285083996,
+            "sma_200": 187.6881106479295,
+            "ema_8": 256.31988199644104,
+            "ema_21": 242.50939143709138
+          }
+        },
+        {
+          "ticker": "AEO",
+          "name": "American Eagle Outfitters Inc",
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 21.75,
+            "sma_50": 17.539269855152,
+            "sma_200": 18.003198107000998,
+            "sma_50_prev20": 16.686789942605998,
+            "monthly_stoch_k": 43.62165359576547,
+            "monthly_stoch_d": 42.622694780205876,
+            "monthly_stoch_k_prev": 42.19441837695314,
+            "weekly_stoch_k": 83.38352965815096,
+            "weekly_stoch_k_prev": 86.89844917156965,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 21.75,
+            "sma_50": 17.539269855152,
+            "sma_200": 18.003198107000998,
+            "ema_8": 20.31008480449969,
+            "ema_21": 19.263900963518697
+          }
+        },
+        {
+          "ticker": "BG",
+          "name": null,
+          "sector": "Commodities / Agricultural",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 101.18,
+            "sma_50": 108.80380000000001,
+            "sma_200": 115.8973813114085,
+            "sma_50_prev20": 112.802559332638,
+            "monthly_stoch_k": 54.98345448695657,
+            "monthly_stoch_d": 59.32038125593632,
+            "monthly_stoch_k_prev": 61.14716530433001,
+            "weekly_stoch_k": 12.01258142334646,
+            "weekly_stoch_k_prev": 10.208935759342795,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 101.18,
+            "sma_50": 108.80380000000001,
+            "sma_200": 115.8973813114085,
+            "ema_8": 98.8360046733932,
+            "ema_21": 101.16479511708813
+          }
+        },
+        {
+          "ticker": "AMAT",
+          "name": "Applied Materials Inc",
+          "sector": "Manufacturing",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 370.55,
+            "sma_50": 443.0199,
+            "sma_200": 445.035771977654,
+            "sma_50_prev20": 489.59364615694,
+            "monthly_stoch_k": 51.20417821784522,
+            "monthly_stoch_d": 59.654192729942814,
+            "monthly_stoch_k_prev": 57.869793438125804,
+            "weekly_stoch_k": 5.890908570167944,
+            "weekly_stoch_k_prev": 4.084624295373805,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 370.55,
+            "sma_50": 443.0199,
+            "sma_200": 445.035771977654,
+            "ema_8": 365.8690218971739,
+            "ema_21": 397.8347828806373
+          }
+        },
+        {
+          "ticker": "AMD",
+          "name": "Advanced Micro Devices Inc",
+          "sector": "Technology / Semiconductor",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 508.58,
+            "sma_50": 547.6736999999999,
+            "sma_200": 417.221875,
+            "sma_50_prev20": 531.2825,
+            "monthly_stoch_k": 79.66307395534119,
+            "monthly_stoch_d": 81.80786557582697,
+            "monthly_stoch_k_prev": 82.08370426076333,
+            "weekly_stoch_k": 30.769400146013396,
+            "weekly_stoch_k_prev": 39.553513094890825,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 508.58,
+            "sma_50": 547.6736999999999,
+            "sma_200": 417.221875,
+            "ema_8": 485.36889511172143,
+            "ema_21": 518.1879123751545
+          }
+        },
+        {
+          "ticker": "BXSL",
+          "name": null,
+          "sector": "Financial / Investments",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 23.94,
+            "sma_50": 23.768852444448,
+            "sma_200": 22.8677574503445,
+            "sma_50_prev20": 23.797598222225997,
+            "monthly_stoch_k": 47.334129090762694,
+            "monthly_stoch_d": 38.21949352216661,
+            "monthly_stoch_k_prev": 37.431877662820916,
+            "weekly_stoch_k": 56.09286704653798,
+            "weekly_stoch_k_prev": 54.72264847074282,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 23.94,
+            "sma_50": 23.768852444448,
+            "sma_200": 22.8677574503445,
+            "ema_8": 23.79193123368063,
+            "ema_21": 23.681645302489112
+          }
+        },
+        {
+          "ticker": "BX",
+          "name": null,
+          "sector": "Financial Services / Asset Management",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 124.05,
+            "sma_50": 119.02182302490601,
+            "sma_200": 120.782634875394,
+            "sma_50_prev20": 129.177944153062,
+            "monthly_stoch_k": 29.875241964749648,
+            "monthly_stoch_d": 32.622975708516215,
+            "monthly_stoch_k_prev": 33.100272330700726,
+            "weekly_stoch_k": 30.33782263941976,
+            "weekly_stoch_k_prev": 19.918154761814105,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 124.05,
+            "sma_50": 119.02182302490601,
+            "sma_200": 120.782634875394,
+            "ema_8": 120.32405126223638,
+            "ema_21": 117.66621710121669
+          }
+        },
+        {
+          "ticker": "BR",
+          "name": null,
+          "sector": "Financial Services / Financial Data & Stock Exchanges",
+          "thesis": null,
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [
+            {
+              "code": "OSCILLATOR_PENDING",
+              "measured": 85.32320590913056,
+              "threshold": 30,
+              "direction": "drifting_away",
+              "in_zone": false,
+              "ema_label": null
+            }
+          ],
+          "trend_detail": {
+            "close": 192.34,
+            "sma_50": 172.22989947777802,
+            "sma_200": 163.7851105994635,
+            "sma_50_prev20": 168.915436655556,
+            "monthly_stoch_k": 32.34430746808399,
+            "monthly_stoch_d": 24.913563797272463,
+            "monthly_stoch_k_prev": 24.356015766160905,
+            "weekly_stoch_k": 86.7207986039639,
+            "weekly_stoch_k_prev": 82.63491632885145,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {
+            "dpct": 2.5468128576431814,
+            "dpct_prev": 2.256575406537279,
+            "ema_ref": 187.56311838477993,
+            "ema_ref_is_ema8": true,
+            "pass_today": true,
+            "pass": true,
+            "sessions_ago": 0
+          },
+          "oscillator_detail": {
+            "stoch_k": 85.32320590913056,
+            "stoch_d": 84.8425582667805,
+            "stoch_k_prev": 83.33526965240797,
+            "in_zone": false,
+            "pass_today": false,
+            "pass": false,
+            "sessions_ago": null
+          },
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 192.34,
+            "sma_50": 172.22989947777802,
+            "sma_200": 163.7851105994635,
+            "ema_8": 187.56311838477993,
+            "ema_21": 180.98412583248873
+          }
+        },
+        {
+          "ticker": "BKNG",
+          "name": null,
+          "sector": "Consumer Cyclical / Travel Services",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 163.49,
+            "sma_50": 165.578704175752,
+            "sma_200": 174.949151642975,
+            "sma_50_prev20": 185.31033750144002,
+            "monthly_stoch_k": 26.516564465491644,
+            "monthly_stoch_d": 39.68629126885448,
+            "monthly_stoch_k_prev": 43.29060466144821,
+            "weekly_stoch_k": 8.614773445030892,
+            "weekly_stoch_k_prev": 6.804066901226068,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 163.49,
+            "sma_50": 165.578704175752,
+            "sma_200": 174.949151642975,
+            "ema_8": 160.80575461683088,
+            "ema_21": 159.90369222959774
+          }
+        },
+        {
+          "ticker": "BOTZ",
+          "name": null,
+          "sector": "Technology / Robotics & AI ETF",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 31.88,
+            "sma_50": 34.4105,
+            "sma_200": 36.3989932678155,
+            "sma_50_prev20": 35.911300000000004,
+            "monthly_stoch_k": 26.598976099026927,
+            "monthly_stoch_d": 39.85920983778333,
+            "monthly_stoch_k_prev": 40.26580460040506,
+            "weekly_stoch_k": 6.921826851257421,
+            "weekly_stoch_k_prev": 5.116222191089398,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 31.88,
+            "sma_50": 34.4105,
+            "sma_200": 36.3989932678155,
+            "ema_8": 32.02930070729462,
+            "ema_21": 32.96543221472708
+          }
         }
       ],
-      "trend_detail": {
-        "close": 109.8,
-        "sma_50": 98.45739999999999,
-        "sma_200": 94.96045,
-        "sma_50_prev20": 93.851,
-        "monthly_stoch_k": 51.82766299079096,
-        "monthly_stoch_d": 38.01271345238492,
-        "monthly_stoch_k_prev": 34.59164730198688,
-        "weekly_stoch_k": 90.46217499266906,
-        "weekly_stoch_k_prev": 89.98466776515481,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {
-        "dpct": 0.7195937190640486,
-        "dpct_prev": 0.5594218901801455,
-        "ema_ref": 109.01553108550439,
-        "ema_ref_is_ema8": true,
-        "pass_today": true,
-        "pass": true,
-        "sessions_ago": 0
-      },
-      "oscillator_detail": {
-        "stoch_k": 73.05203892464716,
-        "stoch_d": 78.63662134747057,
-        "stoch_k_prev": 78.32570786654814,
-        "in_zone": false,
-        "pass_today": false,
-        "pass": false,
-        "sessions_ago": null
-      },
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 109.8,
-        "sma_50": 98.45739999999999,
-        "sma_200": 94.96045,
-        "ema_8": 109.01553108550439,
-        "ema_21": 105.62981129740162
-      }
-    },
-    {
-      "ticker": "AWK",
-      "name": null,
-      "sector": "Utilities / Water",
-      "thesis": null,
-      "status": "DEVELOPING",
-      "ui_group": "developing",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [
+      "errors": [
         {
-          "code": "OSCILLATOR_PENDING",
-          "measured": 84.35985943623548,
-          "threshold": 30,
-          "direction": "closing_in",
-          "in_zone": false,
-          "ema_label": null
-        }
-      ],
-      "trend_detail": {
-        "close": 149.22,
-        "sma_50": 136.9536,
-        "sma_200": 131.94757842041798,
-        "sma_50_prev20": 134.772180073746,
-        "monthly_stoch_k": 70.36961173319374,
-        "monthly_stoch_d": 63.086813035131534,
-        "monthly_stoch_k_prev": 58.868693160230066,
-        "weekly_stoch_k": 89.55496414614193,
-        "weekly_stoch_k_prev": 78.24858134697995,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {
-        "dpct": 1.055434556922467,
-        "dpct_prev": 2.087913624777295,
-        "ema_ref": 147.66152919361048,
-        "ema_ref_is_ema8": true,
-        "pass_today": true,
-        "pass": true,
-        "sessions_ago": 0
-      },
-      "oscillator_detail": {
-        "stoch_k": 84.35985943623548,
-        "stoch_d": 90.2259673966905,
-        "stoch_k_prev": 92.1284502629873,
-        "in_zone": false,
-        "pass_today": false,
-        "pass": false,
-        "sessions_ago": null
-      },
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 149.22,
-        "sma_50": 136.9536,
-        "sma_200": 131.94757842041798,
-        "ema_8": 147.66152919361048,
-        "ema_21": 142.50367280193987
-      }
-    },
-    {
-      "ticker": "AOS",
-      "name": "A.O. Smith Corp",
-      "sector": "Manufacturing",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 65.2,
-        "sma_50": 59.071008857361996,
-        "sma_200": 62.476226106674005,
-        "sma_50_prev20": 59.18341686366401,
-        "monthly_stoch_k": 21.468251917492456,
-        "monthly_stoch_d": 21.196047294538165,
-        "monthly_stoch_k_prev": 17.380698670498884,
-        "weekly_stoch_k": 78.93151747520616,
-        "weekly_stoch_k_prev": 69.99441004502556,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 65.2,
-        "sma_50": 59.071008857361996,
-        "sma_200": 62.476226106674005,
-        "ema_8": 64.54951834146327,
-        "ema_21": 62.27354401771006
-      }
-    },
-    {
-      "ticker": "AMT",
-      "name": "American Tower Corp",
-      "sector": "REIT",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 189.0,
-        "sma_50": 176.745287092096,
-        "sma_200": 174.80641958392647,
-        "sma_50_prev20": 171.205830106352,
-        "monthly_stoch_k": 33.85224416362402,
-        "monthly_stoch_d": 22.61834130909533,
-        "monthly_stoch_k_prev": 18.39308439991363,
-        "weekly_stoch_k": 66.8562401263823,
-        "weekly_stoch_k_prev": 76.89085937321433,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 189.0,
-        "sma_50": 176.745287092096,
-        "sma_200": 174.80641958392647,
-        "ema_8": 189.160897587708,
-        "ema_21": 184.86625580889375
-      }
-    },
-    {
-      "ticker": "AFRM",
-      "name": "Affirm Holdings Inc - Class A",
-      "sector": "Finance",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 68.03,
-        "sma_50": 72.348,
-        "sma_200": 66.48837499999999,
-        "sma_50_prev20": 73.9216,
-        "monthly_stoch_k": 54.710150697363645,
-        "monthly_stoch_d": 54.71984539502927,
-        "monthly_stoch_k_prev": 51.178654693031696,
-        "weekly_stoch_k": 18.5431437172527,
-        "weekly_stoch_k_prev": 26.58746415403525,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 68.03,
-        "sma_50": 72.348,
-        "sma_200": 66.48837499999999,
-        "ema_8": 70.85502744114683,
-        "ema_21": 72.16217847161313
-      }
-    },
-    {
-      "ticker": "BA",
-      "name": null,
-      "sector": "Industrials / Aerospace & Defense",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 172.38,
-        "sma_50": 191.65359999999998,
-        "sma_200": 214.71809999999996,
-        "sma_50_prev20": 209.22459999999998,
-        "monthly_stoch_k": 19.751304125266568,
-        "monthly_stoch_d": 33.75861903050676,
-        "monthly_stoch_k_prev": 34.22707857748377,
-        "weekly_stoch_k": 9.92076951561072,
-        "weekly_stoch_k_prev": 10.189836820356819,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 172.38,
-        "sma_50": 191.65359999999998,
-        "sma_200": 214.71809999999996,
-        "ema_8": 174.39447251811856,
-        "ema_21": 179.89710957787287
-      }
-    },
-    {
-      "ticker": "APD",
-      "name": "Air Products & Chemicals Inc",
-      "sector": "Basic Materials / Specialty Chemicals",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 311.08,
-        "sma_50": 294.17681778730605,
-        "sma_200": 288.60278533755053,
-        "sma_50_prev20": 292.314223166388,
-        "monthly_stoch_k": 84.37292764858732,
-        "monthly_stoch_d": 82.00819421704536,
-        "monthly_stoch_k_prev": 77.05833166735182,
-        "weekly_stoch_k": 85.07321185560504,
-        "weekly_stoch_k_prev": 87.15607231698736,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 311.08,
-        "sma_50": 294.17681778730605,
-        "sma_200": 288.60278533755053,
-        "ema_8": 310.3982413668825,
-        "ema_21": 304.9322095605619
-      }
-    },
-    {
-      "ticker": "ADM",
-      "name": "Archer Daniels Midland Company",
-      "sector": "Commodities / Agricultural",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 69.84,
-        "sma_50": 80.8544,
-        "sma_200": 76.0794680810765,
-        "sma_50_prev20": 81.68645246063201,
-        "monthly_stoch_k": 74.52382106327339,
-        "monthly_stoch_d": 77.62848777916007,
-        "monthly_stoch_k_prev": 78.76308057187671,
-        "weekly_stoch_k": 17.039268238514424,
-        "weekly_stoch_k_prev": 34.17379467676208,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 69.84,
-        "sma_50": 80.8544,
-        "sma_200": 76.0794680810765,
-        "ema_8": 72.34006030946871,
-        "ema_21": 76.00334630583532
-      }
-    },
-    {
-      "ticker": "AAP",
-      "name": "Advance Auto Parts Inc",
-      "sector": "Automotive / Discretionary",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 45.94,
-        "sma_50": 43.226311398354,
-        "sma_200": 51.378997416492496,
-        "sma_50_prev20": 45.626862044658,
-        "monthly_stoch_k": 16.884081887128996,
-        "monthly_stoch_d": 31.803351083741674,
-        "monthly_stoch_k_prev": 26.448022457381086,
-        "weekly_stoch_k": 36.284702000849784,
-        "weekly_stoch_k_prev": 34.70059150401823,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 45.94,
-        "sma_50": 43.226311398354,
-        "sma_200": 51.378997416492496,
-        "ema_8": 46.792488172332384,
-        "ema_21": 45.63467476669358
-      }
-    },
-    {
-      "ticker": "ASO",
-      "name": null,
-      "sector": "Consumer Cyclical / Specialty Retail",
-      "thesis": null,
-      "status": "DEVELOPING",
-      "ui_group": "developing",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [
+          "ticker": "TTGT",
+          "error": "TTGT: Tiingo returned HTTP 429"
+        },
         {
-          "code": "OSCILLATOR_PENDING",
-          "measured": 87.94061715947554,
-          "threshold": 30,
-          "direction": "closing_in",
-          "in_zone": false,
-          "ema_label": null
-        }
-      ],
-      "trend_detail": {
-        "close": 71.18,
-        "sma_50": 53.95507025904401,
-        "sma_200": 52.7975260300595,
-        "sma_50_prev20": 48.228549535292004,
-        "monthly_stoch_k": 43.67638153999521,
-        "monthly_stoch_d": 33.04378217952877,
-        "monthly_stoch_k_prev": 26.542767510983243,
-        "weekly_stoch_k": 89.99408884954634,
-        "weekly_stoch_k_prev": 89.52351205706971,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {
-        "dpct": 8.47548730451266,
-        "dpct_prev": 5.0531155265871925,
-        "ema_ref": 65.61851139712637,
-        "ema_ref_is_ema8": true,
-        "pass_today": false,
-        "pass": true,
-        "sessions_ago": 4
-      },
-      "oscillator_detail": {
-        "stoch_k": 87.94061715947554,
-        "stoch_d": 87.36570316739545,
-        "stoch_k_prev": 87.99391752888921,
-        "in_zone": false,
-        "pass_today": false,
-        "pass": false,
-        "sessions_ago": null
-      },
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 71.18,
-        "sma_50": 53.95507025904401,
-        "sma_200": 52.7975260300595,
-        "ema_8": 65.61851139712637,
-        "ema_21": 61.13775959496808
-      }
-    },
-    {
-      "ticker": "AKAM",
-      "name": "Akamai Technologies Inc",
-      "sector": "Technology / Software - Infrastructure",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 80.29,
-        "sma_50": 101.0072,
-        "sma_200": 112.26359999999998,
-        "sma_50_prev20": 110.95559999999999,
-        "monthly_stoch_k": 33.98860136311312,
-        "monthly_stoch_d": 40.76869386342764,
-        "monthly_stoch_k_prev": 42.092610013588384,
-        "weekly_stoch_k": 14.839287491157288,
-        "weekly_stoch_k_prev": 12.407547646716461,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 80.29,
-        "sma_50": 101.0072,
-        "sma_200": 112.26359999999998,
-        "ema_8": 85.37473079542225,
-        "ema_21": 91.4160653356604
-      }
-    },
-    {
-      "ticker": "ACHR",
-      "name": "Archer Aviation Inc - Class A",
-      "sector": "Transportation / Air Travel",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 4.81,
-        "sma_50": 4.8494,
-        "sma_200": 5.67615,
-        "sma_50_prev20": 5.593000000000001,
-        "monthly_stoch_k": 8.528844200690637,
-        "monthly_stoch_d": 7.616434739724717,
-        "monthly_stoch_k_prev": 8.04263565891473,
-        "weekly_stoch_k": 14.372982506459756,
-        "weekly_stoch_k_prev": 7.9292238204897165,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 4.81,
-        "sma_50": 4.8494,
-        "sma_200": 5.67615,
-        "ema_8": 4.314358317610358,
-        "ema_21": 4.3418967896208125
-      }
-    },
-    {
-      "ticker": "AGCO",
-      "name": "AGCO Corp",
-      "sector": "Chemicals / Agricultural",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 116.52,
-        "sma_50": 114.21700000000001,
-        "sma_200": 115.93472792558599,
-        "sma_50_prev20": 112.92352533700802,
-        "monthly_stoch_k": 36.577717688998625,
-        "monthly_stoch_d": 35.87703217926301,
-        "monthly_stoch_k_prev": 32.025765472556834,
-        "weekly_stoch_k": 29.580514208389715,
-        "weekly_stoch_k_prev": 23.518267929634636,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": false,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 116.52,
-        "sma_50": 114.21700000000001,
-        "sma_200": 115.93472792558599,
-        "ema_8": 111.35392793481229,
-        "ema_21": 109.8491484371566
-      }
-    },
-    {
-      "ticker": "ABNB",
-      "name": "Airbnb Inc - Class A",
-      "sector": "Hotels and Accommodation",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 190.29,
-        "sma_50": 169.0862,
-        "sma_200": 148.0687,
-        "sma_50_prev20": 171.2758,
-        "monthly_stoch_k": 70.9196018076718,
-        "monthly_stoch_d": 78.72213884481748,
-        "monthly_stoch_k_prev": 79.0086973739839,
-        "weekly_stoch_k": 65.84177242742977,
-        "weekly_stoch_k_prev": 57.013399129220126,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 190.29,
-        "sma_50": 169.0862,
-        "sma_200": 148.0687,
-        "ema_8": 178.09240003799985,
-        "ema_21": 172.90525506744183
-      }
-    },
-    {
-      "ticker": "ABBV",
-      "name": "Abbvie Inc",
-      "sector": "Healthcare / Pharmaceuticals",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 293.3,
-        "sma_50": 271.679200568166,
-        "sma_200": 236.625279215144,
-        "sma_50_prev20": 257.922128292364,
-        "monthly_stoch_k": 91.70763224188977,
-        "monthly_stoch_d": 88.96897655456492,
-        "monthly_stoch_k_prev": 86.92865972901315,
-        "weekly_stoch_k": 87.9793001179163,
-        "weekly_stoch_k_prev": 90.25032241739937,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 293.3,
-        "sma_50": 271.679200568166,
-        "sma_200": 236.625279215144,
-        "ema_8": 290.4171189220852,
-        "ema_21": 285.2493543990369
-      }
-    },
-    {
-      "ticker": "ATKR",
-      "name": null,
-      "sector": "Manufacturing / Electrical",
-      "thesis": null,
-      "status": "DEVELOPING",
-      "ui_group": "developing",
-      "evaluated_session": "2026-10-16",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [
+          "ticker": "SOUN",
+          "error": "SOUN: Tiingo returned HTTP 429"
+        },
         {
-          "code": "OSCILLATOR_PENDING",
-          "measured": 95.07936507936483,
-          "threshold": 30,
-          "direction": "drifting_away",
-          "in_zone": false,
-          "ema_label": null
-        }
-      ],
-      "trend_detail": {
-        "close": 94.96,
-        "sma_50": 94.147793665352,
-        "sma_200": 76.512871421746,
-        "sma_50_prev20": 87.165426554334,
-        "monthly_stoch_k": 84.55352021979549,
-        "monthly_stoch_d": 74.373253857539,
-        "monthly_stoch_k_prev": 72.12847633120732,
-        "weekly_stoch_k": 99.60113110537607,
-        "weekly_stoch_k_prev": 99.51645671108082,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {
-        "dpct": 0.08628883205700495,
-        "dpct_prev": 0.06880039948924996,
-        "ema_ref": 94.87813076908184,
-        "ema_ref_is_ema8": true,
-        "pass_today": true,
-        "pass": true,
-        "sessions_ago": 0
-      },
-      "oscillator_detail": {
-        "stoch_k": 95.07936507936483,
-        "stoch_d": 95.38392050587095,
-        "stoch_k_prev": 94.36507936507881,
-        "in_zone": false,
-        "pass_today": false,
-        "pass": false,
-        "sessions_ago": null
-      },
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 94.96,
-        "sma_50": 94.147793665352,
-        "sma_200": 76.512871421746,
-        "ema_8": 94.87813076908184,
-        "ema_21": 94.56999640834002
-      }
-    },
-    {
-      "ticker": "ALB",
-      "name": "Albemarle Corp",
-      "sector": "Commodities",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 99.12,
-        "sma_50": 106.709187619774,
-        "sma_200": 146.7961779876365,
-        "sma_50_prev20": 121.021233680996,
-        "monthly_stoch_k": 29.217941266429396,
-        "monthly_stoch_d": 37.181618398139214,
-        "monthly_stoch_k_prev": 37.464062976022696,
-        "weekly_stoch_k": 8.331131075292587,
-        "weekly_stoch_k_prev": 3.008122696019892,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 99.12,
-        "sma_50": 106.709187619774,
-        "sma_200": 146.7961779876365,
-        "ema_8": 96.31607088520029,
-        "ema_21": 97.41303895748433
-      }
-    },
-    {
-      "ticker": "BABA",
-      "name": "Alibaba Group Holding Ltd",
-      "sector": "Retail / Discretionary",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 105.38,
-        "sma_50": 108.02279999999999,
-        "sma_200": 123.69176633989952,
-        "sma_50_prev20": 116.05460000000001,
-        "monthly_stoch_k": 14.704888394456942,
-        "monthly_stoch_d": 18.84593955359578,
-        "monthly_stoch_k_prev": 22.864534235158345,
-        "weekly_stoch_k": 12.07957023037275,
-        "weekly_stoch_k_prev": 5.934621398717383,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 105.38,
-        "sma_50": 108.02279999999999,
-        "sma_200": 123.69176633989952,
-        "ema_8": 104.84650216760484,
-        "ema_21": 105.06015895240292
-      }
-    },
-    {
-      "ticker": "BBWI",
-      "name": null,
-      "sector": "Retail / Discretionary",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 21.76,
-        "sma_50": 18.999599999999997,
-        "sma_200": 19.5309492288265,
-        "sma_50_prev20": 18.200847328246,
-        "monthly_stoch_k": 31.14284664036623,
-        "monthly_stoch_d": 30.828846696354205,
-        "monthly_stoch_k_prev": 24.705315253065923,
-        "weekly_stoch_k": 84.22277226086482,
-        "weekly_stoch_k_prev": 86.57517710861248,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": false,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 21.76,
-        "sma_50": 18.999599999999997,
-        "sma_200": 19.5309492288265,
-        "ema_8": 22.066352012671274,
-        "ema_21": 21.138769686318902
-      }
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "sector": "Technology / Hardware",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 350.69,
-        "sma_50": 336.63349999999997,
-        "sma_200": 299.049161547984,
-        "sma_50_prev20": 323.002679408808,
-        "monthly_stoch_k": 88.93688323585495,
-        "monthly_stoch_d": 83.36556973785508,
-        "monthly_stoch_k_prev": 82.89607861783678,
-        "weekly_stoch_k": 84.96820673990013,
-        "weekly_stoch_k_prev": 89.6512591867803,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 350.69,
-        "sma_50": 336.63349999999997,
-        "sma_200": 299.049161547984,
-        "ema_8": 344.7455777939814,
-        "ema_21": 342.64336122730464
-      }
-    },
-    {
-      "ticker": "BHP",
-      "name": null,
-      "sector": "Basic Materials / Other Industrial Metals & Mining",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 82.86,
-        "sma_50": 84.64199428571399,
-        "sma_200": 80.35018035256499,
-        "sma_50_prev20": 88.001784285714,
-        "monthly_stoch_k": 76.62192740516387,
-        "monthly_stoch_d": 81.04223405337028,
-        "monthly_stoch_k_prev": 82.78663922051271,
-        "weekly_stoch_k": 10.17420875689743,
-        "weekly_stoch_k_prev": 15.495722878739462,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 82.86,
-        "sma_50": 84.64199428571399,
-        "sma_200": 80.35018035256499,
-        "ema_8": 80.48974102652426,
-        "ema_21": 81.43166410457545
-      }
-    },
-    {
-      "ticker": "BC",
-      "name": null,
-      "sector": "Automotive / Recreational",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 79.68,
-        "sma_50": 68.8606,
-        "sma_200": 76.57149303417,
-        "sma_50_prev20": 72.896902822086,
-        "monthly_stoch_k": 50.160500672827446,
-        "monthly_stoch_d": 60.74978140346334,
-        "monthly_stoch_k_prev": 56.14121080225767,
-        "weekly_stoch_k": 50.457157990883104,
-        "weekly_stoch_k_prev": 31.837959948910168,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 79.68,
-        "sma_50": 68.8606,
-        "sma_200": 76.57149303417,
-        "ema_8": 76.99256132022073,
-        "ema_21": 72.57317734866056
-      }
-    },
-    {
-      "ticker": "ACN",
-      "name": "Accenture plc - Class A",
-      "sector": "Technology / Consulting",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 254.37,
-        "sma_50": 210.70989285083996,
-        "sma_200": 187.6881106479295,
-        "sma_50_prev20": 183.60822736099198,
-        "monthly_stoch_k": 55.13508671664286,
-        "monthly_stoch_d": 37.81704714704517,
-        "monthly_stoch_k_prev": 35.22026196926453,
-        "weekly_stoch_k": 93.41223945659755,
-        "weekly_stoch_k_prev": 96.12213593521979,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 254.37,
-        "sma_50": 210.70989285083996,
-        "sma_200": 187.6881106479295,
-        "ema_8": 256.31988199644104,
-        "ema_21": 242.50939143709138
-      }
-    },
-    {
-      "ticker": "AEO",
-      "name": "American Eagle Outfitters Inc",
-      "sector": "Retail / Discretionary",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 21.75,
-        "sma_50": 17.539269855152,
-        "sma_200": 18.003198107000998,
-        "sma_50_prev20": 16.686789942605998,
-        "monthly_stoch_k": 43.62165359576547,
-        "monthly_stoch_d": 42.622694780205876,
-        "monthly_stoch_k_prev": 42.19441837695314,
-        "weekly_stoch_k": 83.38352965815096,
-        "weekly_stoch_k_prev": 86.89844917156965,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": false,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 21.75,
-        "sma_50": 17.539269855152,
-        "sma_200": 18.003198107000998,
-        "ema_8": 20.31008480449969,
-        "ema_21": 19.263900963518697
-      }
-    },
-    {
-      "ticker": "BG",
-      "name": null,
-      "sector": "Commodities / Agricultural",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 101.18,
-        "sma_50": 108.80380000000001,
-        "sma_200": 115.8973813114085,
-        "sma_50_prev20": 112.802559332638,
-        "monthly_stoch_k": 54.98345448695657,
-        "monthly_stoch_d": 59.32038125593632,
-        "monthly_stoch_k_prev": 61.14716530433001,
-        "weekly_stoch_k": 12.01258142334646,
-        "weekly_stoch_k_prev": 10.208935759342795,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 101.18,
-        "sma_50": 108.80380000000001,
-        "sma_200": 115.8973813114085,
-        "ema_8": 98.8360046733932,
-        "ema_21": 101.16479511708813
-      }
-    },
-    {
-      "ticker": "AMAT",
-      "name": "Applied Materials Inc",
-      "sector": "Manufacturing",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 370.55,
-        "sma_50": 443.0199,
-        "sma_200": 445.035771977654,
-        "sma_50_prev20": 489.59364615694,
-        "monthly_stoch_k": 51.20417821784522,
-        "monthly_stoch_d": 59.654192729942814,
-        "monthly_stoch_k_prev": 57.869793438125804,
-        "weekly_stoch_k": 5.890908570167944,
-        "weekly_stoch_k_prev": 4.084624295373805,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 370.55,
-        "sma_50": 443.0199,
-        "sma_200": 445.035771977654,
-        "ema_8": 365.8690218971739,
-        "ema_21": 397.8347828806373
-      }
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices Inc",
-      "sector": "Technology / Semiconductor",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 508.58,
-        "sma_50": 547.6736999999999,
-        "sma_200": 417.221875,
-        "sma_50_prev20": 531.2825,
-        "monthly_stoch_k": 79.66307395534119,
-        "monthly_stoch_d": 81.80786557582697,
-        "monthly_stoch_k_prev": 82.08370426076333,
-        "weekly_stoch_k": 30.769400146013396,
-        "weekly_stoch_k_prev": 39.553513094890825,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 508.58,
-        "sma_50": 547.6736999999999,
-        "sma_200": 417.221875,
-        "ema_8": 485.36889511172143,
-        "ema_21": 518.1879123751545
-      }
-    },
-    {
-      "ticker": "BXSL",
-      "name": null,
-      "sector": "Financial / Investments",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 23.94,
-        "sma_50": 23.768852444448,
-        "sma_200": 22.8677574503445,
-        "sma_50_prev20": 23.797598222225997,
-        "monthly_stoch_k": 47.334129090762694,
-        "monthly_stoch_d": 38.21949352216661,
-        "monthly_stoch_k_prev": 37.431877662820916,
-        "weekly_stoch_k": 56.09286704653798,
-        "weekly_stoch_k_prev": 54.72264847074282,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": false,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 23.94,
-        "sma_50": 23.768852444448,
-        "sma_200": 22.8677574503445,
-        "ema_8": 23.79193123368063,
-        "ema_21": 23.681645302489112
-      }
-    },
-    {
-      "ticker": "BX",
-      "name": null,
-      "sector": "Financial Services / Asset Management",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 124.05,
-        "sma_50": 119.02182302490601,
-        "sma_200": 120.782634875394,
-        "sma_50_prev20": 129.177944153062,
-        "monthly_stoch_k": 29.875241964749648,
-        "monthly_stoch_d": 32.622975708516215,
-        "monthly_stoch_k_prev": 33.100272330700726,
-        "weekly_stoch_k": 30.33782263941976,
-        "weekly_stoch_k_prev": 19.918154761814105,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": true
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 124.05,
-        "sma_50": 119.02182302490601,
-        "sma_200": 120.782634875394,
-        "ema_8": 120.32405126223638,
-        "ema_21": 117.66621710121669
-      }
-    },
-    {
-      "ticker": "BR",
-      "name": null,
-      "sector": "Financial Services / Financial Data & Stock Exchanges",
-      "thesis": null,
-      "status": "DEVELOPING",
-      "ui_group": "developing",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [
+          "ticker": "SFTBY",
+          "error": "SFTBY: Tiingo returned HTTP 429"
+        },
         {
-          "code": "OSCILLATOR_PENDING",
-          "measured": 85.32320590913056,
-          "threshold": 30,
-          "direction": "drifting_away",
-          "in_zone": false,
-          "ema_label": null
+          "ticker": "STNE",
+          "error": "STNE: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "COIN",
+          "error": "COIN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MZTI",
+          "error": "MZTI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LAC",
+          "error": "LAC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MTCH",
+          "error": "MTCH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "IONQ",
+          "error": "IONQ: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LMND",
+          "error": "LMND: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "UBER",
+          "error": "UBER: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CMCSA",
+          "error": "CMCSA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NFLX",
+          "error": "NFLX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WHR",
+          "error": "WHR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CRCL",
+          "error": "CRCL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "PZZA",
+          "error": "PZZA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NVO",
+          "error": "NVO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TTD",
+          "error": "TTD: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LI",
+          "error": "LI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CPNG",
+          "error": "CPNG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WLK",
+          "error": "WLK: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "RDDT",
+          "error": "RDDT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GIS",
+          "error": "GIS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NKE",
+          "error": "NKE: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HRL",
+          "error": "HRL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TAP",
+          "error": "TAP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NOW",
+          "error": "NOW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GFS",
+          "error": "GFS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "XYL",
+          "error": "XYL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "KMB",
+          "error": "KMB: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "BF.B",
+          "error": "BF.B: not found on Tiingo"
+        },
+        {
+          "ticker": "DASH",
+          "error": "DASH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "FLUT",
+          "error": "FLUT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CPB",
+          "error": "CPB: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "UAA",
+          "error": "UAA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LULU",
+          "error": "LULU: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CAG",
+          "error": "CAG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SYY",
+          "error": "SYY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ULTA",
+          "error": "ULTA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "RIVN",
+          "error": "RIVN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "STZ",
+          "error": "STZ: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GNRC",
+          "error": "GNRC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ENSG",
+          "error": "ENSG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LW",
+          "error": "LW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "PATH",
+          "error": "PATH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ERIE",
+          "error": "ERIE: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "INFY",
+          "error": "INFY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TMUS",
+          "error": "TMUS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DDOG",
+          "error": "DDOG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CLX",
+          "error": "CLX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CP",
+          "error": "CP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MDLZ",
+          "error": "MDLZ: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CELH",
+          "error": "CELH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NIO",
+          "error": "NIO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HSY",
+          "error": "HSY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CRSP",
+          "error": "CRSP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "FTNT",
+          "error": "FTNT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MOS",
+          "error": "MOS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "META",
+          "error": "META: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "JACK",
+          "error": "JACK: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "UPS",
+          "error": "UPS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CEG",
+          "error": "CEG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WEN",
+          "error": "WEN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WLKP",
+          "error": "WLKP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TSCO",
+          "error": "TSCO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LEN",
+          "error": "LEN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ORCL",
+          "error": "ORCL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GNENF",
+          "error": "GNENF: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NU",
+          "error": "NU: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "PAGS",
+          "error": "PAGS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GLW",
+          "error": "GLW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "RBLX",
+          "error": "RBLX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MELI",
+          "error": "MELI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "JD",
+          "error": "JD: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HOOD",
+          "error": "HOOD: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CRM",
+          "error": "CRM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DOCS",
+          "error": "DOCS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DEO",
+          "error": "DEO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CMG",
+          "error": "CMG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "INTU",
+          "error": "INTU: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TROW",
+          "error": "TROW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "PENN",
+          "error": "PENN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "D",
+          "error": "D: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DVA",
+          "error": "DVA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DECK",
+          "error": "DECK: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SMG",
+          "error": "SMG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "COCO",
+          "error": "COCO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SBUX",
+          "error": "SBUX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "PLTR",
+          "error": "PLTR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SYF",
+          "error": "SYF: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MDT",
+          "error": "MDT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WGO",
+          "error": "WGO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "FMC",
+          "error": "FMC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CAVA",
+          "error": "CAVA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CNI",
+          "error": "CNI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ONON",
+          "error": "ONON: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TKO",
+          "error": "TKO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CB",
+          "error": "CB: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "POOL",
+          "error": "POOL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "QCOM",
+          "error": "QCOM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MAT",
+          "error": "MAT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "G",
+          "error": "G: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NCLH",
+          "error": "NCLH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "Z",
+          "error": "Z: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DIS",
+          "error": "DIS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GD",
+          "error": "GD: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "QSR",
+          "error": "QSR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MAN",
+          "error": "MAN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ZM",
+          "error": "ZM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "USB",
+          "error": "USB: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HIMS",
+          "error": "HIMS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TOST",
+          "error": "TOST: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "RUT",
+          "error": "RUT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TEM",
+          "error": "TEM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WOOF",
+          "error": "WOOF: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ENB",
+          "error": "ENB: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "FDX",
+          "error": "FDX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "UNP",
+          "error": "UNP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "XYZ",
+          "error": "XYZ: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WDAY",
+          "error": "WDAY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WPC",
+          "error": "WPC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "VZ",
+          "error": "VZ: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WING",
+          "error": "WING: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TCEHY",
+          "error": "TCEHY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "RHI",
+          "error": "RHI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "XIACF",
+          "error": "XIACF: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SQM",
+          "error": "SQM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NATKY",
+          "error": "NATKY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CTSH",
+          "error": "CTSH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TSLA",
+          "error": "TSLA: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GTBIF",
+          "error": "GTBIF: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CRWD",
+          "error": "CRWD: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LEVI",
+          "error": "LEVI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CHRW",
+          "error": "CHRW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "JBHT",
+          "error": "JBHT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TGT",
+          "error": "TGT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "KMX",
+          "error": "KMX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CVS",
+          "error": "CVS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DAR",
+          "error": "DAR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CSX",
+          "error": "CSX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HRB",
+          "error": "HRB: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DG",
+          "error": "DG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HAS",
+          "error": "HAS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HNST",
+          "error": "HNST: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DOCU",
+          "error": "DOCU: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "EPAM",
+          "error": "EPAM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ROKU",
+          "error": "ROKU: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "VEEV",
+          "error": "VEEV: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DRI",
+          "error": "DRI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MMM",
+          "error": "MMM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SNOW",
+          "error": "SNOW: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LEU",
+          "error": "LEU: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "JNJ",
+          "error": "JNJ: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NWL",
+          "error": "NWL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HASI",
+          "error": "HASI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CCL",
+          "error": "CCL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "HII",
+          "error": "HII: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GOOG",
+          "error": "GOOG: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "DLTR",
+          "error": "DLTR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SYM",
+          "error": "SYM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SWK",
+          "error": "SWK: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "M",
+          "error": "M: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SWBI",
+          "error": "SWBI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MANH",
+          "error": "MANH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GAP",
+          "error": "GAP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "EL",
+          "error": "EL: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ROBO",
+          "error": "ROBO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "ZIM",
+          "error": "ZIM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "KKR",
+          "error": "KKR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "FCX",
+          "error": "FCX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "INTC",
+          "error": "INTC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "RTX",
+          "error": "RTX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TER",
+          "error": "TER: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LOGI",
+          "error": "LOGI: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "LRCX",
+          "error": "LRCX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MAR",
+          "error": "MAR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TSM",
+          "error": "TSM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GS",
+          "error": "GS: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "EBAY",
+          "error": "EBAY: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NHC",
+          "error": "NHC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "IBM",
+          "error": "IBM: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CAT",
+          "error": "CAT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "XPO",
+          "error": "XPO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TXN",
+          "error": "TXN: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "W",
+          "error": "W: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "COST",
+          "error": "COST: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TPR",
+          "error": "TPR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SPOT",
+          "error": "SPOT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "TWLO",
+          "error": "TWLO: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "CAH",
+          "error": "CAH: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "MSFT",
+          "error": "MSFT: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "SHOP",
+          "error": "SHOP: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "GE",
+          "error": "GE: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "FIVE",
+          "error": "FIVE: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "STX",
+          "error": "STX: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "WDC",
+          "error": "WDC: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "RKLB",
+          "error": "RKLB: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "KLAR",
+          "error": "KLAR: Tiingo returned HTTP 429"
+        },
+        {
+          "ticker": "NRG",
+          "error": "NRG: Tiingo returned HTTP 429"
         }
-      ],
-      "trend_detail": {
-        "close": 192.34,
-        "sma_50": 172.22989947777802,
-        "sma_200": 163.7851105994635,
-        "sma_50_prev20": 168.915436655556,
-        "monthly_stoch_k": 32.34430746808399,
-        "monthly_stoch_d": 24.913563797272463,
-        "monthly_stoch_k_prev": 24.356015766160905,
-        "weekly_stoch_k": 86.7207986039639,
-        "weekly_stoch_k_prev": 82.63491632885145,
-        "close_gt_sma200": true,
-        "sma50_gt_sma200": true,
-        "sma50_rising": true,
-        "monthly_pass": true,
-        "weekly_pass": true
-      },
-      "location_detail": {
-        "dpct": 2.5468128576431814,
-        "dpct_prev": 2.256575406537279,
-        "ema_ref": 187.56311838477993,
-        "ema_ref_is_ema8": true,
-        "pass_today": true,
-        "pass": true,
-        "sessions_ago": 0
-      },
-      "oscillator_detail": {
-        "stoch_k": 85.32320590913056,
-        "stoch_d": 84.8425582667805,
-        "stoch_k_prev": 83.33526965240797,
-        "in_zone": false,
-        "pass_today": false,
-        "pass": false,
-        "sessions_ago": null
-      },
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 192.34,
-        "sma_50": 172.22989947777802,
-        "sma_200": 163.7851105994635,
-        "ema_8": 187.56311838477993,
-        "ema_21": 180.98412583248873
-      }
-    },
-    {
-      "ticker": "BKNG",
-      "name": null,
-      "sector": "Consumer Cyclical / Travel Services",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": false,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 163.49,
-        "sma_50": 165.578704175752,
-        "sma_200": 174.949151642975,
-        "sma_50_prev20": 185.31033750144002,
-        "monthly_stoch_k": 26.516564465491644,
-        "monthly_stoch_d": 39.68629126885448,
-        "monthly_stoch_k_prev": 43.29060466144821,
-        "weekly_stoch_k": 8.614773445030892,
-        "weekly_stoch_k_prev": 6.804066901226068,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 163.49,
-        "sma_50": 165.578704175752,
-        "sma_200": 174.949151642975,
-        "ema_8": 160.80575461683088,
-        "ema_21": 159.90369222959774
-      }
-    },
-    {
-      "ticker": "BOTZ",
-      "name": null,
-      "sector": "Technology / Robotics & AI ETF",
-      "thesis": null,
-      "status": "INELIGIBLE_TREND",
-      "ui_group": "other",
-      "evaluated_session": "2026-11-09",
-      "data_valid": true,
-      "recovery_observed": true,
-      "developing_badges": [],
-      "trend_detail": {
-        "close": 31.88,
-        "sma_50": 34.4105,
-        "sma_200": 36.3989932678155,
-        "sma_50_prev20": 35.911300000000004,
-        "monthly_stoch_k": 26.598976099026927,
-        "monthly_stoch_d": 39.85920983778333,
-        "monthly_stoch_k_prev": 40.26580460040506,
-        "weekly_stoch_k": 6.921826851257421,
-        "weekly_stoch_k_prev": 5.116222191089398,
-        "close_gt_sma200": false,
-        "sma50_gt_sma200": false,
-        "sma50_rising": false,
-        "monthly_pass": false,
-        "weekly_pass": false
-      },
-      "location_detail": {},
-      "oscillator_detail": {},
-      "data_invalid_reason": null,
-      "diagnostics": {
-        "close": 31.88,
-        "sma_50": 34.4105,
-        "sma_200": 36.3989932678155,
-        "ema_8": 32.02930070729462,
-        "ema_21": 32.96543221472708
-      }
+      ]
     }
-  ],
-  "errors": [
-    {
-      "ticker": "TTGT",
-      "error": "TTGT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SOUN",
-      "error": "SOUN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SFTBY",
-      "error": "SFTBY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "STNE",
-      "error": "STNE: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "COIN",
-      "error": "COIN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MZTI",
-      "error": "MZTI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LAC",
-      "error": "LAC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MTCH",
-      "error": "MTCH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "IONQ",
-      "error": "IONQ: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LMND",
-      "error": "LMND: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "UBER",
-      "error": "UBER: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CMCSA",
-      "error": "CMCSA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NFLX",
-      "error": "NFLX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WHR",
-      "error": "WHR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CRCL",
-      "error": "CRCL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "PZZA",
-      "error": "PZZA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NVO",
-      "error": "NVO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TTD",
-      "error": "TTD: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LI",
-      "error": "LI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CPNG",
-      "error": "CPNG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WLK",
-      "error": "WLK: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "RDDT",
-      "error": "RDDT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GIS",
-      "error": "GIS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NKE",
-      "error": "NKE: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HRL",
-      "error": "HRL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TAP",
-      "error": "TAP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NOW",
-      "error": "NOW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GFS",
-      "error": "GFS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "XYL",
-      "error": "XYL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "KMB",
-      "error": "KMB: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "BF.B",
-      "error": "BF.B: not found on Tiingo"
-    },
-    {
-      "ticker": "DASH",
-      "error": "DASH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "FLUT",
-      "error": "FLUT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CPB",
-      "error": "CPB: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "UAA",
-      "error": "UAA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LULU",
-      "error": "LULU: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CAG",
-      "error": "CAG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SYY",
-      "error": "SYY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ULTA",
-      "error": "ULTA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "RIVN",
-      "error": "RIVN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "STZ",
-      "error": "STZ: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GNRC",
-      "error": "GNRC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ENSG",
-      "error": "ENSG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LW",
-      "error": "LW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "PATH",
-      "error": "PATH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ERIE",
-      "error": "ERIE: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "INFY",
-      "error": "INFY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TMUS",
-      "error": "TMUS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DDOG",
-      "error": "DDOG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CLX",
-      "error": "CLX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CP",
-      "error": "CP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MDLZ",
-      "error": "MDLZ: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CELH",
-      "error": "CELH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NIO",
-      "error": "NIO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HSY",
-      "error": "HSY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CRSP",
-      "error": "CRSP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "FTNT",
-      "error": "FTNT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MOS",
-      "error": "MOS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "META",
-      "error": "META: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "JACK",
-      "error": "JACK: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "UPS",
-      "error": "UPS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CEG",
-      "error": "CEG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WEN",
-      "error": "WEN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WLKP",
-      "error": "WLKP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TSCO",
-      "error": "TSCO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LEN",
-      "error": "LEN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ORCL",
-      "error": "ORCL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GNENF",
-      "error": "GNENF: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NU",
-      "error": "NU: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "PAGS",
-      "error": "PAGS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GLW",
-      "error": "GLW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "RBLX",
-      "error": "RBLX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MELI",
-      "error": "MELI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "JD",
-      "error": "JD: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HOOD",
-      "error": "HOOD: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CRM",
-      "error": "CRM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DOCS",
-      "error": "DOCS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DEO",
-      "error": "DEO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CMG",
-      "error": "CMG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "INTU",
-      "error": "INTU: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TROW",
-      "error": "TROW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "PENN",
-      "error": "PENN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "D",
-      "error": "D: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DVA",
-      "error": "DVA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DECK",
-      "error": "DECK: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SMG",
-      "error": "SMG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "COCO",
-      "error": "COCO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SBUX",
-      "error": "SBUX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "PLTR",
-      "error": "PLTR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SYF",
-      "error": "SYF: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MDT",
-      "error": "MDT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WGO",
-      "error": "WGO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "FMC",
-      "error": "FMC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CAVA",
-      "error": "CAVA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CNI",
-      "error": "CNI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ONON",
-      "error": "ONON: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TKO",
-      "error": "TKO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CB",
-      "error": "CB: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "POOL",
-      "error": "POOL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "QCOM",
-      "error": "QCOM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MAT",
-      "error": "MAT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "G",
-      "error": "G: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NCLH",
-      "error": "NCLH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "Z",
-      "error": "Z: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DIS",
-      "error": "DIS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GD",
-      "error": "GD: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "QSR",
-      "error": "QSR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MAN",
-      "error": "MAN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ZM",
-      "error": "ZM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "USB",
-      "error": "USB: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HIMS",
-      "error": "HIMS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TOST",
-      "error": "TOST: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "RUT",
-      "error": "RUT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TEM",
-      "error": "TEM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WOOF",
-      "error": "WOOF: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ENB",
-      "error": "ENB: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "FDX",
-      "error": "FDX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "UNP",
-      "error": "UNP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "XYZ",
-      "error": "XYZ: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WDAY",
-      "error": "WDAY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WPC",
-      "error": "WPC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "VZ",
-      "error": "VZ: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WING",
-      "error": "WING: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TCEHY",
-      "error": "TCEHY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "RHI",
-      "error": "RHI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "XIACF",
-      "error": "XIACF: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SQM",
-      "error": "SQM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NATKY",
-      "error": "NATKY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CTSH",
-      "error": "CTSH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TSLA",
-      "error": "TSLA: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GTBIF",
-      "error": "GTBIF: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CRWD",
-      "error": "CRWD: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LEVI",
-      "error": "LEVI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CHRW",
-      "error": "CHRW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "JBHT",
-      "error": "JBHT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TGT",
-      "error": "TGT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "KMX",
-      "error": "KMX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CVS",
-      "error": "CVS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DAR",
-      "error": "DAR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CSX",
-      "error": "CSX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HRB",
-      "error": "HRB: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DG",
-      "error": "DG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HAS",
-      "error": "HAS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HNST",
-      "error": "HNST: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DOCU",
-      "error": "DOCU: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "EPAM",
-      "error": "EPAM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ROKU",
-      "error": "ROKU: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "VEEV",
-      "error": "VEEV: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DRI",
-      "error": "DRI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MMM",
-      "error": "MMM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SNOW",
-      "error": "SNOW: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LEU",
-      "error": "LEU: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "JNJ",
-      "error": "JNJ: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NWL",
-      "error": "NWL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HASI",
-      "error": "HASI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CCL",
-      "error": "CCL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "HII",
-      "error": "HII: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GOOG",
-      "error": "GOOG: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "DLTR",
-      "error": "DLTR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SYM",
-      "error": "SYM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SWK",
-      "error": "SWK: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "M",
-      "error": "M: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SWBI",
-      "error": "SWBI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MANH",
-      "error": "MANH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GAP",
-      "error": "GAP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "EL",
-      "error": "EL: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ROBO",
-      "error": "ROBO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "ZIM",
-      "error": "ZIM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "KKR",
-      "error": "KKR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "FCX",
-      "error": "FCX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "INTC",
-      "error": "INTC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "RTX",
-      "error": "RTX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TER",
-      "error": "TER: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LOGI",
-      "error": "LOGI: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "LRCX",
-      "error": "LRCX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MAR",
-      "error": "MAR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TSM",
-      "error": "TSM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GS",
-      "error": "GS: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "EBAY",
-      "error": "EBAY: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NHC",
-      "error": "NHC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "IBM",
-      "error": "IBM: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CAT",
-      "error": "CAT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "XPO",
-      "error": "XPO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TXN",
-      "error": "TXN: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "W",
-      "error": "W: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "COST",
-      "error": "COST: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TPR",
-      "error": "TPR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SPOT",
-      "error": "SPOT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "TWLO",
-      "error": "TWLO: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "CAH",
-      "error": "CAH: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "MSFT",
-      "error": "MSFT: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "SHOP",
-      "error": "SHOP: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "GE",
-      "error": "GE: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "FIVE",
-      "error": "FIVE: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "STX",
-      "error": "STX: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "WDC",
-      "error": "WDC: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "RKLB",
-      "error": "RKLB: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "KLAR",
-      "error": "KLAR: Tiingo returned HTTP 429"
-    },
-    {
-      "ticker": "NRG",
-      "error": "NRG: Tiingo returned HTTP 429"
-    }
-  ]
+  }
 }
