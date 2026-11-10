@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-10T20:09+00:00",
+      "generated_at": "2026-11-10T21:26+00:00",
       "evaluated_session": "2026-11-09",
       "results": [
         {
@@ -421,6 +421,234 @@
             "ema_8": 167.5460232205955,
             "ema_21": 177.44301879222894
           }
+        },
+        {
+          "ticker": "CRDO",
+          "name": null,
+          "sector": "Networking & Interconnects",
+          "thesis": "Active Electrical Cables; rapid momentum expansion setups",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 132.89,
+            "sma_50": 176.6751,
+            "sma_200": 180.73205,
+            "sma_50_prev20": 209.7335,
+            "monthly_stoch_k": 47.008357774462986,
+            "monthly_stoch_d": 57.843507276448236,
+            "monthly_stoch_k_prev": 57.0410537550455,
+            "weekly_stoch_k": 4.74613860140823,
+            "weekly_stoch_k_prev": 7.905423105263758,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 132.89,
+            "sma_50": 176.6751,
+            "sma_200": 180.73205,
+            "ema_8": 137.1819397739454,
+            "ema_21": 156.32902541967027
+          }
+        },
+        {
+          "ticker": "CRM",
+          "name": null,
+          "sector": "SaaS with AI Story",
+          "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 214.94,
+            "sma_50": 238.569028731144,
+            "sma_200": 197.5119170621255,
+            "sma_50_prev20": 225.770558132268,
+            "monthly_stoch_k": 74.56332509787573,
+            "monthly_stoch_d": 59.08904935082111,
+            "monthly_stoch_k_prev": 61.61197940230486,
+            "weekly_stoch_k": 60.37660832214545,
+            "weekly_stoch_k_prev": 73.58181695759315,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 214.94,
+            "sma_50": 238.569028731144,
+            "sma_200": 197.5119170621255,
+            "ema_8": 223.4044756219881,
+            "ema_21": 230.4796097943395
+          }
+        },
+        {
+          "ticker": "CAMT",
+          "name": "Camtek Ltd",
+          "sector": "Advanced Packaging & Equipment",
+          "thesis": "Optical inspection for HBM; rapid percentage swings on volume",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 105.04,
+            "sma_50": 136.139,
+            "sma_200": 156.26024999999998,
+            "sma_50_prev20": 149.2353,
+            "monthly_stoch_k": 42.470051340559046,
+            "monthly_stoch_d": 46.89666402009711,
+            "monthly_stoch_k_prev": 47.646514273643966,
+            "weekly_stoch_k": 7.481034647445952,
+            "weekly_stoch_k_prev": 9.058682349475076,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 105.04,
+            "sma_50": 136.139,
+            "sma_200": 156.26024999999998,
+            "ema_8": 106.83447060842636,
+            "ema_21": 119.48078823116361
+          }
+        },
+        {
+          "ticker": "COHR",
+          "name": null,
+          "sector": "Networking & Interconnects",
+          "thesis": "Optical transceivers; high-volatility momentum breakout candidate",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 225.19,
+            "sma_50": 268.9356,
+            "sma_200": 296.56045,
+            "sma_50_prev20": 304.59860000000003,
+            "monthly_stoch_k": 48.91305103552784,
+            "monthly_stoch_d": 55.97909800182138,
+            "monthly_stoch_k_prev": 54.41293090355523,
+            "weekly_stoch_k": 6.918698852088657,
+            "weekly_stoch_k_prev": 4.606732338225148,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 225.19,
+            "sma_50": 268.9356,
+            "sma_200": 296.56045,
+            "ema_8": 206.94800604770714,
+            "ema_21": 228.42666131806536
+          }
+        },
+        {
+          "ticker": "CEG",
+          "name": null,
+          "sector": "Power & Thermal Management",
+          "thesis": "Largest US nuclear operator; reacts sharply to data center power deals",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 276.09,
+            "sma_50": 270.0083,
+            "sma_200": 278.070743103302,
+            "sma_50_prev20": 274.502825451018,
+            "monthly_stoch_k": 19.471054420499883,
+            "monthly_stoch_d": 19.087041245941823,
+            "monthly_stoch_k_prev": 19.46202890795754,
+            "weekly_stoch_k": 19.330396206833388,
+            "weekly_stoch_k_prev": 25.109487366644867,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 276.09,
+            "sma_50": 270.0083,
+            "sma_200": 278.070743103302,
+            "ema_8": 258.11722028555073,
+            "ema_21": 261.96946515875675
+          }
+        },
+        {
+          "ticker": "CDNS",
+          "name": null,
+          "sector": "EDA & Custom Silicon",
+          "thesis": "EDA software monopoly; predictable mean-inversion",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-09",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 336.53,
+            "sma_50": 319.7526,
+            "sma_200": 327.8198,
+            "sma_50_prev20": 320.6762,
+            "monthly_stoch_k": 45.17055235447345,
+            "monthly_stoch_d": 50.17932555690526,
+            "monthly_stoch_k_prev": 47.7970997546679,
+            "weekly_stoch_k": 54.43863999546749,
+            "weekly_stoch_k_prev": 49.986653398481245,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 336.53,
+            "sma_50": 319.7526,
+            "sma_200": 327.8198,
+            "ema_8": 327.0689552766969,
+            "ema_21": 327.85047377448495
+          }
         }
       ],
       "errors": [
@@ -447,10 +675,6 @@
         {
           "ticker": "KLAC",
           "error": "KLAC: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "CRDO",
-          "error": "CRDO: Tiingo returned HTTP 429"
         },
         {
           "ticker": "PLTR",
@@ -481,16 +705,8 @@
           "error": "NOW: Tiingo returned HTTP 429"
         },
         {
-          "ticker": "CRM",
-          "error": "CRM: Tiingo returned HTTP 429"
-        },
-        {
           "ticker": "LRCX",
           "error": "LRCX: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "CAMT",
-          "error": "CAMT: Tiingo returned HTTP 429"
         },
         {
           "ticker": "SKHY",
@@ -509,16 +725,8 @@
           "error": "MRVL: Tiingo returned HTTP 429"
         },
         {
-          "ticker": "COHR",
-          "error": "COHR: Tiingo returned HTTP 429"
-        },
-        {
           "ticker": "VRT",
           "error": "VRT: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "CEG",
-          "error": "CEG: Tiingo returned HTTP 429"
         },
         {
           "ticker": "VST",
@@ -527,10 +735,6 @@
         {
           "ticker": "SBGSY",
           "error": "SBGSY: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "CDNS",
-          "error": "CDNS: Tiingo returned HTTP 429"
         }
       ]
     }
