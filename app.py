@@ -182,7 +182,7 @@ div[class*="st-key-sd_setup_header_"] {
     color: #fafafa !important;
 }
 .sd-setup-pills {
-    font-size: 1rem;
+    font-size: 1.3rem;
     color: rgba(250, 250, 250, 0.85) !important;
     white-space: nowrap;
     flex-shrink: 0;
