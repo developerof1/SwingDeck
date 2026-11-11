@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-10T22:26+00:00",
+      "generated_at": "2026-11-11T02:52+00:00",
       "evaluated_session": "2026-11-09",
       "results": [
         {
@@ -429,15 +429,15 @@
           "thesis": "Active Electrical Cables; rapid momentum expansion setups",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 132.89,
-            "sma_50": 176.6751,
-            "sma_200": 180.73205,
-            "sma_50_prev20": 209.7335,
+            "close": 129.8,
+            "sma_50": 174.7473,
+            "sma_200": 180.74095,
+            "sma_50_prev20": 209.33270000000002,
             "monthly_stoch_k": 47.008357774462986,
             "monthly_stoch_d": 57.843507276448236,
             "monthly_stoch_k_prev": 57.0410537550455,
@@ -453,11 +453,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 132.89,
-            "sma_50": 176.6751,
-            "sma_200": 180.73205,
-            "ema_8": 137.1819397739454,
-            "ema_21": 156.32902541967027
+            "close": 129.8,
+            "sma_50": 174.7473,
+            "sma_200": 180.74095,
+            "ema_8": 135.54150871306865,
+            "ema_21": 153.9172958360639
           }
         },
         {
@@ -467,15 +467,15 @@
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 214.94,
-            "sma_50": 238.569028731144,
-            "sma_200": 197.5119170621255,
-            "sma_50_prev20": 225.770558132268,
+            "close": 213.48,
+            "sma_50": 237.69714416540003,
+            "sma_200": 197.4403432834635,
+            "sma_50_prev20": 226.818484097166,
             "monthly_stoch_k": 74.56332509787573,
             "monthly_stoch_d": 59.08904935082111,
             "monthly_stoch_k_prev": 61.61197940230486,
@@ -491,11 +491,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 214.94,
-            "sma_50": 238.569028731144,
-            "sma_200": 197.5119170621255,
-            "ema_8": 223.4044756219881,
-            "ema_21": 230.4796097943395
+            "close": 213.48,
+            "sma_50": 237.69714416540003,
+            "sma_200": 197.4403432834635,
+            "ema_8": 221.19903659487963,
+            "ema_21": 228.9341907221268
           }
         },
         {
@@ -505,15 +505,15 @@
           "thesis": "Optical inspection for HBM; rapid percentage swings on volume",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 105.04,
-            "sma_50": 136.139,
-            "sma_200": 156.26024999999998,
-            "sma_50_prev20": 149.2353,
+            "close": 102.19,
+            "sma_50": 135.5028,
+            "sma_200": 156.05800000000002,
+            "sma_50_prev20": 149.2951,
             "monthly_stoch_k": 42.470051340559046,
             "monthly_stoch_d": 46.89666402009711,
             "monthly_stoch_k_prev": 47.646514273643966,
@@ -529,11 +529,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 105.04,
-            "sma_50": 136.139,
-            "sma_200": 156.26024999999998,
-            "ema_8": 106.83447060842636,
-            "ema_21": 119.48078823116361
+            "close": 102.19,
+            "sma_50": 135.5028,
+            "sma_200": 156.05800000000002,
+            "ema_8": 105.80236602877605,
+            "ema_21": 117.90889839196693
           }
         },
         {
@@ -543,15 +543,15 @@
           "thesis": "Optical transceivers; high-volatility momentum breakout candidate",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 225.19,
-            "sma_50": 268.9356,
-            "sma_200": 296.56045,
-            "sma_50_prev20": 304.59860000000003,
+            "close": 214.66,
+            "sma_50": 267.67220000000003,
+            "sma_200": 296.64495000000005,
+            "sma_50_prev20": 304.6354,
             "monthly_stoch_k": 48.91305103552784,
             "monthly_stoch_d": 55.97909800182138,
             "monthly_stoch_k_prev": 54.41293090355523,
@@ -567,29 +567,29 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 225.19,
-            "sma_50": 268.9356,
-            "sma_200": 296.56045,
-            "ema_8": 206.94800604770714,
-            "ema_21": 228.42666131806536
+            "close": 214.66,
+            "sma_50": 267.67220000000003,
+            "sma_200": 296.64495000000005,
+            "ema_8": 208.66178248155,
+            "ema_21": 227.17514665278668
           }
         },
         {
           "ticker": "CEG",
-          "name": null,
+          "name": "Constellation Energy Corporation",
           "sector": "Power & Thermal Management",
           "thesis": "Largest US nuclear operator; reacts sharply to data center power deals",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 276.09,
-            "sma_50": 270.0083,
-            "sma_200": 278.070743103302,
-            "sma_50_prev20": 274.502825451018,
+            "close": 267.76,
+            "sma_50": 269.8681,
+            "sma_200": 277.9896137766425,
+            "sma_50_prev20": 274.953161426756,
             "monthly_stoch_k": 19.471054420499883,
             "monthly_stoch_d": 19.087041245941823,
             "monthly_stoch_k_prev": 19.46202890795754,
@@ -605,29 +605,29 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 276.09,
-            "sma_50": 270.0083,
-            "sma_200": 278.070743103302,
-            "ema_8": 258.11722028555073,
-            "ema_21": 261.96946515875675
+            "close": 267.76,
+            "sma_50": 269.8681,
+            "sma_200": 277.9896137766425,
+            "ema_8": 260.26006022209503,
+            "ema_21": 262.4958774170516
           }
         },
         {
           "ticker": "CDNS",
-          "name": null,
+          "name": "Cadence Design Systems Inc",
           "sector": "EDA & Custom Silicon",
           "thesis": "EDA software monopoly; predictable mean-inversion",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 336.53,
-            "sma_50": 319.7526,
-            "sma_200": 327.8198,
-            "sma_50_prev20": 320.6762,
+            "close": 331.64,
+            "sma_50": 319.6098,
+            "sma_200": 327.8679,
+            "sma_50_prev20": 320.63719999999995,
             "monthly_stoch_k": 45.17055235447345,
             "monthly_stoch_d": 50.17932555690526,
             "monthly_stoch_k_prev": 47.7970997546679,
@@ -643,11 +643,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 336.53,
-            "sma_50": 319.7526,
-            "sma_200": 327.8198,
-            "ema_8": 327.0689552766969,
-            "ema_21": 327.85047377448495
+            "close": 331.64,
+            "sma_50": 319.6098,
+            "sma_200": 327.8679,
+            "ema_8": 328.0847429929865,
+            "ema_21": 328.19497615862264
           }
         },
         {
