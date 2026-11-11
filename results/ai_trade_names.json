@@ -1,8 +1,8 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-11T11:14+00:00",
-      "evaluated_session": "2026-11-09",
+      "generated_at": "2026-11-11T18:45+00:00",
+      "evaluated_session": "2026-11-10",
       "results": [
         {
           "ticker": "AVGO",
@@ -763,20 +763,278 @@
             "ema_8": 149.44169123018452,
             "ema_21": 158.1399116137235
           }
+        },
+        {
+          "ticker": "MU",
+          "name": null,
+          "sector": "Chips & Hardware",
+          "thesis": "Cyclical HBM memory play; high ATR for quick percentage swings",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-10",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 725.11,
+            "sma_50": 952.8689496390581,
+            "sma_200": 759.8702462439941,
+            "sma_50_prev20": 981.818992882922,
+            "monthly_stoch_k": 75.1295757863143,
+            "monthly_stoch_d": 74.94890167868154,
+            "monthly_stoch_k_prev": 73.5385359991967,
+            "weekly_stoch_k": 28.6888272096049,
+            "weekly_stoch_k_prev": 38.464331805393165,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 725.11,
+            "sma_50": 952.8689496390581,
+            "sma_200": 759.8702462439941,
+            "ema_8": 767.1999270284822,
+            "ema_21": 848.1159091162597
+          }
+        },
+        {
+          "ticker": "NVDA",
+          "name": null,
+          "sector": "Chips & Hardware",
+          "thesis": "Ultimate AI beta leader; ideal for oversold RSI bounces",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-10",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 168.89,
+            "sma_50": 217.966921723618,
+            "sma_200": 204.2602846347575,
+            "sma_50_prev20": 222.895455624174,
+            "monthly_stoch_k": 74.2146054491476,
+            "monthly_stoch_d": 75.17226725775343,
+            "monthly_stoch_k_prev": 78.69628928175378,
+            "weekly_stoch_k": 25.19463119917665,
+            "weekly_stoch_k_prev": 37.54817030559423,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 168.89,
+            "sma_50": 217.966921723618,
+            "sma_200": 204.2602846347575,
+            "ema_8": 188.5470103124809,
+            "ema_21": 203.07612017067754
+          }
+        },
+        {
+          "ticker": "META",
+          "name": null,
+          "sector": "Big Tech & Hyperscalers",
+          "thesis": "Ad-tech monetization; strong momentum breakouts on volume",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-10",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 641.39,
+            "sma_50": 677.4481895034879,
+            "sma_200": 630.982061319723,
+            "sma_50_prev20": 646.619938724944,
+            "monthly_stoch_k": 43.325246648973994,
+            "monthly_stoch_d": 31.816069679442062,
+            "monthly_stoch_k_prev": 35.94392656315219,
+            "weekly_stoch_k": 37.34631288784252,
+            "weekly_stoch_k_prev": 51.43762309489859,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 641.39,
+            "sma_50": 677.4481895034879,
+            "sma_200": 630.982061319723,
+            "ema_8": 628.9768182209853,
+            "ema_21": 647.9060557341711
+          }
+        },
+        {
+          "ticker": "MSFT",
+          "name": null,
+          "sector": "Big Tech & Hyperscalers",
+          "thesis": "Core AI cloud enabler; highly predictable moving average bounces",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-10",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 533.16,
+            "sma_50": 517.7962,
+            "sma_200": 439.5827743726725,
+            "sma_50_prev20": 502.86785517570803,
+            "monthly_stoch_k": 82.09752273536073,
+            "monthly_stoch_d": 68.01092904842903,
+            "monthly_stoch_k_prev": 72.65382886963653,
+            "weekly_stoch_k": 77.77736489019995,
+            "weekly_stoch_k_prev": 84.74112659776459,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 533.16,
+            "sma_50": 517.7962,
+            "sma_200": 439.5827743726725,
+            "ema_8": 534.1506163057469,
+            "ema_21": 529.8653256125307
+          }
+        },
+        {
+          "ticker": "NOW",
+          "name": null,
+          "sector": "SaaS with AI Story",
+          "thesis": "Workflow automation; clean institutional trend-following setups",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-10",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 99.61,
+            "sma_50": 134.4884,
+            "sma_200": 114.10455,
+            "sma_50_prev20": 133.2944,
+            "monthly_stoch_k": 39.59790042771098,
+            "monthly_stoch_d": 36.4114678104198,
+            "monthly_stoch_k_prev": 40.259511744930904,
+            "weekly_stoch_k": 36.55952782611694,
+            "weekly_stoch_k_prev": 62.58483349582858,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 99.61,
+            "sma_50": 134.4884,
+            "sma_200": 114.10455,
+            "ema_8": 108.42269533795717,
+            "ema_21": 122.32230433252366
+          }
+        },
+        {
+          "ticker": "LRCX",
+          "name": null,
+          "sector": "Advanced Packaging & Equipment",
+          "thesis": "Wafer fabrication tools; high-beta mover during chip rallies",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-10",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 222.39,
+            "sma_50": 281.07146126512396,
+            "sma_200": 283.627480165277,
+            "sma_50_prev20": 310.90326001126203,
+            "monthly_stoch_k": 57.09295620549138,
+            "monthly_stoch_d": 64.26727449778646,
+            "monthly_stoch_k_prev": 62.81730086035697,
+            "weekly_stoch_k": 8.160301729617279,
+            "weekly_stoch_k_prev": 9.245090367549706,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 222.39,
+            "sma_50": 281.07146126512396,
+            "sma_200": 283.627480165277,
+            "ema_8": 220.7511424984674,
+            "ema_21": 243.0409337257
+          }
+        },
+        {
+          "ticker": "MRVL",
+          "name": null,
+          "sector": "Networking & Interconnects",
+          "thesis": "Electro-optics & custom ASICs; high beta for multi-week swings",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-10",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 154.39,
+            "sma_50": 231.890344236216,
+            "sma_200": 185.719969191394,
+            "sma_50_prev20": 239.50912697755396,
+            "monthly_stoch_k": 60.634374756958984,
+            "monthly_stoch_d": 61.41180561656003,
+            "monthly_stoch_k_prev": 59.65920175176734,
+            "weekly_stoch_k": 25.609395755278246,
+            "weekly_stoch_k_prev": 39.55150951363197,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 154.39,
+            "sma_50": 231.890344236216,
+            "sma_200": 185.719969191394,
+            "ema_8": 165.47437573460792,
+            "ema_21": 197.9267907625262
+          }
         }
       ],
       "errors": [
         {
-          "ticker": "MU",
-          "error": "MU: Tiingo returned HTTP 429"
-        },
-        {
           "ticker": "TSM",
           "error": "TSM: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "NVDA",
-          "error": "NVDA: Tiingo returned HTTP 429"
         },
         {
           "ticker": "PLTR",
@@ -787,28 +1045,12 @@
           "error": "SNPS: Tiingo returned HTTP 429"
         },
         {
-          "ticker": "META",
-          "error": "META: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "MSFT",
-          "error": "MSFT: Tiingo returned HTTP 429"
-        },
-        {
           "ticker": "SAP",
           "error": "SAP: Tiingo returned HTTP 429"
         },
         {
           "ticker": "SNOW",
           "error": "SNOW: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "NOW",
-          "error": "NOW: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "LRCX",
-          "error": "LRCX: Tiingo returned HTTP 429"
         },
         {
           "ticker": "SKHY",
@@ -821,10 +1063,6 @@
         {
           "ticker": "WDC",
           "error": "WDC: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "MRVL",
-          "error": "MRVL: Tiingo returned HTTP 429"
         },
         {
           "ticker": "VRT",
