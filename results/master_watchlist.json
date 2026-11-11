@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-11T02:52+00:00",
+      "generated_at": "2026-11-11T11:14+00:00",
       "evaluated_session": "2026-11-10",
       "results": [
         {
@@ -3185,7 +3185,7 @@
             "sma_200": 41.4383,
             "sma_50_prev20": 41.247,
             "monthly_stoch_k": 20.1645390070922,
-            "monthly_stoch_d": 24.363120567375883,
+            "monthly_stoch_d": 24.363120567375887,
             "monthly_stoch_k_prev": 23.79574468085106,
             "weekly_stoch_k": 16.028040311612646,
             "weekly_stoch_k_prev": 7.2017176376032905,
@@ -3322,7 +3322,7 @@
         },
         {
           "ticker": "FLUT",
-          "name": null,
+          "name": "Flutter Entertainment Plc",
           "sector": "Media & Entertainment",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
@@ -3333,8 +3333,8 @@
           "developing_badges": [],
           "trend_detail": {
             "close": 82.51,
-            "sma_50": 84.667,
-            "sma_200": 103.17479999999999,
+            "sma_50": 84.66699999999999,
+            "sma_200": 103.17480000000002,
             "sma_50_prev20": 91.93619999999999,
             "monthly_stoch_k": 3.048734424105717,
             "monthly_stoch_d": 3.891842661986138,
@@ -3352,8 +3352,8 @@
           "data_invalid_reason": null,
           "diagnostics": {
             "close": 82.51,
-            "sma_50": 84.667,
-            "sma_200": 103.17479999999999,
+            "sma_50": 84.66699999999999,
+            "sma_200": 103.17480000000002,
             "ema_8": 82.15617375950208,
             "ema_21": 81.475058860451
           }
@@ -3372,7 +3372,7 @@
           "trend_detail": {
             "close": 181.78,
             "sma_50": 197.7732,
-            "sma_200": 219.22664999999998,
+            "sma_200": 219.22665,
             "sma_50_prev20": 204.03420000000003,
             "monthly_stoch_k": 38.32797162418543,
             "monthly_stoch_d": 45.427476476482006,
@@ -3391,7 +3391,7 @@
           "diagnostics": {
             "close": 181.78,
             "sma_50": 197.7732,
-            "sma_200": 219.22664999999998,
+            "sma_200": 219.22665,
             "ema_8": 187.40616084379306,
             "ema_21": 193.8278064916329
           }
@@ -3462,8 +3462,8 @@
             "monthly_stoch_k": 27.125036662036354,
             "monthly_stoch_d": 24.263202337440173,
             "monthly_stoch_k_prev": 20.938151162924086,
-            "weekly_stoch_k": 76.85410434721776,
-            "weekly_stoch_k_prev": 72.50243383458101,
+            "weekly_stoch_k": 76.85410434721774,
+            "weekly_stoch_k_prev": 72.502433834581,
             "close_gt_sma200": true,
             "sma50_gt_sma200": true,
             "sma50_rising": true,
@@ -3510,9 +3510,9 @@
           "developing_badges": [],
           "trend_detail": {
             "close": 12.59,
-            "sma_50": 11.339292364123999,
+            "sma_50": 11.339292364124,
             "sma_200": 12.203778201822,
-            "sma_50_prev20": 11.214272236004,
+            "sma_50_prev20": 11.214272236004001,
             "monthly_stoch_k": 8.101288409494453,
             "monthly_stoch_d": 7.131845483066471,
             "monthly_stoch_k_prev": 6.919704288229052,
@@ -3529,7 +3529,7 @@
           "data_invalid_reason": null,
           "diagnostics": {
             "close": 12.59,
-            "sma_50": 11.339292364123999,
+            "sma_50": 11.339292364124,
             "sma_200": 12.203778201822,
             "ema_8": 12.38213409597835,
             "ema_21": 12.03930813463082
@@ -3549,7 +3549,7 @@
           "trend_detail": {
             "close": 173.95,
             "sma_50": 168.30259999999998,
-            "sma_200": 186.38885995790602,
+            "sma_200": 186.388859957906,
             "sma_50_prev20": 173.64139438580003,
             "monthly_stoch_k": 13.34343937851107,
             "monthly_stoch_d": 19.932742303863822,
@@ -3568,7 +3568,7 @@
           "diagnostics": {
             "close": 173.95,
             "sma_50": 168.30259999999998,
-            "sma_200": 186.38885995790602,
+            "sma_200": 186.388859957906,
             "ema_8": 172.8440696707338,
             "ema_21": 170.04806649919982
           }
@@ -3626,7 +3626,7 @@
             "close": 14.6,
             "sma_50": 13.2606,
             "sma_200": 14.323725,
-            "sma_50_prev20": 15.0871,
+            "sma_50_prev20": 15.087099999999998,
             "monthly_stoch_k": 34.160010686910695,
             "monthly_stoch_d": 38.68907302393428,
             "monthly_stoch_k_prev": 40.14474517506183,
@@ -3656,15 +3656,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 3.1475,
-            "sma_50": 3.7649164600000002,
-            "sma_200": 6.627402770544501,
-            "sma_50_prev20": 4.55305446,
+            "close": 3.055,
+            "sma_50": 3.72341646,
+            "sma_200": 6.597337521941499,
+            "sma_50_prev20": 4.52805446,
             "monthly_stoch_k": 11.420542530500798,
             "monthly_stoch_d": 21.24025814435382,
             "monthly_stoch_k_prev": 19.431206503396677,
@@ -3680,11 +3680,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 3.1475,
-            "sma_50": 3.7649164600000002,
-            "sma_200": 6.627402770544501,
-            "ema_8": 3.072734681603748,
-            "ema_21": 3.188936063826879
+            "close": 3.055,
+            "sma_50": 3.72341646,
+            "sma_200": 6.597337521941499,
+            "ema_8": 3.0687936412473595,
+            "ema_21": 3.1767600580244353
           }
         },
         {
@@ -3739,7 +3739,7 @@
           "trend_detail": {
             "close": 28.31,
             "sma_50": 26.8766,
-            "sma_200": 28.300357430130504,
+            "sma_200": 28.300357430130497,
             "sma_50_prev20": 28.286600000000004,
             "monthly_stoch_k": 26.546885341231008,
             "monthly_stoch_d": 39.00512561101892,
@@ -3758,7 +3758,7 @@
           "diagnostics": {
             "close": 28.31,
             "sma_50": 26.8766,
-            "sma_200": 28.300357430130504,
+            "sma_200": 28.300357430130497,
             "ema_8": 27.786055788670353,
             "ema_21": 27.09405979415981
           }
@@ -3816,7 +3816,7 @@
             "close": 340.44,
             "sma_50": 317.119727104768,
             "sma_200": 350.8682203971855,
-            "sma_50_prev20": 319.82067744218597,
+            "sma_50_prev20": 319.820677442186,
             "monthly_stoch_k": 14.789127747291204,
             "monthly_stoch_d": 12.503537334124305,
             "monthly_stoch_k_prev": 11.864964122693555,
@@ -3841,7 +3841,7 @@
         },
         {
           "ticker": "FMC",
-          "name": null,
+          "name": "FMC Corp",
           "sector": "Chemicals / Agricultural",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
@@ -3954,8 +3954,8 @@
           "trend_detail": {
             "close": 367.44,
             "sma_50": 348.408882376978,
-            "sma_200": 352.152943546815,
-            "sma_50_prev20": 360.288432542212,
+            "sma_200": 352.1529435468149,
+            "sma_50_prev20": 360.28843254221204,
             "monthly_stoch_k": 59.92390645888448,
             "monthly_stoch_d": 69.46346657922518,
             "monthly_stoch_k_prev": 64.95084895703322,
@@ -3973,7 +3973,7 @@
           "diagnostics": {
             "close": 367.44,
             "sma_50": 348.408882376978,
-            "sma_200": 352.152943546815,
+            "sma_200": 352.1529435468149,
             "ema_8": 362.56044380139986,
             "ema_21": 356.6273590961198
           }
@@ -4030,7 +4030,7 @@
           "trend_detail": {
             "close": 47.76,
             "sma_50": 47.9896,
-            "sma_200": 51.449283116094,
+            "sma_200": 51.449283116093994,
             "sma_50_prev20": 49.018723869314,
             "monthly_stoch_k": 43.35603081229925,
             "monthly_stoch_d": 55.986679585008766,
@@ -4049,14 +4049,14 @@
           "diagnostics": {
             "close": 47.76,
             "sma_50": 47.9896,
-            "sma_200": 51.449283116094,
+            "sma_200": 51.449283116093994,
             "ema_8": 47.99005113345029,
             "ema_21": 48.034980568833696
           }
         },
         {
           "ticker": "FDX",
-          "name": null,
+          "name": "Fedex Corp",
           "sector": "Transportation / Logistics",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
@@ -4099,15 +4099,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 6.55,
-            "sma_50": 6.937329999999999,
-            "sma_200": 7.1168525,
-            "sma_50_prev20": 7.2962,
+            "close": 6.56,
+            "sma_50": 6.913930000000001,
+            "sma_200": 7.1119025,
+            "sma_50_prev20": 7.28193,
             "monthly_stoch_k": 30.998702983138784,
             "monthly_stoch_d": 39.03798055473005,
             "monthly_stoch_k_prev": 38.260845525982965,
@@ -4123,11 +4123,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 6.55,
-            "sma_50": 6.937329999999999,
-            "sma_200": 7.1168525,
-            "ema_8": 6.517441782236914,
-            "ema_21": 6.541993403042224
+            "close": 6.56,
+            "sma_50": 6.913930000000001,
+            "sma_200": 7.1119025,
+            "ema_8": 6.526899163962044,
+            "ema_21": 6.543630366402022
           }
         },
         {
@@ -4145,7 +4145,7 @@
             "close": 226.27,
             "sma_50": 235.67934045871,
             "sma_200": 245.78225988338147,
-            "sma_50_prev20": 253.414564219338,
+            "sma_50_prev20": 253.41456421933802,
             "monthly_stoch_k": 63.33810873850769,
             "monthly_stoch_d": 74.53131734866777,
             "monthly_stoch_k_prev": 73.17374454979803,
@@ -4183,7 +4183,7 @@
             "close": 50.99,
             "sma_50": 46.734021256788,
             "sma_200": 39.095391972795504,
-            "sma_50_prev20": 46.76522785105001,
+            "sma_50_prev20": 46.76522785104999,
             "monthly_stoch_k": 66.47630972131022,
             "monthly_stoch_d": 60.47041960571786,
             "monthly_stoch_k_prev": 59.619598198496384,
@@ -4295,7 +4295,7 @@
           "developing_badges": [],
           "trend_detail": {
             "close": 164.14,
-            "sma_50": 123.61759999999998,
+            "sma_50": 123.6176,
             "sma_200": 119.748,
             "sma_50_prev20": 110.40979999999999,
             "monthly_stoch_k": 32.9007080336734,
@@ -4314,7 +4314,7 @@
           "data_invalid_reason": null,
           "diagnostics": {
             "close": 164.14,
-            "sma_50": 123.61759999999998,
+            "sma_50": 123.6176,
             "sma_200": 119.748,
             "ema_8": 152.51620285813217,
             "ema_21": 140.14367067929828
@@ -4397,7 +4397,7 @@
           "trend_detail": {
             "close": 38.99,
             "sma_50": 37.033723831582,
-            "sma_200": 37.601863667202004,
+            "sma_200": 37.601863667202,
             "sma_50_prev20": 38.039066712082,
             "monthly_stoch_k": 69.13444834441057,
             "monthly_stoch_d": 72.17745323950668,
@@ -4416,7 +4416,7 @@
           "diagnostics": {
             "close": 38.99,
             "sma_50": 37.033723831582,
-            "sma_200": 37.601863667202004,
+            "sma_200": 37.601863667202,
             "ema_8": 38.75078271712046,
             "ema_21": 37.8561473003024
           }
@@ -4473,8 +4473,8 @@
           "trend_detail": {
             "close": 284.92,
             "sma_50": 327.62522229309,
-            "sma_200": 336.77519695279346,
-            "sma_50_prev20": 342.674254409444,
+            "sma_200": 336.7751969527936,
+            "sma_50_prev20": 342.67425440944396,
             "monthly_stoch_k": 59.106144226357394,
             "monthly_stoch_d": 69.89622670102455,
             "monthly_stoch_k_prev": 73.73349771019623,
@@ -4492,7 +4492,7 @@
           "diagnostics": {
             "close": 284.92,
             "sma_50": 327.62522229309,
-            "sma_200": 336.77519695279346,
+            "sma_200": 336.7751969527936,
             "ema_8": 287.84482397476614,
             "ema_21": 303.8675567738774
           }
@@ -4511,8 +4511,8 @@
           "trend_detail": {
             "close": 21.97,
             "sma_50": 22.204899264244,
-            "sma_200": 22.646126334550498,
-            "sma_50_prev20": 21.394787344964,
+            "sma_200": 22.646126334550505,
+            "sma_50_prev20": 21.394787344963998,
             "monthly_stoch_k": 42.085373291143235,
             "monthly_stoch_d": 32.81947068147306,
             "monthly_stoch_k_prev": 34.789963144474115,
@@ -4530,7 +4530,7 @@
           "diagnostics": {
             "close": 21.97,
             "sma_50": 22.204899264244,
-            "sma_200": 22.646126334550498,
+            "sma_200": 22.646126334550505,
             "ema_8": 22.2394699471225,
             "ema_21": 22.40305692599051
           }
@@ -4548,7 +4548,7 @@
           "developing_badges": [],
           "trend_detail": {
             "close": 100.85,
-            "sma_50": 95.63060000000002,
+            "sma_50": 95.6306,
             "sma_200": 97.5759867039,
             "sma_50_prev20": 101.66145303532599,
             "monthly_stoch_k": 23.609842106678187,
@@ -4567,7 +4567,7 @@
           "data_invalid_reason": null,
           "diagnostics": {
             "close": 100.85,
-            "sma_50": 95.63060000000002,
+            "sma_50": 95.6306,
             "sma_200": 97.5759867039,
             "ema_8": 97.71243149315262,
             "ema_21": 95.28289965225045
@@ -4575,7 +4575,7 @@
         },
         {
           "ticker": "FCX",
-          "name": null,
+          "name": "Freeport-McMoRan Inc",
           "sector": "Basic Materials / Copper",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
@@ -4626,7 +4626,7 @@
             "close": 58.13,
             "sma_50": 96.72,
             "sma_200": 87.18922500000001,
-            "sma_50_prev20": 103.53970000000001,
+            "sma_50_prev20": 103.5397,
             "monthly_stoch_k": 58.23558342379937,
             "monthly_stoch_d": 64.93243135284449,
             "monthly_stoch_k_prev": 65.66033148275723,
@@ -4694,20 +4694,20 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-10",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 246.11,
-            "sma_50": 236.9648,
-            "sma_200": 245.7726037335585,
-            "sma_50_prev20": 231.985711588234,
-            "monthly_stoch_k": 29.79644489868366,
-            "monthly_stoch_d": 28.30315962994655,
-            "monthly_stoch_k_prev": 20.791227447471254,
-            "weekly_stoch_k": 85.36919853035924,
-            "weekly_stoch_k_prev": 75.55146402701341,
+            "close": 244.53,
+            "sma_50": 235.583630306226,
+            "sma_200": 243.86626478700447,
+            "sma_50_prev20": 230.51411821833997,
+            "monthly_stoch_k": 29.796444898654055,
+            "monthly_stoch_d": 28.303159629928132,
+            "monthly_stoch_k_prev": 20.791227447456915,
+            "weekly_stoch_k": 85.36919853031206,
+            "weekly_stoch_k_prev": 75.55146402701031,
             "close_gt_sma200": true,
             "sma50_gt_sma200": false,
             "sma50_rising": true,
@@ -4718,11 +4718,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 246.11,
-            "sma_50": 236.9648,
-            "sma_200": 245.7726037335585,
-            "ema_8": 248.94954367673625,
-            "ema_21": 245.562310217168
+            "close": 244.53,
+            "sma_50": 235.583630306226,
+            "sma_200": 243.86626478700447,
+            "ema_8": 246.63840675767753,
+            "ema_21": 243.9362040503393
           }
         },
         {
@@ -4739,7 +4739,7 @@
           "trend_detail": {
             "close": 337.91,
             "sma_50": 314.328697232818,
-            "sma_200": 322.59695851333805,
+            "sma_200": 322.596958513338,
             "sma_50_prev20": 333.99512558261,
             "monthly_stoch_k": 44.4504035573518,
             "monthly_stoch_d": 63.16694115131148,
@@ -4758,14 +4758,14 @@
           "diagnostics": {
             "close": 337.91,
             "sma_50": 314.328697232818,
-            "sma_200": 322.59695851333805,
+            "sma_200": 322.596958513338,
             "ema_8": 323.93687281723675,
             "ema_21": 315.4006351930703
           }
         },
         {
           "ticker": "FIVE",
-          "name": null,
+          "name": "Five Below Inc",
           "sector": "Retail / Discount Retail",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
