@@ -158,6 +158,14 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
 .sd-row-reason {
     margin-top: 0.45rem !important;
 }
+/* Dims a row whose status hasn't been refreshed in today's queue drain yet - opacity on the
+   whole row (not per-element color tweaks) so it still dims every child even though each
+   text node above already hardcodes its own color via !important. Exact last-evaluated date
+   is on the row's native title attribute (hover tooltip) instead of inline text, so a crowded
+   dashboard doesn't gain another always-visible data point. */
+.sd-row-stale {
+    opacity: 0.55;
+}
 .sd-badge {
     display: inline-block;
     background: rgba(245, 158, 11, 0.18);
@@ -362,18 +370,22 @@ def load_queue_remaining() -> set[str]:
         return set()
 
 
-def render_pending_banner(watchlist_tickers: set[str], setups_doc: dict) -> None:
+def compute_pending_tickers(watchlist_tickers: set[str], setups_doc: dict) -> set[str]:
+    """Tickers whose row on screen isn't this cycle's data yet - still sitting in tonight's
+    queue (state/refresh_queue.json, not yet attempted) or whose last attempt errored (any
+    registered setup's own "errors" list, e.g. a Tiingo rate limit). Shared by the pending
+    banner's count and by render_row's stale-dimming, so the two always agree on what counts
+    as "not yet refreshed today" instead of drifting apart as separate calculations."""
+    not_yet_reached = watchlist_tickers & load_queue_remaining()
+    still_erroring = {e["ticker"] for doc in setups_doc.values() for e in doc.get("errors", [])}
+    return (not_yet_reached | still_erroring) & watchlist_tickers
+
+
+def render_pending_banner(pending: set[str], total: int) -> None:
     """Single status line replacing the old EOD-session label plus the three separate
     staleness/incomplete-refresh/off-session banners - refresh_job.py drains one shared
     queue across many hourly firings now, so there's no single "as of" date for a whole
-    watchlist anymore, just a count of what hasn't caught up yet. A ticker counts as
-    pending if it's still sitting in tonight's queue (state/refresh_queue.json, not yet
-    attempted) or if its last attempt errored (any registered setup's own "errors" list,
-    e.g. a Tiingo rate limit) - either way the row on screen isn't this cycle's data."""
-    not_yet_reached = watchlist_tickers & load_queue_remaining()
-    still_erroring = {e["ticker"] for doc in setups_doc.values() for e in doc.get("errors", [])}
-    pending = (not_yet_reached | still_erroring) & watchlist_tickers
-    total = len(watchlist_tickers)
+    watchlist anymore, just a count of what hasn't caught up yet."""
     if pending:
         st.info(f"{len(pending)} of {total} ticker(s) pending refresh today.")
     else:
@@ -408,7 +420,7 @@ def _toggle_setup_open(open_key: str) -> None:
     st.session_state[open_key] = not st.session_state.get(open_key, False)
 
 
-def render_setup_accordion(setup: Setup, setup_data: dict, watchlist_id: str) -> None:
+def render_setup_accordion(setup: Setup, setup_data: dict, watchlist_id: str, stale_tickers: set[str]) -> None:
     """One setup's whole section for the active watchlist - header shows live counts even
     while collapsed (so scanning the page tells you what's cooking across every setup without
     opening anything), and auto-expands only if it actually has something to look at. Adding a
@@ -465,8 +477,10 @@ def render_setup_accordion(setup: Setup, setup_data: dict, watchlist_id: str) ->
     if not is_open:
         return
 
-    render_section("Qualified", qualified_rows, "No qualified stocks in this scan.", setup)
-    render_section("Developing", developing_rows, "No developing stocks in this scan.", setup, spaced=True)
+    render_section("Qualified", qualified_rows, "No qualified stocks in this scan.", setup, stale_tickers)
+    render_section(
+        "Developing", developing_rows, "No developing stocks in this scan.", setup, stale_tickers, spaced=True
+    )
 
     st.markdown('<div class="sd-toggle-spacer"></div>', unsafe_allow_html=True)
 
@@ -477,7 +491,7 @@ def render_setup_accordion(setup: Setup, setup_data: dict, watchlist_id: str) ->
             st.caption("Nothing in Other monitored.")
         else:
             for result in other_rows:
-                render_row(result, setup)
+                render_row(result, setup, stale_tickers)
 
     if errors:
         if st.toggle(f"Couldn't fetch {len(errors)} ticker(s)", key=f"sd_errors_{watchlist_id}_{setup.id}"):
@@ -529,7 +543,7 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
 _REASON_STYLE = 'style="color: rgba(250, 250, 250, 0.75) !important;"'
 
 
-def render_row(result: dict, setup: Setup) -> None:
+def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
     """Dispatches to the active setup's own reason_for() rather than hardcoding any one
     setup's statuses/wording here - this is what lets a second registered setup show up with
     zero changes to this function."""
@@ -544,8 +558,17 @@ def render_row(result: dict, setup: Setup) -> None:
     else:
         reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{reason_text}</div>'
 
+    # Dimmed (not relabeled/hidden) when this ticker hasn't been refreshed in today's queue
+    # drain yet - the status shown is still whatever its last successful evaluation found,
+    # just visibly not guaranteed to be today's. Exact date goes on the native title
+    # attribute (hover tooltip) rather than inline text - see .sd-row-stale CSS comment.
+    is_stale = result["ticker"] in stale_tickers
+    row_class = "sd-row sd-row-stale" if is_stale else "sd-row"
+    evaluated_session = result.get("evaluated_session")
+    title_attr = f' title="Last evaluated {evaluated_session}"' if is_stale and evaluated_session else ""
+
     row_html = (
-        '<div class="sd-row">'
+        f'<div class="{row_class}"{title_attr}>'
         '<div class="sd-row-top">'
         '<div class="sd-row-left">'
         f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>'
@@ -565,7 +588,9 @@ def render_row(result: dict, setup: Setup) -> None:
         st.html(row_html)
 
 
-def render_section(title: str, rows: list[dict], empty_message: str, setup: Setup, spaced: bool = False) -> None:
+def render_section(
+    title: str, rows: list[dict], empty_message: str, setup: Setup, stale_tickers: set[str], spaced: bool = False
+) -> None:
     """`spaced=True` adds extra top margin before the header - used for a
     second section (e.g. Developing) directly following another section's
     rows, so it doesn't read as cramped against the last row above it."""
@@ -575,7 +600,7 @@ def render_section(title: str, rows: list[dict], empty_message: str, setup: Setu
         st.caption(empty_message)
         return
     for result in rows:
-        render_row(result, setup)
+        render_row(result, setup, stale_tickers)
 
 
 def main() -> None:
@@ -606,11 +631,12 @@ def main() -> None:
         return
 
     watchlist_tickers = {e["ticker"] for e in load_watchlist(selected_watchlist_id).get("tickers", [])}
-    render_pending_banner(watchlist_tickers, setups_doc)
+    pending_tickers = compute_pending_tickers(watchlist_tickers, setups_doc)
+    render_pending_banner(pending_tickers, len(watchlist_tickers))
 
     st.divider()
     for setup in list_setups():
-        render_setup_accordion(setup, setups_doc.get(setup.id, {}), selected_watchlist_id)
+        render_setup_accordion(setup, setups_doc.get(setup.id, {}), selected_watchlist_id, pending_tickers)
 
 
 main()
