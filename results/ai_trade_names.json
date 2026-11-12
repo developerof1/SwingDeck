@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-12T09:57+00:00",
+      "generated_at": "2026-11-12T14:51+00:00",
       "evaluated_session": "2026-11-11",
       "results": [
         {
@@ -429,15 +429,15 @@
           "thesis": "Active Electrical Cables; rapid momentum expansion setups",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-10",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
-          "recovery_observed": false,
+          "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 129.8,
-            "sma_50": 174.7473,
-            "sma_200": 180.74095,
-            "sma_50_prev20": 209.33270000000002,
+            "close": 141.41,
+            "sma_50": 173.4429,
+            "sma_200": 180.80015,
+            "sma_50_prev20": 208.15879999999999,
             "monthly_stoch_k": 47.008357774462986,
             "monthly_stoch_d": 57.843507276448236,
             "monthly_stoch_k_prev": 57.0410537550455,
@@ -453,11 +453,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 129.8,
-            "sma_50": 174.7473,
-            "sma_200": 180.74095,
-            "ema_8": 135.54150871306865,
-            "ema_21": 153.9172958360639
+            "close": 141.41,
+            "sma_50": 173.4429,
+            "sma_200": 180.80015,
+            "ema_8": 136.84561788794227,
+            "ema_21": 152.78026894187624
           }
         },
         {
@@ -467,15 +467,15 @@
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-10",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
-          "recovery_observed": false,
+          "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 213.48,
-            "sma_50": 237.69714416540003,
-            "sma_200": 197.4403432834635,
-            "sma_50_prev20": 226.818484097166,
+            "close": 218.01,
+            "sma_50": 236.904480217026,
+            "sma_200": 197.39573906533948,
+            "sma_50_prev20": 227.724592363022,
             "monthly_stoch_k": 74.56332509787573,
             "monthly_stoch_d": 59.08904935082111,
             "monthly_stoch_k_prev": 61.61197940230486,
@@ -491,11 +491,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 213.48,
-            "sma_50": 237.69714416540003,
-            "sma_200": 197.4403432834635,
-            "ema_8": 221.19903659487963,
-            "ema_21": 228.9341907221268
+            "close": 218.01,
+            "sma_50": 236.904480217026,
+            "sma_200": 197.39573906533948,
+            "ema_8": 220.49036179601748,
+            "ema_21": 227.9410824746607
           }
         },
         {
@@ -543,15 +543,15 @@
           "thesis": "Optical transceivers; high-volatility momentum breakout candidate",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-10",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
-          "recovery_observed": false,
+          "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 214.66,
-            "sma_50": 267.67220000000003,
-            "sma_200": 296.64495000000005,
-            "sma_50_prev20": 304.6354,
+            "close": 234.51,
+            "sma_50": 266.9218,
+            "sma_200": 296.7475,
+            "sma_50_prev20": 303.4272,
             "monthly_stoch_k": 48.91305103552784,
             "monthly_stoch_d": 55.97909800182138,
             "monthly_stoch_k_prev": 54.41293090355523,
@@ -567,11 +567,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 214.66,
-            "sma_50": 267.67220000000003,
-            "sma_200": 296.64495000000005,
-            "ema_8": 208.66178248155,
-            "ema_21": 227.17514665278668
+            "close": 234.51,
+            "sma_50": 266.9218,
+            "sma_200": 296.7475,
+            "ema_8": 214.40583081898336,
+            "ema_21": 227.84195150253333
           }
         },
         {
