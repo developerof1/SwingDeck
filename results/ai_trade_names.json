@@ -1,8 +1,8 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-12T02:50+00:00",
-      "evaluated_session": "2026-11-09",
+      "generated_at": "2026-11-12T04:01+00:00",
+      "evaluated_session": "2026-11-11",
       "results": [
         {
           "ticker": "AVGO",
@@ -1029,36 +1029,278 @@
             "ema_8": 166.2134033491395,
             "ema_21": 195.27890069320563
           }
+        },
+        {
+          "ticker": "PLTR",
+          "name": "Palantir Technologies Inc - Class A",
+          "sector": "SaaS with AI Story",
+          "thesis": "Retail/institutional favorite; extreme momentum range swings",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 172.4,
+            "sma_50": 185.03779999999998,
+            "sma_200": 153.571025,
+            "sma_50_prev20": 181.125,
+            "monthly_stoch_k": 77.27016721184914,
+            "monthly_stoch_d": 57.09777830880453,
+            "monthly_stoch_k_prev": 58.45444059976932,
+            "weekly_stoch_k": 64.5889566214475,
+            "weekly_stoch_k_prev": 74.77475866185377,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 172.4,
+            "sma_50": 185.03779999999998,
+            "sma_200": 153.571025,
+            "ema_8": 171.94346715534473,
+            "ema_21": 180.50399772116495
+          }
+        },
+        {
+          "ticker": "SNPS",
+          "name": null,
+          "sector": "EDA & Custom Silicon",
+          "thesis": "Chip design automation; tight consolidation and breakout setups",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 462.12,
+            "sma_50": 443.4494,
+            "sma_200": 441.457175,
+            "sma_50_prev20": 425.68760000000003,
+            "monthly_stoch_k": 31.21839196704073,
+            "monthly_stoch_d": 23.65271659552089,
+            "monthly_stoch_k_prev": 20.044936758384413,
+            "weekly_stoch_k": 57.92539237917388,
+            "weekly_stoch_k_prev": 58.85242986083322,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 462.12,
+            "sma_50": 443.4494,
+            "sma_200": 441.457175,
+            "ema_8": 460.39925235439586,
+            "ema_21": 460.1628717687092
+          }
+        },
+        {
+          "ticker": "SAP",
+          "name": null,
+          "sector": "Big Tech & Hyperscalers",
+          "thesis": "Enterprise AI integration; high-volume European leader",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 234.1,
+            "sma_50": 220.78560000000002,
+            "sma_200": 190.7924487248535,
+            "sma_50_prev20": 211.84220000000002,
+            "monthly_stoch_k": 52.471175620516654,
+            "monthly_stoch_d": 38.24296940845582,
+            "monthly_stoch_k_prev": 37.57867635900691,
+            "weekly_stoch_k": 87.8291302387227,
+            "weekly_stoch_k_prev": 92.70969103508871,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 234.1,
+            "sma_50": 220.78560000000002,
+            "sma_200": 190.7924487248535,
+            "ema_8": 235.36679970860334,
+            "ema_21": 231.8273292026747
+          }
+        },
+        {
+          "ticker": "SNOW",
+          "name": null,
+          "sector": "SaaS with AI Story",
+          "thesis": "Data cloud play; sharp technical bounce off oversold stochastic",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 301.22,
+            "sma_50": 326.29740000000004,
+            "sma_200": 242.30885,
+            "sma_50_prev20": 332.96299999999997,
+            "monthly_stoch_k": 82.97352800556585,
+            "monthly_stoch_d": 88.06701308890821,
+            "monthly_stoch_k_prev": 90.84553321702113,
+            "weekly_stoch_k": 34.32936373939578,
+            "weekly_stoch_k_prev": 45.19605904359192,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 301.22,
+            "sma_50": 326.29740000000004,
+            "sma_200": 242.30885,
+            "ema_8": 295.5975046476208,
+            "ema_21": 308.2354565115758
+          }
+        },
+        {
+          "ticker": "SKHY",
+          "name": null,
+          "sector": "High-Bandwidth Memory (HBM)",
+          "thesis": "Primary HBM supplier to Nvidia; high-volume liquid OTC ADR",
+          "status": "DATA_INVALID",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": false,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 142.25,
+            "sma_50": 165.187,
+            "sma_200": NaN,
+            "sma_50_prev20": 170.899618478782,
+            "monthly_stoch_k": NaN,
+            "monthly_stoch_d": NaN,
+            "monthly_stoch_k_prev": NaN,
+            "weekly_stoch_k": 18.485920408830065,
+            "weekly_stoch_k_prev": 21.478716864291183,
+            "close_gt_sma200": null,
+            "sma50_gt_sma200": null,
+            "sma50_rising": null,
+            "monthly_pass": null,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": "Only 88 completed sessions available, need at least 420",
+          "diagnostics": {
+            "close": 142.25,
+            "sma_50": 165.187,
+            "sma_200": NaN,
+            "ema_8": 137.79862933294882,
+            "ema_21": 145.55418580969396
+          }
+        },
+        {
+          "ticker": "SSNLF",
+          "name": null,
+          "sector": "High-Bandwidth Memory (HBM)",
+          "thesis": "High-volume memory & foundry scale; range-bound swing channel",
+          "status": "DATA_INVALID",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": false,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 140.0,
+            "sma_50": 140.0,
+            "sma_200": 119.71495665452599,
+            "sma_50_prev20": 140.0,
+            "monthly_stoch_k": 100.0,
+            "monthly_stoch_d": 100.0,
+            "monthly_stoch_k_prev": 100.0,
+            "weekly_stoch_k": NaN,
+            "weekly_stoch_k_prev": NaN,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": null
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": "Only 418 completed sessions available, need at least 420",
+          "diagnostics": {
+            "close": 140.0,
+            "sma_50": 140.0,
+            "sma_200": 119.71495665452599,
+            "ema_8": 139.99999999998965,
+            "ema_21": 139.99990426859563
+          }
+        },
+        {
+          "ticker": "SBGSY",
+          "name": null,
+          "sector": "Power & Thermal Management",
+          "thesis": "Data center power distribution; high-volume German ADR",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 53.61,
+            "sma_50": 60.051,
+            "sma_200": 61.50532675870549,
+            "sma_50_prev20": 66.42396,
+            "monthly_stoch_k": 59.30343990202139,
+            "monthly_stoch_d": 78.94210490757675,
+            "monthly_stoch_k_prev": 85.9505460670246,
+            "weekly_stoch_k": 4.8443858921328875,
+            "weekly_stoch_k_prev": 4.405812930257373,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 53.61,
+            "sma_50": 60.051,
+            "sma_200": 61.50532675870549,
+            "ema_8": 52.739687441252514,
+            "ema_21": 54.43369516057098
+          }
         }
       ],
       "errors": [
         {
           "ticker": "TSM",
           "error": "TSM: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "PLTR",
-          "error": "PLTR: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "SNPS",
-          "error": "SNPS: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "SAP",
-          "error": "SAP: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "SNOW",
-          "error": "SNOW: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "SKHY",
-          "error": "SKHY: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "SSNLF",
-          "error": "SSNLF: Tiingo returned HTTP 429"
         },
         {
           "ticker": "WDC",
@@ -1071,10 +1313,6 @@
         {
           "ticker": "VST",
           "error": "VST: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "SBGSY",
-          "error": "SBGSY: Tiingo returned HTTP 429"
         }
       ]
     }
