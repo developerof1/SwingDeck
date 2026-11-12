@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-12T04:01+00:00",
+      "generated_at": "2026-11-12T06:06+00:00",
       "evaluated_session": "2026-11-11",
       "results": [
         {
@@ -403,15 +403,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 68.03,
-            "sma_50": 72.348,
-            "sma_200": 66.48837499999999,
-            "sma_50_prev20": 73.9216,
+            "close": 67.84,
+            "sma_50": 72.13600000000001,
+            "sma_200": 66.469825,
+            "sma_50_prev20": 73.81459999999998,
             "monthly_stoch_k": 54.710150697363645,
             "monthly_stoch_d": 54.71984539502927,
             "monthly_stoch_k_prev": 51.178654693031696,
@@ -427,11 +427,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 68.03,
-            "sma_50": 72.348,
-            "sma_200": 66.48837499999999,
-            "ema_8": 70.85502744114683,
-            "ema_21": 72.16217847161313
+            "close": 67.84,
+            "sma_50": 72.13600000000001,
+            "sma_200": 66.469825,
+            "ema_8": 69.33723882242215,
+            "ema_21": 71.25584997653978
           }
         },
         {
@@ -517,15 +517,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
-          "recovery_observed": false,
+          "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 69.84,
-            "sma_50": 80.8544,
-            "sma_200": 76.0794680810765,
-            "sma_50_prev20": 81.68645246063201,
+            "close": 70.92,
+            "sma_50": 80.342,
+            "sma_200": 76.116429226574,
+            "sma_50_prev20": 81.884860039372,
             "monthly_stoch_k": 74.52382106327339,
             "monthly_stoch_d": 77.62848777916007,
             "monthly_stoch_k_prev": 78.76308057187671,
@@ -541,11 +541,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 69.84,
-            "sma_50": 80.8544,
-            "sma_200": 76.0794680810765,
-            "ema_8": 72.34006030946871,
-            "ema_21": 76.00334630583532
+            "close": 70.92,
+            "sma_50": 80.342,
+            "sma_200": 76.116429226574,
+            "ema_8": 71.49904882918479,
+            "ema_21": 74.98722835193001
           }
         },
         {
@@ -555,15 +555,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 45.94,
-            "sma_50": 43.226311398354,
-            "sma_200": 51.378997416492496,
-            "sma_50_prev20": 45.626862044658,
+            "close": 45.69,
+            "sma_50": 43.368892596943994,
+            "sma_200": 51.359547848521494,
+            "sma_50_prev20": 45.02011797885201,
             "monthly_stoch_k": 16.884081887128996,
             "monthly_stoch_d": 31.803351083741674,
             "monthly_stoch_k_prev": 26.448022457381086,
@@ -579,11 +579,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 45.94,
-            "sma_50": 43.226311398354,
-            "sma_200": 51.378997416492496,
-            "ema_8": 46.792488172332384,
-            "ema_21": 45.63467476669358
+            "close": 45.69,
+            "sma_50": 43.368892596943994,
+            "sma_200": 51.359547848521494,
+            "ema_8": 46.38977679560848,
+            "ema_21": 45.65997914602775
           }
         },
         {
@@ -694,15 +694,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 4.81,
-            "sma_50": 4.8494,
-            "sma_200": 5.67615,
-            "sma_50_prev20": 5.593000000000001,
+            "close": 4.86,
+            "sma_50": 4.814,
+            "sma_200": 5.643400000000001,
+            "sma_50_prev20": 5.5602,
             "monthly_stoch_k": 8.528844200690637,
             "monthly_stoch_d": 7.616434739724717,
             "monthly_stoch_k_prev": 8.04263565891473,
@@ -718,11 +718,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 4.81,
-            "sma_50": 4.8494,
-            "sma_200": 5.67615,
-            "ema_8": 4.314358317610358,
-            "ema_21": 4.3418967896208125
+            "close": 4.86,
+            "sma_50": 4.814,
+            "sma_200": 5.643400000000001,
+            "ema_8": 4.503994537813673,
+            "ema_21": 4.419418834397366
           }
         },
         {
@@ -770,15 +770,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 190.29,
-            "sma_50": 169.0862,
-            "sma_200": 148.0687,
-            "sma_50_prev20": 171.2758,
+            "close": 181.13,
+            "sma_50": 169.13150000000002,
+            "sma_200": 148.5808,
+            "sma_50_prev20": 171.91740000000001,
             "monthly_stoch_k": 70.9196018076718,
             "monthly_stoch_d": 78.72213884481748,
             "monthly_stoch_k_prev": 79.0086973739839,
@@ -794,11 +794,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 190.29,
-            "sma_50": 169.0862,
-            "sma_200": 148.0687,
-            "ema_8": 178.09240003799985,
-            "ema_21": 172.90525506744183
+            "close": 181.13,
+            "sma_50": 169.13150000000002,
+            "sma_200": 148.5808,
+            "ema_8": 180.28972347977768,
+            "ema_21": 174.8095496425139
           }
         },
         {
@@ -808,15 +808,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 293.3,
-            "sma_50": 271.679200568166,
-            "sma_200": 236.625279215144,
-            "sma_50_prev20": 257.922128292364,
+            "close": 294.98,
+            "sma_50": 273.191065969914,
+            "sma_200": 237.39323738828548,
+            "sma_50_prev20": 259.292562550422,
             "monthly_stoch_k": 91.70763224188977,
             "monthly_stoch_d": 88.96897655456492,
             "monthly_stoch_k_prev": 86.92865972901315,
@@ -832,11 +832,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 293.3,
-            "sma_50": 271.679200568166,
-            "sma_200": 236.625279215144,
-            "ema_8": 290.4171189220852,
-            "ema_21": 285.2493543990369
+            "close": 294.98,
+            "sma_50": 273.191065969914,
+            "sma_200": 237.39323738828548,
+            "ema_8": 292.0313435454589,
+            "ema_21": 286.8480614868073
           }
         },
         {
@@ -1023,15 +1023,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 350.69,
-            "sma_50": 336.63349999999997,
-            "sma_200": 299.049161547984,
-            "sma_50_prev20": 323.002679408808,
+            "close": 355.63,
+            "sma_50": 337.87669999999997,
+            "sma_200": 300.008499319598,
+            "sma_50_prev20": 324.442004848798,
             "monthly_stoch_k": 88.93688323585495,
             "monthly_stoch_d": 83.36556973785508,
             "monthly_stoch_k_prev": 82.89607861783678,
@@ -1047,11 +1047,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 350.69,
-            "sma_50": 336.63349999999997,
-            "sma_200": 299.049161547984,
-            "ema_8": 344.7455777939814,
-            "ema_21": 342.64336122730464
+            "close": 355.63,
+            "sma_50": 337.87669999999997,
+            "sma_200": 300.008499319598,
+            "ema_8": 347.8149791593221,
+            "ema_21": 344.3088109316567
           }
         },
         {
@@ -1137,15 +1137,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 254.37,
-            "sma_50": 210.70989285083996,
-            "sma_200": 187.6881106479295,
-            "sma_50_prev20": 183.60822736099198,
+            "close": 253.66,
+            "sma_50": 213.456321977054,
+            "sma_200": 187.5441949637205,
+            "sma_50_prev20": 185.508237952342,
             "monthly_stoch_k": 55.13508671664286,
             "monthly_stoch_d": 37.81704714704517,
             "monthly_stoch_k_prev": 35.22026196926453,
@@ -1161,11 +1161,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 254.37,
-            "sma_50": 210.70989285083996,
-            "sma_200": 187.6881106479295,
-            "ema_8": 256.31988199644104,
-            "ema_21": 242.50939143709138
+            "close": 253.66,
+            "sma_50": 213.456321977054,
+            "sma_200": 187.5441949637205,
+            "ema_8": 256.1073360225384,
+            "ema_21": 244.84544746867056
           }
         },
         {
@@ -1175,15 +1175,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 21.75,
-            "sma_50": 17.539269855152,
-            "sma_200": 18.003198107000998,
-            "sma_50_prev20": 16.686789942605998,
+            "close": 21.55,
+            "sma_50": 17.740207980324,
+            "sma_200": 17.986239205945502,
+            "sma_50_prev20": 16.680302487016,
             "monthly_stoch_k": 43.62165359576547,
             "monthly_stoch_d": 42.622694780205876,
             "monthly_stoch_k_prev": 42.19441837695314,
@@ -1199,11 +1199,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 21.75,
-            "sma_50": 17.539269855152,
-            "sma_200": 18.003198107000998,
-            "ema_8": 20.31008480449969,
-            "ema_21": 19.263900963518697
+            "close": 21.55,
+            "sma_50": 17.740207980324,
+            "sma_200": 17.986239205945502,
+            "ema_8": 20.787829079265247,
+            "ema_21": 19.654876829354297
           }
         },
         {
@@ -8091,148 +8091,1270 @@
             "ema_8": 58.25861088303297,
             "ema_21": 57.86309523923335
           }
-        }
-      ],
-      "errors": [
+        },
         {
           "ticker": "TTGT",
-          "error": "TTGT: Tiingo returned HTTP 429"
+          "name": "Techtarget Inc",
+          "sector": "Technology / Advertising",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 2.76,
+            "sma_50": 3.6947,
+            "sma_200": 4.15425,
+            "sma_50_prev20": 3.8534999999999995,
+            "monthly_stoch_k": 7.121266301402475,
+            "monthly_stoch_d": 10.033394103863115,
+            "monthly_stoch_k_prev": 12.341474245115455,
+            "weekly_stoch_k": 12.465908439062806,
+            "weekly_stoch_k_prev": 20.745920745920753,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 2.76,
+            "sma_50": 3.6947,
+            "sma_200": 4.15425,
+            "ema_8": 3.066646272628698,
+            "ema_21": 3.383174604031856
+          }
         },
         {
           "ticker": "UBER",
-          "error": "UBER: Tiingo returned HTTP 429"
+          "name": null,
+          "sector": "Transportation",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 70.68,
+            "sma_50": 69.7884,
+            "sma_200": 72.77325,
+            "sma_50_prev20": 73.04299999999999,
+            "monthly_stoch_k": 13.218722000775417,
+            "monthly_stoch_d": 16.16257765850469,
+            "monthly_stoch_k_prev": 16.66666666666669,
+            "weekly_stoch_k": 13.01330817747062,
+            "weekly_stoch_k_prev": 14.448938300041926,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 70.68,
+            "sma_50": 69.7884,
+            "sma_200": 72.77325,
+            "ema_8": 69.2961642649915,
+            "ema_21": 68.77298674159978
+          }
         },
         {
           "ticker": "WHR",
-          "error": "WHR: Tiingo returned HTTP 429"
+          "name": null,
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 30.11,
+            "sma_50": 31.2064,
+            "sma_200": 46.248035590653,
+            "sma_50_prev20": 36.038599999999995,
+            "monthly_stoch_k": 4.873439463412447,
+            "monthly_stoch_d": 4.500207353761522,
+            "monthly_stoch_k_prev": 3.658985423878709,
+            "weekly_stoch_k": 17.84878598865279,
+            "weekly_stoch_k_prev": 11.30743260519415,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 30.11,
+            "sma_50": 31.2064,
+            "sma_200": 46.248035590653,
+            "ema_8": 30.534817200392112,
+            "ema_21": 30.072643578426852
+          }
         },
         {
           "ticker": "TTD",
-          "error": "TTD: Tiingo returned HTTP 429"
+          "name": "Trade Desk Inc - Class A",
+          "sector": "Technology / Ad-Tech",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 15.98,
+            "sma_50": 13.1702,
+            "sma_200": 19.217725,
+            "sma_50_prev20": 13.513399999999999,
+            "monthly_stoch_k": 1.0101917947835635,
+            "monthly_stoch_d": 1.1954477264261005,
+            "monthly_stoch_k_prev": 1.1088932215482314,
+            "weekly_stoch_k": 14.123581336696091,
+            "weekly_stoch_k_prev": 10.897866143675841,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 15.98,
+            "sma_50": 13.1702,
+            "sma_200": 19.217725,
+            "ema_8": 14.26495546585356,
+            "ema_21": 13.43712297776385
+          }
         },
         {
           "ticker": "WLK",
-          "error": "WLK: Tiingo returned HTTP 429"
+          "name": null,
+          "sector": "Industrial / Chemicals",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 63.88,
+            "sma_50": 66.469,
+            "sma_200": 85.37796180918349,
+            "sma_50_prev20": 71.288665679052,
+            "monthly_stoch_k": 20.224599514557113,
+            "monthly_stoch_d": 22.457222976408442,
+            "monthly_stoch_k_prev": 21.07128187884617,
+            "weekly_stoch_k": 30.262009591325903,
+            "weekly_stoch_k_prev": 30.01345099098646,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 63.88,
+            "sma_50": 66.469,
+            "sma_200": 85.37796180918349,
+            "ema_8": 64.93743012354622,
+            "ema_21": 65.28567339288654
+          }
         },
         {
           "ticker": "XYL",
-          "error": "XYL: Tiingo returned HTTP 429"
+          "name": null,
+          "sector": "Industrial / Water",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 95.11,
+            "sma_50": 102.80720000000001,
+            "sma_200": 114.95227682187151,
+            "sma_50_prev20": 109.243877821016,
+            "monthly_stoch_k": 7.2186978162440285,
+            "monthly_stoch_d": 13.980646361969113,
+            "monthly_stoch_k_prev": 13.069697799637169,
+            "weekly_stoch_k": 25.920202335414274,
+            "weekly_stoch_k_prev": 22.786685818093172,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 95.11,
+            "sma_50": 102.80720000000001,
+            "sma_200": 114.95227682187151,
+            "ema_8": 97.39251604076408,
+            "ema_21": 99.21140586610503
+          }
         },
+        {
+          "ticker": "UAA",
+          "name": null,
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 5.01,
+            "sma_50": 4.8991999999999996,
+            "sma_200": 5.9121999999999995,
+            "sma_50_prev20": 5.0626,
+            "monthly_stoch_k": 17.41293532338308,
+            "monthly_stoch_d": 31.923714759535653,
+            "monthly_stoch_k_prev": 31.177446102819232,
+            "weekly_stoch_k": 25.906487896496092,
+            "weekly_stoch_k_prev": 18.342555893539696,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 5.01,
+            "sma_50": 4.8991999999999996,
+            "sma_200": 5.9121999999999995,
+            "ema_8": 5.2193320455160945,
+            "ema_21": 5.085698815110724
+          }
+        },
+        {
+          "ticker": "ULTA",
+          "name": null,
+          "sector": "Consumer / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 659.08,
+            "sma_50": 583.5482,
+            "sma_200": 552.136525,
+            "sma_50_prev20": 543.2686,
+            "monthly_stoch_k": 48.26130925598846,
+            "monthly_stoch_d": 35.80731693332297,
+            "monthly_stoch_k_prev": 32.587745852923746,
+            "weekly_stoch_k": 88.59554087034105,
+            "weekly_stoch_k_prev": 89.21251874958888,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 659.08,
+            "sma_50": 583.5482,
+            "sma_200": 552.136525,
+            "ema_8": 652.3132879052481,
+            "ema_21": 629.5730183992266
+          }
+        },
+        {
+          "ticker": "UPS",
+          "name": null,
+          "sector": "Transportation / Logistics",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 112.45,
+            "sma_50": 100.27459999999999,
+            "sma_200": 102.7828070766865,
+            "sma_50_prev20": 99.474682616244,
+            "monthly_stoch_k": 62.877082158441986,
+            "monthly_stoch_d": 63.156045413315475,
+            "monthly_stoch_k_prev": 58.131753778867996,
+            "weekly_stoch_k": 62.57241839324251,
+            "weekly_stoch_k_prev": 46.63405435225408,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 112.45,
+            "sma_50": 100.27459999999999,
+            "sma_200": 102.7828070766865,
+            "ema_8": 110.20606403194029,
+            "ema_21": 106.13495977394378
+          }
+        },
+        {
+          "ticker": "WEN",
+          "name": null,
+          "sector": "Consumer / Restaurants",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 8.34,
+            "sma_50": 6.9562,
+            "sma_200": 7.231547870288,
+            "sma_50_prev20": 7.422298441246,
+            "monthly_stoch_k": 28.194117682729058,
+            "monthly_stoch_d": 29.135852733948358,
+            "monthly_stoch_k_prev": 24.93332942061569,
+            "weekly_stoch_k": 40.12868451566262,
+            "weekly_stoch_k_prev": 24.65352692318633,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 8.34,
+            "sma_50": 6.9562,
+            "sma_200": 7.231547870288,
+            "ema_8": 7.933849234472855,
+            "ema_21": 7.361383293955201
+          }
+        },
+        {
+          "ticker": "WLKP",
+          "name": null,
+          "sector": "Industrial / Chemicals",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 21.42,
+            "sma_50": 21.3396,
+            "sma_200": 21.50337640901,
+            "sma_50_prev20": 21.458619454958,
+            "monthly_stoch_k": 74.07994007122572,
+            "monthly_stoch_d": 74.80707145357013,
+            "monthly_stoch_k_prev": 73.66523770750446,
+            "weekly_stoch_k": 37.736082515749764,
+            "weekly_stoch_k_prev": 30.37761954033836,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 21.42,
+            "sma_50": 21.3396,
+            "sma_200": 21.50337640901,
+            "ema_8": 21.332727474748012,
+            "ema_21": 21.28763632288233
+          }
+        },
+        {
+          "ticker": "TSCO",
+          "name": "Tractor Supply Company",
+          "sector": "Retail / Consumer",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 36.74,
+            "sma_50": 33.514900000000004,
+            "sma_200": 37.075514799301004,
+            "sma_50_prev20": 33.693665929202,
+            "monthly_stoch_k": 15.586427536189907,
+            "monthly_stoch_d": 13.230873096321412,
+            "monthly_stoch_k_prev": 12.037798401441734,
+            "weekly_stoch_k": 68.3743689347925,
+            "weekly_stoch_k_prev": 59.39605460116019,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 36.74,
+            "sma_50": 33.514900000000004,
+            "sma_200": 37.075514799301004,
+            "ema_8": 36.27769961598064,
+            "ema_21": 34.90865153184138
+          }
+        },
+        {
+          "ticker": "WGO",
+          "name": null,
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 31.53,
+            "sma_50": 27.66125808445,
+            "sma_200": 31.434867317295502,
+            "sma_50_prev20": 28.525969104016,
+            "monthly_stoch_k": 16.050476552728654,
+            "monthly_stoch_d": 14.415987039232888,
+            "monthly_stoch_k_prev": 10.357992343795013,
+            "weekly_stoch_k": 71.04298437988457,
+            "weekly_stoch_k_prev": 51.41657239341893,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 31.53,
+            "sma_50": 27.66125808445,
+            "sma_200": 31.434867317295502,
+            "ema_8": 31.4112549170502,
+            "ema_21": 29.703199503221114
+          }
+        },
+        {
+          "ticker": "Z",
+          "name": null,
+          "sector": "Technology / Real Estate Services",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 29.47,
+            "sma_50": 30.508000000000003,
+            "sma_200": 37.462925,
+            "sma_50_prev20": 31.946600000000004,
+            "monthly_stoch_k": 5.181606055981976,
+            "monthly_stoch_d": 5.7837680066122275,
+            "monthly_stoch_k_prev": 5.544279041452021,
+            "weekly_stoch_k": 41.18545676749159,
+            "weekly_stoch_k_prev": 45.065688970363574,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 29.47,
+            "sma_50": 30.508000000000003,
+            "sma_200": 37.462925,
+            "ema_8": 30.3417422836034,
+            "ema_21": 30.676914425535752
+          }
+        },
+        {
+          "ticker": "ZM",
+          "name": null,
+          "sector": "Technology / Infrastructure",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 98.08,
+            "sma_50": 94.3169,
+            "sma_200": 92.3697,
+            "sma_50_prev20": 97.4945,
+            "monthly_stoch_k": 54.707057739356635,
+            "monthly_stoch_d": 54.22798441912653,
+            "monthly_stoch_k_prev": 55.61892227827739,
+            "weekly_stoch_k": 34.15289696100748,
+            "weekly_stoch_k_prev": 41.41149191833355,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 98.08,
+            "sma_50": 94.3169,
+            "sma_200": 92.3697,
+            "ema_8": 93.32719417012925,
+            "ema_21": 94.15501263112944
+          }
+        },
+        {
+          "ticker": "USB",
+          "name": null,
+          "sector": "Financial / Banks",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 60.7,
+            "sma_50": 59.372780171526,
+            "sma_200": 57.43572692883849,
+            "sma_50_prev20": 60.613949639794,
+            "monthly_stoch_k": 74.08175996281518,
+            "monthly_stoch_d": 81.56360578901409,
+            "monthly_stoch_k_prev": 80.64674861436892,
+            "weekly_stoch_k": 39.28952912249672,
+            "weekly_stoch_k_prev": 36.848764586845476,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 60.7,
+            "sma_50": 59.372780171526,
+            "sma_200": 57.43572692883849,
+            "ema_8": 60.35162640420375,
+            "ema_21": 59.75127472118186
+          }
+        },
+        {
+          "ticker": "WOOF",
+          "name": null,
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 2.88,
+            "sma_50": 2.4707000000000003,
+            "sma_200": 2.66815,
+            "sma_50_prev20": 2.5244,
+            "monthly_stoch_k": 15.301894573417746,
+            "monthly_stoch_d": 17.1430458185425,
+            "monthly_stoch_k_prev": 14.788022867493062,
+            "weekly_stoch_k": 47.33648542159181,
+            "weekly_stoch_k_prev": 29.93827160493827,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 2.88,
+            "sma_50": 2.4707000000000003,
+            "sma_200": 2.66815,
+            "ema_8": 2.8864530524095313,
+            "ema_21": 2.700263465227973
+          }
+        },
+        {
+          "ticker": "UNP",
+          "name": null,
+          "sector": "Transportation",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 302.11,
+            "sma_50": 286.7212,
+            "sma_200": 271.611433839436,
+            "sma_50_prev20": 287.50581140057596,
+            "monthly_stoch_k": 79.41782594278429,
+            "monthly_stoch_d": 80.0842196530238,
+            "monthly_stoch_k_prev": 75.33212370119229,
+            "weekly_stoch_k": 60.999385320524006,
+            "weekly_stoch_k_prev": 59.54114000545428,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 302.11,
+            "sma_50": 286.7212,
+            "sma_200": 271.611433839436,
+            "ema_8": 299.6435278620354,
+            "ema_21": 295.97972519883524
+          }
+        },
+        {
+          "ticker": "XYZ",
+          "name": null,
+          "sector": "Technology / Fintech",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 85.72,
+            "sma_50": 78.2366,
+            "sma_200": 71.88995,
+            "sma_50_prev20": 78.7954,
+            "monthly_stoch_k": 75.0365969172479,
+            "monthly_stoch_d": 81.37394180315405,
+            "monthly_stoch_k_prev": 81.61124909499465,
+            "weekly_stoch_k": 45.59844987862317,
+            "weekly_stoch_k_prev": 31.261384335154798,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 85.72,
+            "sma_50": 78.2366,
+            "sma_200": 71.88995,
+            "ema_8": 83.9699171922246,
+            "ema_21": 80.78025030211411
+          }
+        },
+        {
+          "ticker": "WDAY",
+          "name": null,
+          "sector": "Technology / SaaS",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 191.16,
+            "sma_50": 193.72379999999998,
+            "sma_200": 155.904125,
+            "sma_50_prev20": 190.52380000000002,
+            "monthly_stoch_k": 60.85262981814705,
+            "monthly_stoch_d": 48.91738941571604,
+            "monthly_stoch_k_prev": 51.30687274455912,
+            "weekly_stoch_k": 65.35048012899298,
+            "weekly_stoch_k_prev": 70.6796167689926,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 191.16,
+            "sma_50": 193.72379999999998,
+            "sma_200": 155.904125,
+            "ema_8": 194.14801160790765,
+            "ema_21": 195.91725016391098
+          }
+        },
+        {
+          "ticker": "WPC",
+          "name": null,
+          "sector": "REIT",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 64.84,
+            "sma_50": 65.26925230253,
+            "sma_200": 69.133884651293,
+            "sma_50_prev20": 67.533220768524,
+            "monthly_stoch_k": 38.5337872766458,
+            "monthly_stoch_d": 56.88194140825618,
+            "monthly_stoch_k_prev": 57.93967171070117,
+            "weekly_stoch_k": 17.37672598313498,
+            "weekly_stoch_k_prev": 15.547496144287729,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 64.84,
+            "sma_50": 65.26925230253,
+            "sma_200": 69.133884651293,
+            "ema_8": 65.04131003926082,
+            "ema_21": 64.75615804580633
+          }
+        },
+        {
+          "ticker": "VZ",
+          "name": null,
+          "sector": "Telecommunication",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 46.6,
+            "sma_50": 45.97341339786399,
+            "sma_200": 45.77473737662049,
+            "sma_50_prev20": 47.176191394674,
+            "monthly_stoch_k": 71.81918323827774,
+            "monthly_stoch_d": 72.8922357989589,
+            "monthly_stoch_k_prev": 77.42463244431565,
+            "weekly_stoch_k": 42.20027395541417,
+            "weekly_stoch_k_prev": 39.19788292301316,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 46.6,
+            "sma_50": 45.97341339786399,
+            "sma_200": 45.77473737662049,
+            "ema_8": 45.84715945037228,
+            "ema_21": 45.29130819543432
+          }
+        },
+        {
+          "ticker": "WING",
+          "name": null,
+          "sector": "Restaurants",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 166.73,
+            "sma_50": 123.76460000000002,
+            "sma_200": 158.666677465849,
+            "sma_50_prev20": 111.77990994068801,
+            "monthly_stoch_k": 9.368590377239647,
+            "monthly_stoch_d": 7.2952732331129555,
+            "monthly_stoch_k_prev": 3.2840378068179734,
+            "weekly_stoch_k": 76.17997391927571,
+            "weekly_stoch_k_prev": 66.38803991830825,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 166.73,
+            "sma_50": 123.76460000000002,
+            "sma_200": 158.666677465849,
+            "ema_8": 163.57627118257903,
+            "ema_21": 148.19935446359594
+          }
+        },
+        {
+          "ticker": "XIACF",
+          "name": null,
+          "sector": "Automotive / EV",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 3.76,
+            "sma_50": 3.3976120000000005,
+            "sma_200": 3.73494525,
+            "sma_50_prev20": 3.387794,
+            "monthly_stoch_k": 14.878846193639168,
+            "monthly_stoch_d": 15.06828532065632,
+            "monthly_stoch_k_prev": 16.402982689685775,
+            "weekly_stoch_k": 47.312368346851095,
+            "weekly_stoch_k_prev": 29.971720488961875,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": true,
+            "monthly_pass": false,
+            "weekly_pass": true
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 3.76,
+            "sma_50": 3.3976120000000005,
+            "sma_200": 3.73494525,
+            "ema_8": 3.7194193135244746,
+            "ema_21": 3.5469917644842455
+          }
+        },
+        {
+          "ticker": "TSLA",
+          "name": "Tesla Inc",
+          "sector": "Consumer Cyclical / Auto Manufacturers",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 390.84,
+            "sma_50": 373.6547,
+            "sma_200": 383.0326,
+            "sma_50_prev20": 357.94050000000004,
+            "monthly_stoch_k": 39.016213703977556,
+            "monthly_stoch_d": 35.58809247097174,
+            "monthly_stoch_k_prev": 27.68158525120364,
+            "weekly_stoch_k": 72.70809883298487,
+            "weekly_stoch_k_prev": 74.86194159718757,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": false,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 390.84,
+            "sma_50": 373.6547,
+            "sma_200": 383.0326,
+            "ema_8": 380.8375099832956,
+            "ema_21": 380.52571570804946
+          }
+        },
+        {
+          "ticker": "VEEV",
+          "name": null,
+          "sector": "Technology / Health Care Technology",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 304.77,
+            "sma_50": 290.6498,
+            "sma_200": 212.6508,
+            "sma_50_prev20": 264.974,
+            "monthly_stoch_k": 87.32826206059269,
+            "monthly_stoch_d": 66.97132691442143,
+            "monthly_stoch_k_prev": 67.87113983789884,
+            "weekly_stoch_k": 90.0402239816345,
+            "weekly_stoch_k_prev": 93.88481139272294,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 304.77,
+            "sma_50": 290.6498,
+            "sma_200": 212.6508,
+            "ema_8": 307.09255644458614,
+            "ema_21": 305.79699496516434
+          }
+        },
+        {
+          "ticker": "ZIM",
+          "name": null,
+          "sector": "Transportation / Shipping",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 29.01,
+            "sma_50": 29.296800000000005,
+            "sma_200": 26.566711285501,
+            "sma_50_prev20": 28.612,
+            "monthly_stoch_k": 88.61325279888575,
+            "monthly_stoch_d": 85.27588218587225,
+            "monthly_stoch_k_prev": 85.31677061499171,
+            "weekly_stoch_k": 64.19852648347272,
+            "weekly_stoch_k_prev": 71.86495160604703,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 29.01,
+            "sma_50": 29.296800000000005,
+            "sma_200": 26.566711285501,
+            "ema_8": 28.523987127557316,
+            "ema_21": 28.839701297877983
+          }
+        },
+        {
+          "ticker": "TSM",
+          "name": "Taiwan Semiconductor Manufacturing",
+          "sector": "Technology / Hardware",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 413.35,
+            "sma_50": 430.472718958738,
+            "sma_200": 401.0567978120765,
+            "sma_50_prev20": 433.66445035285005,
+            "monthly_stoch_k": 78.80996432239228,
+            "monthly_stoch_d": 80.77780951781443,
+            "monthly_stoch_k_prev": 80.44135047256862,
+            "weekly_stoch_k": 29.309515211949343,
+            "weekly_stoch_k_prev": 35.1510047729001,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 413.35,
+            "sma_50": 430.472718958738,
+            "sma_200": 401.0567978120765,
+            "ema_8": 397.738665605928,
+            "ema_21": 410.4038902879214
+          }
+        },
+        {
+          "ticker": "XPO",
+          "name": null,
+          "sector": "Industrials / Integrated Freight & Logistics",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 189.0,
+            "sma_50": 182.87040000000002,
+            "sma_200": 198.23135,
+            "sma_50_prev20": 187.93600000000004,
+            "monthly_stoch_k": 59.99707698446883,
+            "monthly_stoch_d": 65.92262905575161,
+            "monthly_stoch_k_prev": 64.26052323645519,
+            "weekly_stoch_k": 29.833074468919005,
+            "weekly_stoch_k_prev": 34.94297427476852,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 189.0,
+            "sma_50": 182.87040000000002,
+            "sma_200": 198.23135,
+            "ema_8": 186.13947415381747,
+            "ema_21": 185.36961827952106
+          }
+        },
+        {
+          "ticker": "TXN",
+          "name": null,
+          "sector": "Technology / Semiconductors",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 309.81,
+            "sma_50": 280.57584990078203,
+            "sma_200": 261.4057889712735,
+            "sma_50_prev20": 270.94584082550597,
+            "monthly_stoch_k": 71.88812358669149,
+            "monthly_stoch_d": 69.64380310505216,
+            "monthly_stoch_k_prev": 67.01600029795699,
+            "weekly_stoch_k": 66.35828966462942,
+            "weekly_stoch_k_prev": 67.08381409479466,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 309.81,
+            "sma_50": 280.57584990078203,
+            "sma_200": 261.4057889712735,
+            "ema_8": 298.7184276921213,
+            "ema_21": 293.9165729600615
+          }
+        },
+        {
+          "ticker": "W",
+          "name": null,
+          "sector": "Retail / Discretionary",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 114.43,
+            "sma_50": 106.7984,
+            "sma_200": 88.78434999999999,
+            "sma_50_prev20": 102.4862,
+            "monthly_stoch_k": 78.5105583697927,
+            "monthly_stoch_d": 70.0892834262794,
+            "monthly_stoch_k_prev": 66.45571173607931,
+            "weekly_stoch_k": 77.9315439293956,
+            "weekly_stoch_k_prev": 81.12439794229486,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": true,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 114.43,
+            "sma_50": 106.7984,
+            "sma_200": 88.78434999999999,
+            "ema_8": 114.44722588173823,
+            "ema_21": 112.75629088804347
+          }
+        },
+        {
+          "ticker": "TWLO",
+          "name": null,
+          "sector": "Technology / Communication",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 219.48,
+            "sma_50": 253.30920000000003,
+            "sma_200": 192.14475000000002,
+            "sma_50_prev20": 251.3332,
+            "monthly_stoch_k": 77.11609932407173,
+            "monthly_stoch_d": 80.02920090142209,
+            "monthly_stoch_k_prev": 84.17775093573262,
+            "weekly_stoch_k": 33.48092209305568,
+            "weekly_stoch_k_prev": 44.52104200008285,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": true,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 219.48,
+            "sma_50": 253.30920000000003,
+            "sma_200": 192.14475000000002,
+            "ema_8": 215.7379923936964,
+            "ema_21": 232.26596745472125
+          }
+        },
+        {
+          "ticker": "WDC",
+          "name": null,
+          "sector": "Technology / Hardware",
+          "thesis": null,
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 313.31,
+            "sma_50": 397.382067609172,
+            "sma_200": 421.574058618925,
+            "sma_50_prev20": 447.761033301914,
+            "monthly_stoch_k": 48.35490989480809,
+            "monthly_stoch_d": 57.041869323464915,
+            "monthly_stoch_k_prev": 57.01968441453238,
+            "weekly_stoch_k": 6.767521794997349,
+            "weekly_stoch_k_prev": 6.2286870941973405,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 313.31,
+            "sma_50": 397.382067609172,
+            "sma_200": 421.574058618925,
+            "ema_8": 308.61894691081875,
+            "ema_21": 340.3152775511411
+          }
+        }
+      ],
+      "errors": [
         {
           "ticker": "BF.B",
           "error": "BF.B: not found on Tiingo"
         },
         {
-          "ticker": "UAA",
-          "error": "UAA: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "ULTA",
-          "error": "ULTA: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "UPS",
-          "error": "UPS: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "WEN",
-          "error": "WEN: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "WLKP",
-          "error": "WLKP: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "TSCO",
-          "error": "TSCO: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "WGO",
-          "error": "WGO: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "Z",
-          "error": "Z: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "ZM",
-          "error": "ZM: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "USB",
-          "error": "USB: Tiingo returned HTTP 429"
-        },
-        {
           "ticker": "RUT",
           "error": "RUT: not found on Tiingo"
-        },
-        {
-          "ticker": "WOOF",
-          "error": "WOOF: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "UNP",
-          "error": "UNP: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "XYZ",
-          "error": "XYZ: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "WDAY",
-          "error": "WDAY: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "WPC",
-          "error": "WPC: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "VZ",
-          "error": "VZ: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "WING",
-          "error": "WING: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "XIACF",
-          "error": "XIACF: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "TSLA",
-          "error": "TSLA: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "VEEV",
-          "error": "VEEV: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "ZIM",
-          "error": "ZIM: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "TSM",
-          "error": "TSM: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "XPO",
-          "error": "XPO: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "TXN",
-          "error": "TXN: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "W",
-          "error": "W: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "TWLO",
-          "error": "TWLO: Tiingo returned HTTP 429"
-        },
-        {
-          "ticker": "WDC",
-          "error": "WDC: Tiingo returned HTTP 429"
         }
       ]
     }

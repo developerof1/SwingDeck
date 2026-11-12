@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-12T04:01+00:00",
+      "generated_at": "2026-11-12T06:06+00:00",
       "evaluated_session": "2026-11-11",
       "results": [
         {
@@ -277,15 +277,15 @@
           "thesis": "On-device AI rollout; deep liquidity and clean support zones",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 350.69,
-            "sma_50": 336.63349999999997,
-            "sma_200": 299.049161547984,
-            "sma_50_prev20": 323.002679408808,
+            "close": 355.63,
+            "sma_50": 337.87669999999997,
+            "sma_200": 300.008499319598,
+            "sma_50_prev20": 324.442004848798,
             "monthly_stoch_k": 88.93688323585495,
             "monthly_stoch_d": 83.36556973785508,
             "monthly_stoch_k_prev": 82.89607861783678,
@@ -301,11 +301,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 350.69,
-            "sma_50": 336.63349999999997,
-            "sma_200": 299.049161547984,
-            "ema_8": 344.7455777939814,
-            "ema_21": 342.64336122730464
+            "close": 355.63,
+            "sma_50": 337.87669999999997,
+            "sma_200": 300.008499319598,
+            "ema_8": 347.8149791593221,
+            "ema_21": 344.3088109316567
           }
         },
         {
@@ -315,22 +315,22 @@
           "thesis": "Creative Cloud AI; frequent mean-reversion bounces after dips",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-09",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 237.32,
-            "sma_50": 250.1591,
-            "sma_200": 248.8534,
-            "sma_50_prev20": 257.6333,
+            "close": 237.6,
+            "sma_50": 248.0677,
+            "sma_200": 248.2142,
+            "sma_50_prev20": 256.9959,
             "monthly_stoch_k": 37.17780903532488,
             "monthly_stoch_d": 33.22642422112724,
             "monthly_stoch_k_prev": 34.7782215255366,
             "weekly_stoch_k": 40.27301538477739,
             "weekly_stoch_k_prev": 46.96959344716398,
             "close_gt_sma200": false,
-            "sma50_gt_sma200": true,
+            "sma50_gt_sma200": false,
             "sma50_rising": false,
             "monthly_pass": true,
             "weekly_pass": false
@@ -339,11 +339,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 237.32,
-            "sma_50": 250.1591,
-            "sma_200": 248.8534,
-            "ema_8": 244.87914281573262,
-            "ema_21": 247.4698251415592
+            "close": 237.6,
+            "sma_50": 248.0677,
+            "sma_200": 248.2142,
+            "ema_8": 241.84787651815924,
+            "ema_21": 245.68250011699106
           }
         },
         {
@@ -1295,26 +1295,161 @@
             "ema_8": 52.739687441252514,
             "ema_21": 54.43369516057098
           }
-        }
-      ],
-      "errors": [
+        },
         {
           "ticker": "TSM",
-          "error": "TSM: Tiingo returned HTTP 429"
+          "name": "Taiwan Semiconductor Manufacturing",
+          "sector": "Chips & Hardware",
+          "thesis": "Global foundry monopoly; high volume, steady channel swings",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 413.35,
+            "sma_50": 430.472718958738,
+            "sma_200": 401.0567978120765,
+            "sma_50_prev20": 433.66445035285005,
+            "monthly_stoch_k": 78.80996432239228,
+            "monthly_stoch_d": 80.77780951781443,
+            "monthly_stoch_k_prev": 80.44135047256862,
+            "weekly_stoch_k": 29.309515211949343,
+            "weekly_stoch_k_prev": 35.1510047729001,
+            "close_gt_sma200": true,
+            "sma50_gt_sma200": true,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 413.35,
+            "sma_50": 430.472718958738,
+            "sma_200": 401.0567978120765,
+            "ema_8": 397.738665605928,
+            "ema_21": 410.4038902879214
+          }
         },
         {
           "ticker": "WDC",
-          "error": "WDC: Tiingo returned HTTP 429"
+          "name": null,
+          "sector": "High-Bandwidth Memory (HBM)",
+          "thesis": "Enterprise SSD storage; clear breakout patterns on daily charts",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 313.31,
+            "sma_50": 397.382067609172,
+            "sma_200": 421.574058618925,
+            "sma_50_prev20": 447.761033301914,
+            "monthly_stoch_k": 48.35490989480809,
+            "monthly_stoch_d": 57.041869323464915,
+            "monthly_stoch_k_prev": 57.01968441453238,
+            "weekly_stoch_k": 6.767521794997349,
+            "weekly_stoch_k_prev": 6.2286870941973405,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 313.31,
+            "sma_50": 397.382067609172,
+            "sma_200": 421.574058618925,
+            "ema_8": 308.61894691081875,
+            "ema_21": 340.3152775511411
+          }
         },
         {
           "ticker": "VRT",
-          "error": "VRT: Tiingo returned HTTP 429"
+          "name": null,
+          "sector": "Power & Thermal Management",
+          "thesis": "Liquid cooling & rack power; prime high-volume momentum runner",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": true,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 206.51,
+            "sma_50": 233.57598240490398,
+            "sma_200": 271.369494658514,
+            "sma_50_prev20": 258.061477651324,
+            "monthly_stoch_k": 48.58148036842315,
+            "monthly_stoch_d": 54.06311944457982,
+            "monthly_stoch_k_prev": 50.56937906568729,
+            "weekly_stoch_k": 18.32815482300946,
+            "weekly_stoch_k_prev": 15.825318576263953,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 206.51,
+            "sma_50": 233.57598240490398,
+            "sma_200": 271.369494658514,
+            "ema_8": 203.11131974128605,
+            "ema_21": 213.0426044924871
+          }
         },
         {
           "ticker": "VST",
-          "error": "VST: Tiingo returned HTTP 429"
+          "name": null,
+          "sector": "Power & Thermal Management",
+          "thesis": "Independent nuclear/gas producer; high-beta clean energy trade",
+          "status": "INELIGIBLE_TREND",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-11",
+          "data_valid": true,
+          "recovery_observed": false,
+          "developing_badges": [],
+          "trend_detail": {
+            "close": 133.45,
+            "sma_50": 143.566169236224,
+            "sma_200": 151.86661375876102,
+            "sma_50_prev20": 144.24607463300399,
+            "monthly_stoch_k": 6.6003068623387415,
+            "monthly_stoch_d": 11.647360504143753,
+            "monthly_stoch_k_prev": 10.302053055419192,
+            "weekly_stoch_k": 18.88293415777453,
+            "weekly_stoch_k_prev": 28.052189850889874,
+            "close_gt_sma200": false,
+            "sma50_gt_sma200": false,
+            "sma50_rising": false,
+            "monthly_pass": false,
+            "weekly_pass": false
+          },
+          "location_detail": {},
+          "oscillator_detail": {},
+          "data_invalid_reason": null,
+          "diagnostics": {
+            "close": 133.45,
+            "sma_50": 143.566169236224,
+            "sma_200": 151.86661375876102,
+            "ema_8": 131.38701968038976,
+            "ema_21": 137.0773492978259
+          }
         }
-      ]
+      ],
+      "errors": []
     }
   }
 }
