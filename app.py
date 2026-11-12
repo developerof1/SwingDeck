@@ -164,7 +164,7 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
    is on the row's native title attribute (hover tooltip) instead of inline text, so a crowded
    dashboard doesn't gain another always-visible data point. */
 .sd-row-stale {
-    opacity: 0.55;
+    opacity: 0.3;
 }
 .sd-badge {
     display: inline-block;
