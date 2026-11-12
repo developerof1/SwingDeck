@@ -12,6 +12,11 @@ class TiingoError(Exception):
     pass
 
 
+class TiingoRateLimitError(TiingoError):
+    """Raised specifically for HTTP 429 - distinguished from other TiingoErrors so callers
+    can retry/back off instead of treating it as a dead ticker (see refresh_job.py)."""
+
+
 def fetch_daily_prices(ticker: str, start_date: str, api_key: str | None = None) -> list[dict]:
     """Fetch daily OHLCV history for `ticker` from `start_date` (YYYY-MM-DD) to today.
 
@@ -34,6 +39,8 @@ def fetch_daily_prices(ticker: str, start_date: str, api_key: str | None = None)
         raise TiingoError(f"{ticker}: not found on Tiingo")
     if response.status_code == 401:
         raise TiingoError("Tiingo API key rejected (401) - check TIINGO_API_KEY")
+    if response.status_code == 429:
+        raise TiingoRateLimitError(f"{ticker}: Tiingo returned HTTP 429")
     if not response.ok:
         raise TiingoError(f"{ticker}: Tiingo returned HTTP {response.status_code}")
 

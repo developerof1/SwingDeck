@@ -31,6 +31,18 @@ retries next run instead of silently "completing" by recording everything as an 
 Insufficient *completed-session* history is a different thing - that's a DATA_INVALID status
 from the engine itself (a real Other Monitored row with a reason), not a fetch error.
 
+Rate-limiting (HTTP 429) is handled separately from other fetch failures, because MAX_TICKERS_
+PER_RUN plus metadata lookups already sit right at Tiingo's ~50/hour cap with no headroom for
+a second run (manual or a delayed scheduled firing) sharing the same rolling hour. A 429 is
+retried a couple of times first in case it's a momentary blip (see fetch_daily_prices_with_
+retry()); if it's still 429ing, the quota is genuinely out for the rest of the hour, and
+evaluate_unique_tickers() stops the batch right there instead of letting every remaining
+ticker 429 in turn. Those deferred tickers are NOT recorded as errors and are NOT removed from
+state/refresh_queue.json - they're simply retried next run, same as if this run never reached
+them. Previously a partial 429 cascade would fetch-fail the back half of a batch, write them
+all up as persistent errors, and still drop them from the queue as "done" - that's the bug
+this guards against.
+
 A second kind of failure exists once there's more than one setup: the fetch succeeds, but one
 particular setup's own add_indicators/evaluate/serialize raises. That's caught separately (see
 evaluate_ticker()) so it only blanks *that* setup's row for *that* ticker - it must not look
@@ -45,13 +57,14 @@ queue, state, or results files.
 import json
 import os
 import sys
+import time
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from src.data_engine import to_dataframe
-from src.providers.tiingo_provider import TiingoError, fetch_daily_prices, fetch_ticker_meta
+from src.providers.tiingo_provider import TiingoError, TiingoRateLimitError, fetch_daily_prices, fetch_ticker_meta
 from src.setups import list_setups
 from src.watchlist_store import discover_watchlists, load_watchlist
 
@@ -70,6 +83,13 @@ MAX_META_FETCHES_PER_RUN = 5  # company names barely ever change, so metadata is
 # fetched for tickers missing a cached name (new additions to any watchlist); capped per
 # batch so a large backfill can't blow the shared hourly budget - it just completes
 # gradually over a few runs.
+
+# A 429 this close to the batch size usually means the shared hourly quota (not just this
+# ticker) is the problem - a brief retry absorbs a transient blip, but if it's still 429ing
+# after these, the quota is genuinely out and evaluate_unique_tickers stops the batch early
+# (see its docstring) rather than letting every remaining ticker 429 in turn.
+RATE_LIMIT_MAX_RETRIES = 2
+RATE_LIMIT_BACKOFF_SECONDS = 5
 
 
 def results_path(watchlist_id: str) -> str:
@@ -172,6 +192,20 @@ def finalize_night(queue: dict) -> None:
     print(f"Night {status['night_key']} finished: {status['status']} ({completed}/{total} tickers).")
 
 
+def fetch_daily_prices_with_retry(ticker: str, start_date: str) -> list[dict]:
+    """Retries a 429 a couple of times with a short backoff before giving up - cheap
+    insurance against a momentary blip. Does nothing for a genuinely exhausted hourly quota
+    (that needs the rest of the hour, not a few seconds), so it still raises
+    TiingoRateLimitError in that case for evaluate_unique_tickers to catch."""
+    for attempt in range(RATE_LIMIT_MAX_RETRIES + 1):
+        try:
+            return fetch_daily_prices(ticker, start_date)
+        except TiingoRateLimitError:
+            if attempt == RATE_LIMIT_MAX_RETRIES:
+                raise
+            time.sleep(RATE_LIMIT_BACKOFF_SECONDS * (attempt + 1))
+
+
 def evaluate_ticker(ticker: str, start_date: str, prior_names: dict[str, str], meta_budget: list[int]) -> dict:
     """Fetch once, then run every registered setup's own add_indicators/evaluate/serialize
     against that same raw data - independent of which watchlist(s) this ticker belongs to
@@ -184,7 +218,7 @@ def evaluate_ticker(ticker: str, start_date: str, prior_names: dict[str, str], m
     against the same pristine base_df, never a previous setup's enriched df - see the
     Setup.add_indicators docstring in src/setups/base.py for why that matters.
     """
-    raw = fetch_daily_prices(ticker, start_date)  # TiingoError propagates to caller
+    raw = fetch_daily_prices_with_retry(ticker, start_date)  # TiingoError propagates to caller
     base_df = to_dataframe(raw)
 
     name = prior_names.get(ticker)
@@ -208,27 +242,41 @@ def evaluate_ticker(ticker: str, start_date: str, prior_names: dict[str, str], m
 
 def evaluate_unique_tickers(
     tickers: set[str], start_date: str, prior_names: dict[str, str]
-) -> tuple[dict[str, dict], dict[str, dict]]:
+) -> tuple[dict[str, dict], dict[str, dict], set[str]]:
     """Fetches and evaluates every ticker in `tickers` exactly once (across all registered
     setups), regardless of how many watchlists reference it - this is the Tiingo-call dedup.
 
     Returns (ticker -> evaluation dict from evaluate_ticker(), ticker -> {"fetch_error",
-    "setup_errors"}) - a ticker only appears in `errors` if its fetch failed (fetch_error set,
-    evaluations has no entry for it) or at least one setup failed after a successful fetch
-    (fetch_error is None, evaluations[ticker] still holds whatever setups DID succeed)."""
+    "setup_errors"}, rate_limited tickers). A ticker only appears in `errors` if its fetch
+    failed for a reason OTHER than rate-limiting (fetch_error set, evaluations has no entry
+    for it) or at least one setup failed after a successful fetch (fetch_error is None,
+    evaluations[ticker] still holds whatever setups DID succeed).
+
+    A 429 that survives fetch_daily_prices_with_retry's own backoff means the shared hourly
+    quota is genuinely exhausted, not just this one ticker having a bad moment - continuing
+    to the next ticker would just 429 again, cascading into a wall of false "errors" for
+    otherwise-healthy tickers. So the first persistent 429 stops this call early: that ticker
+    and every ticker after it (not yet attempted) land in the returned `rate_limited` set
+    instead of `errors` or `evaluations`, so the caller can leave them queued for the next run
+    rather than recording them as broken."""
     meta_budget = [MAX_META_FETCHES_PER_RUN]
     evaluations: dict[str, dict] = {}
     errors: dict[str, dict] = {}
-    for ticker in sorted(tickers):
+    rate_limited: set[str] = set()
+    remaining_sorted = sorted(tickers)
+    for i, ticker in enumerate(remaining_sorted):
         try:
             evaluation = evaluate_ticker(ticker, start_date, prior_names, meta_budget)
+        except TiingoRateLimitError:
+            rate_limited.update(remaining_sorted[i:])
+            break
         except TiingoError as exc:
             errors[ticker] = {"fetch_error": str(exc), "setup_errors": {}}
             continue
         evaluations[ticker] = evaluation
         if evaluation["setup_errors"]:
             errors[ticker] = {"fetch_error": None, "setup_errors": evaluation["setup_errors"]}
-    return evaluations, errors
+    return evaluations, errors, rate_limited
 
 
 def build_row(entry: dict, evaluation: dict, setup_id: str) -> dict:
@@ -368,7 +416,9 @@ def run_debug_override(
         print(f"No tickers in any watchlist matched {TICKERS_OVERRIDE_ENV}={override!r}")
         return
 
-    evaluations, errors = evaluate_unique_tickers(tickers_to_evaluate, start_date, prior_names)
+    evaluations, errors, rate_limited = evaluate_unique_tickers(tickers_to_evaluate, start_date, prior_names)
+    if rate_limited:
+        print(f"Rate-limited before reaching: {', '.join(sorted(rate_limited))}")
 
     for watchlist in watchlists:
         entries = [e for e in watchlist["tickers"] if e["ticker"].upper() in wanted]
@@ -394,31 +444,42 @@ def run_scheduled_batch(watchlists: list[dict], all_tickers: set[str], start_dat
         return
 
     batch_set = set(batch)
-    evaluations, errors = evaluate_unique_tickers(batch_set, start_date, prior_names)
+    evaluations, errors, rate_limited = evaluate_unique_tickers(batch_set, start_date, prior_names)
 
     if not evaluations:
-        # Every ticker in this batch failed to even fetch - almost certainly systemic (bad
-        # API key, Tiingo outage) rather than N coincidentally-bad symbols at once. Leave the
-        # queue untouched so the exact same batch retries next run instead of "completing" by
-        # recording a wall of errors. (A ticker that fetched fine but had every setup's own
-        # evaluate/serialize fail still has an entry in `evaluations` - just an empty
-        # by_setup - so this check only fires on total fetch failure.)
-        print(f"All {len(batch)} ticker(s) in this batch failed to fetch - leaving queue untouched for retry. Errors:")
-        for ticker, err in errors.items():
-            if err.get("fetch_error"):
-                print(f"  ERROR {ticker}: {err['fetch_error']}")
+        # Every ticker in this batch failed to even fetch. If it's all rate-limiting, that's
+        # expected and self-healing - the next run gets a fresh hour's quota. If any are hard
+        # errors (bad API key, Tiingo outage) that's more concerning. Either way, leave the
+        # queue completely untouched so the exact same batch retries next run instead of
+        # "completing" by recording a wall of errors. (A ticker that fetched fine but had
+        # every setup's own evaluate/serialize fail still has an entry in `evaluations` - just
+        # an empty by_setup - so this check only fires on total fetch failure.)
+        if rate_limited:
+            print(f"{len(rate_limited)} ticker(s) rate-limited before any fetch succeeded - leaving queue untouched for retry next run.")
+        if errors:
+            print(f"{len(errors)} ticker(s) in this batch hard-failed to fetch - leaving queue untouched for retry. Errors:")
+            for ticker, err in errors.items():
+                if err.get("fetch_error"):
+                    print(f"  ERROR {ticker}: {err['fetch_error']}")
         return
 
+    if rate_limited:
+        print(f"Rate-limited partway through this batch - {len(rate_limited)} ticker(s) deferred to next run: {', '.join(sorted(rate_limited))}")
+
     for watchlist in watchlists:
-        entries = [e for e in watchlist["tickers"] if e["ticker"] in batch_set]
+        entries = [e for e in watchlist["tickers"] if e["ticker"] in batch_set and e["ticker"] not in rate_limited]
         if not entries:
             continue  # this watchlist has none of tonight's current batch
         by_setup_results, by_setup_errors = _by_setup_rows_and_errors(entries, evaluations, errors)
         merge_watchlist_results(watchlist["id"], by_setup_results, by_setup_errors)
 
-    queue["remaining"] = [t for t in queue["remaining"] if t not in batch_set]
+    queue["remaining"] = [t for t in queue["remaining"] if t not in batch_set or t in rate_limited]
     save_queue(queue)
-    print(f"Batch done: {len(batch)} ticker(s) processed, {len(queue['remaining'])} remaining tonight ({queue['night_key']}).")
+    processed = len(batch) - len(rate_limited)
+    print(
+        f"Batch done: {processed} ticker(s) processed, {len(rate_limited)} deferred (rate limit), "
+        f"{len(queue['remaining'])} remaining tonight ({queue['night_key']})."
+    )
 
 
 def main() -> None:

@@ -1,8 +1,10 @@
-"""fetch_ticker_meta's degrade-to-None paths, mocked - no real network calls."""
+"""fetch_ticker_meta's degrade-to-None paths, plus fetch_daily_prices's error-raising paths -
+mocked, no real network calls."""
 
+import pytest
 import requests
 
-from src.providers.tiingo_provider import fetch_ticker_meta
+from src.providers.tiingo_provider import TiingoError, TiingoRateLimitError, fetch_daily_prices, fetch_ticker_meta
 
 
 class _FakeResponse:
@@ -52,3 +54,18 @@ def test_successful_response_returns_dict(monkeypatch):
     )
     result = fetch_ticker_meta("AAPL", api_key="fake-key")
     assert result == {"ticker": "AAPL", "name": "Apple Inc"}
+
+
+def test_fetch_daily_prices_429_raises_rate_limit_error(monkeypatch):
+    # Distinguished from other TiingoErrors - refresh_job.py relies on this subclass to know
+    # a 429 means "retry/back off" rather than "this ticker is dead."
+    monkeypatch.setattr(requests, "get", lambda *a, **k: _FakeResponse(ok=False, status_code=429))
+    with pytest.raises(TiingoRateLimitError):
+        fetch_daily_prices("AAPL", "2024-01-01", api_key="fake-key")
+
+
+def test_fetch_daily_prices_other_bad_status_raises_plain_tiingo_error(monkeypatch):
+    monkeypatch.setattr(requests, "get", lambda *a, **k: _FakeResponse(ok=False, status_code=500))
+    with pytest.raises(TiingoError) as exc_info:
+        fetch_daily_prices("AAPL", "2024-01-01", api_key="fake-key")
+    assert not isinstance(exc_info.value, TiingoRateLimitError)

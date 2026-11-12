@@ -14,9 +14,11 @@ night-boundary reset that abandons stragglers and snapshots refresh_status.json.
 import json
 from datetime import date
 
+import pytest
+
 import scripts.refresh_job as refresh_job
 import src.watchlist_store as watchlist_store
-from src.providers.tiingo_provider import TiingoError
+from src.providers.tiingo_provider import TiingoError, TiingoRateLimitError
 
 # The one setup currently in src.setups.REGISTRY - evaluate_ticker() is mocked throughout
 # this file (the real add_indicators/evaluate/serialize math is covered by
@@ -60,11 +62,13 @@ def _fake_evaluation(ticker: str) -> dict:
     }
 
 
-def _make_fake_evaluate_ticker(fail_tickers=frozenset()):
+def _make_fake_evaluate_ticker(fail_tickers=frozenset(), rate_limited_tickers=frozenset()):
     calls = []
 
     def fake(ticker, start_date, prior_names, meta_budget):
         calls.append(ticker)
+        if ticker in rate_limited_tickers:
+            raise TiingoRateLimitError(f"{ticker}: Tiingo returned HTTP 429")
         if ticker in fail_tickers:
             raise TiingoError(f"{ticker}: boom")
         return _fake_evaluation(ticker)
@@ -171,6 +175,86 @@ def test_batch_where_every_ticker_fails_leaves_queue_untouched_for_retry(tmp_pat
 
     assert not (results_dir / "all_bad.json").exists()
     assert not (state_dir / "refresh_queue.json").exists()  # never persisted, so next run rebuilds + retries the same batch
+
+
+def test_batch_where_every_ticker_is_rate_limited_leaves_queue_untouched(tmp_path, monkeypatch):
+    # Same "leave it alone" treatment as every-ticker-hard-fails, but for the all-rate-limited
+    # case - this is the expected, self-healing shape (next hour's quota resets), not a sign
+    # of anything broken.
+    watchlists_dir = tmp_path / "watchlists"
+    results_dir = tmp_path / "results"
+    watchlists_dir.mkdir()
+
+    _write_watchlist(watchlists_dir, "all_limited.json", "All Limited", [{"ticker": "AAPL", "sector": None, "thesis": None}])
+
+    fake = _make_fake_evaluate_ticker(rate_limited_tickers={"AAPL"})
+    state_dir = tmp_path / "state"
+    _run_main(monkeypatch, watchlists_dir, results_dir, fake, state_dir=state_dir)
+
+    assert not (results_dir / "all_limited.json").exists()
+    assert not (state_dir / "refresh_queue.json").exists()
+
+
+def test_partial_rate_limit_defers_remaining_tickers_without_recording_errors(tmp_path, monkeypatch):
+    # The actual bug being fixed: a 429 partway through a batch used to let every ticker after
+    # it also 429, then write all of them up as persistent "errors" AND drop them from the
+    # queue as done. They must instead be left in the queue, untouched, for the next run - and
+    # never show up as errors at all.
+    watchlists_dir = tmp_path / "watchlists"
+    results_dir = tmp_path / "results"
+    state_dir = tmp_path / "state"
+    watchlists_dir.mkdir()
+
+    _write_watchlist(
+        watchlists_dir,
+        "list_a.json",
+        "List A",
+        [{"ticker": t, "sector": None, "thesis": None} for t in ("AAPL", "MSFT", "NVDA", "ZEBRA")],
+    )
+
+    fake = _make_fake_evaluate_ticker(rate_limited_tickers={"NVDA"})
+    _run_main(monkeypatch, watchlists_dir, results_dir, fake, state_dir=state_dir)
+
+    # Sorted order is AAPL, MSFT, NVDA, ZEBRA - the batch stops the moment NVDA 429s, so
+    # ZEBRA (sorted after it) is never even attempted.
+    assert fake.calls == ["AAPL", "MSFT", "NVDA"]
+
+    merged = json.loads((results_dir / "list_a.json").read_text())
+    assert {r["ticker"] for r in merged["setups"][SETUP_ID]["results"]} == {"AAPL", "MSFT"}
+    assert merged["setups"][SETUP_ID]["errors"] == []  # rate-limited tickers are not errors
+
+    queue = json.loads((state_dir / "refresh_queue.json").read_text())
+    assert set(queue["remaining"]) == {"NVDA", "ZEBRA"}  # deferred, not dropped as done
+
+
+def test_fetch_daily_prices_with_retry_recovers_from_transient_429(monkeypatch):
+    monkeypatch.setattr(refresh_job.time, "sleep", lambda seconds: None)
+    attempts = []
+
+    def flaky(ticker, start_date):
+        attempts.append(ticker)
+        if len(attempts) < 3:
+            raise TiingoRateLimitError(f"{ticker}: Tiingo returned HTTP 429")
+        return [{"date": "2026-11-06", "close": 100}]
+
+    monkeypatch.setattr(refresh_job, "fetch_daily_prices", flaky)
+
+    result = refresh_job.fetch_daily_prices_with_retry("AAPL", "2024-01-01")
+
+    assert len(attempts) == 3  # two 429s absorbed by backoff, third attempt succeeds
+    assert result == [{"date": "2026-11-06", "close": 100}]
+
+
+def test_fetch_daily_prices_with_retry_gives_up_after_max_retries(monkeypatch):
+    monkeypatch.setattr(refresh_job.time, "sleep", lambda seconds: None)
+
+    def always_limited(ticker, start_date):
+        raise TiingoRateLimitError(f"{ticker}: Tiingo returned HTTP 429")
+
+    monkeypatch.setattr(refresh_job, "fetch_daily_prices", always_limited)
+
+    with pytest.raises(TiingoRateLimitError):
+        refresh_job.fetch_daily_prices_with_retry("AAPL", "2024-01-01")
 
 
 def test_merge_preserves_prior_rows_and_clears_stale_error_on_success(tmp_path, monkeypatch):
