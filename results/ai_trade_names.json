@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-11T18:45+00:00",
+      "generated_at": "2026-11-12T01:35+00:00",
       "evaluated_session": "2026-11-10",
       "results": [
         {
@@ -657,15 +657,15 @@
           "thesis": "Grid management & transformers; steady institutional trend-follower",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-10",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 354.22,
-            "sma_50": 402.223130372618,
-            "sma_200": 395.26247333960896,
-            "sma_50_prev20": 425.08398305083,
+            "close": 360.62,
+            "sma_50": 401.645521580544,
+            "sma_200": 395.378837784915,
+            "sma_50_prev20": 424.38949467212404,
             "monthly_stoch_k": 54.056098042325544,
             "monthly_stoch_d": 66.98027165118201,
             "monthly_stoch_k_prev": 69.81642898207349,
@@ -681,11 +681,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 354.22,
-            "sma_50": 402.223130372618,
-            "sma_200": 395.26247333960896,
-            "ema_8": 357.66817286816087,
-            "ema_21": 375.26619005775774
+            "close": 360.62,
+            "sma_50": 401.645521580544,
+            "sma_200": 395.378837784915,
+            "ema_8": 358.32413445301404,
+            "ema_21": 373.93471823432526
           }
         },
         {
@@ -695,15 +695,15 @@
           "thesis": "Gemini expansion; liquid range-bound channel trades",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-10",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
-          "recovery_observed": false,
+          "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 287.38,
-            "sma_50": 330.706518448092,
-            "sma_200": 338.792195775636,
-            "sma_50_prev20": 345.68425039565403,
+            "close": 293.45,
+            "sma_50": 329.879470898782,
+            "sma_200": 338.58993840807204,
+            "sma_50_prev20": 345.0889566788721,
             "monthly_stoch_k": 59.49800505071996,
             "monthly_stoch_d": 69.91133000976622,
             "monthly_stoch_k_prev": 73.54345024958262,
@@ -719,11 +719,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 287.38,
-            "sma_50": 330.706518448092,
-            "sma_200": 338.792195775636,
-            "ema_8": 289.70839250404094,
-            "ema_21": 306.24173617328427
+            "close": 293.45,
+            "sma_50": 329.879470898782,
+            "sma_200": 338.58993840807204,
+            "ema_8": 290.5398608364763,
+            "ema_21": 305.07885106662206
           }
         },
         {
@@ -733,15 +733,15 @@
           "thesis": "Process control & inspection; institutional favorite for MA retests",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-10",
+          "evaluated_session": "2026-11-11",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 152.99,
-            "sma_50": 173.90359999999998,
-            "sma_200": 181.6463092949205,
-            "sma_50_prev20": 188.11433495801,
+            "close": 161.01,
+            "sma_50": 173.706,
+            "sma_200": 181.646192910895,
+            "sma_50_prev20": 187.78589958736,
             "monthly_stoch_k": 41.6134964742001,
             "monthly_stoch_d": 49.78635872834025,
             "monthly_stoch_k_prev": 45.93395437138168,
@@ -757,11 +757,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 152.99,
-            "sma_50": 173.90359999999998,
-            "sma_200": 181.6463092949205,
-            "ema_8": 149.44169123018452,
-            "ema_21": 158.1399116137235
+            "close": 161.01,
+            "sma_50": 173.706,
+            "sma_200": 181.646192910895,
+            "ema_8": 152.01242651236572,
+            "ema_21": 158.40082873974862
           }
         },
         {
