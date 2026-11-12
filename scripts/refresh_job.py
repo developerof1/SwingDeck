@@ -140,6 +140,10 @@ def load_queue() -> dict | None:
 
 
 def save_queue(queue: dict) -> None:
+    """Stamps last_batch_at on every save - this is app.py's sole signal (via the Streamlit
+    catch-up dispatcher) for how long it's been since the queue last moved, so it must be set
+    here rather than by each call site."""
+    queue["last_batch_at"] = datetime.now(timezone.utc).isoformat(timespec="minutes")
     os.makedirs(STATE_DIR, exist_ok=True)
     with open(queue_path(), "w") as f:
         json.dump(queue, f, indent=2)

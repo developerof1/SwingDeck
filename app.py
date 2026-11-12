@@ -11,33 +11,89 @@ of the selected watchlist's results via its own reason_for().
 
 import json
 import os
-from datetime import date, datetime, timedelta
-from zoneinfo import ZoneInfo
+from datetime import datetime, timezone
 
 import pandas as pd
+import requests
 import streamlit as st
 
 from src.setups import list_setups
 from src.setups.base import Setup
 from src.status_mapping import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED, GROUP_UNKNOWN
-from src.watchlist_store import discover_watchlists
+from src.watchlist_store import discover_watchlists, load_watchlist
 
 REPO_ROOT = os.path.dirname(__file__)
 RESULTS_DIR = os.path.join(REPO_ROOT, "results")
 STATE_DIR = os.path.join(REPO_ROOT, "state")
+
+GITHUB_REPO = "developerof1/SwingDeck"
+REFRESH_WORKFLOW_FILE = "refresh_data.yml"
+# A bit over an hour: long enough that a normally-firing hourly cron always beats us to it,
+# short enough to backfill a missed firing within about one cycle. Must stay comfortably
+# above 1h - firing a catch-up inside the same rolling hour as the last batch risks adding a
+# second batch on top of a Tiingo quota the first batch may have already spent (see
+# scripts/refresh_job.py's rate-limit handling).
+CATCHUP_COOLDOWN_SECONDS = 70 * 60
 
 
 def results_path(watchlist_id: str) -> str:
     return os.path.join(RESULTS_DIR, f"{watchlist_id}.json")
 
 
-def status_path() -> str:
-    return os.path.join(STATE_DIR, "refresh_status.json")
+def load_queue() -> dict | None:
+    # queue_path() is defined further down, alongside load_queue_remaining() - fine to
+    # reference here since both run well before main() ever calls this at the bottom of the
+    # module.
+    try:
+        with open(queue_path()) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
 
-# America/Chicago correctly resolves to CST or CDT depending on the date
-# (zoneinfo applies US DST rules automatically) - refresh_job.py stores
-# generated_at in UTC; this is purely a display-time conversion.
-DISPLAY_TZ = ZoneInfo("America/Chicago")
+
+@st.cache_resource(ttl=CATCHUP_COOLDOWN_SECONDS)
+def maybe_trigger_catchup_refresh() -> None:
+    """Best-effort backstop for GitHub's unreliable `schedule:` trigger (hourly firings have
+    been observed landing 4-12h apart). Purely complementary to the real cron: only fires a
+    `workflow_dispatch` when the queue still has work left AND the last batch landed longer
+    ago than CATCHUP_COOLDOWN_SECONDS, so it can only ever drain backlog, never pile a second
+    batch on top of a healthy queue or a quota the last batch may have already spent.
+
+    @st.cache_resource(ttl=...) is the dedup mechanism: every viewer's page load calls this,
+    but Streamlit only actually executes the body once per cooldown window across the whole
+    app instance - everyone else in that window gets the cached (no-op) return. This needs no
+    extra state file of its own; the committed queue's last_batch_at is the real clock, this
+    cache just prevents a burst of redundant API calls before that commit lands.
+
+    The workflow's own `concurrency: group: refresh-queue, cancel-in-progress: false` means a
+    dispatch landing while a cron-triggered run is still in flight just queues behind it rather
+    than racing it, so there's no need to guard against that case here too.
+    """
+    token = st.secrets.get("GITHUB_DISPATCH_TOKEN")
+    if not token:
+        return  # not configured yet - silently a no-op, never a user-facing error
+
+    queue = load_queue()
+    if not queue or not queue.get("remaining"):
+        return  # nothing pending - today's queue is already caught up
+
+    last_batch_at = queue.get("last_batch_at")
+    if not last_batch_at:
+        return
+    elapsed = (datetime.now(timezone.utc) - datetime.fromisoformat(last_batch_at)).total_seconds()
+    if elapsed < CATCHUP_COOLDOWN_SECONDS:
+        return  # still within a normal cron cadence - let the real cron do its job
+
+    try:
+        requests.post(
+            f"https://api.github.com/repos/{GITHUB_REPO}/actions/workflows/{REFRESH_WORKFLOW_FILE}/dispatches",
+            headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
+            json={"ref": "main", "inputs": {"tickers": ""}},
+            timeout=5,
+        )
+    except requests.RequestException:
+        pass  # best-effort backstop - a failed dispatch just means we try again next cooldown window
+
 
 DOT_GREEN, DOT_AMBER, DOT_NEUTRAL = "\U0001f7e2", "\U0001f7e1", "⚪"
 GROUP_DOT = {GROUP_QUALIFIED: DOT_GREEN, GROUP_DEVELOPING: DOT_AMBER, GROUP_OTHER: DOT_NEUTRAL, GROUP_UNKNOWN: DOT_NEUTRAL}
@@ -292,71 +348,36 @@ def load_results(path: str) -> dict:
         return json.load(f)
 
 
-def _parse_generated_at(raw: str | None) -> datetime | None:
-    """generated_at may be a bare date (old pre-timestamp schema)
-    or a full ISO timestamp (current schema) - accept either."""
-    if not raw:
-        return None
-    try:
-        return datetime.fromisoformat(raw)
-    except ValueError:
-        pass
-    try:
-        return datetime.combine(date.fromisoformat(raw), datetime.min.time())
-    except ValueError:
-        return None
+def queue_path() -> str:
+    return os.path.join(STATE_DIR, "refresh_queue.json")
 
 
-def staleness_banner(generated_at: str | None) -> None:
-    """Demoted operational safety net (not part of either new spec doc, not
-    forbidden by them either) - the only signal that the nightly GitHub Actions
-    refresh might be failing, for a single-user app with no other monitoring.
-    Counts only weekdays so a Monday check doesn't false-flag the Fri->Mon gap.
-    Only genuinely concerning staleness (refresh missed outright) interrupts with
-    a banner; "today's refresh just hasn't landed yet" is normal every morning
-    and belongs in the EOD line's own context, not a second competing line."""
-    dt = _parse_generated_at(generated_at)
-    if dt is None:
-        return
-
-    generated = dt.date()
-    today = date.today()
-    missed_trading_days = len(pd.bdate_range(generated + timedelta(days=1), today)) if generated < today else 0
-    if missed_trading_days >= 2:
-        st.warning(
-            f"Refresh is {missed_trading_days} trading day(s) behind (last: {generated.isoformat()}) - "
-            "check the GitHub Actions tab."
-        )
-
-
-def load_refresh_status() -> dict | None:
+def load_queue_remaining() -> set[str]:
     # Deliberately uncached for the same reason as load_results - small file, only
     # changes via git push + redeploy, re-reading costs nothing.
     try:
-        with open(status_path()) as f:
-            return json.load(f)
+        with open(queue_path()) as f:
+            return set(json.load(f).get("remaining", []))
     except (FileNotFoundError, json.JSONDecodeError):
-        return None
+        return set()
 
 
-def refresh_health_banner(status: dict | None) -> None:
-    """Complements staleness_banner rather than replacing it: staleness_banner catches
-    "nothing has run in days" (the workflow stopped firing), while this catches "it ran
-    last night but didn't finish" - refresh_job.py now drains a queue across several hourly
-    firings, so a per-watchlist timestamp alone no longer says whether *everything* got
-    refreshed. This is a verdict on the most recently *finished* night (see
-    scripts/refresh_job.py's finalize_night), not a live in-progress counter, so it doesn't
-    read as alarming while tonight's queue is still legitimately mid-drain."""
-    if status is None:
-        return
-    total, completed = status.get("total", 0), status.get("completed", 0)
-    if status.get("status") == "complete":
-        st.caption(f"Last night's refresh completed ({completed}/{total} tickers).")
+def render_pending_banner(watchlist_tickers: set[str], setups_doc: dict) -> None:
+    """Single status line replacing the old EOD-session label plus the three separate
+    staleness/incomplete-refresh/off-session banners - refresh_job.py drains one shared
+    queue across many hourly firings now, so there's no single "as of" date for a whole
+    watchlist anymore, just a count of what hasn't caught up yet. A ticker counts as
+    pending if it's still sitting in tonight's queue (state/refresh_queue.json, not yet
+    attempted) or if its last attempt errored (any registered setup's own "errors" list,
+    e.g. a Tiingo rate limit) - either way the row on screen isn't this cycle's data."""
+    not_yet_reached = watchlist_tickers & load_queue_remaining()
+    still_erroring = {e["ticker"] for doc in setups_doc.values() for e in doc.get("errors", [])}
+    pending = (not_yet_reached | still_erroring) & watchlist_tickers
+    total = len(watchlist_tickers)
+    if pending:
+        st.info(f"{len(pending)} of {total} ticker(s) pending refresh today.")
     else:
-        st.warning(
-            f"Last night's refresh was incomplete - {completed}/{total} ticker(s) updated before it was abandoned. "
-            "Check the Actions tab."
-        )
+        st.caption(f"All {total} ticker(s) refreshed today.")
 
 
 def render_header() -> None:
@@ -374,18 +395,6 @@ def open_settings_dialog() -> None:
     if st.button("Log out"):
         st.session_state["authenticated"] = False
         st.rerun()
-
-
-def _format_session_date(session: str | None) -> str:
-    """Formats an evaluated_session ISO date ("2026-11-03") the same human style
-    as the refresh timestamp ("Nov 03, 2026"), so the two halves of the EOD line
-    don't mix a raw-ISO date with a human-formatted one."""
-    if not session:
-        return "unavailable"
-    try:
-        return date.fromisoformat(session).strftime("%b %d, %Y")
-    except ValueError:
-        return session
 
 
 def _bucket_by_group(results: list[dict]) -> dict[str, list[dict]]:
@@ -456,20 +465,6 @@ def render_setup_accordion(setup: Setup, setup_data: dict, watchlist_id: str) ->
     if not is_open:
         return
 
-    staleness_banner(setup_data.get("generated_at"))
-    render_session_line(setup_data.get("evaluated_session"), setup_data.get("generated_at"))
-
-    if errors:
-        st.warning(f"Couldn't fetch data for {len(errors)} ticker(s) this run - see details below.")
-
-    evaluated_session = setup_data.get("evaluated_session")
-    off_session = [
-        r for r in results if evaluated_session and r.get("evaluated_session") and r["evaluated_session"] != evaluated_session
-    ]
-    if off_session:
-        tickers = ", ".join(r["ticker"] for r in off_session)
-        st.info(f"{len(off_session)} ticker(s) evaluated on a different session than {evaluated_session}: {tickers}")
-
     render_section("Qualified", qualified_rows, "No qualified stocks in this scan.", setup)
     render_section("Developing", developing_rows, "No developing stocks in this scan.", setup, spaced=True)
 
@@ -525,25 +520,6 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
             st.markdown(f'<div class="sd-watchlist-source">source: {selected}.json</div>', unsafe_allow_html=True)
 
     return selected
-
-
-def render_session_line(evaluated_session: str | None, generated_at: str | None) -> None:
-    session_text = _format_session_date(evaluated_session)
-    dt = _parse_generated_at(generated_at)
-    if dt:
-        # Only tz-aware datetimes (current schema: a full UTC timestamp) can
-        # be converted - the legacy bare-date fallback parses to a naive
-        # datetime with no real time-of-day, so it's shown as-is rather than
-        # mislabeled with a timezone it was never actually recorded in.
-        local_dt = dt.astimezone(DISPLAY_TZ) if dt.tzinfo else dt
-        tz_label = local_dt.tzname() if dt.tzinfo else ""
-        refreshed_text = f"{local_dt.strftime('%b %d, %Y, %I:%M %p')} {tz_label}".strip()
-    else:
-        refreshed_text = "unknown"
-    # Shown inline, matching the approved mockup - EOD date is the prominent half,
-    # refresh time is secondary (smaller/muted via st.caption) but still visible
-    # on the same line rather than hidden behind an interaction.
-    st.caption(f"EOD data: {session_text}  ·  Refreshed: {refreshed_text}")
 
 
 #  Plain `class="sd-row-reason"` text was rendering link-blue despite the
@@ -609,7 +585,7 @@ def main() -> None:
     st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
     render_header()
-    refresh_health_banner(load_refresh_status())
+    maybe_trigger_catchup_refresh()
 
     watchlists = discover_watchlists()
     if not watchlists:
@@ -628,6 +604,9 @@ def main() -> None:
     if not setups_doc:
         st.info("No data yet - waiting for the first scheduled refresh to run.")
         return
+
+    watchlist_tickers = {e["ticker"] for e in load_watchlist(selected_watchlist_id).get("tickers", [])}
+    render_pending_banner(watchlist_tickers, setups_doc)
 
     st.divider()
     for setup in list_setups():
