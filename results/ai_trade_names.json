@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-13T16:34+00:00",
+      "generated_at": "2026-11-13T20:11+00:00",
       "evaluated_session": "2026-11-12",
       "results": [
         {
@@ -11,15 +11,15 @@
           "thesis": "Custom silicon growth; clean trendline support bounces",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 345.22,
-            "sma_50": 345.490436861086,
-            "sma_200": 366.22275031557996,
-            "sma_50_prev20": 368.610797742978,
+            "close": 364.36,
+            "sma_50": 345.44597748479595,
+            "sma_200": 366.3874235772344,
+            "sma_50_prev20": 367.14676468580996,
             "monthly_stoch_k": 33.502071470502,
             "monthly_stoch_d": 45.236723378206015,
             "monthly_stoch_k_prev": 46.514521480022324,
@@ -35,11 +35,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 345.22,
-            "sma_50": 345.490436861086,
-            "sma_200": 366.22275031557996,
-            "ema_8": 325.84990657065606,
-            "ema_21": 331.277940618253
+            "close": 364.36,
+            "sma_50": 345.44597748479595,
+            "sma_200": 366.3874235772344,
+            "ema_8": 334.4077051105103,
+            "ema_21": 334.2854005620482
           }
         },
         {
@@ -49,15 +49,15 @@
           "thesis": "Cloud networking leader; clean 20-day and 50-day EMA support bounces",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 196.68,
-            "sma_50": 192.39860000000002,
-            "sma_200": 166.8184,
-            "sma_50_prev20": 198.9652,
+            "close": 206.63,
+            "sma_50": 192.80920000000003,
+            "sma_200": 167.10080000000002,
+            "sma_50_prev20": 198.7306,
             "monthly_stoch_k": 75.08321974564292,
             "monthly_stoch_d": 83.66540784495697,
             "monthly_stoch_k_prev": 87.78457856077739,
@@ -73,11 +73,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 196.68,
-            "sma_50": 192.39860000000002,
-            "sma_200": 166.8184,
-            "ema_8": 181.59235022827357,
-            "ema_21": 182.68643266861127
+            "close": 206.63,
+            "sma_50": 192.80920000000003,
+            "sma_200": 167.10080000000002,
+            "ema_8": 187.15627239976834,
+            "ema_21": 184.86312060782842
           }
         },
         {
@@ -87,15 +87,15 @@
           "thesis": "High-beta IP licensor; rapid momentum expansion setups off oversold RSI",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 203.36,
-            "sma_50": 249.8866,
-            "sma_200": 231.959725,
-            "sma_50_prev20": 269.6508,
+            "close": 199.78,
+            "sma_50": 249.185,
+            "sma_200": 232.40882500000004,
+            "sma_50_prev20": 269.055,
             "monthly_stoch_k": 41.348153188915354,
             "monthly_stoch_d": 45.51781281110985,
             "monthly_stoch_k_prev": 44.53517825413028,
@@ -111,11 +111,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 203.36,
-            "sma_50": 249.8866,
-            "sma_200": 231.959725,
-            "ema_8": 192.99172633170764,
-            "ema_21": 212.11393312324714
+            "close": 199.78,
+            "sma_50": 249.185,
+            "sma_200": 232.40882500000004,
+            "ema_8": 194.50023159132814,
+            "ema_21": 210.99266647567921
           }
         },
         {
@@ -125,15 +125,15 @@
           "thesis": "Lithography monopoly; sharp mean-reversion moves off key Fib levels",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 1534.42,
-            "sma_50": 1665.5560284117219,
-            "sma_200": 1597.3827567307994,
-            "sma_50_prev20": 1739.074345240772,
+            "close": 1497.12,
+            "sma_50": 1661.8954873149921,
+            "sma_200": 1597.7975807367943,
+            "sma_50_prev20": 1738.6592771102419,
             "monthly_stoch_k": 76.56035635612862,
             "monthly_stoch_d": 79.25021852830643,
             "monthly_stoch_k_prev": 78.37955433329273,
@@ -149,11 +149,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 1534.42,
-            "sma_50": 1665.5560284117219,
-            "sma_200": 1597.3827567307994,
-            "ema_8": 1511.4713557350346,
-            "ema_21": 1570.6715450668332
+            "close": 1497.12,
+            "sma_50": 1661.8954873149921,
+            "sma_200": 1597.7975807367943,
+            "ema_8": 1508.2821655716934,
+            "ema_21": 1563.9850409698483
           }
         },
         {
@@ -163,15 +163,15 @@
           "thesis": "AWS re-acceleration; tight technical consolidation patterns",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 266.17,
-            "sma_50": 254.40720000000002,
-            "sma_200": 244.34870000000004,
-            "sma_50_prev20": 257.87899999999996,
+            "close": 267.44,
+            "sma_50": 254.6564,
+            "sma_200": 244.47084999999998,
+            "sma_50_prev20": 257.52119999999996,
             "monthly_stoch_k": 58.9437134502924,
             "monthly_stoch_d": 68.39786100104187,
             "monthly_stoch_k_prev": 73.24909900720793,
@@ -187,11 +187,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 266.17,
-            "sma_50": 254.40720000000002,
-            "sma_200": 244.34870000000004,
-            "ema_8": 262.03295653798006,
-            "ema_21": 257.5314506331804
+            "close": 267.44,
+            "sma_50": 254.6564,
+            "sma_200": 244.47084999999998,
+            "ema_8": 263.23452175176226,
+            "ema_21": 258.4322278483458
           }
         },
         {
@@ -201,15 +201,15 @@
           "thesis": "High-volatility international cloud/AI swing trade",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 101.52,
-            "sma_50": 107.5702,
-            "sma_200": 123.008398813084,
-            "sma_50_prev20": 115.36919999999998,
+            "close": 94.36,
+            "sma_50": 107.2212,
+            "sma_200": 122.610006910499,
+            "sma_50_prev20": 115.0212,
             "monthly_stoch_k": 14.704888394456942,
             "monthly_stoch_d": 18.84593955359578,
             "monthly_stoch_k_prev": 22.864534235158345,
@@ -225,11 +225,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 101.52,
-            "sma_50": 107.5702,
-            "sma_200": 123.008398813084,
-            "ema_8": 103.73973587916836,
-            "ema_21": 104.54492475405199
+            "close": 94.36,
+            "sma_50": 107.2212,
+            "sma_200": 122.610006910499,
+            "ema_8": 101.65535012824206,
+            "ema_21": 103.61902250368362
           }
         },
         {
@@ -239,15 +239,15 @@
           "thesis": "High beta runner; large weekly price swings",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 552.9,
-            "sma_50": 550.4293,
-            "sma_200": 420.045725,
-            "sma_50_prev20": 534.7451,
+            "close": 585.3,
+            "sma_50": 552.9941,
+            "sma_200": 421.708525,
+            "sma_50_prev20": 536.3487,
             "monthly_stoch_k": 79.66307395534119,
             "monthly_stoch_d": 81.80786557582697,
             "monthly_stoch_k_prev": 82.08370426076333,
@@ -263,11 +263,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 552.9,
-            "sma_50": 550.4293,
-            "sma_200": 420.045725,
-            "ema_8": 505.5335291416586,
-            "ema_21": 521.0974482439293
+            "close": 585.3,
+            "sma_50": 552.9941,
+            "sma_200": 421.708525,
+            "ema_8": 523.2594115546234,
+            "ema_21": 526.9340438581175
           }
         },
         {
@@ -353,15 +353,15 @@
           "thesis": "Deposition/etching leader; strong trendline bounces on high volume",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 395.08,
-            "sma_50": 440.36729999999994,
-            "sma_200": 445.624527380486,
-            "sma_50_prev20": 486.537168703948,
+            "close": 380.95,
+            "sma_50": 439.2171,
+            "sma_200": 445.8514940485384,
+            "sma_50_prev20": 484.463968921366,
             "monthly_stoch_k": 51.20417821784522,
             "monthly_stoch_d": 59.654192729942814,
             "monthly_stoch_k_prev": 57.869793438125804,
@@ -377,11 +377,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 395.08,
-            "sma_50": 440.36729999999994,
-            "sma_200": 445.624527380486,
-            "ema_8": 373.51163053038914,
-            "ema_21": 395.49304370300604
+            "close": 380.95,
+            "sma_50": 439.2171,
+            "sma_200": 445.8514940485384,
+            "ema_8": 375.164601523636,
+            "ema_21": 394.1709488209146
           }
         },
         {
@@ -391,15 +391,15 @@
           "thesis": "Hybrid bonding for 3D packaging; high-amplitude momentum setup",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 176.46,
-            "sma_50": 196.79080000000002,
-            "sma_200": 245.2609389402035,
-            "sma_50_prev20": 226.7257,
+            "close": 173.44,
+            "sma_50": 195.80440000000002,
+            "sma_200": 245.118949473265,
+            "sma_50_prev20": 225.4727,
             "monthly_stoch_k": 32.96404611274527,
             "monthly_stoch_d": 43.41472336903529,
             "monthly_stoch_k_prev": 40.96885279876472,
@@ -415,11 +415,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 176.46,
-            "sma_50": 196.79080000000002,
-            "sma_200": 245.2609389402035,
-            "ema_8": 169.85944614579233,
-            "ema_21": 176.69472627456935
+            "close": 173.44,
+            "sma_50": 195.80440000000002,
+            "sma_200": 245.118949473265,
+            "ema_8": 170.6551247800607,
+            "ema_21": 176.39884206779033
           }
         },
         {
@@ -505,15 +505,15 @@
           "thesis": "Optical inspection for HBM; rapid percentage swings on volume",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 107.05,
-            "sma_50": 135.081,
-            "sma_200": 155.85434999999998,
-            "sma_50_prev20": 148.9771,
+            "close": 105.42,
+            "sma_50": 134.5512,
+            "sma_200": 155.6306,
+            "sma_50_prev20": 148.6527,
             "monthly_stoch_k": 42.470051340559046,
             "monthly_stoch_d": 46.89666402009711,
             "monthly_stoch_k_prev": 47.646514273643966,
@@ -529,11 +529,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 107.05,
-            "sma_50": 135.081,
-            "sma_200": 155.85434999999998,
-            "ema_8": 106.07961802238138,
-            "ema_21": 116.92172581087902
+            "close": 105.42,
+            "sma_50": 134.5512,
+            "sma_200": 155.6306,
+            "ema_8": 105.93303623962996,
+            "ema_21": 115.87611437352638
           }
         },
         {
@@ -581,21 +581,21 @@
           "thesis": "Largest US nuclear operator; reacts sharply to data center power deals",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 274.73,
-            "sma_50": 269.7565,
-            "sma_200": 277.92596300065446,
-            "sma_50_prev20": 275.207491219296,
+            "close": 282.4,
+            "sma_50": 269.6037,
+            "sma_200": 277.904693993708,
+            "sma_50_prev20": 275.41355302883204,
             "monthly_stoch_k": 19.471054420499883,
             "monthly_stoch_d": 19.087041245941823,
             "monthly_stoch_k_prev": 19.46202890795754,
             "weekly_stoch_k": 19.330396206833388,
             "weekly_stoch_k_prev": 25.109487366644867,
-            "close_gt_sma200": false,
+            "close_gt_sma200": true,
             "sma50_gt_sma200": false,
             "sma50_rising": false,
             "monthly_pass": true,
@@ -605,11 +605,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 274.73,
-            "sma_50": 269.7565,
-            "sma_200": 277.92596300065446,
-            "ema_8": 263.47560239496283,
-            "ema_21": 263.6080703791378
+            "close": 282.4,
+            "sma_50": 269.6037,
+            "sma_200": 277.904693993708,
+            "ema_8": 267.6810240849711,
+            "ema_21": 265.316427617398
           }
         },
         {
@@ -619,15 +619,15 @@
           "thesis": "EDA software monopoly; predictable mean-inversion",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 329.26,
-            "sma_50": 319.9342,
-            "sma_200": 327.92235,
-            "sma_50_prev20": 320.414,
+            "close": 333.32,
+            "sma_50": 320.4672,
+            "sma_200": 327.98650000000004,
+            "sma_50_prev20": 320.1602,
             "monthly_stoch_k": 45.17055235447345,
             "monthly_stoch_d": 50.17932555690526,
             "monthly_stoch_k_prev": 47.7970997546679,
@@ -635,7 +635,7 @@
             "weekly_stoch_k_prev": 49.986653398481245,
             "close_gt_sma200": true,
             "sma50_gt_sma200": false,
-            "sma50_rising": false,
+            "sma50_rising": true,
             "monthly_pass": false,
             "weekly_pass": true
           },
@@ -643,11 +643,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 329.26,
-            "sma_50": 319.9342,
-            "sma_200": 327.92235,
-            "ema_8": 328.34591121676726,
-            "ema_21": 328.29179650783874
+            "close": 333.32,
+            "sma_50": 320.4672,
+            "sma_200": 327.98650000000004,
+            "ema_8": 329.45126427970786,
+            "ema_21": 328.74890591621704
           }
         },
         {
