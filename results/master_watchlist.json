@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-12T14:51+00:00",
+      "generated_at": "2026-11-13T00:35+00:00",
       "evaluated_session": "2026-11-11",
       "results": [
         {
@@ -4879,15 +4879,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 111.49,
-            "sma_50": 104.363208016758,
-            "sma_200": 120.706847872875,
-            "sma_50_prev20": 106.29175130915401,
+            "close": 110.53,
+            "sma_50": 104.36761529086999,
+            "sma_200": 120.4486079305475,
+            "sma_50_prev20": 106.15153763687,
             "monthly_stoch_k": 9.00159125983331,
             "monthly_stoch_d": 7.51150222713187,
             "monthly_stoch_k_prev": 5.017656851526609,
@@ -4903,11 +4903,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 111.49,
-            "sma_50": 104.363208016758,
-            "sma_200": 120.706847872875,
-            "ema_8": 109.34406337085383,
-            "ema_21": 107.83047506086601
+            "close": 110.53,
+            "sma_50": 104.36761529086999,
+            "sma_200": 120.4486079305475,
+            "ema_8": 109.60760484399742,
+            "ema_21": 108.07588641896909
           }
         },
         {
@@ -4917,15 +4917,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 1.65,
-            "sma_50": 2.444,
-            "sma_200": 3.7905,
-            "sma_50_prev20": 2.8912,
+            "close": 1.63,
+            "sma_50": 2.4164000000000003,
+            "sma_200": 3.7686,
+            "sma_50_prev20": 2.8741999999999996,
             "monthly_stoch_k": 3.424973695821878,
             "monthly_stoch_d": 6.082996752989626,
             "monthly_stoch_k_prev": 4.886128364389234,
@@ -4941,11 +4941,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 1.65,
-            "sma_50": 2.444,
-            "sma_200": 3.7905,
-            "ema_8": 1.8902940543209559,
-            "ema_21": 2.053094912192472
+            "close": 1.63,
+            "sma_50": 2.4164000000000003,
+            "sma_200": 3.7686,
+            "ema_8": 1.8324509311385213,
+            "ema_21": 2.0146317383567927
           }
         },
         {
@@ -4955,15 +4955,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 41.63,
-            "sma_50": 41.916545176412,
-            "sma_200": 36.604067447994005,
-            "sma_50_prev20": 40.527219393037996,
+            "close": 41.78,
+            "sma_50": 41.907533678755996,
+            "sma_200": 36.658675600116,
+            "sma_50_prev20": 40.6499845053,
             "monthly_stoch_k": 76.3565822162625,
             "monthly_stoch_d": 82.32646906802745,
             "monthly_stoch_k_prev": 81.61980603661202,
@@ -4979,11 +4979,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 41.63,
-            "sma_50": 41.916545176412,
-            "sma_200": 36.604067447994005,
-            "ema_8": 40.54083203888874,
-            "ema_21": 41.43741210607237
+            "close": 41.78,
+            "sma_50": 41.907533678755996,
+            "sma_200": 36.658675600116,
+            "ema_8": 40.816202696913464,
+            "ema_21": 41.46855646006579
           }
         },
         {
@@ -4993,15 +4993,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": true,
           "developing_badges": [],
           "trend_detail": {
-            "close": 40.66,
-            "sma_50": 45.9424,
-            "sma_200": 56.60724999999999,
-            "sma_50_prev20": 49.5154,
+            "close": 42.96,
+            "sma_50": 45.7388,
+            "sma_200": 56.36175,
+            "sma_50_prev20": 49.391400000000004,
             "monthly_stoch_k": 13.722124208400366,
             "monthly_stoch_d": 22.801958782090438,
             "monthly_stoch_k_prev": 21.257388412894205,
@@ -5017,11 +5017,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 40.66,
-            "sma_50": 45.9424,
-            "sma_200": 56.60724999999999,
-            "ema_8": 41.22721325117,
-            "ema_21": 43.06817752255284
+            "close": 42.96,
+            "sma_50": 45.7388,
+            "sma_200": 56.36175,
+            "ema_8": 41.612276973132225,
+            "ema_21": 43.05834320232076
           }
         },
         {
@@ -5031,15 +5031,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 64.54,
-            "sma_50": 69.9957,
-            "sma_200": 80.712625,
-            "sma_50_prev20": 75.1867,
+            "close": 62.69,
+            "sma_50": 69.5949,
+            "sma_200": 80.602875,
+            "sma_50_prev20": 75.1549,
             "monthly_stoch_k": 10.522573563475216,
             "monthly_stoch_d": 11.70631645444091,
             "monthly_stoch_k_prev": 13.372846459378698,
@@ -5055,11 +5055,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 64.54,
-            "sma_50": 69.9957,
-            "sma_200": 80.712625,
-            "ema_8": 64.10011283113512,
-            "ema_21": 65.46220930844297
+            "close": 62.69,
+            "sma_50": 69.5949,
+            "sma_200": 80.602875,
+            "ema_8": 63.786754424216205,
+            "ema_21": 65.2101902804027
           }
         },
         {
@@ -5069,15 +5069,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 41.09,
-            "sma_50": 40.3268,
-            "sma_200": 42.6824798066005,
-            "sma_50_prev20": 42.862294020338,
+            "close": 40.65,
+            "sma_50": 40.20439999999999,
+            "sma_200": 42.597853782659996,
+            "sma_50_prev20": 42.76744110443199,
             "monthly_stoch_k": 22.740965939535254,
             "monthly_stoch_d": 26.264291358208563,
             "monthly_stoch_k_prev": 25.183681339805066,
@@ -5093,11 +5093,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 41.09,
-            "sma_50": 40.3268,
-            "sma_200": 42.6824798066005,
-            "ema_8": 40.65119285273985,
-            "ema_21": 40.066722101829974
+            "close": 40.65,
+            "sma_50": 40.20439999999999,
+            "sma_200": 42.597853782659996,
+            "ema_8": 40.650927774353214,
+            "ema_21": 40.11974736529997
           }
         },
         {
@@ -5107,15 +5107,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 12.14,
-            "sma_50": 11.6024,
-            "sma_200": 14.6457,
-            "sma_50_prev20": 11.953399999999998,
+            "close": 11.69,
+            "sma_50": 11.596000000000002,
+            "sma_200": 14.6184,
+            "sma_50_prev20": 11.9264,
             "monthly_stoch_k": 2.0485477336097477,
             "monthly_stoch_d": 3.569618633300507,
             "monthly_stoch_k_prev": 4.537608779788704,
@@ -5131,11 +5131,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 12.14,
-            "sma_50": 11.6024,
-            "sma_200": 14.6457,
-            "ema_8": 12.015138990295167,
-            "ema_21": 11.713261322093816
+            "close": 11.69,
+            "sma_50": 11.596000000000002,
+            "sma_200": 14.6184,
+            "ema_8": 11.942885881340684,
+            "ema_21": 11.711146656448923
           }
         },
         {
@@ -5145,15 +5145,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 38.32,
-            "sma_50": 36.9106,
-            "sma_200": 44.4148325692265,
-            "sma_50_prev20": 37.58551071892,
+            "close": 37.76,
+            "sma_50": 36.900999999999996,
+            "sma_200": 44.300505235081,
+            "sma_50_prev20": 37.488344977938,
             "monthly_stoch_k": 6.18932230838104,
             "monthly_stoch_d": 3.9308184040558563,
             "monthly_stoch_k_prev": 2.438360329236358,
@@ -5169,11 +5169,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 38.32,
-            "sma_50": 36.9106,
-            "sma_200": 44.4148325692265,
-            "ema_8": 38.82725208093855,
-            "ema_21": 38.154652196117496
+            "close": 37.76,
+            "sma_50": 36.900999999999996,
+            "sma_200": 44.300505235081,
+            "ema_8": 38.59008495184109,
+            "ema_21": 38.11877472374317
           }
         },
         {
@@ -5183,15 +5183,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 102.76,
-            "sma_50": 133.6856,
-            "sma_200": 113.95935000000001,
-            "sma_50_prev20": 133.7312,
+            "close": 100.66,
+            "sma_50": 132.9644,
+            "sma_200": 113.81455,
+            "sma_50_prev20": 134.3582,
             "monthly_stoch_k": 39.59790042771098,
             "monthly_stoch_d": 36.4114678104198,
             "monthly_stoch_k_prev": 40.259511744930904,
@@ -5207,11 +5207,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 102.76,
-            "sma_50": 133.6856,
-            "sma_200": 113.95935000000001,
-            "ema_8": 107.1643185961889,
-            "ema_21": 120.54391302956697
+            "close": 100.66,
+            "sma_50": 132.9644,
+            "sma_200": 113.81455,
+            "ema_8": 105.71891446370249,
+            "ema_21": 118.7362845723336
           }
         },
         {
@@ -5221,24 +5221,24 @@
           "thesis": null,
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [
             {
               "code": "OSCILLATOR_PENDING",
-              "measured": 71.80151532995721,
+              "measured": 53.19357751344558,
               "threshold": 30,
-              "direction": "drifting_away",
+              "direction": "closing_in",
               "in_zone": false,
               "ema_label": null
             }
           ],
           "trend_detail": {
-            "close": 108.86,
-            "sma_50": 102.67245301204801,
-            "sma_200": 101.64661801414701,
-            "sma_50_prev20": 102.51729518072199,
+            "close": 107.19,
+            "sma_50": 102.656787951808,
+            "sma_200": 101.7030076770765,
+            "sma_50_prev20": 102.37837228915599,
             "monthly_stoch_k": 37.02751147651684,
             "monthly_stoch_d": 37.27286454655604,
             "monthly_stoch_k_prev": 33.63881513369011,
@@ -5251,18 +5251,18 @@
             "weekly_pass": true
           },
           "location_detail": {
-            "dpct": 0.4628038194642665,
-            "dpct_prev": 1.1407415358561837,
-            "ema_ref": 109.36615072274591,
-            "ema_ref_is_ema8": true,
+            "dpct": 0.1782636158554303,
+            "dpct_prev": 0.4628038194642665,
+            "ema_ref": 107.3814220056242,
+            "ema_ref_is_ema8": false,
             "pass_today": true,
             "pass": true,
             "sessions_ago": 0
           },
           "oscillator_detail": {
-            "stoch_k": 71.80151532995721,
-            "stoch_d": 70.60468988932332,
-            "stoch_k_prev": 70.22736468949358,
+            "stoch_k": 53.19357751344558,
+            "stoch_d": 65.07415251096548,
+            "stoch_k_prev": 71.80151532995721,
             "in_zone": false,
             "pass_today": false,
             "pass": false,
@@ -5270,29 +5270,29 @@
           },
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 108.86,
-            "sma_50": 102.67245301204801,
-            "sma_200": 101.64661801414701,
-            "ema_8": 109.36615072274591,
-            "ema_21": 107.40056420618662
+            "close": 107.19,
+            "sma_50": 102.656787951808,
+            "sma_200": 101.7030076770765,
+            "ema_8": 108.88256167324681,
+            "ema_21": 107.3814220056242
           }
         },
         {
           "ticker": "LULU",
-          "name": null,
+          "name": "Lululemon Athletica Inc",
           "sector": "Retail / Discretionary",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 107.45,
-            "sma_50": 101.58879999999999,
-            "sma_200": 130.43462499999998,
-            "sma_50_prev20": 107.7824,
+            "close": 104.46,
+            "sma_50": 101.2766,
+            "sma_200": 130.055175,
+            "sma_50_prev20": 107.294,
             "monthly_stoch_k": 7.926773163863004,
             "monthly_stoch_d": 6.911086108361879,
             "monthly_stoch_k_prev": 5.822008178203209,
@@ -5308,38 +5308,38 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 107.45,
-            "sma_50": 101.58879999999999,
-            "sma_200": 130.43462499999998,
-            "ema_8": 109.20272440603357,
-            "ema_21": 105.96739609058501
+            "close": 104.46,
+            "sma_50": 101.2766,
+            "sma_200": 130.055175,
+            "ema_8": 108.14878564913721,
+            "ema_21": 105.83036008235001
           }
         },
         {
           "ticker": "LW",
-          "name": null,
+          "name": "Lamb Weston Holdings Inc",
           "sector": "Food & Beverage / Alcohol",
           "thesis": null,
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [
             {
               "code": "OSCILLATOR_PENDING",
-              "measured": 91.55309544906527,
+              "measured": 76.34550226881987,
               "threshold": 30,
-              "direction": "drifting_away",
+              "direction": "closing_in",
               "in_zone": false,
               "ema_label": null
             }
           ],
           "trend_detail": {
-            "close": 56.87,
-            "sma_50": 49.869291190218,
-            "sma_200": 46.417601738544,
-            "sma_50_prev20": 49.322301066280005,
+            "close": 55.23,
+            "sma_50": 49.932852571016,
+            "sma_200": 46.473417140355,
+            "sma_50_prev20": 49.348017984878,
             "monthly_stoch_k": 46.66367587983215,
             "monthly_stoch_d": 45.61761576498105,
             "monthly_stoch_k_prev": 44.39428585773533,
@@ -5352,18 +5352,18 @@
             "weekly_pass": true
           },
           "location_detail": {
-            "dpct": 1.6850860671372498,
-            "dpct_prev": 2.6082230417179595,
-            "ema_ref": 55.92757227195713,
+            "dpct": 0.9728014069581582,
+            "dpct_prev": 1.6850860671372498,
+            "ema_ref": 55.772556211522215,
             "ema_ref_is_ema8": true,
             "pass_today": true,
             "pass": true,
             "sessions_ago": 0
           },
           "oscillator_detail": {
-            "stoch_k": 91.55309544906527,
-            "stoch_d": 84.11220820015389,
-            "stoch_k_prev": 86.02601178212228,
+            "stoch_k": 76.34550226881987,
+            "stoch_d": 84.64153650000249,
+            "stoch_k_prev": 91.55309544906527,
             "in_zone": false,
             "pass_today": false,
             "pass": false,
@@ -5371,11 +5371,11 @@
           },
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 56.87,
-            "sma_50": 49.869291190218,
-            "sma_200": 46.417601738544,
-            "ema_8": 55.92757227195713,
-            "ema_21": 53.99360506209803
+            "close": 55.23,
+            "sma_50": 49.932852571016,
+            "sma_200": 46.473417140355,
+            "ema_8": 55.772556211522215,
+            "ema_21": 54.106004601907294
           }
         },
         {
@@ -5385,15 +5385,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 13.14,
-            "sma_50": 13.611600000000001,
-            "sma_200": 12.32385,
-            "sma_50_prev20": 14.715200000000003,
+            "close": 13.1,
+            "sma_50": 13.513800000000002,
+            "sma_200": 12.318800000000001,
+            "sma_50_prev20": 14.713,
             "monthly_stoch_k": 55.26231696084513,
             "monthly_stoch_d": 51.179115731081,
             "monthly_stoch_k_prev": 52.22341272079049,
@@ -5409,11 +5409,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 13.14,
-            "sma_50": 13.611600000000001,
-            "sma_200": 12.32385,
-            "ema_8": 13.165381225822745,
-            "ema_21": 13.372181333422063
+            "close": 13.1,
+            "sma_50": 13.513800000000002,
+            "sma_200": 12.318800000000001,
+            "ema_8": 13.150852064528802,
+            "ema_21": 13.347437575838239
           }
         },
         {
@@ -5423,13 +5423,13 @@
           "thesis": null,
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [
             {
               "code": "OSCILLATOR_PENDING",
-              "measured": 69.75138121546964,
+              "measured": 70.30386740331497,
               "threshold": 30,
               "direction": "drifting_away",
               "in_zone": false,
@@ -5437,10 +5437,10 @@
             }
           ],
           "trend_detail": {
-            "close": 66.7,
-            "sma_50": 62.140732259172,
-            "sma_200": 59.902189591863,
-            "sma_50_prev20": 61.222390332532,
+            "close": 66.56,
+            "sma_50": 62.234064929724,
+            "sma_200": 59.953803375069,
+            "sma_50_prev20": 61.242149742886006,
             "monthly_stoch_k": 68.6590459221189,
             "monthly_stoch_d": 61.51163324841978,
             "monthly_stoch_k_prev": 59.31908185194869,
@@ -5453,18 +5453,18 @@
             "weekly_pass": true
           },
           "location_detail": {
-            "dpct": 0.962615566582185,
-            "dpct_prev": 0.9982047956227156,
-            "ema_ref": 66.0640571024164,
+            "dpct": 0.5829053866416182,
+            "dpct_prev": 0.962615566582185,
+            "ema_ref": 66.17426663521276,
             "ema_ref_is_ema8": true,
             "pass_today": true,
             "pass": true,
             "sessions_ago": 0
           },
           "oscillator_detail": {
-            "stoch_k": 69.75138121546964,
-            "stoch_d": 68.09392265193371,
-            "stoch_k_prev": 66.62062615101289,
+            "stoch_k": 70.30386740331497,
+            "stoch_d": 68.89195825659918,
+            "stoch_k_prev": 69.75138121546964,
             "in_zone": false,
             "pass_today": false,
             "pass": false,
@@ -5472,11 +5472,11 @@
           },
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 66.7,
-            "sma_50": 62.140732259172,
-            "sma_200": 59.902189591863,
-            "ema_8": 66.0640571024164,
-            "ema_21": 64.57914480155664
+            "close": 66.56,
+            "sma_50": 62.234064929724,
+            "sma_200": 59.953803375069,
+            "ema_8": 66.17426663521276,
+            "ema_21": 64.75922254686967
           }
         },
         {
@@ -5486,15 +5486,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 3.24,
-            "sma_50": 3.4810000000000003,
-            "sma_200": 4.84385,
-            "sma_50_prev20": 3.9560000000000004,
+            "close": 3.05,
+            "sma_50": 3.4648000000000003,
+            "sma_200": 4.83615,
+            "sma_50_prev20": 3.9330000000000003,
             "monthly_stoch_k": 6.808452769500029,
             "monthly_stoch_d": 17.85610867933133,
             "monthly_stoch_k_prev": 17.434178210040287,
@@ -5510,11 +5510,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 3.24,
-            "sma_50": 3.4810000000000003,
-            "sma_200": 4.84385,
-            "ema_8": 3.2902041800560706,
-            "ema_21": 3.3377498858432064
+            "close": 3.05,
+            "sma_50": 3.4648000000000003,
+            "sma_200": 4.83615,
+            "ema_8": 3.2368254733769435,
+            "ema_21": 3.311590805312006
           }
         },
         {
@@ -5524,15 +5524,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 22.8,
-            "sma_50": 21.622697736144,
-            "sma_200": 23.3413319666945,
-            "sma_50_prev20": 23.011688992979998,
+            "close": 21.76,
+            "sma_50": 21.546725214675998,
+            "sma_200": 23.313144520911,
+            "sma_50_prev20": 22.926509445752004,
             "monthly_stoch_k": 15.097576127041547,
             "monthly_stoch_d": 15.948122259510798,
             "monthly_stoch_k_prev": 17.11888818578855,
@@ -5548,11 +5548,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 22.8,
-            "sma_50": 21.622697736144,
-            "sma_200": 23.3413319666945,
-            "ema_8": 21.704734312710713,
-            "ema_21": 20.589545513363017
+            "close": 21.76,
+            "sma_50": 21.546725214675998,
+            "sma_200": 23.313144520911,
+            "ema_8": 21.717015576552775,
+            "ema_21": 20.695950466693652
           }
         },
         {
@@ -5562,15 +5562,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 628.77,
-            "sma_50": 678.460978928782,
-            "sma_200": 630.769223309895,
-            "sma_50_prev20": 649.62026121035,
+            "close": 623.61,
+            "sma_50": 679.0845709168639,
+            "sma_200": 630.5517338760241,
+            "sma_50_prev20": 652.5875954446819,
             "monthly_stoch_k": 43.325246648973994,
             "monthly_stoch_d": 31.816069679442062,
             "monthly_stoch_k_prev": 35.94392656315219,
@@ -5586,11 +5586,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 628.77,
-            "sma_50": 678.460978928782,
-            "sma_200": 630.769223309895,
-            "ema_8": 628.9308586163219,
-            "ema_21": 646.1664143037918
+            "close": 623.61,
+            "sma_50": 679.0845709168639,
+            "sma_200": 630.5517338760241,
+            "ema_8": 627.7484455904726,
+            "ema_21": 644.1158311852654
           }
         },
         {
@@ -5600,15 +5600,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 86.33,
-            "sma_50": 81.347148584108,
-            "sma_200": 89.200901331191,
-            "sma_50_prev20": 81.744696072036,
+            "close": 83.58,
+            "sma_50": 81.35805553960799,
+            "sma_200": 89.0769431501795,
+            "sma_50_prev20": 81.55236416547201,
             "monthly_stoch_k": 12.660543645945594,
             "monthly_stoch_d": 9.366689970867618,
             "monthly_stoch_k_prev": 6.673010819320047,
@@ -5624,11 +5624,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 86.33,
-            "sma_50": 81.347148584108,
-            "sma_200": 89.200901331191,
-            "ema_8": 87.96833031992794,
-            "ema_21": 85.42735461023253
+            "close": 83.58,
+            "sma_50": 81.35805553960799,
+            "sma_200": 89.0769431501795,
+            "ema_8": 86.9931458043884,
+            "ema_21": 85.25941328202957
           }
         },
         {
@@ -5638,15 +5638,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 128.38,
-            "sma_50": 137.346595207894,
-            "sma_200": 153.605118566212,
-            "sma_50_prev20": 145.146428752638,
+            "close": 127.11,
+            "sma_50": 136.98406652572402,
+            "sma_200": 153.3858632353135,
+            "sma_50_prev20": 144.958204228326,
             "monthly_stoch_k": 10.859069874929872,
             "monthly_stoch_d": 10.259770653560542,
             "monthly_stoch_k_prev": 10.674000394239753,
@@ -5662,11 +5662,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 128.38,
-            "sma_50": 137.346595207894,
-            "sma_200": 153.605118566212,
-            "ema_8": 122.99615702874054,
-            "ema_21": 127.40214326274469
+            "close": 127.11,
+            "sma_50": 136.98406652572402,
+            "sma_200": 153.3858632353135,
+            "ema_8": 123.91034435568709,
+            "ema_21": 127.37558478431336
           }
         },
         {
@@ -5676,15 +5676,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 12.32,
-            "sma_50": 13.8782,
-            "sma_200": 14.2365,
-            "sma_50_prev20": 14.4426,
+            "close": 11.83,
+            "sma_50": 13.8068,
+            "sma_200": 14.201850000000002,
+            "sma_50_prev20": 14.4476,
             "monthly_stoch_k": 22.365038560411318,
             "monthly_stoch_d": 31.133961725221372,
             "monthly_stoch_k_prev": 34.01885175664097,
@@ -5700,11 +5700,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 12.32,
-            "sma_50": 13.8782,
-            "sma_200": 14.2365,
-            "ema_8": 12.194810232404377,
-            "ema_21": 12.827098924335939
+            "close": 11.83,
+            "sma_50": 13.8068,
+            "sma_200": 14.201850000000002,
+            "ema_8": 12.11374129187007,
+            "ema_21": 12.736453567578126
           }
         },
         {
@@ -5714,15 +5714,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 7.94,
-            "sma_50": 9.488660102564001,
-            "sma_200": 9.392772639862,
-            "sma_50_prev20": 9.28923671795,
+            "close": 7.82,
+            "sma_50": 9.453911794872,
+            "sma_200": 9.375112926334,
+            "sma_50_prev20": 9.329035692308,
             "monthly_stoch_k": 27.973651674113793,
             "monthly_stoch_d": 36.20685473382458,
             "monthly_stoch_k_prev": 40.72916917933278,
@@ -5738,11 +5738,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 7.94,
-            "sma_50": 9.488660102564001,
-            "sma_200": 9.392772639862,
-            "ema_8": 7.960954017635302,
-            "ema_21": 8.694764585225343
+            "close": 7.82,
+            "sma_50": 9.453911794872,
+            "sma_200": 9.375112926334,
+            "ema_8": 7.929630902605235,
+            "ema_21": 8.615240532023039
           }
         },
         {
@@ -5752,15 +5752,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 1512.02,
-            "sma_50": 1781.4184,
-            "sma_200": 1791.269725,
-            "sma_50_prev20": 1861.2101,
+            "close": 1475.09,
+            "sma_50": 1770.7885999999999,
+            "sma_200": 1787.302175,
+            "sma_50_prev20": 1859.8983,
             "monthly_stoch_k": 24.273383753935878,
             "monthly_stoch_d": 28.431777791110083,
             "monthly_stoch_k_prev": 31.272858141242352,
@@ -5776,11 +5776,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 1512.02,
-            "sma_50": 1781.4184,
-            "sma_200": 1791.269725,
-            "ema_8": 1566.6110068389003,
-            "ema_21": 1661.2622901213836
+            "close": 1475.09,
+            "sma_50": 1770.7885999999999,
+            "sma_200": 1787.302175,
+            "ema_8": 1546.2730053191447,
+            "ema_21": 1644.337536473985
           }
         },
         {
@@ -5790,15 +5790,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 18.15,
-            "sma_50": 16.102199999999996,
-            "sma_200": 16.949425,
-            "sma_50_prev20": 17.0459,
+            "close": 17.53,
+            "sma_50": 16.115,
+            "sma_200": 16.970825,
+            "sma_50_prev20": 16.9577,
             "monthly_stoch_k": 38.28197945845005,
             "monthly_stoch_d": 54.8708372237784,
             "monthly_stoch_k_prev": 52.72331154684096,
@@ -5814,11 +5814,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 18.15,
-            "sma_50": 16.102199999999996,
-            "sma_200": 16.949425,
-            "ema_8": 17.57457564554825,
-            "ema_21": 16.614631773108563
+            "close": 17.53,
+            "sma_50": 16.115,
+            "sma_200": 16.970825,
+            "ema_8": 17.564669946537528,
+            "ema_21": 16.69784706646233
           }
         },
         {
@@ -5828,15 +5828,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 101.61,
-            "sma_50": 93.114043151302,
-            "sma_200": 87.122573002106,
-            "sma_50_prev20": 89.99429382274,
+            "close": 100.99,
+            "sma_50": 93.305097582814,
+            "sma_200": 87.13604334966402,
+            "sma_50_prev20": 90.197350760968,
             "monthly_stoch_k": 61.03744115689735,
             "monthly_stoch_d": 49.38515718331271,
             "monthly_stoch_k_prev": 48.25194990013568,
@@ -5852,11 +5852,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 101.61,
-            "sma_50": 93.114043151302,
-            "sma_200": 87.122573002106,
-            "ema_8": 101.19159960985954,
-            "ema_21": 98.02625009086942
+            "close": 100.99,
+            "sma_50": 93.305097582814,
+            "sma_200": 87.13604334966402,
+            "ema_8": 101.14679969655742,
+            "ema_21": 98.29568190079038
           }
         },
         {
@@ -5866,15 +5866,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 34.71,
-            "sma_50": 31.950599999999998,
-            "sma_200": 36.243950000000005,
-            "sma_50_prev20": 30.648000000000003,
+            "close": 33.07,
+            "sma_50": 32.056,
+            "sma_200": 36.185,
+            "sma_50_prev20": 30.588,
             "monthly_stoch_k": 14.542081082709501,
             "monthly_stoch_d": 11.810678490315444,
             "monthly_stoch_k_prev": 10.301531095239183,
@@ -5890,11 +5890,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 34.71,
-            "sma_50": 31.950599999999998,
-            "sma_200": 36.243950000000005,
-            "ema_8": 35.76342428740478,
-            "ema_21": 34.852497666714875
+            "close": 33.07,
+            "sma_50": 32.056,
+            "sma_200": 36.185,
+            "ema_8": 35.16488555687039,
+            "ema_21": 34.69045242428625
           }
         },
         {
@@ -5904,15 +5904,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 16.08,
-            "sma_50": 15.0807,
-            "sma_200": 15.252,
-            "sma_50_prev20": 14.5871,
+            "close": 15.53,
+            "sma_50": 15.0985,
+            "sma_200": 15.227925,
+            "sma_50_prev20": 14.644299999999998,
             "monthly_stoch_k": 18.329227610558664,
             "monthly_stoch_d": 17.221977925344977,
             "monthly_stoch_k_prev": 16.41678972519644,
@@ -5928,11 +5928,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 16.08,
-            "sma_50": 15.0807,
-            "sma_200": 15.252,
-            "ema_8": 15.706850398782134,
-            "ema_21": 15.71314997483839
+            "close": 15.53,
+            "sma_50": 15.0985,
+            "sma_200": 15.227925,
+            "ema_8": 15.66755031016388,
+            "ema_21": 15.696499977125809
           }
         },
         {
@@ -5942,21 +5942,21 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 18.82,
-            "sma_50": 15.624600000000001,
-            "sma_200": 18.57205,
-            "sma_50_prev20": 16.052599999999998,
+            "close": 18.06,
+            "sma_50": 15.6744,
+            "sma_200": 18.558400000000002,
+            "sma_50_prev20": 15.9544,
             "monthly_stoch_k": 16.464622246533157,
             "monthly_stoch_d": 21.966479307415728,
             "monthly_stoch_k_prev": 17.3138862275541,
             "weekly_stoch_k": 44.09892351555959,
             "weekly_stoch_k_prev": 29.809623613658193,
-            "close_gt_sma200": true,
+            "close_gt_sma200": false,
             "sma50_gt_sma200": false,
             "sma50_rising": false,
             "monthly_pass": false,
@@ -5966,29 +5966,29 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 18.82,
-            "sma_50": 15.624600000000001,
-            "sma_200": 18.57205,
-            "ema_8": 18.101598382157206,
-            "ema_21": 17.10254339706654
+            "close": 18.06,
+            "sma_50": 15.6744,
+            "sma_200": 18.558400000000002,
+            "ema_8": 18.09235429723338,
+            "ema_21": 17.189584906424127
           }
         },
         {
           "ticker": "MAN",
-          "name": null,
+          "name": "ManpowerGroup",
           "sector": "Staffing",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 46.11,
-            "sma_50": 51.8564,
-            "sma_200": 40.2164613075765,
-            "sma_50_prev20": 57.443400000000004,
+            "close": 46.05,
+            "sma_50": 51.571999999999996,
+            "sma_200": 40.3050095542335,
+            "sma_50_prev20": 57.2304,
             "monthly_stoch_k": 77.24193341895766,
             "monthly_stoch_d": 80.18571843637905,
             "monthly_stoch_k_prev": 87.3807985059622,
@@ -6004,11 +6004,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 46.11,
-            "sma_50": 51.8564,
-            "sma_200": 40.2164613075765,
-            "ema_8": 45.7984836870673,
-            "ema_21": 46.9604506607251
+            "close": 46.05,
+            "sma_50": 51.571999999999996,
+            "sma_200": 40.3050095542335,
+            "ema_8": 45.85437620105235,
+            "ema_21": 46.877682418841
           }
         },
         {
@@ -6018,15 +6018,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
             "close": 61.21,
-            "sma_50": 66.4925,
-            "sma_200": 69.581755826695,
-            "sma_50_prev20": 70.21709999999999,
+            "sma_50": 66.2942,
+            "sma_200": 69.48487788864,
+            "sma_50_prev20": 70.2102,
             "monthly_stoch_k": 59.94820109178257,
             "monthly_stoch_d": 62.124006783868914,
             "monthly_stoch_k_prev": 65.11307501762114,
@@ -6043,10 +6043,10 @@
           "data_invalid_reason": null,
           "diagnostics": {
             "close": 61.21,
-            "sma_50": 66.4925,
-            "sma_200": 69.581755826695,
-            "ema_8": 61.471576502957355,
-            "ema_21": 62.59915051490972
+            "sma_50": 66.2942,
+            "sma_200": 69.48487788864,
+            "ema_8": 61.41344839118906,
+            "ema_21": 62.472864104463376
           }
         },
         {
@@ -6056,15 +6056,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 24.09,
-            "sma_50": 20.737423138927998,
-            "sma_200": 21.506689525136004,
-            "sma_50_prev20": 20.675148221906003,
+            "close": 24.04,
+            "sma_50": 20.812127548600003,
+            "sma_200": 21.5272212081385,
+            "sma_50_prev20": 20.593770317685998,
             "monthly_stoch_k": 43.227952309211084,
             "monthly_stoch_d": 56.71510177246532,
             "monthly_stoch_k_prev": 51.491622452285135,
@@ -6080,11 +6080,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 24.09,
-            "sma_50": 20.737423138927998,
-            "sma_200": 21.506689525136004,
-            "ema_8": 23.502361417759996,
-            "ema_21": 22.373338558900777
+            "close": 24.04,
+            "sma_50": 20.812127548600003,
+            "sma_200": 21.5272212081385,
+            "ema_8": 23.621836658257774,
+            "ema_21": 22.52485323536434
           }
         },
         {
@@ -6094,15 +6094,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 53.89,
-            "sma_50": 55.7092,
-            "sma_200": 49.64085,
-            "sma_50_prev20": 58.3826,
+            "close": 52.58,
+            "sma_50": 55.532199999999996,
+            "sma_200": 49.66895,
+            "sma_50_prev20": 58.30160000000001,
             "monthly_stoch_k": 72.57194079277055,
             "monthly_stoch_d": 69.02420105182746,
             "monthly_stoch_k_prev": 70.03864462966605,
@@ -6118,11 +6118,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 53.89,
-            "sma_50": 55.7092,
-            "sma_200": 49.64085,
-            "ema_8": 53.79670530368473,
-            "ema_21": 53.92023863514432
+            "close": 52.58,
+            "sma_50": 55.532199999999996,
+            "sma_200": 49.66895,
+            "ema_8": 53.526326347310345,
+            "ema_21": 53.79839875922211
           }
         },
         {
@@ -6132,15 +6132,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 188.88,
-            "sma_50": 169.9968,
-            "sma_200": 161.2208219804605,
-            "sma_50_prev20": 170.73553188720197,
+            "close": 186.24,
+            "sma_50": 170.3466,
+            "sma_200": 161.3831470517135,
+            "sma_50_prev20": 170.41633058568402,
             "monthly_stoch_k": 69.63724638457221,
             "monthly_stoch_d": 71.30103413651342,
             "monthly_stoch_k_prev": 70.4876843698565,
@@ -6156,11 +6156,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 188.88,
-            "sma_50": 169.9968,
-            "sma_200": 161.2208219804605,
-            "ema_8": 185.66476758183993,
-            "ema_21": 178.93055937013958
+            "close": 186.24,
+            "sma_50": 170.3466,
+            "sma_200": 161.3831470517135,
+            "ema_8": 185.79259700809772,
+            "ema_21": 179.59505397285417
           }
         },
         {
@@ -6170,15 +6170,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 112.17,
-            "sma_50": 132.44240000000002,
-            "sma_200": 177.29475,
-            "sma_50_prev20": 163.4348,
+            "close": 103.92,
+            "sma_50": 131.091,
+            "sma_200": 176.12555,
+            "sma_50_prev20": 162.22240000000002,
             "monthly_stoch_k": 3.987102285136731,
             "monthly_stoch_d": 9.737786498695847,
             "monthly_stoch_k_prev": 8.64460111167675,
@@ -6194,11 +6194,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 112.17,
-            "sma_50": 132.44240000000002,
-            "sma_200": 177.29475,
-            "ema_8": 106.61195617591639,
-            "ema_21": 111.15423201390232
+            "close": 103.92,
+            "sma_50": 131.091,
+            "sma_200": 176.12555,
+            "ema_8": 106.01374369237942,
+            "ema_21": 110.49657455809302
           }
         },
         {
@@ -6208,15 +6208,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 5.86,
-            "sma_50": 5.6328000000000005,
-            "sma_200": 4.8166442943635,
-            "sma_50_prev20": 5.796289873418,
+            "close": 5.76,
+            "sma_50": 5.6284,
+            "sma_200": 4.8248792771715,
+            "sma_50_prev20": 5.78965664557,
             "monthly_stoch_k": 64.54033668645114,
             "monthly_stoch_d": 70.68860115189877,
             "monthly_stoch_k_prev": 67.39747494370935,
@@ -6232,29 +6232,29 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 5.86,
-            "sma_50": 5.6328000000000005,
-            "sma_200": 4.8166442943635,
-            "ema_8": 5.725311213509705,
-            "ema_21": 5.624932348323345
+            "close": 5.76,
+            "sma_50": 5.6284,
+            "sma_200": 4.8248792771715,
+            "ema_8": 5.73301983272977,
+            "ema_21": 5.637211225748495
           }
         },
         {
           "ticker": "M",
-          "name": null,
+          "name": "Macy`s Inc",
           "sector": "Retail / Discretionary",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 24.85,
-            "sma_50": 23.086951229148,
-            "sma_200": 21.551635032344496,
-            "sma_50_prev20": 22.721140920006,
+            "close": 24.33,
+            "sma_50": 23.129006766494005,
+            "sma_200": 21.5759035923255,
+            "sma_50_prev20": 22.69972784051,
             "monthly_stoch_k": 76.72438720475618,
             "monthly_stoch_d": 79.40453901856831,
             "monthly_stoch_k_prev": 79.4547863546238,
@@ -6270,29 +6270,29 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 24.85,
-            "sma_50": 23.086951229148,
-            "sma_200": 21.551635032344496,
-            "ema_8": 24.53314756245723,
-            "ema_21": 24.073816459605798
+            "close": 24.33,
+            "sma_50": 23.129006766494005,
+            "sma_200": 21.5759035923255,
+            "ema_8": 24.488003659688957,
+            "ema_21": 24.097105872368907
           }
         },
         {
           "ticker": "MANH",
-          "name": null,
+          "name": "Manhattan Associates Inc",
           "sector": "Technology / SaaS",
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 258.86,
-            "sma_50": 222.62349999999998,
-            "sma_200": 169.711025,
-            "sma_50_prev20": 207.5675,
+            "close": 256.37,
+            "sma_50": 223.41549999999998,
+            "sma_200": 170.18717500000002,
+            "sma_50_prev20": 208.26510000000002,
             "monthly_stoch_k": 83.61796590235762,
             "monthly_stoch_d": 68.41073203916872,
             "monthly_stoch_k_prev": 70.47502921639698,
@@ -6308,11 +6308,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 258.86,
-            "sma_50": 222.62349999999998,
-            "sma_200": 169.711025,
-            "ema_8": 253.70908678284374,
-            "ema_21": 242.92530327855084
+            "close": 256.37,
+            "sma_50": 223.41549999999998,
+            "sma_200": 170.18717500000002,
+            "ema_8": 254.3004008311007,
+            "ema_21": 244.14754843504622
           }
         },
         {
@@ -6322,15 +6322,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 100.2,
-            "sma_50": 101.068694566506,
-            "sma_200": 97.4305542650095,
-            "sma_50_prev20": 99.104940984608,
+            "close": 100.6,
+            "sma_50": 101.158715183192,
+            "sma_200": 97.51364228757801,
+            "sma_50_prev20": 99.15898604395599,
             "monthly_stoch_k": 37.02260995798494,
             "monthly_stoch_d": 38.93157266198196,
             "monthly_stoch_k_prev": 41.26118239810368,
@@ -6346,11 +6346,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 100.2,
-            "sma_50": 101.068694566506,
-            "sma_200": 97.4305542650095,
-            "ema_8": 98.66668261427832,
-            "ema_21": 100.40812641368265
+            "close": 100.6,
+            "sma_50": 101.158715183192,
+            "sma_200": 97.51364228757801,
+            "ema_8": 99.09630869999424,
+            "ema_21": 100.42556946698423
           }
         },
         {
@@ -6360,15 +6360,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 235.88,
-            "sma_50": 279.991830976642,
-            "sma_200": 283.6181837669935,
-            "sma_50_prev20": 310.29427216886995,
+            "close": 233.78,
+            "sma_50": 278.907756832,
+            "sma_200": 283.59280429412297,
+            "sma_50_prev20": 309.70224358415203,
             "monthly_stoch_k": 57.09295620549138,
             "monthly_stoch_d": 64.26727449778646,
             "monthly_stoch_k_prev": 62.81730086035697,
@@ -6384,11 +6384,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 235.88,
-            "sma_50": 279.991830976642,
-            "sma_200": 283.6181837669935,
-            "ema_8": 224.11311083214133,
-            "ema_21": 242.38993975063636
+            "close": 233.78,
+            "sma_50": 278.907756832,
+            "sma_200": 283.59280429412297,
+            "ema_8": 226.26130842499882,
+            "ema_21": 241.60721795512396
           }
         },
         {
@@ -6398,15 +6398,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 429.18,
-            "sma_50": 371.23339999999996,
-            "sma_200": 359.21855601984345,
-            "sma_50_prev20": 350.751222483418,
+            "close": 424.66,
+            "sma_50": 373.06379999999996,
+            "sma_200": 359.7907314086205,
+            "sma_50_prev20": 351.25398510060603,
             "monthly_stoch_k": 71.94146200607739,
             "monthly_stoch_d": 69.39488859021758,
             "monthly_stoch_k_prev": 66.29975613653268,
@@ -6422,11 +6422,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 429.18,
-            "sma_50": 371.23339999999996,
-            "sma_200": 359.21855601984345,
-            "ema_8": 419.0810182639228,
-            "ema_21": 403.6675459802951
+            "close": 424.66,
+            "sma_50": 373.06379999999996,
+            "sma_200": 359.7907314086205,
+            "ema_8": 420.32079198305104,
+            "ema_21": 405.57595089117734
           }
         },
         {
@@ -6436,15 +6436,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 210.38,
-            "sma_50": 223.17522444363604,
-            "sma_200": 195.84019823400598,
-            "sma_50_prev20": 224.165703360882,
+            "close": 210.78,
+            "sma_50": 223.057251603232,
+            "sma_200": 196.2057140595045,
+            "sma_50_prev20": 224.66078065219,
             "monthly_stoch_k": 80.43888087503757,
             "monthly_stoch_d": 87.37528593537587,
             "monthly_stoch_k_prev": 88.9397638221097,
@@ -6460,11 +6460,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 210.38,
-            "sma_50": 223.17522444363604,
-            "sma_200": 195.84019823400598,
-            "ema_8": 210.35675874823218,
-            "ema_21": 216.47731517827148
+            "close": 210.78,
+            "sma_50": 223.057251603232,
+            "sma_200": 196.2057140595045,
+            "ema_8": 210.45081235973615,
+            "ema_21": 215.95937743479223
           }
         },
         {
@@ -6474,15 +6474,15 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 521.125,
-            "sma_50": 518.1983,
-            "sma_200": 439.800684903363,
-            "sma_50_prev20": 503.704061038048,
+            "close": 523.0,
+            "sma_50": 518.7219,
+            "sma_200": 440.0227536123115,
+            "sma_50_prev20": 504.76206491308403,
             "monthly_stoch_k": 82.09752273536073,
             "monthly_stoch_d": 68.01092904842903,
             "monthly_stoch_k_prev": 72.65382886963653,
@@ -6498,11 +6498,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 521.125,
-            "sma_50": 518.1983,
-            "sma_200": 439.800684903363,
-            "ema_8": 531.2560349044697,
-            "ema_21": 529.0707505568461
+            "close": 523.0,
+            "sma_50": 518.7219,
+            "sma_200": 440.0227536123115,
+            "ema_8": 529.4213604812543,
+            "ema_21": 528.5188641425873
           }
         },
         {
@@ -6512,20 +6512,20 @@
           "thesis": null,
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-12",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 97.5,
-            "sma_50": 100.83161038960999,
-            "sma_200": 131.7746509353675,
-            "sma_50_prev20": 109.35861098900999,
+            "close": 98.05,
+            "sma_50": 100.581908291708,
+            "sma_200": 131.500671804502,
+            "sma_50_prev20": 109.002996203794,
             "monthly_stoch_k": 3.249401088309303,
             "monthly_stoch_d": 11.386625676120708,
             "monthly_stoch_k_prev": 8.283078648050562,
-            "weekly_stoch_k": 9.178583651276798,
-            "weekly_stoch_k_prev": 11.21788491258386,
+            "weekly_stoch_k": 9.178583651276789,
+            "weekly_stoch_k_prev": 11.21788491258385,
             "close_gt_sma200": false,
             "sma50_gt_sma200": false,
             "sma50_rising": false,
@@ -6536,11 +6536,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 97.5,
-            "sma_50": 100.83161038960999,
-            "sma_200": 131.7746509353675,
-            "ema_8": 93.83752635132319,
-            "ema_21": 95.3511764261349
+            "close": 98.05,
+            "sma_50": 100.581908291708,
+            "sma_200": 131.500671804502,
+            "ema_8": 94.77363160658471,
+            "ema_21": 95.596524023759
           }
         },
         {
