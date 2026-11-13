@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-13T20:11+00:00",
+      "generated_at": "2026-11-13T22:43+00:00",
       "evaluated_session": "2026-11-12",
       "results": [
         {
@@ -429,20 +429,20 @@
           "thesis": "Active Electrical Cables; rapid momentum expansion setups",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-13",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 141.41,
-            "sma_50": 173.4429,
-            "sma_200": 180.80015,
-            "sma_50_prev20": 208.15879999999999,
+            "close": 131.51,
+            "sma_50": 172.28149999999997,
+            "sma_200": 180.8611,
+            "sma_50_prev20": 206.0216,
             "monthly_stoch_k": 47.008357774462986,
             "monthly_stoch_d": 57.843507276448236,
             "monthly_stoch_k_prev": 57.0410537550455,
-            "weekly_stoch_k": 4.74613860140823,
-            "weekly_stoch_k_prev": 7.905423105263758,
+            "weekly_stoch_k": 7.652842320867201,
+            "weekly_stoch_k_prev": 4.74613860140823,
             "close_gt_sma200": false,
             "sma50_gt_sma200": false,
             "sma50_rising": false,
@@ -453,11 +453,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 141.41,
-            "sma_50": 173.4429,
-            "sma_200": 180.80015,
-            "ema_8": 136.84561788794227,
-            "ema_21": 152.78026894187624
+            "close": 131.51,
+            "sma_50": 172.28149999999997,
+            "sma_200": 180.8611,
+            "ema_8": 136.17228736431076,
+            "ema_21": 149.7746850759308
           }
         },
         {
@@ -467,20 +467,20 @@
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-13",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 218.01,
-            "sma_50": 236.904480217026,
-            "sma_200": 197.39573906533948,
-            "sma_50_prev20": 227.724592363022,
+            "close": 217.84,
+            "sma_50": 235.204338238318,
+            "sma_200": 197.378055111025,
+            "sma_50_prev20": 229.89212823379398,
             "monthly_stoch_k": 74.56332509787573,
             "monthly_stoch_d": 59.08904935082111,
             "monthly_stoch_k_prev": 61.61197940230486,
-            "weekly_stoch_k": 60.37660832214545,
-            "weekly_stoch_k_prev": 73.58181695759315,
+            "weekly_stoch_k": 44.76431566333574,
+            "weekly_stoch_k_prev": 60.37660832214545,
             "close_gt_sma200": true,
             "sma50_gt_sma200": true,
             "sma50_rising": true,
@@ -491,11 +491,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 218.01,
-            "sma_50": 236.904480217026,
-            "sma_200": 197.39573906533948,
-            "ema_8": 220.49036179601748,
-            "ema_21": 227.9410824746607
+            "close": 217.84,
+            "sma_50": 235.204338238318,
+            "sma_200": 197.378055111025,
+            "ema_8": 219.3966386173439,
+            "ema_21": 226.16568799558735
           }
         },
         {
@@ -538,25 +538,25 @@
         },
         {
           "ticker": "COHR",
-          "name": null,
+          "name": "Coherent Corp",
           "sector": "Networking & Interconnects",
           "thesis": "Optical transceivers; high-volatility momentum breakout candidate",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-13",
           "data_valid": true,
-          "recovery_observed": true,
+          "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 234.51,
-            "sma_50": 266.9218,
-            "sma_200": 296.7475,
-            "sma_50_prev20": 303.4272,
+            "close": 218.15,
+            "sma_50": 265.2654,
+            "sma_200": 296.81365,
+            "sma_50_prev20": 299.8484,
             "monthly_stoch_k": 48.91305103552784,
             "monthly_stoch_d": 55.97909800182138,
             "monthly_stoch_k_prev": 54.41293090355523,
-            "weekly_stoch_k": 6.918698852088657,
-            "weekly_stoch_k_prev": 4.606732338225148,
+            "weekly_stoch_k": 14.43243534385,
+            "weekly_stoch_k_prev": 6.918698852088657,
             "close_gt_sma200": false,
             "sma50_gt_sma200": false,
             "sma50_rising": false,
@@ -567,11 +567,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 234.51,
-            "sma_50": 266.9218,
-            "sma_200": 296.7475,
-            "ema_8": 214.40583081898336,
-            "ema_21": 227.84195150253333
+            "close": 218.15,
+            "sma_50": 265.2654,
+            "sma_200": 296.81365,
+            "ema_8": 218.29266308802698,
+            "ema_21": 227.3111169442424
           }
         },
         {
@@ -657,20 +657,20 @@
           "thesis": "Grid management & transformers; steady institutional trend-follower",
           "status": "INELIGIBLE_TREND",
           "ui_group": "other",
-          "evaluated_session": "2026-11-11",
+          "evaluated_session": "2026-11-13",
           "data_valid": true,
           "recovery_observed": false,
           "developing_badges": [],
           "trend_detail": {
-            "close": 360.62,
-            "sma_50": 401.645521580544,
-            "sma_200": 395.378837784915,
-            "sma_50_prev20": 424.38949467212404,
+            "close": 352.97,
+            "sma_50": 400.175109546322,
+            "sma_200": 395.46995413687944,
+            "sma_50_prev20": 422.40465835865604,
             "monthly_stoch_k": 54.056098042325544,
             "monthly_stoch_d": 66.98027165118201,
             "monthly_stoch_k_prev": 69.81642898207349,
-            "weekly_stoch_k": 9.741326655408486,
-            "weekly_stoch_k_prev": 15.34358748875961,
+            "weekly_stoch_k": 13.755989286013557,
+            "weekly_stoch_k_prev": 9.741326655408486,
             "close_gt_sma200": false,
             "sma50_gt_sma200": true,
             "sma50_rising": false,
@@ -681,11 +681,11 @@
           "oscillator_detail": {},
           "data_invalid_reason": null,
           "diagnostics": {
-            "close": 360.62,
-            "sma_50": 401.645521580544,
-            "sma_200": 395.378837784915,
-            "ema_8": 358.32413445301404,
-            "ema_21": 373.93471823432526
+            "close": 352.97,
+            "sma_50": 400.175109546322,
+            "sma_200": 395.46995413687944,
+            "ema_8": 357.25805664441594,
+            "ema_21": 370.79786630935973
           }
         },
         {
