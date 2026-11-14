@@ -1,7 +1,7 @@
 {
-  "night_key": "2026-11-12",
+  "night_key": "2026-11-13",
   "total": 260,
-  "completed": 260,
-  "status": "complete",
-  "finished_at": "2026-11-13T00:34+00:00"
+  "completed": 225,
+  "status": "incomplete",
+  "finished_at": "2026-11-14T03:24+00:00"
 }
