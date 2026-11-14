@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-14T18:19+00:00",
+      "generated_at": "2026-11-14T22:37+00:00",
       "evaluated_session": "2026-11-13",
       "results": [
         {
@@ -449,7 +449,7 @@
         },
         {
           "ticker": "CRDO",
-          "name": null,
+          "name": "Credo Technology Group Holding Ltd",
           "sector": "Networking & Interconnects",
           "thesis": "Active Electrical Cables; rapid momentum expansion setups",
           "status": "INELIGIBLE_TREND",
@@ -461,7 +461,7 @@
           "trend_detail": {
             "close": 131.51,
             "sma_50": 172.28149999999997,
-            "sma_200": 180.8611,
+            "sma_200": 180.86109999999996,
             "sma_50_prev20": 206.0216,
             "monthly_stoch_k": 47.008357774462986,
             "monthly_stoch_d": 57.843507276448236,
@@ -480,14 +480,14 @@
           "diagnostics": {
             "close": 131.51,
             "sma_50": 172.28149999999997,
-            "sma_200": 180.8611,
+            "sma_200": 180.86109999999996,
             "ema_8": 136.17228736431076,
             "ema_21": 149.7746850759308
           }
         },
         {
           "ticker": "CRM",
-          "name": null,
+          "name": "Salesforce Inc",
           "sector": "SaaS with AI Story",
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
           "status": "INELIGIBLE_TREND",
@@ -498,9 +498,9 @@
           "developing_badges": [],
           "trend_detail": {
             "close": 217.84,
-            "sma_50": 235.204338238318,
+            "sma_50": 235.20433823831797,
             "sma_200": 197.378055111025,
-            "sma_50_prev20": 229.89212823379398,
+            "sma_50_prev20": 229.89212823379404,
             "monthly_stoch_k": 74.56332509787573,
             "monthly_stoch_d": 59.08904935082111,
             "monthly_stoch_k_prev": 61.61197940230486,
@@ -517,7 +517,7 @@
           "data_invalid_reason": null,
           "diagnostics": {
             "close": 217.84,
-            "sma_50": 235.204338238318,
+            "sma_50": 235.20433823831797,
             "sma_200": 197.378055111025,
             "ema_8": 219.3966386173439,
             "ema_21": 226.16568799558735
