@@ -54,7 +54,17 @@ def _weekly_clause(result: dict) -> str:
 
 
 def row_text(result: dict) -> str:
-    """The subtext line for one row, per Part C's six templates."""
+    """The subtext line for one row, per Part C's six templates.
+
+    A row written by the pre-rebuild engine has no "l1_state" key at all (it's a new
+    field) - that's a reliable, unambiguous "not re-evaluated under this engine yet"
+    signal, since the real evaluator always sets l1_state to one of the three real
+    states, never leaves it absent. Without this check, a missing l1_state silently
+    fell through to the L1_FAIL branch below, rendering a confident "Trend failed" that
+    was never actually decided - misleading, not just cosmetically stale."""
+    if "l1_state" not in result:
+        return "(awaiting re-evaluation)"
+
     l1_state = result.get("l1_state")
     l2_state = result.get("l2_state")
     armed = bool(result.get("armed"))

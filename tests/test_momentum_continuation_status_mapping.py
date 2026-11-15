@@ -22,6 +22,14 @@ from src.setups.momentum_continuation.status_mapping import (
 from src.status_groups import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED
 
 
+def test_a_row_from_the_pre_rebuild_engine_is_not_misread_as_l1_fail():
+    # Old-schema row: has "status"/"ui_group" but no "l1_state" at all (that field is
+    # new). Must not silently fall through to the L1_FAIL branch and claim a Trend
+    # failure that was never actually decided.
+    old_row = {"status": "DEVELOPING", "ui_group": "developing"}
+    assert row_text(old_row) == "(awaiting re-evaluation)"
+
+
 def test_status_to_group_covers_every_status():
     assert STATUS_TO_GROUP == {
         STATUS_QUALIFIED: GROUP_QUALIFIED,
