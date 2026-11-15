@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-14T22:37+00:00",
+      "generated_at": "2026-11-15T02:50+00:00",
       "evaluated_session": "2026-11-13",
       "results": [
         {
@@ -347,7 +347,7 @@
           "trend_detail": {
             "close": 243.08,
             "sma_50": 246.3893,
-            "sma_200": 247.66615,
+            "sma_200": 247.66615000000002,
             "sma_50_prev20": 256.5421,
             "monthly_stoch_k": 37.17780903532488,
             "monthly_stoch_d": 33.22642422112724,
@@ -366,7 +366,7 @@
           "diagnostics": {
             "close": 243.08,
             "sma_50": 246.3893,
-            "sma_200": 247.66615,
+            "sma_200": 247.66615000000002,
             "ema_8": 241.5499499924667,
             "ema_21": 244.85561993139757
           }
@@ -1361,7 +1361,7 @@
             "close": 398.73,
             "sma_50": 429.95094503777,
             "sma_200": 401.69470317381456,
-            "sma_50_prev20": 433.761660037984,
+            "sma_50_prev20": 433.76166003798403,
             "monthly_stoch_k": 78.80996432239228,
             "monthly_stoch_d": 80.77780951781443,
             "monthly_stoch_k_prev": 80.44135047256862,
@@ -1386,7 +1386,7 @@
         },
         {
           "ticker": "WDC",
-          "name": null,
+          "name": "Western Digital Corp",
           "sector": "High-Bandwidth Memory (HBM)",
           "thesis": "Enterprise SSD storage; clear breakout patterns on daily charts",
           "status": "INELIGIBLE_TREND",
@@ -1462,7 +1462,7 @@
         },
         {
           "ticker": "VST",
-          "name": null,
+          "name": "Vistra Corp",
           "sector": "Power & Thermal Management",
           "thesis": "Independent nuclear/gas producer; high-beta clean energy trade",
           "status": "INELIGIBLE_TREND",
@@ -1474,7 +1474,7 @@
           "trend_detail": {
             "close": 133.01,
             "sma_50": 143.172353875612,
-            "sma_200": 151.57058148354452,
+            "sma_200": 151.5705814835445,
             "sma_50_prev20": 144.739872675696,
             "monthly_stoch_k": 6.6003068623387415,
             "monthly_stoch_d": 11.647360504143753,
@@ -1493,7 +1493,7 @@
           "diagnostics": {
             "close": 133.01,
             "sma_50": 143.172353875612,
-            "sma_200": 151.57058148354452,
+            "sma_200": 151.5705814835445,
             "ema_8": 132.2874563498654,
             "ema_21": 136.4954126428313
           }
