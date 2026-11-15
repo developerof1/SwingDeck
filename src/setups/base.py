@@ -38,3 +38,7 @@ class Setup:
     # serialized row -> (display text, is_invalid_badge) - replaces a hardcoded
     # qualified/developing/other dispatch in app.py with a setup-owned one.
     reason_for: Callable[[dict], tuple[str, bool]]
+    # serialized row -> an optional right-aligned row badge (e.g. Momentum
+    # Continuation's STOCH FLATTENING), or None. Defaulted so a setup with no such
+    # badge doesn't need to implement this at all.
+    badge_for: Callable[[dict], str | None] = lambda result: None

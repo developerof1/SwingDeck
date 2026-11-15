@@ -2,8 +2,9 @@
 plus the hourly batching queue (build_fresh_queue, finalize_night, merge_watchlist_results)
 that lets a run drain only MAX_TICKERS_PER_RUN tickers at a time instead of fetching
 everyone in one pass. evaluate_ticker (the actual Tiingo fetch + indicator/rules-engine
-call) is mocked out throughout - test_data_engine.py / test_rules_engine.py already cover
-that math. These tests exercise: fetching each unique ticker once per batch regardless of
+call) is mocked out throughout - test_momentum_continuation_gates.py /
+test_momentum_continuation_rules_engine.py already cover that math. These tests exercise:
+fetching each unique ticker once per batch regardless of
 how many watchlists reference it, fanning a ticker's single evaluation out into each
 watchlist's own sector/thesis, distributing fetch failures into every watchlist's errors
 list that references the failed ticker, merging a batch into existing results instead of
@@ -22,7 +23,8 @@ from src.providers.tiingo_provider import TiingoError, TiingoRateLimitError
 
 # The one setup currently in src.setups.REGISTRY - evaluate_ticker() is mocked throughout
 # this file (the real add_indicators/evaluate/serialize math is covered by
-# test_data_engine.py/test_rules_engine.py), but refresh_job still calls the real
+# test_momentum_continuation_gates.py/test_momentum_continuation_rules_engine.py), but
+# refresh_job still calls the real
 # list_setups()/_by_setup_rows_and_errors()/merge_watchlist_results(), so fakes need to key
 # their results under this same setup id for those to find them.
 SETUP_ID = "momentum_continuation"

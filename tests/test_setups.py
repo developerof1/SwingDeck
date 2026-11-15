@@ -1,18 +1,30 @@
 """Covers the setup registry (src/setups/__init__.py, src/setups/base.py) and the
-Momentum Continuation adapter (src/setups/momentum_continuation.py) - a pure wrap of
-rules_engine.evaluate_stock/data_engine.add_continuation_indicators plus the
-serialize()/reason_for() logic that used to be inline in refresh_job.py/app.py. The
-underlying gate math itself is already covered by test_rules_engine.py/test_data_engine.py;
+Momentum Continuation adapter (src/setups/momentum_continuation/__init__.py) - a pure
+wrap of rules_engine.evaluate_stock/gates.add_continuation_indicators plus the
+serialize()/reason_for()/badge_for() logic. The underlying gate math itself is already
+covered by test_momentum_continuation_gates.py/test_momentum_continuation_rules_engine.py;
 these tests only check the wrap is faithful.
 """
 
 import pytest
 
-from src.data_engine import add_continuation_indicators
-from src.rules_engine import Badge, EvalResult, STATUS_CANDIDATE, STATUS_DATA_INVALID, STATUS_DEVELOPING, STATUS_INELIGIBLE_TREND, evaluate_stock
 from src.setups import get_setup, list_setups
 from src.setups import momentum_continuation
-from src.status_mapping import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED
+from src.setups.momentum_continuation.gates import add_continuation_indicators
+from src.setups.momentum_continuation.rules_engine import (
+    EvalResult,
+    L1_FAIL,
+    L1_NOT_EVALUABLE,
+    L1_PASS,
+    L2_ARMED,
+    L2_NOT_ARMED,
+    L2_NOT_EVALUABLE,
+    STATUS_DEVELOPING,
+    STATUS_MONITORED,
+    STATUS_QUALIFIED,
+    evaluate_stock,
+)
+from src.status_groups import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED
 
 
 def test_registry_lists_momentum_continuation():
@@ -37,105 +49,87 @@ def test_momentum_continuation_wraps_the_real_indicator_and_eval_functions():
     assert momentum_continuation.evaluate is evaluate_stock
 
 
-def _candidate_result() -> EvalResult:
+def _qualified_result() -> EvalResult:
     return EvalResult(
         ticker="NVDA",
-        status=STATUS_CANDIDATE,
+        status=STATUS_QUALIFIED,
         evaluated_session="2026-11-06",
-        data_valid=True,
-        trend_pass=True,
-        location_pass=True,
-        oscillator_pass=True,
-        location_detail={"dpct": 1.2, "dpct_prev": 1.5, "ema_ref": 100.0, "ema_ref_is_ema8": True, "pass_today": True, "pass": True, "sessions_ago": 0},
-        oscillator_detail={"stoch_k": 22.0, "stoch_d": 18.0, "stoch_k_prev": 19.0, "in_zone": True, "pass_today": True, "pass": True, "sessions_ago": 0},
-        recovery_observed=True,
+        l1_state=L1_PASS,
+        l2_state=L2_ARMED,
+        l2_age=0,
+        armed=True,
+        l3_score=5,
+        l3_detail={"stoch_pts": 2, "rsi_pts": 2, "macd_pts": 1},
+        stoch_flattening=False,
         diagnostics={"close": 101.2},
     )
 
 
 def test_serialize_round_trips_every_eval_result_field_reason_for_needs():
-    result = _candidate_result()
+    result = _qualified_result()
     row = momentum_continuation.serialize(result)
 
-    assert row["status"] == STATUS_CANDIDATE
+    assert row["status"] == STATUS_QUALIFIED
     assert row["ui_group"] == GROUP_QUALIFIED
     assert row["evaluated_session"] == "2026-11-06"
-    assert row["data_valid"] is True
-    assert row["recovery_observed"] is True
-    assert row["location_detail"] == result.location_detail
-    assert row["oscillator_detail"] == result.oscillator_detail
-    assert row["developing_badges"] == []
+    assert row["l1_state"] == L1_PASS
+    assert row["l2_state"] == L2_ARMED
+    assert row["armed"] is True
+    assert row["l3_score"] == 5
+    assert row["l3_detail"] == result.l3_detail
+    assert row["stoch_flattening"] is False
 
 
-def test_serialize_flattens_developing_badges_to_plain_dicts():
+def test_reason_for_qualified_is_just_the_score():
+    row = momentum_continuation.serialize(_qualified_result())
+    text, is_invalid = momentum_continuation.reason_for(row)
+
+    assert is_invalid is False
+    assert text == "5/5"
+
+
+def test_reason_for_developing_awaiting_daily_signal():
     result = EvalResult(
         ticker="AMD",
         status=STATUS_DEVELOPING,
-        trend_pass=True,
-        location_pass=False,
-        oscillator_pass=True,
-        developing_badges=[Badge(code="LOCATION_PENDING", measured=4.2, threshold=3.0, direction="drifting_away", ema_label="EMA8")],
-        location_detail={"dpct": 4.2, "dpct_prev": 4.0, "pass": False},
-        oscillator_detail={"stoch_k": 25.0, "pass": True, "sessions_ago": 0},
+        l1_state=L1_PASS,
+        l2_state=L2_NOT_ARMED,
+        armed=False,
+        l3_score=2,
+        l3_detail={"stoch_pts": 0, "rsi_pts": 2, "macd_pts": 0},
     )
     row = momentum_continuation.serialize(result)
-
     assert row["ui_group"] == GROUP_DEVELOPING
-    assert row["developing_badges"] == [
-        {"code": "LOCATION_PENDING", "measured": 4.2, "threshold": 3.0, "direction": "drifting_away", "in_zone": None, "ema_label": "EMA8"}
-    ]
-
-
-def test_reason_for_qualified_includes_recovery_tag_when_observed():
-    row = momentum_continuation.serialize(_candidate_result())
     text, is_invalid = momentum_continuation.reason_for(row)
 
     assert is_invalid is False
-    assert "Trend OK" in text
-    assert "Closed above prior high" in text
+    assert "Daily" in text and "Weekly" in text
+    assert "to confirm" not in text
 
 
-def test_reason_for_developing_has_no_recovery_tag_when_not_observed():
-    result = EvalResult(
-        ticker="AMD",
-        status=STATUS_DEVELOPING,
-        trend_pass=True,
-        location_pass=False,
-        oscillator_pass=True,
-        recovery_observed=False,
-        location_detail={"dpct": 4.2, "dpct_prev": 4.0, "pass": False},
-        oscillator_detail={"stoch_k": 25.0, "pass": True, "sessions_ago": 0},
-    )
-    row = momentum_continuation.serialize(result)
-    text, is_invalid = momentum_continuation.reason_for(row)
-
-    assert is_invalid is False
-    assert "Closed above prior high" not in text
-
-
-def test_reason_for_data_invalid_is_marked_as_invalid_badge():
-    result = EvalResult(ticker="NEWCO", status=STATUS_DATA_INVALID, data_invalid_reason="Only 50 completed sessions available, need at least 420")
-    row = momentum_continuation.serialize(result)
-    text, is_invalid = momentum_continuation.reason_for(row)
-
-    assert is_invalid is True
-    assert "Only 50 completed sessions" in text
-
-
-def test_reason_for_ineligible_trend_is_not_marked_invalid():
-    result = EvalResult(
-        ticker="XYZ",
-        status=STATUS_INELIGIBLE_TREND,
-        trend_pass=False,
-        trend_detail={"close_gt_sma200": False, "close": 90.0, "sma_200": 100.0},
-    )
+def test_reason_for_monitored_l1_fail_is_not_marked_invalid():
+    result = EvalResult(ticker="XYZ", status=STATUS_MONITORED, l1_state=L1_FAIL, l2_state=L2_NOT_ARMED, armed=False)
     row = momentum_continuation.serialize(result)
     assert row["ui_group"] == GROUP_OTHER
     text, is_invalid = momentum_continuation.reason_for(row)
     assert is_invalid is False
+    assert text == "Trend <span class=\"sd-check-fail\">✗</span>"
 
 
-def test_reason_for_unrecognized_group_has_a_generic_fallback():
-    text, is_invalid = momentum_continuation.reason_for({"ui_group": "some_future_group", "status": "WHATEVER"})
+def test_reason_for_monitored_not_evaluable_is_not_marked_invalid():
+    result = EvalResult(ticker="NEWCO", status=STATUS_MONITORED, l1_state=L1_NOT_EVALUABLE, l2_state=L2_NOT_EVALUABLE)
+    row = momentum_continuation.serialize(result)
+    text, is_invalid = momentum_continuation.reason_for(row)
+
     assert is_invalid is False
-    assert "Unrecognized status" in text
+    assert "not enough history yet" in text
+
+
+def test_badge_for_returns_flattening_pill_only_on_developing_rows_with_the_flag():
+    flattening = EvalResult(ticker="SWK", status=STATUS_DEVELOPING, l1_state=L1_PASS, stoch_flattening=True)
+    not_flattening = EvalResult(ticker="ROKU", status=STATUS_DEVELOPING, l1_state=L1_PASS, stoch_flattening=False)
+    qualified = EvalResult(ticker="AVGO", status=STATUS_QUALIFIED, l1_state=L1_PASS, stoch_flattening=True)
+
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(flattening)) == "STOCH FLATTENING"
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(not_flattening)) is None
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(qualified)) is None

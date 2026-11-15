@@ -1,12 +1,13 @@
-"""Converts raw Tiingo OHLCV rows into an indicator-enriched DataFrame.
+"""Shared OHLCV/indicator toolkit - the only things here are primitives more than one
+setup could plausibly need: normalizing raw Tiingo rows, resampling to a higher
+timeframe, and the handful of technical indicators (Stochastic, ATR, RSI, MACD) with
+their periods as real parameters, not hardcoded. Each setup composes these with its own
+periods/thresholds in its own package (see src/setups/momentum_continuation/gates.py) -
+this file has no opinion on what any setup does with them.
 
-Only the long-window indicators (needing the full fetched history) live here:
-SMA 50/200, EMA 8/21, Stochastic(14,3,3), RVOL, plus the weekly/monthly Stochastic
-readings used for the multi-timeframe Oscillator Trigger check (rules_engine.py Step
-4). Short-window values that only ever need the last few rows (prior-day high, 5-day
-swing low) are computed inside rules_engine.evaluate_stock() instead, so they work
-identically whether it's given the full history or just a short tail-end snapshot
-(see app.py).
+Also still holds the archived V1 engine's own indicator set (add_indicators,
+add_multi_timeframe_stoch, snapshot_tail) - V1 isn't a registered Setup and is no longer
+wired into the live app (see src/rules_engine_v1.py), kept only for reference/rollback.
 """
 
 import pandas as pd
@@ -35,15 +36,68 @@ def to_dataframe(raw_prices: list[dict]) -> pd.DataFrame:
     )
 
 
-def _stochastic(df: pd.DataFrame, k_period: int = 14, k_smooth: int = 3, d_smooth: int = 3) -> tuple[pd.Series, pd.Series]:
-    """Shared Stochastic %K/%D math - used for the daily series and, resampled, for
-    the weekly/monthly series below, so all three timeframes agree on the formula."""
+def stochastic(df: pd.DataFrame, k_period: int = 14, k_smooth: int = 3, d_smooth: int = 3) -> tuple[pd.Series, pd.Series]:
+    """Stochastic %K/%D, periods as real parameters (not hardcoded) so any setup/timeframe
+    can call this with its own periods - e.g. stochastic(df, k_period=7, k_smooth=3,
+    d_smooth=3) for a setup that wants a faster read, without touching any other
+    caller's periods. Shared across the daily series and, resampled, the weekly/monthly
+    series, so every timeframe agrees on the formula."""
     low = df["low"].rolling(k_period).min()
     high = df["high"].rolling(k_period).max()
     raw_k = 100 * (df["close"] - low) / (high - low)
     k = raw_k.rolling(k_smooth).mean()
     d = k.rolling(d_smooth).mean()
     return k, d
+
+
+def atr(df: pd.DataFrame, n: int = 14) -> pd.Series:
+    """Average True Range, Wilder's RMA smoothing (ewm(alpha=1/n, adjust=False)) to match
+    TradingView's default ATR. TR = max(H-L, |H-prevC|, |L-prevC|)."""
+    prev_close = df["close"].shift(1)
+    tr = pd.concat(
+        [
+            df["high"] - df["low"],
+            (df["high"] - prev_close).abs(),
+            (df["low"] - prev_close).abs(),
+        ],
+        axis=1,
+    ).max(axis=1)
+    return tr.ewm(alpha=1 / n, adjust=False).mean()
+
+
+def rsi(series: pd.Series, n: int = 14) -> pd.Series:
+    """Wilder RSI: up/down moves each smoothed with the same Wilder RMA as atr() above,
+    so both match TradingView's default RSI rather than a plain SMA-based variant."""
+    diff = series.diff()
+    up = diff.clip(lower=0).ewm(alpha=1 / n, adjust=False).mean()
+    down = (-diff.clip(upper=0)).ewm(alpha=1 / n, adjust=False).mean()
+    rs = up / down
+    return 100 - 100 / (1 + rs)
+
+
+def macd_hist(series: pd.Series, fast: int = 12, slow: int = 26, signal: int = 9) -> pd.Series:
+    """MACD histogram: macd = EMA(fast) - EMA(slow); signal = EMA(signal) of macd;
+    hist = macd - signal. All EMAs ewm(adjust=False), matching TradingView's default."""
+    macd = series.ewm(span=fast, adjust=False).mean() - series.ewm(span=slow, adjust=False).mean()
+    signal_line = macd.ewm(span=signal, adjust=False).mean()
+    return macd - signal_line
+
+
+def resample_ohlcv(df: pd.DataFrame, rule: str) -> pd.DataFrame:
+    """Resample daily OHLCV to a higher timeframe (e.g. "W-FRI", "ME"). The bin
+    containing today's date is necessarily partial/in-progress if today isn't that bin's
+    period-end - callers that need "completed bars only" must exclude it themselves
+    (see gates.py's weekly-bar-completeness check), this function just aggregates
+    whatever sessions exist in each bin."""
+    agg = df.set_index("date").resample(rule).agg(
+        {"open": "first", "high": "max", "low": "min", "close": "last", "volume": "sum"}
+    )
+    return agg.dropna(subset=["close"]).reset_index()
+
+
+# --- Archived V1 engine's indicator set (src/rules_engine_v1.py) ---
+# Not a registered Setup, no longer wired into the live app - kept for reference/rollback
+# only. Uses the shared stochastic()/resample_ohlcv() above, nothing else here.
 
 
 def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
@@ -54,19 +108,12 @@ def add_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df["sma_200"] = df["close"].rolling(200).mean()
     df["ema_8"] = df["close"].ewm(span=8, adjust=False).mean()
     df["ema_21"] = df["close"].ewm(span=21, adjust=False).mean()
-    df["stoch_k"], df["stoch_d"] = _stochastic(df)
+    df["stoch_k"], df["stoch_d"] = stochastic(df)
 
     vol_sma_20 = df["volume"].rolling(20).mean()
     df["rvol"] = df["volume"] / vol_sma_20
 
     return df
-
-
-def _resample_ohlcv(df: pd.DataFrame, rule: str) -> pd.DataFrame:
-    agg = df.set_index("date").resample(rule).agg(
-        {"open": "first", "high": "max", "low": "min", "close": "last", "volume": "sum"}
-    )
-    return agg.dropna(subset=["close"]).reset_index()
 
 
 def add_multi_timeframe_stoch(df: pd.DataFrame) -> pd.DataFrame:
@@ -84,13 +131,13 @@ def add_multi_timeframe_stoch(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df.copy().sort_values("date")
 
-    weekly = _resample_ohlcv(df, "W-FRI")
-    weekly["stoch_k"], weekly["stoch_d"] = _stochastic(weekly)
+    weekly = resample_ohlcv(df, "W-FRI")
+    weekly["stoch_k"], weekly["stoch_d"] = stochastic(weekly)
     weekly["stoch_k_prev"] = weekly["stoch_k"].shift(1)
     weekly["stoch_d_prev"] = weekly["stoch_d"].shift(1)
 
-    monthly = _resample_ohlcv(df, "ME")
-    monthly["stoch_k"], _monthly_d = _stochastic(monthly)
+    monthly = resample_ohlcv(df, "ME")
+    monthly["stoch_k"], _monthly_d = stochastic(monthly)
     monthly["stoch_k_prev"] = monthly["stoch_k"].shift(1)
 
     df = pd.merge_asof(
@@ -151,105 +198,3 @@ def snapshot_tail(df: pd.DataFrame, rows: int = 5) -> list[dict]:
     tail = df.tail(rows).copy()
     tail["date"] = tail["date"].dt.strftime("%Y-%m-%d")
     return tail[SNAPSHOT_COLUMNS].to_dict("records")
-
-
-# --- Momentum Continuation indicators (see docs/Momentum Continuation V2 — Logic.md) ---
-# Self-contained and deliberately independent of add_indicators() above: the live
-# Momentum Continuation path must never depend on V1's indicator set computed there
-# - only the private _stochastic()/_resample_ohlcv() math helpers are shared.
-
-SMA50_TREND_LOOKBACK_SESSIONS = 20
-LOCATION_PROXIMITY_PCT = 3.0
-OSCILLATOR_ZONE_MAX = 30
-
-
-def _add_mtf_stoch(df: pd.DataFrame) -> pd.DataFrame:
-    """Attaches the latest *completed* weekly and monthly Stochastic(14,3,3)
-    readings to every daily row, for the Trend Gate's Layer 2 MTF momentum veto
-    (Monthly %K>%D or rising; Weekly %K rising and >=20 - see evaluate_stock's
-    _compute_trend_detail). A weekly/monthly resample bin is labeled by its
-    period-end date, so merge_asof(direction="backward") against the daily date
-    always matches the most recently *completed* higher-timeframe bar, never
-    the still-forming current one. Reuses the daily OHLCV already fetched - no
-    extra Tiingo calls.
-    """
-    weekly = _resample_ohlcv(df, "W-FRI")
-    weekly["stoch_k"], weekly["stoch_d"] = _stochastic(weekly)
-    weekly["stoch_k_prev"] = weekly["stoch_k"].shift(1)
-
-    monthly = _resample_ohlcv(df, "ME")
-    monthly["stoch_k"], monthly["stoch_d"] = _stochastic(monthly)
-    monthly["stoch_k_prev"] = monthly["stoch_k"].shift(1)
-
-    df = pd.merge_asof(
-        df,
-        weekly[["date", "stoch_k", "stoch_d", "stoch_k_prev"]].rename(
-            columns={
-                "stoch_k": "weekly_stoch_k",
-                "stoch_d": "weekly_stoch_d",
-                "stoch_k_prev": "weekly_stoch_k_prev",
-            }
-        ),
-        on="date",
-        direction="backward",
-    )
-    df = pd.merge_asof(
-        df,
-        monthly[["date", "stoch_k", "stoch_d", "stoch_k_prev"]].rename(
-            columns={
-                "stoch_k": "monthly_stoch_k",
-                "stoch_d": "monthly_stoch_d",
-                "stoch_k_prev": "monthly_stoch_k_prev",
-            }
-        ),
-        on="date",
-        direction="backward",
-    )
-    return df
-
-
-def add_continuation_indicators(df: pd.DataFrame) -> pd.DataFrame:
-    """Indicators for the Momentum Continuation setup: sma_50/sma_200/sma_50_prev20
-    (Trend Gate Layer 1), monthly/weekly Stochastic (Trend Gate Layer 2 MTF veto),
-    ema_8/ema_21 and the derived ema_ref/location_dpct/location_ok (Location Gate
-    - EMAref is whichever of EMA8/EMA21 sits closer to price, tie -> EMA8), daily
-    Stochastic(14,3,3) and the derived oscillator_trigger_ok (Oscillator Gate), and
-    prev_session_high (for the non-gating recovery_observed annotation).
-
-    Also attaches a handful of non-gating diagnostic columns that only exist to
-    drive the "magnitude / direction / recency" UI messaging in status_mapping.py
-    (never read by any pass/fail check here or in rules_engine.py):
-    ema_ref_is_ema8 (which EMA the Location badge should name), location_dpct_prev
-    and stoch_k_prev (yesterday's reading, to say "closing in" vs "drifting away"),
-    and oscillator_in_zone (today's zone condition on its own, independent of
-    whether the crossover also fired - distinguishes "already oversold, just
-    waiting on the cross" from "not oversold yet").
-    """
-    df = df.copy().sort_values("date").reset_index(drop=True)
-
-    df["sma_50"] = df["close"].rolling(50).mean()
-    df["sma_200"] = df["close"].rolling(200).mean()
-    df["sma_50_prev20"] = df["sma_50"].shift(SMA50_TREND_LOOKBACK_SESSIONS)
-
-    df["ema_8"] = df["close"].ewm(span=8, adjust=False).mean()
-    df["ema_21"] = df["close"].ewm(span=21, adjust=False).mean()
-    df["stoch_k"], df["stoch_d"] = _stochastic(df)
-    df["stoch_k_prev"] = df["stoch_k"].shift(1)
-
-    df = _add_mtf_stoch(df)
-
-    dist_8 = (df["close"] - df["ema_8"]).abs()
-    dist_21 = (df["close"] - df["ema_21"]).abs()
-    df["ema_ref_is_ema8"] = dist_8 <= dist_21
-    df["ema_ref"] = df["ema_8"].where(df["ema_ref_is_ema8"], df["ema_21"])
-    df["location_dpct"] = (df["close"] - df["ema_ref"]).abs() / df["ema_ref"] * 100
-    df["location_dpct_prev"] = df["location_dpct"].shift(1)
-    df["location_ok"] = df["location_dpct"] <= LOCATION_PROXIMITY_PCT
-
-    crossover = (df["stoch_k"] > df["stoch_d"]) & (df["stoch_k_prev"] <= df["stoch_d"].shift(1))
-    zone = (df["stoch_k"] <= OSCILLATOR_ZONE_MAX) | (df["stoch_d"] <= OSCILLATOR_ZONE_MAX)
-    df["oscillator_in_zone"] = zone
-    df["oscillator_trigger_ok"] = crossover & zone
-
-    df["prev_session_high"] = df["high"].shift(1)
-    return df

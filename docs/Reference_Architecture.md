@@ -107,18 +107,27 @@ app.py + watchlist selector
 ```
 
 **Deltas required:**
-- [ ] Define a minimal setup interface (id, `add_indicators(df)`, `evaluate(ticker, df)`,
+- [x] Define a minimal setup interface (id, `add_indicators(df)`, `evaluate(ticker, df)`,
   status→UI-group map, reason-text renderer) — retrofit Momentum Continuation behind it
-  with no behavior change
-- [ ] Promote `data_engine`'s private math helpers (`_stochastic`, `_resample_ohlcv`,
+  with no behavior change (`src/setups/base.py`'s `Setup` dataclass + `src/setups/__init__.py`'s
+  registry; this was already built, this checklist just hadn't caught up)
+- [x] Promote `data_engine`'s private math helpers (`_stochastic`, `_resample_ohlcv`,
   SMA/EMA) into a shared toolkit any setup composes from, instead of each setup writing
-  its own monolithic `add_X_indicators`
-- [ ] `status_mapping`-equivalent logic becomes per-setup, owned by each setup module —
-  only the generic `qualified/developing/other/unknown` taxonomy stays shared
-- [ ] `refresh_job.py` loops over registered setups (× watchlists); results tagged with
-  `setup_id`
-- [ ] `app.py` gets a setup tab/selector instead of the hardcoded "Momentum Continuation"
-  label and single engine import
+  its own monolithic `add_X_indicators` — de-privatized to `stochastic`/`resample_ohlcv`,
+  plus new `atr`/`rsi`/`macd_hist`, all with periods as real keyword args (2026-11
+  Momentum Continuation L1/L2/L3 rebuild)
+- [x] `status_mapping`-equivalent logic becomes per-setup, owned by each setup module —
+  only the generic `qualified/developing/other/unknown` taxonomy stays shared — split into
+  shared `src/status_groups.py` (just the 4 buckets + dot/label + a generic lookup helper)
+  and each setup's own `status_mapping.py` (e.g. `src/setups/momentum_continuation/
+  status_mapping.py`, which owns that setup's `STATUS_TO_GROUP` dict and all its row copy)
+- [x] `refresh_job.py` loops over registered setups (× watchlists); results tagged with
+  `setup_id` — already true (`evaluate_ticker`/`evaluate_unique_tickers` loop
+  `list_setups()`, `results/<id>.json` nests by `setup_id`)
+- [x] `app.py` gets a setup tab/selector instead of the hardcoded "Momentum Continuation"
+  label and single engine import — delivered as a per-setup accordion (`render_setup_accordion`,
+  looping `list_setups()`) rather than literal tabs; same effect (no setup-specific code in
+  app.py), different widget
 
 ## 5. Combined target (both axes)
 

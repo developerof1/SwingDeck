@@ -19,7 +19,7 @@ import streamlit as st
 
 from src.setups import list_setups
 from src.setups.base import Setup
-from src.status_mapping import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED, GROUP_UNKNOWN
+from src.status_groups import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED, GROUP_UNKNOWN
 from src.watchlist_store import discover_watchlists, load_watchlist
 
 REPO_ROOT = os.path.dirname(__file__)
@@ -180,6 +180,41 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
 .sd-badge-invalid {
     background: rgba(148, 163, 184, 0.18);
     color: rgba(250, 250, 250, 0.75) !important;
+}
+/* Momentum Continuation's Trend/Daily/Weekly check glyphs (docs/Momentum Continuation -
+   V2 Logic Improvement Specs.md Part C) - muted teal-green/muted orange, deliberately
+   not red/green, so a failing leg doesn't read as an alarm. Declared after
+   .sd-row-reason's own "* -> same muted gray, !important" rule above so these win the
+   specificity tie on source order. */
+.sd-check-pass {
+    color: #5eb8a4 !important;
+}
+.sd-check-fail {
+    color: #c99a5c !important;
+}
+/* STOCH FLATTENING row badge (Part C) - light/muted, never an alert color. Sits beside
+   the row's main content via .sd-row's flex layout below, right-aligned and vertically
+   centered against the whole row. */
+.sd-row-flattening-badge {
+    display: inline-block;
+    background: rgba(226, 232, 240, 0.12);
+    color: rgba(226, 232, 240, 0.85) !important;
+    border-radius: 4px;
+    padding: 0.15rem 0.55rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+div[data-testid="stMarkdownContainer"] .sd-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.sd-row-main {
+    flex: 1 1 auto;
+    min-width: 0;
 }
 .sd-dot {
     font-size: 0.75rem;
@@ -567,8 +602,12 @@ def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
     evaluated_session = result.get("evaluated_session")
     title_attr = f' title="Last evaluated {evaluated_session}"' if is_stale and evaluated_session else ""
 
+    badge_text = setup.badge_for(result)
+    badge_html = f'<div class="sd-row-flattening-badge">{badge_text}</div>' if badge_text else ""
+
     row_html = (
         f'<div class="{row_class}"{title_attr}>'
+        '<div class="sd-row-main">'
         '<div class="sd-row-top">'
         '<div class="sd-row-left">'
         f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>'
@@ -577,6 +616,8 @@ def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
         f'<div class="sd-dot">{dot}</div>'
         "</div>"
         f"{reason_html}"
+        "</div>"
+        f"{badge_html}"
         "</div>"
     )
     with st.container(border=True):
