@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-16T21:19+00:00",
+      "generated_at": "2026-11-16T22:32+00:00",
       "evaluated_session": "2026-11-13",
       "results": [
         {
@@ -362,17 +362,17 @@
           "thesis": "Active Electrical Cables; rapid momentum expansion setups",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 131.51,
-            "atr_14": 15.609700922445109
+            "close": 120.71,
+            "atr_14": 15.416865142270458
           }
         },
         {
@@ -380,19 +380,29 @@
           "name": "Salesforce Inc",
           "sector": "SaaS with AI Story",
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
-          "status": "MONITORED",
-          "ui_group": "other",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "FAIL",
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 0,
+          "l2_age": 1,
           "armed": true,
-          "l3_score": null,
-          "l3_detail": {},
-          "stoch_flattening": null,
+          "l3_score": 0,
+          "l3_detail": {
+            "stoch_pts": 0,
+            "rsi_pts": 0,
+            "macd_pts": 0,
+            "k_now": 34.948047576025864,
+            "k_prev": 44.76431566333574,
+            "rsi_now": 49.861967584226846,
+            "rsi_prev": 50.980090902481486,
+            "hist_now": -1.613227513975989,
+            "hist_prev": -0.5231143496078161
+          },
+          "stoch_flattening": false,
           "diagnostics": {
-            "close": 217.84,
-            "atr_14": 8.055351234118568
+            "close": 214.83,
+            "atr_14": 7.882111860252956
           }
         },
         {
@@ -430,29 +440,19 @@
           "name": "Coherent Corp",
           "sector": "Networking & Interconnects",
           "thesis": "Optical transceivers; high-volatility momentum breakout candidate",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 14.43243534385,
-            "k_prev": 6.918698852088657,
-            "rsi_now": 41.417029910477716,
-            "rsi_prev": 36.94852100696116,
-            "hist_now": -15.016828413947902,
-            "hist_prev": -16.594711862376524
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 218.15,
-            "atr_14": 23.766150276801607
+            "close": 203.43,
+            "atr_14": 23.642139542744353
           }
         },
         {
@@ -510,29 +510,19 @@
           "name": "Eaton Corporation plc",
           "sector": "Power & Thermal Management",
           "thesis": "Grid management & transformers; steady institutional trend-follower",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
-          "l3_score": 4,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 0,
-            "k_now": 13.755989286013557,
-            "k_prev": 9.741326655408486,
-            "rsi_now": 39.015835655946006,
-            "rsi_prev": 35.02993611499983,
-            "hist_now": -10.667371601644318,
-            "hist_prev": -10.39068005187047
-          },
-          "stoch_flattening": true,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 352.97,
-            "atr_14": 18.492935164283562
+            "close": 336.88,
+            "atr_14": 18.369625509691883
           }
         },
         {
