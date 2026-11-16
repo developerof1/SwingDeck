@@ -38,9 +38,21 @@ def test_status_to_group_covers_every_status():
     }
 
 
-def test_qualified_row_is_just_the_score():
-    result = {"status": STATUS_QUALIFIED, "l1_state": L1_PASS, "armed": True, "l3_score": 4}
-    assert row_text(result) == "4/5"
+def test_qualified_row_shows_the_daily_weekly_breakdown_alongside_the_score():
+    result = {
+        "status": STATUS_QUALIFIED,
+        "l1_state": L1_PASS,
+        "armed": True,
+        "l2_age": 2,
+        "l3_score": 4,
+        "l3_detail": {"stoch_pts": 2, "rsi_pts": 2, "macd_pts": 0},
+    }
+    text = row_text(result)
+    assert "Daily <span class=\"sd-check-pass\">✓</span> 2d ago" in text
+    assert "Weekly (RSI <span class=\"sd-check-pass\">✓</span>" in text
+    assert "MACD <span class=\"sd-check-fail\">✗</span>" in text
+    assert "Stoch <span class=\"sd-check-pass\">✓</span>" in text
+    assert text.endswith("Confidence: 4/5")
 
 
 def test_developing_daily_in_awaiting_weekly_confirmation():

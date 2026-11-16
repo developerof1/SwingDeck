@@ -74,10 +74,10 @@ def _l1_state(latest) -> str:
     completed_weeks = latest.get("l1_completed_weeks")
     if completed_weeks is None or completed_weeks < L1_MIN_WEEKS:
         return L1_NOT_EVALUABLE
-    sma50, sma50_4w_ago = latest.get("l1_sma50"), latest.get("l1_sma50_4w_ago")
-    if not (_finite(sma50) and _finite(sma50_4w_ago)):
+    ema50, ema50_4w_ago = latest.get("l1_ema50"), latest.get("l1_ema50_4w_ago")
+    if not (_finite(ema50) and _finite(ema50_4w_ago)):
         return L1_NOT_EVALUABLE
-    return L1_PASS if sma50 > sma50_4w_ago else L1_FAIL
+    return L1_PASS if ema50 > ema50_4w_ago else L1_FAIL
 
 
 def _l2_age_and_armed(df: pd.DataFrame) -> tuple[int | None, bool]:

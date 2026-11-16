@@ -80,12 +80,13 @@ def test_serialize_round_trips_every_eval_result_field_reason_for_needs():
     assert row["stoch_flattening"] is False
 
 
-def test_reason_for_qualified_is_just_the_score():
+def test_reason_for_qualified_shows_the_daily_weekly_breakdown_alongside_the_score():
     row = momentum_continuation.serialize(_qualified_result())
     text, is_invalid = momentum_continuation.reason_for(row)
 
     assert is_invalid is False
-    assert text == "5/5"
+    assert "Daily" in text and "Weekly" in text
+    assert text.endswith("Confidence: 5/5")
 
 
 def test_reason_for_developing_awaiting_daily_signal():

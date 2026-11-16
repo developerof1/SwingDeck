@@ -112,7 +112,7 @@ class TestWeeklyBarCompleteness:
         result = add_continuation_indicators(df)
         assert result.iloc[-1]["l1_completed_weeks"] < L1_MIN_WEEKS
 
-    def test_l1_sma50_uses_only_completed_bars_and_excludes_todays_partial_week(self):
+    def test_l1_ema50_uses_only_completed_bars_and_excludes_todays_partial_week(self):
         weekly_closes = [100.0 + w for w in range(60)]
         df = _weekly_daily_df(weekly_closes)
         df = pd.concat([df, pd.DataFrame({  # one extra Monday session, not a full week yet
@@ -122,9 +122,9 @@ class TestWeeklyBarCompleteness:
         result = add_continuation_indicators(df)
         last = result.iloc[-1]
         # The last COMPLETED week is still week 59 (close 159.0) - the stray Monday close
-        # of 500 must not leak into l1_sma50's rolling window.
-        expected_sma50 = pd.Series(weekly_closes).rolling(50).mean().iloc[-1]
-        assert last["l1_sma50"] == pytest.approx(expected_sma50)
+        # of 500 must not leak into l1_ema50's EMA.
+        expected_ema50 = pd.Series(weekly_closes).ewm(span=50, adjust=False).mean().iloc[-1]
+        assert last["l1_ema50"] == pytest.approx(expected_ema50)
 
     def test_l1_passes_despite_a_dip_partway_through_the_lookback_as_long_as_net_change_is_positive(self):
         weekly_closes = [100.0 + w for w in range(55)]
@@ -133,7 +133,7 @@ class TestWeeklyBarCompleteness:
         df = _weekly_daily_df(weekly_closes)
         result = add_continuation_indicators(df)
         last = result.iloc[-1]
-        assert last["l1_sma50"] > last["l1_sma50_4w_ago"]
+        assert last["l1_ema50"] > last["l1_ema50_4w_ago"]
 
 
 class TestL3WeeklyReadings:

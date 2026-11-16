@@ -39,8 +39,8 @@ BASELINE_ROW = {
     "stoch_d_prev": 35.0,
     "l2_signal": True,
     "l1_completed_weeks": 60,
-    "l1_sma50": 105.0,
-    "l1_sma50_4w_ago": 100.0,  # rising -> L1 PASS
+    "l1_ema50": 105.0,
+    "l1_ema50_4w_ago": 100.0,  # rising -> L1 PASS
     "weekly_k_now": 25.0,
     "weekly_k_prev": 15.0,  # rising from <=20 floor -> stoch_pts
     "weekly_k_prevprev": 40.0,
@@ -64,18 +64,18 @@ def _df(n: int = L2_MIN_SESSIONS + 10, overrides: dict[int, dict] | None = None)
 
 
 class TestL1Gate:
-    def test_passes_when_sma50_net_change_over_4_weeks_is_positive(self):
+    def test_passes_when_ema50_net_change_over_4_weeks_is_positive(self):
         result = evaluate_stock("TEST", _df())
         assert result.l1_state == L1_PASS
 
-    def test_fails_when_sma50_net_change_is_negative(self):
-        df = _df(overrides={0: {"l1_sma50": 95.0, "l1_sma50_4w_ago": 100.0}})
+    def test_fails_when_ema50_net_change_is_negative(self):
+        df = _df(overrides={0: {"l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0}})
         result = evaluate_stock("TEST", df)
         assert result.l1_state == L1_FAIL
         assert result.status == STATUS_MONITORED
 
     def test_boundary_is_strict_not_inclusive(self):
-        df = _df(overrides={0: {"l1_sma50": 100.0, "l1_sma50_4w_ago": 100.0}})
+        df = _df(overrides={0: {"l1_ema50": 100.0, "l1_ema50_4w_ago": 100.0}})
         result = evaluate_stock("TEST", df)
         assert result.l1_state == L1_FAIL
 
@@ -85,8 +85,8 @@ class TestL1Gate:
         assert result.l1_state == L1_NOT_EVALUABLE
         assert result.status == STATUS_MONITORED
 
-    def test_not_evaluable_when_sma50_values_missing_despite_enough_weeks(self):
-        df = _df(overrides={0: {"l1_sma50_4w_ago": float("nan")}})
+    def test_not_evaluable_when_ema50_values_missing_despite_enough_weeks(self):
+        df = _df(overrides={0: {"l1_ema50_4w_ago": float("nan")}})
         result = evaluate_stock("TEST", df)
         assert result.l1_state == L1_NOT_EVALUABLE
 
@@ -132,7 +132,7 @@ class TestL2Gate:
         assert result.l2_state == L2_NOT_EVALUABLE
 
     def test_resolves_independently_of_l1_fail(self):
-        df = _df(overrides={0: {"l1_sma50": 95.0, "l1_sma50_4w_ago": 100.0}})
+        df = _df(overrides={0: {"l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0}})
         result = evaluate_stock("TEST", df)
         assert result.l1_state == L1_FAIL
         assert result.l2_state == L2_ARMED
@@ -242,14 +242,14 @@ class TestCombine:
         assert result.status == STATUS_DEVELOPING
 
     def test_l1_fail_armed_is_monitored(self):
-        df = _df(overrides={0: {"l1_sma50": 95.0, "l1_sma50_4w_ago": 100.0}})
+        df = _df(overrides={0: {"l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0}})
         result = evaluate_stock("TEST", df)
         assert result.status == STATUS_MONITORED
         assert result.armed is True
 
     def test_l1_fail_not_armed_is_monitored(self):
         overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
-        overrides[0] = {"l1_sma50": 95.0, "l1_sma50_4w_ago": 100.0, "l2_signal": False}
+        overrides[0] = {"l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0, "l2_signal": False}
         df = _df(overrides=overrides)
         result = evaluate_stock("TEST", df)
         assert result.status == STATUS_MONITORED

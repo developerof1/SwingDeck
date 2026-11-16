@@ -23,7 +23,7 @@ renumbering history. This doc uses only the current, final names.
 
 ```python
 MC = dict(
-    L1_SMA_WEEKS=50, L1_LOOKBACK_WEEKS=4, L1_MIN_WEEKS=54,
+    L1_EMA_WEEKS=50, L1_LOOKBACK_WEEKS=4, L1_MIN_WEEKS=54,
     L2_ATR_N=14, L2_ATR_K=1.5, L2_EMA_FAST=8, L2_EMA_SLOW=21,
     L2_STOCH=(14, 3, 3), L2_ZONE=30, L2_GRACE=3,
     ARMED_MAX_AGE=5,                       # sessions after the signal day (signal day = age 0)
@@ -51,17 +51,17 @@ newly-listed tickers — it is not optional.
 - **Stochastic(14,3,3)**: `raw = 100*(C - LL14)/(HH14 - LL14)`; `K = SMA3(raw)`; `D = SMA3(K)`. If HH14 == LL14, carry the previous value.
 - **RSI14**: Wilder; `up = RMA(max(diff,0))`, `dn = RMA(max(-diff,0))`, `RSI = 100 - 100/(1+up/dn)`, RMA = `ewm(alpha=1/14, adjust=False)`.
 - **MACD(12,26,9) histogram**: `macd = EMA12 - EMA26`; `signal = EMA9(macd)`; `hist = macd - signal` (EMAs with `adjust=False`).
-- **SMA50 (weekly)**: simple mean of the last 50 weekly closes.
+- **EMA50 (weekly)**: `ewm(span=50, adjust=False)` on the weekly close, computed over the full completed weekly history (not a 50-bar window) so the recursive value is properly warmed up. **Not SMA50** — switched because SMA50's week-over-week increment stays positive long after a sharp reversal, until price drops below whatever closed 50 weeks ago; on a name that spiked and rolled over (e.g. ARM, Nov 2026) that 50-week-ago anchor sits far below the current price, so SMA50 structurally can't catch the rollover within any reasonable timeframe. EMA50 weights recent closes far more heavily and has no hard 50-bar cutoff, so it reflects the rollover instead.
 
 ## 4. L1: structural bull (weekly gate)
 Use completed weekly bars only (exclude the in-progress bar).
 ```
 if completed_weekly_bars < L1_MIN_WEEKS: L1 = NOT_EVALUABLE
-sma50 = SMA(weekly_close, 50)
-L1 = PASS if sma50[-1] > sma50[-1 - L1_LOOKBACK_WEEKS] else FAIL        # net change over 4 weeks
-sma50_4w_pct = sma50[-1] / sma50[-5] - 1                                   # kept in the log; no longer shown on the dashboard, see Part C
+ema50 = EMA(weekly_close, L1_EMA_WEEKS)
+L1 = PASS if ema50[-1] > ema50[-1 - L1_LOOKBACK_WEEKS] else FAIL        # net change over 4 weeks
+ema50_4w_pct = ema50[-1] / ema50[-5] - 1                                   # kept in the log; no longer shown on the dashboard, see Part C
 ```
-Net change, not "every week up". Slope only; no price-vs-MA check (dips below the MA and re-crosses do not matter).
+Net change, not "every week up". Slope only; no price-vs-MA check (dips below the MA and re-crosses do not matter). This is unchanged by the SMA50 -> EMA50 switch — only the MA type changed, not the test structure or the 4-week lookback.
 
 ## 5. L2: daily signal (every ticker, every EOD, independent of L1)
 ```
@@ -118,22 +118,22 @@ asymmetry isn't mistaken for a bug elsewhere.
 
 ## 8. Badges and dashboard display — superseded by Part C
 
-~~Badges are informational...~~ This section's content (badges, SMA50 display, raw score display) is
+~~Badges are informational...~~ This section's content (badges, EMA50 display, raw score display) is
 **fully superseded by Part C, "Dashboard Row Copy."** Part C is the authoritative spec for what
-renders on the dashboard; this section is kept only so the underlying log fields (`SMA50_4W_PCT`,
+renders on the dashboard; this section is kept only so the underlying log fields (`EMA50_4W_PCT`,
 `L3_PROVISIONAL`, `STOCH_FLATTENING`, the flag keys) are still documented as computed/logged values,
 even though several of them are no longer displayed.
 
 - `L3_PROVISIONAL`: still computed and logged; no longer shown on the dashboard.
 - `STOCH_FLATTENING` (Developing rows): `K_now <= FLAT_ZONE and abs(K_now - K_prev) <= FLAT_TOL and (K_prev - K_prevprev) <= -FLAT_PRIOR_FALL`, using the same weekly series as L3 (in-progress bar). **Still shown — see Part C for the exact badge treatment ("STOCH FLATTENING").**
-- `L1_FAILED` (Monitored rows): the weekly SMA50 is not rising over 4 weeks, so the name is not a Momentum Continuation candidate right now. Shown on every L1-fail row — see Part C for exact copy.
+- `L1_FAILED` (Monitored rows): the weekly EMA50 is not rising over 4 weeks, so the name is not a Momentum Continuation candidate right now. Shown on every L1-fail row — see Part C for exact copy.
 - `DAILY_SIGNAL_IN` (Monitored rows with L1 failing): a daily signal fired within the last 5 sessions even though L1 fails. Shown together with `L1_FAILED` — see Part C for exact copy.
 - `NOT_EVALUABLE` (Monitored rows): fewer than 54 completed weekly bars — see Part C for exact copy.
-- `SMA50_4W_PCT`: still computed and logged; **dropped from the dashboard entirely** (Part C decision) — judged to add nothing beyond what the Trend ✓/✗ already conveys.
+- `EMA50_4W_PCT`: still computed and logged; **dropped from the dashboard entirely** (Part C decision) — judged to add nothing beyond what the Trend ✓/✗ already conveys.
 
 ## 9. Daily log (required, background; not shown on the dashboard in v1)
 Append one row per ticker per EOD to an append-only table (e.g. SQLite/parquet `mc_v2_daily_log`). Columns:
-`date, ticker, close, status, label, score, l1_state, sma50, sma50_4w_ago, sma50_4w_pct, l2_prox_any3, l2_cross_any3, l2_signal, l2_age, armed,
+`date, ticker, close, status, label, score, l1_state, ema50, ema50_4w_ago, ema50_4w_pct, l2_prox_any3, l2_cross_any3, l2_signal, l2_age, armed,
 wk_K, wk_K_prev, wk_K_prevprev, wk_D, wk_RSI, wk_RSI_prev, wk_hist, wk_hist_prev, stoch_pts, rsi_pts, macd_pts, l3_provisional, flat_badge`.
 
 **Add for this consolidation**: an `l2_state` (or equivalent) column distinguishing "evaluated,
@@ -156,8 +156,8 @@ Weekly bars are week-ending Friday; "prev" is the prior week.
 | AVGO weekly 2025-04-11 | K 16.4 (prev 9.9), RSI 47.5 (35.2), hist -8.47 (-9.75) -> stoch 2, RSI 2, MACD 1 = 5 |
 | AVGO weekly 2026-04-03 | K 22.5 (prev 18.3), RSI 47.1 (42.5), hist -6.42 (-7.30) -> 5 |
 | AVGO weekly 2024-09-06 | K 48.0 (prev 65.0), RSI 48.6 (61.6), hist -2.01 (-0.29) -> 0 |
-| AVGO L1 as of week 2026-11-06 | SMA50 362.6 vs 365.0 four weeks earlier -> FAIL (-0.66%) |
-| AVGO L1 as of week 2026-10-16 | SMA50 364.2 vs 364.0 -> PASS |
+| AVGO L1 as of week 2026-11-06 *(pre-EMA50 switch; SMA50 values, no longer reproducible against the live engine)* | SMA50 362.6 vs 365.0 four weeks earlier -> FAIL (-0.66%) |
+| AVGO L1 as of week 2026-10-16 *(pre-EMA50 switch, see above)* | SMA50 364.2 vs 364.0 -> PASS |
 | AVGO L1 as of week 2024-12-13 | NOT_EVALUABLE (about 50 completed weekly bars; the test file starts 2024-01-02, so 54 bars exist only from late Jan 2025) |
 
 Reference clusters from the replay (not exact tests, because the live "armed" window is rolling): AVGO 2025-04-09/10 and 2026-03-05/06
@@ -205,7 +205,7 @@ than a turn.
         +---------------------------+  +---------------------------+
         | L1 STRUCTURAL BULL (gate) |  | L2 DAILY SIGNAL           |
         | weekly, closed bars only  |  | daily, any of last 3 sess |
-        | SMA50 rising over 4 wks   |  | ATR proximity AND         |
+        | EMA50 rising over 4 wks   |  | ATR proximity AND         |
         | out: pass / fail / n.e.   |  |   stoch cross (<=30)      |
         +---------------------------+  | out: signal today (bool)  |
               |   \ if pass            +---------------------------+
@@ -252,16 +252,16 @@ than a turn.
 
 Informational badges (never change status): `L3_PROVISIONAL` (logged, no longer shown — Part C),
 `STOCH_FLATTENING` (still shown, Part C), `L1_FAILED`, `DAILY_SIGNAL_IN`, `NOT_EVALUABLE`, and the L1
-4-week SMA50 % change (logged, no longer shown — Part C). The score `n/5` shows only on Qualified
+4-week EMA50 % change (logged, no longer shown — Part C). The score `n/5` shows only on Qualified
 rows (Part C) — not on every L1-pass row as originally drafted.
 
 ## Decisions (closed) and why
-1. **L1 is a hard gate.** A falling weekly SMA50 means "another setup", not Momentum Continuation. A daily signal with L1 failing goes to Monitored, with the `L1_FAILED` and `DAILY_SIGNAL_IN` flags visible.
+1. **L1 is a hard gate.** A falling weekly EMA50 means "another setup", not Momentum Continuation. A daily signal with L1 failing goes to Monitored, with the `L1_FAILED` and `DAILY_SIGNAL_IN` flags visible.
 2. **L3 gates Qualified, not just tags it.** L1 + L2 alone were about a coin flip (91 clusters across 8 names, 51% positive at 20 sessions), so a large Qualified list of weak names was expected. Qualified should stay small and trustworthy; names failing only on L3 stay visible in Developing.
 3. **Weekly confirmation may arrive up to 5 sessions after the daily signal.** The weekly confirmation typically lags the daily signal by about 6 sessions, and same-day confirmation qualified only 2 to 4 of 91 clusters. Window tested at 3/5/7/10: 5 kept the best return per cluster; lags of 6 to 10 sessions added weak names.
 4. **L3 uses direction of change from a low zone, not levels.** RSI > 50, MACD crosses and similar are too late. Stoch floor 20 (vs 30) was the only variant that beat no-L3 filtering. Weights stoch 2, RSI 2, MACD 1 (MACD is a lagging average).
 5. **L3 uses the in-progress weekly bar** (Monday open through today's close) so a confirmation can show before Friday. Repaint is real (6 of 13 five-point AVGO days were gone by Friday), hence the `L3_PROVISIONAL` flag (now logged only, not shown — Part C's call was that this is obvious enough mid-week not to need a badge).
-6. **L1 stays strict** (no flat-tolerance band). Known edge: AVGO flipped OFF on a -0.7% change in Nov 2026.
+6. **L1 stays strict** (no flat-tolerance band). Known edge (pre-EMA50 switch, SMA50-based): AVGO flipped OFF on a -0.7% change in Nov 2026 — the kind of slow-to-reverse edge the EMA50 switch (Part A §3) is meant to fix; worth re-checking this specific case once EMA50 has live data to compare against.
 7. **Stoch flattening is a badge, not a score point.** Across 8 names a flat %K after a fall (K <= 30, |change| <= 5) did no better than still-falling (38% positive at 20 sessions vs 51%); only an actual rise stood out (60%). Logged for live review, and still surfaced on the dashboard (Part C).
 8. **No extra daily confirmation on L2.** L3 now supplies the selectivity.
 
@@ -376,7 +376,7 @@ in the wireframe below.
 
 ## What got cut along the way (so it isn't re-litigated)
 
-- **SMA50 4-week % change** — dropped entirely. `Trend ✓/✗` was judged sufficient.
+- **EMA50 4-week % change** — dropped entirely. `Trend ✓/✗` was judged sufficient.
 - **Raw L3 score as a number** on any row except Qualified — replaced by the three named sub-checks,
   since a bare fraction didn't say *why* a row was where it was.
 - **Provisional badge** — cut.

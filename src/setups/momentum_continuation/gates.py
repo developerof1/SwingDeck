@@ -12,7 +12,7 @@ from src.data_engine import atr, macd_hist, resample_ohlcv, rsi, stochastic
 
 # --- Config (Part A §1) - every value tunable here, no code change needed elsewhere ---
 
-L1_SMA_WEEKS = 50
+L1_EMA_WEEKS = 50
 L1_LOOKBACK_WEEKS = 4
 L1_MIN_WEEKS = 54
 
@@ -67,11 +67,16 @@ def _l1_columns(df: pd.DataFrame, weekly: pd.DataFrame) -> dict:
     completed = _completed_weekly(df, weekly)
     n = len(completed)
     if n < L1_MIN_WEEKS:
-        return {"l1_sma50": None, "l1_sma50_4w_ago": None, "l1_completed_weeks": n}
-    sma50 = completed["close"].rolling(L1_SMA_WEEKS).mean()
+        return {"l1_ema50": None, "l1_ema50_4w_ago": None, "l1_completed_weeks": n}
+    # EMA, not SMA: SMA50's week-over-week increment stays positive long after a sharp
+    # reversal, until price drops below whatever closed 50 weeks ago - on a name like ARM
+    # that pre-rally anchor sits far below the current price, so SMA50 structurally can't
+    # catch the rollover within any reasonable timeframe. EMA50 weights recent closes far
+    # more heavily and has no hard 50-bar cutoff, so it reflects the rollover instead.
+    ema50 = completed["close"].ewm(span=L1_EMA_WEEKS, adjust=False).mean()
     return {
-        "l1_sma50": sma50.iloc[-1],
-        "l1_sma50_4w_ago": sma50.iloc[-1 - L1_LOOKBACK_WEEKS] if n >= L1_SMA_WEEKS + L1_LOOKBACK_WEEKS else None,
+        "l1_ema50": ema50.iloc[-1],
+        "l1_ema50_4w_ago": ema50.iloc[-1 - L1_LOOKBACK_WEEKS] if n >= L1_EMA_WEEKS + L1_LOOKBACK_WEEKS else None,
         "l1_completed_weeks": n,
     }
 
