@@ -81,7 +81,7 @@ def row_text(result: dict) -> str:
 
     # l1_state == L1_PASS
     if status == STATUS_QUALIFIED:
-        return f"Daily {_check(True)} {result.get('l2_age')}d ago ; {_weekly_clause(result)} ; {result.get('l3_score')}/5"
+        return f"Daily {_check(True)} {result.get('l2_age')}d ago ; {_weekly_clause(result)} ; Confidence: {result.get('l3_score')}/5"
     if armed:
         remaining = ARMED_MAX_AGE - (result.get("l2_age") or 0)
         return f"Daily {_check(True)} ; {_weekly_clause(result)} ; {remaining}d to confirm"

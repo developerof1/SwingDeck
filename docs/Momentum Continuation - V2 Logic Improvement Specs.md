@@ -328,9 +328,9 @@ that score is shown alongside it rather than hidden behind it, same vocabulary a
 Developing-armed row, with the countdown clause replaced by the score since nothing is counting
 down anymore:
 ```
-Daily ✓ {age}d ago ; Weekly (RSI {✓/✗}, MACD {✓/✗}, Stoch {✓/✗}) ; {score}/5
+Daily ✓ {age}d ago ; Weekly (RSI {✓/✗}, MACD {✓/✗}, Stoch {✓/✗}) ; Confidence: {score}/5
 ```
-e.g. `Daily ✓ 2d ago ; Weekly (RSI ✓, MACD ✗, Stoch ✓) ; 4/5`
+e.g. `Daily ✓ 2d ago ; Weekly (RSI ✓, MACD ✗, Stoch ✓) ; Confidence: 4/5`
 
 **Developing — daily signal in, awaiting weekly confirmation:**
 ```
