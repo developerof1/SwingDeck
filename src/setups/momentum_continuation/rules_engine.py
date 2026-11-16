@@ -12,6 +12,10 @@ asymmetry: DAILY_SIGNAL_IN was only ever defined for L1 FAIL in the original pse
 never for NOT_EVALUABLE, even though L2 is independent in both cases - this evaluator
 just always computes L2's real state regardless of L1's, so the dashboard copy layer
 can read l2_state/armed directly without that gap).
+
+2026-11-16: Monitored is no longer purely an L1-fail/not-evaluable verdict - an L1-pass
+row with zero signal on both other layers (L2 not armed AND L3 score 0) also lands in
+Monitored, since there's nothing actually "developing" there (see evaluate_stock below).
 """
 
 from dataclasses import dataclass, field
@@ -149,7 +153,15 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
 
     l3_score, l3_detail = _l3_score_and_detail(latest)
     stoch_flattening = _stoch_flattening(latest)
-    status = STATUS_QUALIFIED if (armed and l3_score >= L3_QUALIFY_MIN) else STATUS_DEVELOPING
+    if armed and l3_score >= L3_QUALIFY_MIN:
+        status = STATUS_QUALIFIED
+    elif not armed and l3_score == 0:
+        # Trend passes but neither the daily signal nor any weekly sub-check has fired -
+        # nothing is actually in motion here, so this isn't "developing" toward anything;
+        # it belongs with the rest of the watch-and-wait names in Monitored.
+        status = STATUS_MONITORED
+    else:
+        status = STATUS_DEVELOPING
 
     return EvalResult(
         status=status,

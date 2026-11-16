@@ -259,3 +259,35 @@ class TestCombine:
         df = _df(overrides={0: {"l1_completed_weeks": 10}})
         result = evaluate_stock("TEST", df)
         assert result.status == STATUS_MONITORED
+
+    def test_l1_pass_not_armed_and_zero_l3_score_is_monitored(self):
+        # Zero signal on both other layers - nothing is actually "developing", so this
+        # moves to Monitored even though Trend itself is fine.
+        overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
+        overrides[0] = {
+            "l2_signal": False,
+            "weekly_k_now": 15.0, "weekly_k_prev": 25.0,  # falling -> stoch_pts 0
+            "weekly_rsi_now": 45.0, "weekly_rsi_prev": 50.0,  # falling -> rsi_pts 0
+            "weekly_hist_now": -0.5, "weekly_hist_prev": -0.2,  # falling -> macd_pts 0
+        }
+        df = _df(overrides=overrides)
+        result = evaluate_stock("TEST", df)
+        assert result.armed is False
+        assert result.l3_score == 0
+        assert result.status == STATUS_MONITORED
+
+    def test_l1_pass_not_armed_but_nonzero_l3_score_stays_developing(self):
+        # Only the "not armed" axis is zero here - L3 still has a point, so this is not
+        # the zero-signal case and must stay Developing, not fall into Monitored.
+        overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
+        overrides[0] = {
+            "l2_signal": False,
+            "weekly_k_now": 15.0, "weekly_k_prev": 25.0,  # falling -> stoch_pts 0
+            "weekly_rsi_now": 45.0, "weekly_rsi_prev": 50.0,  # falling -> rsi_pts 0
+            "weekly_hist_now": 0.5, "weekly_hist_prev": 0.2,  # rising -> macd_pts 1
+        }
+        df = _df(overrides=overrides)
+        result = evaluate_stock("TEST", df)
+        assert result.armed is False
+        assert result.l3_score == 1
+        assert result.status == STATUS_DEVELOPING

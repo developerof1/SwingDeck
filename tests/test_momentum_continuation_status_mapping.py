@@ -110,6 +110,24 @@ def test_monitored_not_evaluable_daily_already_resolved():
     assert row_text(not_armed) == 'Trend (not enough history yet) ; Daily <span class="sd-check-fail">✗</span>'
 
 
+def test_monitored_zero_signal_shows_trend_daily_and_weekly_all_crossed():
+    result = {
+        "status": STATUS_MONITORED,
+        "l1_state": L1_PASS,
+        "armed": False,
+        "l3_score": 0,
+        "l3_detail": {"stoch_pts": 0, "rsi_pts": 0, "macd_pts": 0},
+    }
+    text = row_text(result)
+    assert text == (
+        'Trend <span class="sd-check-pass">✓</span> ; '
+        'Daily <span class="sd-check-fail">✗</span> ; '
+        'Weekly (RSI <span class="sd-check-fail">✗</span>, '
+        'MACD <span class="sd-check-fail">✗</span>, '
+        'Stoch <span class="sd-check-fail">✗</span>)'
+    )
+
+
 def test_flattening_badge_only_on_developing_rows_with_the_flag():
     assert flattening_badge_text({"status": STATUS_DEVELOPING, "stoch_flattening": True}) == "STOCH FLATTENING"
     assert flattening_badge_text({"status": STATUS_DEVELOPING, "stoch_flattening": False}) is None

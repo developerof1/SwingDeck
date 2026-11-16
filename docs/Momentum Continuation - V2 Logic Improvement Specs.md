@@ -102,12 +102,15 @@ if L1 != PASS:
     if L1 == NOT_EVALUABLE: flags += [NOT_EVALUABLE]
 elif armed and score >= L3_QUALIFY_MIN:
     status = Qualified; display score as "4/5" or "5/5"
-elif armed:
-    status = Developing; label = "Daily signal in, awaiting weekly confirmation"
+elif not armed and score == 0:
+    status = Monitored                               # added 2026-11-16, see below
 else:
-    status = Developing; label = "Awaiting daily signal"
+    status = Developing
+    label = "Daily signal in, awaiting weekly confirmation" if armed else "Awaiting daily signal"
 ```
-Status is recomputed every EOD. A name can move Qualified to Developing if the in-progress weekly score drops below 4 (repaint) or if the daily signal ages past 5 sessions.
+Status is recomputed every EOD. A name can move Qualified to Developing if the in-progress weekly score drops below 4 (repaint) or if the daily signal ages past 5 sessions. A name can similarly move between Developing and this new zero-signal Monitored case as L2/L3 flicker at the boundary.
+
+**Added 2026-11-16: zero-signal Monitored.** Monitored was originally defined as purely an L1-fail/not-evaluable verdict (see "Known gap" note just below and the Combine mapping table). An L1-pass row where Daily never armed AND the weekly score is a flat 0 isn't "developing" toward anything - there's no signal in motion on either remaining layer - so it moves to Monitored instead of sitting in Developing indefinitely. This only fires when *both* are zero; a nonzero score (even 1) or an armed Daily with a zero score both still mean something is happening, and stay Developing. Unlike the L1-fail Monitored rows, this row shows all three checks (Trend ✓ ; Daily ✗ ; Weekly all ✗) since Trend passing is exactly what distinguishes it from the other kind of Monitored row - see Part C.
 
 **Known gap, not yet resolved in this pseudocode** (carried over from Part C's design discussion):
 `DAILY_SIGNAL_IN` is only ever set inside the `L1 == FAIL` branch, never when `L1 == NOT_EVALUABLE` —
@@ -222,12 +225,15 @@ than a turn.
         +-------------------------------------------------------+
         | COMBINE -> STATUS                                     |
         | Qualified = L1 pass AND armed AND L3 score >= 4       |
+        | Monitored (zero-signal) = L1 pass AND not armed       |
+        |   AND L3 score == 0 - added 2026-11-16                |
         +-------------------------------------------------------+
                |                    |                   |
           Qualified            Developing           Monitored
-        (shows score 4/5      (L1 pass; daily       (L1 failed or
-         or 5/5)               signal or weekly      not evaluable;
-                               confirmation due)     flags shown)
+        (shows score 4/5      (L1 pass; daily       (L1 failed/not
+         or 5/5)               signal or weekly      evaluable, OR
+                               confirmation due)     L1 pass w/ zero
+                                                      signal on both)
 ```
 
 ## What is evaluated, and when
@@ -245,7 +251,8 @@ than a turn.
 |---|---|---|---|---|
 | pass | yes | >= 4 | Qualified | shows score 4/5 or 5/5 |
 | pass | yes | < 4 | Developing | "Daily signal in, awaiting weekly confirmation" |
-| pass | no | any | Developing | "Awaiting daily signal" |
+| pass | no | > 0 | Developing | "Awaiting daily signal" |
+| pass | no | == 0 | **Monitored** (added 2026-11-16) | Trend ✓ ; Daily ✗ ; Weekly all ✗ - zero signal on both remaining layers |
 | fail | yes | n/a | Monitored | flags `L1_FAILED` + `DAILY_SIGNAL_IN` |
 | fail | no | n/a | Monitored | flag `L1_FAILED` |
 | not evaluable | any | n/a | Monitored | flag `NOT_EVALUABLE` |
@@ -317,7 +324,9 @@ it's a different kind of unresolved than pass/fail.
 (see the `L2_MIN_SESSIONS` requirement in Part A), so for most of a new ticker's life Daily will
 already show its real ✓/✗ while Trend still says "not enough history yet." The copy surfaces both at
 their own pace rather than forcing one blanket state. **Weekly only ever appears when Trend = PASS**
-— by design (L3 is never computed otherwise), so it's omitted entirely on any Monitored row.
+— by design (L3 is never computed otherwise). It's omitted on an L1-fail/not-evaluable Monitored
+row, but *does* appear on the zero-signal Monitored row added 2026-11-16 (Trend passing is exactly
+why that row is Monitored for a different reason than the other two).
 
 ## Row templates, by status
 
@@ -345,6 +354,15 @@ Daily ✗ ; Weekly (RSI {✓/✗}, MACD {✓/✗}, Stoch {✓/✗})
 ```
 No "d to confirm" clause — nothing has started counting down yet. e.g.
 `Daily ✗ ; Weekly (RSI ✓, MACD ✓, Stoch ✗)`
+
+**Monitored — zero signal on both (added 2026-11-16):** L1 pass, Daily never armed, L3 score == 0.
+Unlike the other Monitored rows below, Trend is shown explicitly here — it's passing, which is
+exactly what distinguishes this row from an L1 failure:
+```
+Trend ✓ ; Daily ✗ ; Weekly (RSI ✗, MACD ✗, Stoch ✗)
+```
+Every sub-check is ✗ by construction — that's what "score == 0" means — so this template never
+renders a ✓ anywhere but Trend.
 
 **Monitored — L1_FAILED only:**
 ```

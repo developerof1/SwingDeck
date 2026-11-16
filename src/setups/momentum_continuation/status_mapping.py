@@ -1,8 +1,9 @@
 """Momentum-Continuation-owned status -> UI mapping (docs/Momentum Continuation - V2
 Logic Improvement Specs.md, Part C "Dashboard Row Copy"). Maps this setup's own
 l1_state/l2_state/l3_score into the shared status_groups.py taxonomy, and builds the
-six row-copy templates verbatim from the spec. No setup other than this one should ever
-need to read this file.
+row-copy templates from the spec (plus the zero-signal Monitored case added 2026-11-16,
+see rules_engine.evaluate_stock). No setup other than this one should ever need to read
+this file.
 
 Design brief (Part C): the one decision a row needs to drive is "do I go look at this
 chart right now or not." No raw indicator values, no L1/L2/L3 jargon on screen - those
@@ -82,6 +83,10 @@ def row_text(result: dict) -> str:
     # l1_state == L1_PASS
     if status == STATUS_QUALIFIED:
         return f"Daily {_check(True)} {result.get('l2_age')}d ago ; {_weekly_clause(result)} ; Confidence: {result.get('l3_score')}/5"
+    if status == STATUS_MONITORED:
+        # Trend passes but Daily isn't armed and Weekly scored zero - show all three so
+        # it's clear this isn't a Trend failure, just a total absence of signal.
+        return f"Trend {_check(True)} ; Daily {_check(False)} ; {_weekly_clause(result)}"
     if armed:
         remaining = ARMED_MAX_AGE - (result.get("l2_age") or 0)
         return f"Daily {_check(True)} ; {_weekly_clause(result)} ; {remaining}d to confirm"
