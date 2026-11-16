@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-16T04:54+00:00",
+      "generated_at": "2026-11-16T16:07+00:00",
       "evaluated_session": "2026-11-13",
       "results": [
         {
@@ -1183,7 +1183,7 @@
         },
         {
           "ticker": "DASH",
-          "name": null,
+          "name": "DoorDash Inc - Class A",
           "sector": "Technology / On-Demand Delivery",
           "thesis": null,
           "status": "MONITORED",
@@ -1243,7 +1243,7 @@
         },
         {
           "ticker": "DDOG",
-          "name": null,
+          "name": "Datadog Inc - Class A",
           "sector": "IT / SaaS",
           "thesis": null,
           "status": "DEVELOPING",
@@ -1483,7 +1483,7 @@
         },
         {
           "ticker": "D",
-          "name": null,
+          "name": "Dominion Energy Inc",
           "sector": "Energy",
           "thesis": null,
           "status": "DEVELOPING",
@@ -1543,7 +1543,7 @@
         },
         {
           "ticker": "DECK",
-          "name": null,
+          "name": "Deckers Outdoor Corp",
           "sector": "Consumer Cyclical / Footwear & Accessories",
           "thesis": null,
           "status": "MONITORED",
@@ -1813,7 +1813,7 @@
         },
         {
           "ticker": "DAR",
-          "name": null,
+          "name": "Darling Ingredients Inc",
           "sector": "Food / Agricultural",
           "thesis": null,
           "status": "QUALIFIED",
