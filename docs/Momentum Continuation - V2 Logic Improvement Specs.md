@@ -323,11 +323,14 @@ their own pace rather than forcing one blanket state. **Weekly only ever appears
 
 **Qualified** (score 4/5 or 5/5, from the existing logic) — the score is kept here, unlike
 everywhere else, because it's the one place a number legitimately means "confidence in an
-already-made call":
+already-made call." While the engine is still being tuned, the Daily/Weekly breakdown that backs
+that score is shown alongside it rather than hidden behind it, same vocabulary as the
+Developing-armed row, with the countdown clause replaced by the score since nothing is counting
+down anymore:
 ```
-{score}/5
+Daily ✓ {age}d ago ; Weekly (RSI {✓/✗}, MACD {✓/✗}, Stoch {✓/✗}) ; {score}/5
 ```
-e.g. `5/5`
+e.g. `Daily ✓ 2d ago ; Weekly (RSI ✓, MACD ✗, Stoch ✓) ; 4/5`
 
 **Developing — daily signal in, awaiting weekly confirmation:**
 ```
