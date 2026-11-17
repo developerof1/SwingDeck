@@ -450,10 +450,15 @@ def open_settings_dialog() -> None:
         st.rerun()
 
 
-def _bucket_by_group(results: list[dict]) -> dict[str, list[dict]]:
+def _bucket_by_group(results: list[dict], stale_tickers: set[str]) -> dict[str, list[dict]]:
+    """Buckets by ui_group, then stable-sorts each bucket so today's refreshed rows sit above
+    yesterday's stale (dimmed) ones - list.sort() is stable, so within "fresh" and within
+    "stale" the original ordering is left untouched."""
     by_group: dict[str, list[dict]] = {GROUP_QUALIFIED: [], GROUP_DEVELOPING: [], GROUP_OTHER: [], GROUP_UNKNOWN: []}
     for r in results:
         by_group.setdefault(r.get("ui_group", GROUP_UNKNOWN), []).append(r)
+    for rows in by_group.values():
+        rows.sort(key=lambda r: r["ticker"] in stale_tickers)
     return by_group
 
 
@@ -478,7 +483,7 @@ def render_setup_accordion(setup: Setup, setup_data: dict, watchlist_id: str, st
     results = setup_data.get("results", [])
     errors = setup_data.get("errors", [])
 
-    by_group = _bucket_by_group(results)
+    by_group = _bucket_by_group(results, stale_tickers)
     qualified_rows = by_group[GROUP_QUALIFIED]
     developing_rows = by_group[GROUP_DEVELOPING]
     other_rows = by_group[GROUP_OTHER] + by_group[GROUP_UNKNOWN]
