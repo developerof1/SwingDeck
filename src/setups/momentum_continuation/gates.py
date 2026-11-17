@@ -35,8 +35,12 @@ L3_MACD = (12, 26, 9)
 L3_STOCH_FLOOR = 20
 L3_W_STOCH = 2
 L3_W_RSI = 2
-L3_W_MACD = 1
 L3_QUALIFY_MIN = 4
+
+# MACD_HIST_STEADY_DECLINE badge ("MACD TURNING"): number of trailing completed weekly
+# bars that must show a shrinking red histogram - see _l3_columns below and
+# rules_engine._macd_hist_steady_decline. Purely informational, no score weight.
+MACD_STEADY_WEEKS = 3
 
 FLAT_ZONE = 30
 FLAT_TOL = 5
@@ -86,20 +90,30 @@ def _l3_columns(weekly: pd.DataFrame) -> dict:
     that (for the flattening badge's "prior fall" check) - always weekly.iloc[-1]/[-2]/
     [-3], regardless of whether today is a Friday: on a Friday the current bar already
     equals the completed bar (same row), but "prev" for the week-over-week delta is
-    still last week's bar either way."""
+    still last week's bar either way.
+
+    weekly_hist_t1..t{MACD_STEADY_WEEKS} are the MACD_HIST_STEADY_DECLINE badge's trailing
+    completed-bar window (t1 = last completed bar, t2 the one before that, ...) - kept as
+    individual scalar columns, not a list, since a list value would break the "same value
+    on every row" broadcast add_continuation_indicators relies on. None until there's
+    enough weekly history for the full window.
+    """
+    hist_cols = {f"weekly_hist_t{i}": None for i in range(1, MACD_STEADY_WEEKS + 1)}
     if len(weekly) < 3:
         return {
             "weekly_k_now": None, "weekly_k_prev": None, "weekly_k_prevprev": None,
             "weekly_rsi_now": None, "weekly_rsi_prev": None,
-            "weekly_hist_now": None, "weekly_hist_prev": None,
+            "weekly_hist_now": None, **hist_cols,
         }
     k, _d = stochastic(weekly, *L3_STOCH)
     weekly_rsi = rsi(weekly["close"], L3_RSI_N)
     weekly_hist = macd_hist(weekly["close"], *L3_MACD)
+    if len(weekly) >= MACD_STEADY_WEEKS + 1:
+        hist_cols = {f"weekly_hist_t{i}": weekly_hist.iloc[-1 - i] for i in range(1, MACD_STEADY_WEEKS + 1)}
     return {
         "weekly_k_now": k.iloc[-1], "weekly_k_prev": k.iloc[-2], "weekly_k_prevprev": k.iloc[-3],
         "weekly_rsi_now": weekly_rsi.iloc[-1], "weekly_rsi_prev": weekly_rsi.iloc[-2],
-        "weekly_hist_now": weekly_hist.iloc[-1], "weekly_hist_prev": weekly_hist.iloc[-2],
+        "weekly_hist_now": weekly_hist.iloc[-1], **hist_cols,
     }
 
 

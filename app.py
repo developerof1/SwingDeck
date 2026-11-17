@@ -207,6 +207,21 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     white-space: nowrap;
     flex-shrink: 0;
 }
+/* MACD TURNING row badge - same treatment as STOCH FLATTENING above (muted, never an
+   alert color), just a different hue so the two read as distinct badges when both show
+   on the same Developing row. */
+.sd-row-macd-badge {
+    display: inline-block;
+    background: rgba(147, 197, 253, 0.12);
+    color: rgba(147, 197, 253, 0.85) !important;
+    border-radius: 4px;
+    padding: 0.15rem 0.55rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
 .sd-row-status {
     display: flex;
     align-items: center;
@@ -613,8 +628,7 @@ def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
     evaluated_session = result.get("evaluated_session")
     title_attr = f' title="Last evaluated {evaluated_session}"' if is_stale and evaluated_session else ""
 
-    badge_text = setup.badge_for(result)
-    badge_html = f'<div class="sd-row-flattening-badge">{badge_text}</div>' if badge_text else ""
+    badge_html = "".join(f'<div class="{css_class}">{text}</div>' for text, css_class in setup.badge_for(result))
 
     row_html = (
         f'<div class="{row_class}"{title_attr}>'

@@ -32,6 +32,7 @@ STATUS_TO_GROUP = {
 }
 
 FLATTENING_BADGE_TEXT = "STOCH FLATTENING"
+MACD_TURNING_BADGE_TEXT = "MACD TURNING"
 
 _PASS_CLASS = "sd-check-pass"
 _FAIL_CLASS = "sd-check-fail"
@@ -49,9 +50,8 @@ NOT_ENOUGH_HISTORY = "not enough history yet"
 def _weekly_clause(result: dict) -> str:
     detail = result.get("l3_detail") or {}
     rsi_ok = _check(bool(detail.get("rsi_pts")))
-    macd_ok = _check(bool(detail.get("macd_pts")))
     stoch_ok = _check(bool(detail.get("stoch_pts")))
-    return f"Weekly (RSI {rsi_ok}, MACD {macd_ok}, Stoch {stoch_ok})"
+    return f"Weekly (RSI {rsi_ok}, Stoch {stoch_ok})"
 
 
 def row_text(result: dict) -> str:
@@ -82,7 +82,7 @@ def row_text(result: dict) -> str:
 
     # l1_state == L1_PASS
     if status == STATUS_QUALIFIED:
-        return f"Daily {_check(True)} {result.get('l2_age')}d ago ; {_weekly_clause(result)} ; Confidence: {result.get('l3_score')}/5"
+        return f"Daily {_check(True)} {result.get('l2_age')}d ago ; {_weekly_clause(result)} ; Confidence: {result.get('l3_score')}/4"
     if status == STATUS_MONITORED:
         # Trend passes but Daily isn't armed and Weekly scored zero - show all three so
         # it's clear this isn't a Trend failure, just a total absence of signal.
@@ -99,3 +99,12 @@ def flattening_badge_text(result: dict) -> str | None:
     if result.get("status") != STATUS_DEVELOPING:
         return None
     return FLATTENING_BADGE_TEXT if result.get("stoch_flattening") else None
+
+
+def macd_turning_badge_text(result: dict) -> str | None:
+    """Right-aligned, muted/neutral pill - shown only on Developing rows where the
+    weekly MACD histogram is turning up out of the red zone (Part A §8). Purely
+    informational ("go look at this chart"): never changes score or status."""
+    if result.get("status") != STATUS_DEVELOPING:
+        return None
+    return MACD_TURNING_BADGE_TEXT if result.get("macd_turning") else None

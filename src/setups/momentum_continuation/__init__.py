@@ -14,6 +14,7 @@ from src.setups.momentum_continuation.rules_engine import EvalResult, evaluate_s
 from src.setups.momentum_continuation.status_mapping import (
     STATUS_TO_GROUP,
     flattening_badge_text,
+    macd_turning_badge_text,
     row_text,
 )
 from src.status_groups import group_for_status
@@ -39,6 +40,7 @@ def serialize(result: EvalResult) -> dict:
         "l3_score": result.l3_score,
         "l3_detail": result.l3_detail,
         "stoch_flattening": result.stoch_flattening,
+        "macd_turning": result.macd_turning,
         "diagnostics": result.diagnostics,
     }
 
@@ -51,10 +53,19 @@ def reason_for(result: dict) -> tuple[str, bool]:
     return row_text(result), False
 
 
-def badge_for(result: dict) -> str | None:
-    """The one surviving row-level badge (Part C): STOCH FLATTENING, right-aligned,
-    muted/neutral, shown only on Developing rows where it applies."""
-    return flattening_badge_text(result)
+def badge_for(result: dict) -> list[tuple[str, str]]:
+    """The row-level informational badges (Part A §8): STOCH FLATTENING and MACD
+    TURNING, right-aligned, muted/neutral, shown only on Developing rows where each
+    applies. Each is paired with its own CSS class so they render in different colors;
+    neither ever changes score or status."""
+    badges = []
+    flattening_text = flattening_badge_text(result)
+    if flattening_text:
+        badges.append((flattening_text, "sd-row-flattening-badge"))
+    macd_text = macd_turning_badge_text(result)
+    if macd_text:
+        badges.append((macd_text, "sd-row-macd-badge"))
+    return badges
 
 
 SETUP = Setup(

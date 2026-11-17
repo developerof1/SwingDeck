@@ -58,9 +58,10 @@ def _qualified_result() -> EvalResult:
         l2_state=L2_ARMED,
         l2_age=0,
         armed=True,
-        l3_score=5,
-        l3_detail={"stoch_pts": 2, "rsi_pts": 2, "macd_pts": 1},
+        l3_score=4,
+        l3_detail={"stoch_pts": 2, "rsi_pts": 2},
         stoch_flattening=False,
+        macd_turning=False,
         diagnostics={"close": 101.2},
     )
 
@@ -75,9 +76,10 @@ def test_serialize_round_trips_every_eval_result_field_reason_for_needs():
     assert row["l1_state"] == L1_PASS
     assert row["l2_state"] == L2_ARMED
     assert row["armed"] is True
-    assert row["l3_score"] == 5
+    assert row["l3_score"] == 4
     assert row["l3_detail"] == result.l3_detail
     assert row["stoch_flattening"] is False
+    assert row["macd_turning"] is False
 
 
 def test_reason_for_qualified_shows_the_daily_weekly_breakdown_alongside_the_score():
@@ -86,7 +88,7 @@ def test_reason_for_qualified_shows_the_daily_weekly_breakdown_alongside_the_sco
 
     assert is_invalid is False
     assert "Daily" in text and "Weekly" in text
-    assert text.endswith("Confidence: 5/5")
+    assert text.endswith("Confidence: 4/4")
 
 
 def test_reason_for_developing_awaiting_daily_signal():
@@ -97,7 +99,7 @@ def test_reason_for_developing_awaiting_daily_signal():
         l2_state=L2_NOT_ARMED,
         armed=False,
         l3_score=2,
-        l3_detail={"stoch_pts": 0, "rsi_pts": 2, "macd_pts": 0},
+        l3_detail={"stoch_pts": 0, "rsi_pts": 2},
     )
     row = momentum_continuation.serialize(result)
     assert row["ui_group"] == GROUP_DEVELOPING
@@ -131,6 +133,30 @@ def test_badge_for_returns_flattening_pill_only_on_developing_rows_with_the_flag
     not_flattening = EvalResult(ticker="ROKU", status=STATUS_DEVELOPING, l1_state=L1_PASS, stoch_flattening=False)
     qualified = EvalResult(ticker="AVGO", status=STATUS_QUALIFIED, l1_state=L1_PASS, stoch_flattening=True)
 
-    assert momentum_continuation.badge_for(momentum_continuation.serialize(flattening)) == "STOCH FLATTENING"
-    assert momentum_continuation.badge_for(momentum_continuation.serialize(not_flattening)) is None
-    assert momentum_continuation.badge_for(momentum_continuation.serialize(qualified)) is None
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(flattening)) == [
+        ("STOCH FLATTENING", "sd-row-flattening-badge")
+    ]
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(not_flattening)) == []
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(qualified)) == []
+
+
+def test_badge_for_returns_macd_turning_pill_only_on_developing_rows_with_the_flag():
+    turning = EvalResult(ticker="SWK", status=STATUS_DEVELOPING, l1_state=L1_PASS, macd_turning=True)
+    not_turning = EvalResult(ticker="ROKU", status=STATUS_DEVELOPING, l1_state=L1_PASS, macd_turning=False)
+    qualified = EvalResult(ticker="AVGO", status=STATUS_QUALIFIED, l1_state=L1_PASS, macd_turning=True)
+
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(turning)) == [
+        ("MACD TURNING", "sd-row-macd-badge")
+    ]
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(not_turning)) == []
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(qualified)) == []
+
+
+def test_badge_for_returns_both_pills_when_both_flags_are_set():
+    both = EvalResult(
+        ticker="SWK", status=STATUS_DEVELOPING, l1_state=L1_PASS, stoch_flattening=True, macd_turning=True
+    )
+    assert momentum_continuation.badge_for(momentum_continuation.serialize(both)) == [
+        ("STOCH FLATTENING", "sd-row-flattening-badge"),
+        ("MACD TURNING", "sd-row-macd-badge"),
+    ]

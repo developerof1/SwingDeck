@@ -17,6 +17,7 @@ from src.setups.momentum_continuation.rules_engine import (
 from src.setups.momentum_continuation.status_mapping import (
     STATUS_TO_GROUP,
     flattening_badge_text,
+    macd_turning_badge_text,
     row_text,
 )
 from src.status_groups import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED
@@ -45,14 +46,13 @@ def test_qualified_row_shows_the_daily_weekly_breakdown_alongside_the_score():
         "armed": True,
         "l2_age": 2,
         "l3_score": 4,
-        "l3_detail": {"stoch_pts": 2, "rsi_pts": 2, "macd_pts": 0},
+        "l3_detail": {"stoch_pts": 2, "rsi_pts": 2},
     }
     text = row_text(result)
     assert "Daily <span class=\"sd-check-pass\">✓</span> 2d ago" in text
     assert "Weekly (RSI <span class=\"sd-check-pass\">✓</span>" in text
-    assert "MACD <span class=\"sd-check-fail\">✗</span>" in text
     assert "Stoch <span class=\"sd-check-pass\">✓</span>" in text
-    assert text.endswith("Confidence: 4/5")
+    assert text.endswith("Confidence: 4/4")
 
 
 def test_developing_daily_in_awaiting_weekly_confirmation():
@@ -62,12 +62,11 @@ def test_developing_daily_in_awaiting_weekly_confirmation():
         "armed": True,
         "l2_age": 2,
         "l3_score": 2,
-        "l3_detail": {"stoch_pts": 0, "rsi_pts": 2, "macd_pts": 0},
+        "l3_detail": {"stoch_pts": 0, "rsi_pts": 2},
     }
     text = row_text(result)
     assert "Daily <span class=\"sd-check-pass\">✓</span>" in text
     assert "RSI <span class=\"sd-check-pass\">✓</span>" in text
-    assert "MACD <span class=\"sd-check-fail\">✗</span>" in text
     assert "Stoch <span class=\"sd-check-fail\">✗</span>" in text
     assert "3d to confirm" in text  # ARMED_MAX_AGE(5) - l2_age(2)
 
@@ -78,7 +77,7 @@ def test_developing_awaiting_daily_signal_has_no_confirm_clause():
         "l1_state": L1_PASS,
         "armed": False,
         "l3_score": 0,
-        "l3_detail": {"stoch_pts": 0, "rsi_pts": 0, "macd_pts": 0},
+        "l3_detail": {"stoch_pts": 0, "rsi_pts": 0},
     }
     text = row_text(result)
     assert "Daily <span class=\"sd-check-fail\">✗</span>" in text
@@ -116,14 +115,13 @@ def test_monitored_zero_signal_shows_trend_daily_and_weekly_all_crossed():
         "l1_state": L1_PASS,
         "armed": False,
         "l3_score": 0,
-        "l3_detail": {"stoch_pts": 0, "rsi_pts": 0, "macd_pts": 0},
+        "l3_detail": {"stoch_pts": 0, "rsi_pts": 0},
     }
     text = row_text(result)
     assert text == (
         'Trend <span class="sd-check-pass">✓</span> ; '
         'Daily <span class="sd-check-fail">✗</span> ; '
         'Weekly (RSI <span class="sd-check-fail">✗</span>, '
-        'MACD <span class="sd-check-fail">✗</span>, '
         'Stoch <span class="sd-check-fail">✗</span>)'
     )
 
@@ -133,3 +131,10 @@ def test_flattening_badge_only_on_developing_rows_with_the_flag():
     assert flattening_badge_text({"status": STATUS_DEVELOPING, "stoch_flattening": False}) is None
     assert flattening_badge_text({"status": STATUS_QUALIFIED, "stoch_flattening": True}) is None
     assert flattening_badge_text({"status": STATUS_MONITORED, "stoch_flattening": True}) is None
+
+
+def test_macd_turning_badge_only_on_developing_rows_with_the_flag():
+    assert macd_turning_badge_text({"status": STATUS_DEVELOPING, "macd_turning": True}) == "MACD TURNING"
+    assert macd_turning_badge_text({"status": STATUS_DEVELOPING, "macd_turning": False}) is None
+    assert macd_turning_badge_text({"status": STATUS_QUALIFIED, "macd_turning": True}) is None
+    assert macd_turning_badge_text({"status": STATUS_MONITORED, "macd_turning": True}) is None

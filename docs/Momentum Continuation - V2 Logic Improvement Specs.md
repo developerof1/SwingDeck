@@ -28,10 +28,18 @@ MC = dict(
     L2_STOCH=(14, 3, 3), L2_ZONE=30, L2_GRACE=3,
     ARMED_MAX_AGE=5,                       # sessions after the signal day (signal day = age 0)
     L3_MIN_WEEKS=40, L3_STOCH=(14, 3, 3), L3_RSI_N=14, L3_MACD=(12, 26, 9),
-    L3_STOCH_FLOOR=20, L3_W_STOCH=2, L3_W_RSI=2, L3_W_MACD=1, L3_QUALIFY_MIN=4,
-    FLAT_ZONE=30, FLAT_TOL=5, FLAT_PRIOR_FALL=5,
+    L3_STOCH_FLOOR=20, L3_W_STOCH=2, L3_W_RSI=2, L3_QUALIFY_MIN=4,
+    FLAT_ZONE=30, FLAT_TOL=5, FLAT_PRIOR_FALL=5, MACD_STEADY_WEEKS=3,
 )
 ```
+
+**Updated 2026-11-17: MACD dropped from the L3 score.** `L3_W_MACD` is gone and `score` is now
+`stoch_pts + rsi_pts` (0..4, `L3_QUALIFY_MIN` unchanged at 4 — qualifying now requires the full
+score). Pure cleanup, not a behavior change: under the old 2/2/1 weights, `stoch_pts`/`rsi_pts` are
+each 0 or 2, so their sum could only ever be 0, 2 or 4, never 3 — `macd_pts` only ever separated a
+cosmetic "4/5" from "5/5," never changed which side of `L3_QUALIFY_MIN` a name landed on. MACD is
+still computed, just no longer scored — see `MACD_HIST_STEADY_DECLINE` under §8 below, the new
+`MACD_STEADY_WEEKS` constant, and Part C's updated templates.
 
 **New for this consolidation — see Part C's "Implementation requirement" for the full rationale:**
 add an **`L2_MIN_SESSIONS`** constant (pin the exact number; "~60" in Part B is a starting point, not
@@ -85,10 +93,9 @@ Compute Stoch(14,3,3), RSI14 and MACD hist on the weekly series including the cu
 ```
 stoch_pts = L3_W_STOCH if (K_now > K_prev and K_prev <= L3_STOCH_FLOOR) else 0
 rsi_pts   = L3_W_RSI   if (RSI_now > RSI_prev) else 0
-macd_pts  = L3_W_MACD  if (hist_now > hist_prev) else 0
-score = stoch_pts + rsi_pts + macd_pts                                  # 0..5
+score = stoch_pts + rsi_pts                                             # 0..4
 ```
-Direction of change only. Do NOT add level conditions (RSI > 50, MACD > 0, MACD cross): they were judged too late. No partial credit for stoch turns from 20 to 50.
+Direction of change only. Do NOT add level conditions (RSI > 50, MACD > 0, MACD cross): they were judged too late. No partial credit for stoch turns from 20 to 50. MACD is no longer scored at all (2026-11-17, see Part A §1) — it still feeds the `MACD_HIST_STEADY_DECLINE` informational badge below (§8), computed from the same weekly MACD hist series.
 `L3_PROVISIONAL = True` unless today is the last session of the week. (Kept in the log; no longer
 surfaced as a dashboard badge — see Part C.)
 
@@ -101,7 +108,7 @@ if L1 != PASS:
     if L1 == FAIL and armed: flags += [DAILY_SIGNAL_IN]
     if L1 == NOT_EVALUABLE: flags += [NOT_EVALUABLE]
 elif armed and score >= L3_QUALIFY_MIN:
-    status = Qualified; display score as "4/5" or "5/5"
+    status = Qualified; display score as "4/4" (always 4/4 since L3_QUALIFY_MIN == the max score)
 elif not armed and score == 0:
     status = Monitored                               # added 2026-11-16, see below
 else:
@@ -129,6 +136,7 @@ even though several of them are no longer displayed.
 
 - `L3_PROVISIONAL`: still computed and logged; no longer shown on the dashboard.
 - `STOCH_FLATTENING` (Developing rows): `K_now <= FLAT_ZONE and abs(K_now - K_prev) <= FLAT_TOL and (K_prev - K_prevprev) <= -FLAT_PRIOR_FALL`, using the same weekly series as L3 (in-progress bar). **Still shown — see Part C for the exact badge treatment ("STOCH FLATTENING").**
+- `MACD_HIST_STEADY_DECLINE` (Developing rows, added 2026-11-17, "MACD TURNING" on the dashboard): using the last `MACD_STEADY_WEEKS` (default 3) completed weekly bars (`t-1..t-N`, most recent first) plus today's possibly-in-progress bar — `all(h < 0 for h in [hist[t-1], hist[t-2], ..., hist[t-N]])` AND each strictly less negative than the one before it (`hist[t-1] > hist[t-2] > ... > hist[t-N]`) AND `hist_now > hist[t-1]` (today continues the rise — today may be the week it first crosses to positive). Deliberately anchored to the histogram's red/negative zone, not sign-agnostic: a red histogram shrinking toward zero is a building-reversal signal; a green one growing is just existing momentum, not worth flagging. Purely informational — no score weight, no status effect, just a "go look at this chart" flag. This is now the only place MACD appears on the dashboard; see Part C.
 - `L1_FAILED` (Monitored rows): the weekly EMA50 is not rising over 4 weeks, so the name is not a Momentum Continuation candidate right now. Shown on every L1-fail row — see Part C for exact copy.
 - `DAILY_SIGNAL_IN` (Monitored rows with L1 failing): a daily signal fired within the last 5 sessions even though L1 fails. Shown together with `L1_FAILED` — see Part C for exact copy.
 - `NOT_EVALUABLE` (Monitored rows): fewer than 54 completed weekly bars — see Part C for exact copy.
@@ -137,7 +145,7 @@ even though several of them are no longer displayed.
 ## 9. Daily log (required, background; not shown on the dashboard in v1)
 Append one row per ticker per EOD to an append-only table (e.g. SQLite/parquet `mc_v2_daily_log`). Columns:
 `date, ticker, close, status, label, score, l1_state, ema50, ema50_4w_ago, ema50_4w_pct, l2_prox_any3, l2_cross_any3, l2_signal, l2_age, armed,
-wk_K, wk_K_prev, wk_K_prevprev, wk_D, wk_RSI, wk_RSI_prev, wk_hist, wk_hist_prev, stoch_pts, rsi_pts, macd_pts, l3_provisional, flat_badge`.
+wk_K, wk_K_prev, wk_K_prevprev, wk_D, wk_RSI, wk_RSI_prev, wk_hist, wk_hist_t1..wk_hist_tN, stoch_pts, rsi_pts, l3_provisional, flat_badge, macd_turning_badge`.
 
 **Add for this consolidation**: an `l2_state` (or equivalent) column distinguishing "evaluated,
 signal fired/not" from "not enough daily history" — needed once the `L2_MIN_SESSIONS` check (Config,
@@ -156,14 +164,16 @@ Weekly bars are week-ending Friday; "prev" is the prior week.
 |---|---|
 | ANET weekly 2024-03-15 | K 82.9, D 79.55, RSI14 65.9, MACD hist 0.23 (match TradingView legend) |
 | ANET weekly 2026-11-06 | K 22.19, D 33.68 (TradingView legend); K prev 26.2, K prevprev 52.6 -> `STOCH_FLATTENING` true |
-| AVGO weekly 2025-04-11 | K 16.4 (prev 9.9), RSI 47.5 (35.2), hist -8.47 (-9.75) -> stoch 2, RSI 2, MACD 1 = 5 |
-| AVGO weekly 2026-04-03 | K 22.5 (prev 18.3), RSI 47.1 (42.5), hist -6.42 (-7.30) -> 5 |
+| AVGO weekly 2025-04-11 | K 16.4 (prev 9.9), RSI 47.5 (35.2), hist -8.47 (-9.75) -> stoch 2, RSI 2 = 4 *(replay-era score was 5 incl. MACD; MACD dropped from the score 2026-11-17, see Part A §1 — same stoch/RSI readings now score 4)* |
+| AVGO weekly 2026-04-03 | K 22.5 (prev 18.3), RSI 47.1 (42.5), hist -6.42 (-7.30) -> 4 *(same MACD-removal note as above)* |
 | AVGO weekly 2024-09-06 | K 48.0 (prev 65.0), RSI 48.6 (61.6), hist -2.01 (-0.29) -> 0 |
 | AVGO L1 as of week 2026-11-06 *(pre-EMA50 switch; SMA50 values, no longer reproducible against the live engine)* | SMA50 362.6 vs 365.0 four weeks earlier -> FAIL (-0.66%) |
 | AVGO L1 as of week 2026-10-16 *(pre-EMA50 switch, see above)* | SMA50 364.2 vs 364.0 -> PASS |
 | AVGO L1 as of week 2024-12-13 | NOT_EVALUABLE (about 50 completed weekly bars; the test file starts 2024-01-02, so 54 bars exist only from late Jan 2025) |
 
-Reference clusters from the replay (not exact tests, because the live "armed" window is rolling): AVGO 2025-04-09/10 and 2026-03-05/06
+Reference clusters from the replay (not exact tests, because the live "armed" window is rolling; scores below are the
+replay-era /5 incl. MACD — read as "full score" against whichever weights were live at replay time, not reproducible
+digit-for-digit against the live engine after the 2026-11-17 MACD-removal, see Part A §1): AVGO 2025-04-09/10 and 2026-03-05/06
 scored 5 with L1 passing (later +47% and +38% at 60 sessions); AVGO 2026-09-21/22 scored 5 and failed (-8% at 20 sessions); AVGO 2026-11-09 to 11 scored 5
 but L1 FAIL, so status Monitored with flags `L1_FAILED` and `DAILY_SIGNAL_IN`.
 
@@ -217,8 +227,8 @@ than a turn.
               |  | L3 WEEKLY CONFIRMATION    |      |  the last 5 sessions
               |  | SCORE                     |      |  (age 0..5)
               |  | weekly, in-progress bar   |      |
-              |  | stoch 2 + RSI 2 + MACD 1  |      |
-              |  | out: score 0..5           |      |
+              |  | stoch 2 + RSI 2           |      |
+              |  | out: score 0..4           |      |
               |  +---------------------------+      |
               |           |                         |
               v           v                         v
@@ -230,8 +240,8 @@ than a turn.
         +-------------------------------------------------------+
                |                    |                   |
           Qualified            Developing           Monitored
-        (shows score 4/5      (L1 pass; daily       (L1 failed/not
-         or 5/5)               signal or weekly      evaluable, OR
+        (shows score 4/4)     (L1 pass; daily       (L1 failed/not
+                               signal or weekly      evaluable, OR
                                confirmation due)     L1 pass w/ zero
                                                       signal on both)
 ```
@@ -242,14 +252,14 @@ than a turn.
 |---|---|---|---|---|
 | L1 | Weekly, completed bars only | Every ticker, every EOD (value changes only when a weekly bar closes, so it can be cached) | >= 54 completed weekly bars, else NOT_EVALUABLE | pass / fail / not evaluable |
 | L2 | Daily | Every ticker, every EOD, independent of L1 | ~60 sessions of history for ATR, EMAs, stoch — **needs a formal minimum-session check, see Part A** | signal today (bool), plus days since last signal |
-| L3 | Weekly, in-progress bar as of today's close | Every ticker with L1 = pass (always evaluable, since L1 already needs 54 weeks) | >= 40 weekly bars incl. the current one | score 0..5, plus component flags |
+| L3 | Weekly, in-progress bar as of today's close | Every ticker with L1 = pass (always evaluable, since L1 already needs 54 weeks) | >= 40 weekly bars incl. the current one | score 0..4, plus component flags |
 | Combine | n/a | After the above | n/a | status, score, badges |
 
 ## Combine mapping
 
 | L1 | Armed (L2 signal age <= 5) | L3 score | Status | Label / flags |
 |---|---|---|---|---|
-| pass | yes | >= 4 | Qualified | shows score 4/5 or 5/5 |
+| pass | yes | >= 4 | Qualified | shows score 4/4 |
 | pass | yes | < 4 | Developing | "Daily signal in, awaiting weekly confirmation" |
 | pass | no | > 0 | Developing | "Awaiting daily signal" |
 | pass | no | == 0 | **Monitored** (added 2026-11-16) | Trend ✓ ; Daily ✗ ; Weekly all ✗ - zero signal on both remaining layers |
@@ -258,22 +268,23 @@ than a turn.
 | not evaluable | any | n/a | Monitored | flag `NOT_EVALUABLE` |
 
 Informational badges (never change status): `L3_PROVISIONAL` (logged, no longer shown — Part C),
-`STOCH_FLATTENING` (still shown, Part C), `L1_FAILED`, `DAILY_SIGNAL_IN`, `NOT_EVALUABLE`, and the L1
-4-week EMA50 % change (logged, no longer shown — Part C). The score `n/5` shows only on Qualified
+`STOCH_FLATTENING` (still shown, Part C), `MACD_HIST_STEADY_DECLINE` (added 2026-11-17, shown as
+"MACD TURNING", Part C), `L1_FAILED`, `DAILY_SIGNAL_IN`, `NOT_EVALUABLE`, and the L1
+4-week EMA50 % change (logged, no longer shown — Part C). The score `n/4` shows only on Qualified
 rows (Part C) — not on every L1-pass row as originally drafted.
 
 ## Decisions (closed) and why
 1. **L1 is a hard gate.** A falling weekly EMA50 means "another setup", not Momentum Continuation. A daily signal with L1 failing goes to Monitored, with the `L1_FAILED` and `DAILY_SIGNAL_IN` flags visible.
 2. **L3 gates Qualified, not just tags it.** L1 + L2 alone were about a coin flip (91 clusters across 8 names, 51% positive at 20 sessions), so a large Qualified list of weak names was expected. Qualified should stay small and trustworthy; names failing only on L3 stay visible in Developing.
 3. **Weekly confirmation may arrive up to 5 sessions after the daily signal.** The weekly confirmation typically lags the daily signal by about 6 sessions, and same-day confirmation qualified only 2 to 4 of 91 clusters. Window tested at 3/5/7/10: 5 kept the best return per cluster; lags of 6 to 10 sessions added weak names.
-4. **L3 uses direction of change from a low zone, not levels.** RSI > 50, MACD crosses and similar are too late. Stoch floor 20 (vs 30) was the only variant that beat no-L3 filtering. Weights stoch 2, RSI 2, MACD 1 (MACD is a lagging average).
+4. **L3 uses direction of change from a low zone, not levels.** RSI > 50, MACD crosses and similar are too late. Stoch floor 20 (vs 30) was the only variant that beat no-L3 filtering. Weights stoch 2, RSI 2 (MACD dropped from the score entirely 2026-11-17 — under the old 2/2/1 weights it only ever separated a cosmetic 4/5 from 5/5, never changed Qualified/Developing status; kept only as the informational `MACD_HIST_STEADY_DECLINE` badge, Part A §8).
 5. **L3 uses the in-progress weekly bar** (Monday open through today's close) so a confirmation can show before Friday. Repaint is real (6 of 13 five-point AVGO days were gone by Friday), hence the `L3_PROVISIONAL` flag (now logged only, not shown — Part C's call was that this is obvious enough mid-week not to need a badge).
 6. **L1 stays strict** (no flat-tolerance band). Known edge (pre-EMA50 switch, SMA50-based): AVGO flipped OFF on a -0.7% change in Nov 2026 — the kind of slow-to-reverse edge the EMA50 switch (Part A §3) is meant to fix; worth re-checking this specific case once EMA50 has live data to compare against.
 7. **Stoch flattening is a badge, not a score point.** Across 8 names a flat %K after a fall (K <= 30, |change| <= 5) did no better than still-falling (38% positive at 20 sessions vs 51%); only an actual rise stood out (60%). Logged for live review, and still surfaced on the dashboard (Part C).
 8. **No extra daily confirmation on L2.** L3 now supplies the selectivity.
 
 ## Provisional parameters (single config block; retune from the live log)
-stoch floor 20; qualify at score >= 4; weights 2/2/1; armed age <= 5 sessions; flattening tolerance 5 and prior fall 5.
+stoch floor 20; qualify at score >= 4; weights 2/2 (MACD unweighted, informational badge only); armed age <= 5 sessions; flattening tolerance 5 and prior fall 5; MACD steady-decline window 3 weeks.
 
 ## What this retires from the locked specs
 - HTF Regime box: the weighted inputs, the /5.5 score, the Confirmed/Ambiguous/Broken tiers and the weekly-stoch persistence rule.
@@ -294,8 +305,9 @@ more permissive when the signal re-fires, which the log will show. Directional e
 **Scope — read this before touching any code.** This is a logic refinement plus a copy/display
 change, not a visual redesign. The only UI surface this touches is: (1) the ticker subtext line
 (what renders below the ticker/company name on each dashboard row), and (2) the row-level `STOCH
-FLATTENING` badge. Nothing else on the dashboard changes — no layout, no other badges, no colors, no
-card structure outside those two elements.
+FLATTENING` and (added 2026-11-17) `MACD TURNING` badges. Nothing else on the dashboard changes — no
+layout, no card structure outside those elements; the two badges share styling and placement, just
+different colors so they read as distinct when both show on the same row.
 
 ## Design brief
 
@@ -314,7 +326,7 @@ Every row is built from up to three labeled components, each in one of three sta
 |---|---|---|
 | **Trend** | L1 structural bull | ✓ pass / ✗ fail / *not enough history yet* |
 | **Daily** | L2 daily signal | ✓ armed / ✗ not armed / *not enough history yet* |
-| **Weekly** | L3 weekly confirmation, broken into its 3 sub-checks (RSI, MACD, Stoch) | each sub-check ✓ (points earned) or ✗ (not) — shown only when Trend = PASS |
+| **Weekly** | L3 weekly confirmation, broken into its 2 sub-checks (RSI, Stoch) | each sub-check ✓ (points earned) or ✗ (not) — shown only when Trend = PASS |
 
 ✓/✗ are literal check/cross glyphs, colored (muted teal-green / muted orange — not red/green, and not
 a loud alarm color), never a number. "not enough history yet" is spelled out in words, not an icon —
@@ -330,36 +342,36 @@ why that row is Monitored for a different reason than the other two).
 
 ## Row templates, by status
 
-**Qualified** (score 4/5 or 5/5, from the existing logic) — the score is kept here, unlike
-everywhere else, because it's the one place a number legitimately means "confidence in an
-already-made call." While the engine is still being tuned, the Daily/Weekly breakdown that backs
-that score is shown alongside it rather than hidden behind it, same vocabulary as the
-Developing-armed row, with the countdown clause replaced by the score since nothing is counting
-down anymore:
+**Qualified** (score 4/4, from the existing logic — **updated 2026-11-17**: was 4/5 or 5/5 before
+MACD was dropped from the score, Part A §1) — the score is kept here, unlike everywhere else,
+because it's the one place a number legitimately means "confidence in an already-made call." While
+the engine is still being tuned, the Daily/Weekly breakdown that backs that score is shown alongside
+it rather than hidden behind it, same vocabulary as the Developing-armed row, with the countdown
+clause replaced by the score since nothing is counting down anymore:
 ```
-Daily ✓ {age}d ago ; Weekly (RSI {✓/✗}, MACD {✓/✗}, Stoch {✓/✗}) ; Confidence: {score}/5
+Daily ✓ {age}d ago ; Weekly (RSI {✓/✗}, Stoch {✓/✗}) ; Confidence: {score}/4
 ```
-e.g. `Daily ✓ 2d ago ; Weekly (RSI ✓, MACD ✗, Stoch ✓) ; Confidence: 4/5`
+e.g. `Daily ✓ 2d ago ; Weekly (RSI ✓, Stoch ✓) ; Confidence: 4/4`
 
 **Developing — daily signal in, awaiting weekly confirmation:**
 ```
-Daily ✓ ; Weekly (RSI {✓/✗}, MACD {✓/✗}, Stoch {✓/✗}) ; {remaining}d to confirm
+Daily ✓ ; Weekly (RSI {✓/✗}, Stoch {✓/✗}) ; {remaining}d to confirm
 ```
 `{remaining}` = `ARMED_MAX_AGE (5) − l2_age`, pure display arithmetic on the existing logged field —
-no logic change. e.g. `Daily ✓ ; Weekly (RSI ✓, MACD ✗, Stoch ✗) ; 3d to confirm`
+no logic change. e.g. `Daily ✓ ; Weekly (RSI ✓, Stoch ✗) ; 3d to confirm`
 
 **Developing — awaiting daily signal:**
 ```
-Daily ✗ ; Weekly (RSI {✓/✗}, MACD {✓/✗}, Stoch {✓/✗})
+Daily ✗ ; Weekly (RSI {✓/✗}, Stoch {✓/✗})
 ```
 No "d to confirm" clause — nothing has started counting down yet. e.g.
-`Daily ✗ ; Weekly (RSI ✓, MACD ✓, Stoch ✗)`
+`Daily ✗ ; Weekly (RSI ✓, Stoch ✗)`
 
 **Monitored — zero signal on both (added 2026-11-16):** L1 pass, Daily never armed, L3 score == 0.
 Unlike the other Monitored rows below, Trend is shown explicitly here — it's passing, which is
 exactly what distinguishes this row from an L1 failure:
 ```
-Trend ✓ ; Daily ✗ ; Weekly (RSI ✗, MACD ✗, Stoch ✗)
+Trend ✓ ; Daily ✗ ; Weekly (RSI ✗, Stoch ✗)
 ```
 Every sub-check is ✗ by construction — that's what "score == 0" means — so this template never
 renders a ✓ anywhere but Trend.
@@ -384,22 +396,33 @@ doesn't — this is what makes "not enough history yet" self-resolving rather th
 `Trend (not enough history yet) ; Daily ✗` once Daily has enough history, or
 `Trend (not enough history yet) ; Daily (not enough history yet)` for a brand-new listing.
 
-## Badge
+## Badges
 
-**STOCH FLATTENING** — the only badge kept (an earlier "Provisional" badge was cut: mid-week Weekly
-checks rolling is already obvious, so flagging it added nothing). Fires on `STOCH_FLATTENING`, shown
-on Developing rows only (either sub-type), as a row-level badge, right-aligned, muted/neutral styling
-— light gray/off-white background, gray text, deliberately not an alert color. Exact treatment shown
-in the wireframe below.
+**STOCH FLATTENING** — fires on `STOCH_FLATTENING`, shown on Developing rows only (either sub-type),
+as a row-level badge, right-aligned, muted/neutral styling — light gray/off-white background, gray
+text, deliberately not an alert color.
+
+**MACD TURNING** (added 2026-11-17) — fires on `MACD_HIST_STEADY_DECLINE` (Part A §8), shown on
+Developing rows only, same styling and placement as STOCH FLATTENING, just a different muted color
+so the two read as distinct when both show on the same row (they're independent conditions and can
+co-occur). Purely informational — never changes score or status, just a "go look at this chart"
+flag. This is now the only place MACD appears on the dashboard: it was cut from the L3 score itself
+the same day (Part A §1, §6) because under the old weights it only ever separated a cosmetic "4/5"
+from "5/5," never a name's Qualified/Developing status.
+
+Both badges can render on the same row at once; exact treatment shown in the wireframe below (drawn
+before the MACD TURNING badge existed, so it shows STOCH FLATTENING only).
 
 ## What got cut along the way (so it isn't re-litigated)
 
 - **EMA50 4-week % change** — dropped entirely. `Trend ✓/✗` was judged sufficient.
-- **Raw L3 score as a number** on any row except Qualified — replaced by the three named sub-checks,
+- **Raw L3 score as a number** on any row except Qualified — replaced by the named sub-checks,
   since a bare fraction didn't say *why* a row was where it was.
 - **Provisional badge** — cut.
 - **Leading status word in the message** ("Qualified · 5/5") — cut; the section heading already
   carries status.
+- **MACD as a scored L3 sub-check** — cut 2026-11-17 (Part A §1), replaced by the informational
+  MACD TURNING badge above.
 
 ## Wireframe — every row state, side by side
 
@@ -420,7 +443,7 @@ that state (`(not enough history yet)`) is already decided and identical to Tren
 the engine-side gap that lets the dashboard know when to show it. See Part A, sections 1, 5 and 9 for
 where this plugs into the existing config/logic/log.
 
-Everything else in Part C — the component states, the templates, the badge, the field mappings
-(`l2_age`, `armed`, `rsi_pts`/`macd_pts`/`stoch_pts`, L1's pass/fail/not_evaluable) — is already
+Everything else in Part C — the component states, the templates, the badges, the field mappings
+(`l2_age`, `armed`, `rsi_pts`/`stoch_pts`, `macd_turning`, L1's pass/fail/not_evaluable) — is already
 produced by the existing logic in Part A and Part B; this part only changes what's displayed from
 it, never the logic itself.

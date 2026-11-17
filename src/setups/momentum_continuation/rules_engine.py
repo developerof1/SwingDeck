@@ -31,9 +31,9 @@ from src.setups.momentum_continuation.gates import (
     L2_MIN_SESSIONS,
     L3_QUALIFY_MIN,
     L3_STOCH_FLOOR,
-    L3_W_MACD,
     L3_W_RSI,
     L3_W_STOCH,
+    MACD_STEADY_WEEKS,
 )
 
 STATUS_QUALIFIED = "QUALIFIED"
@@ -63,10 +63,10 @@ class EvalResult:
     l2_age: int | None = None
     armed: bool = False
     l3_score: int | None = None
-    # {"stoch_pts", "rsi_pts", "macd_pts", "k_now", "k_prev", "rsi_now", "rsi_prev",
-    #  "hist_now", "hist_prev"}
+    # {"stoch_pts", "rsi_pts", "k_now", "k_prev", "rsi_now", "rsi_prev"}
     l3_detail: dict = field(default_factory=dict)
     stoch_flattening: bool | None = None
+    macd_turning: bool | None = None
     diagnostics: dict = field(default_factory=dict)
 
 
@@ -104,18 +104,15 @@ def _l2_not_evaluable(df: pd.DataFrame, latest) -> bool:
 def _l3_score_and_detail(latest) -> tuple[int, dict]:
     k_now, k_prev = latest.get("weekly_k_now"), latest.get("weekly_k_prev")
     rsi_now, rsi_prev = latest.get("weekly_rsi_now"), latest.get("weekly_rsi_prev")
-    hist_now, hist_prev = latest.get("weekly_hist_now"), latest.get("weekly_hist_prev")
 
     stoch_pts = L3_W_STOCH if (_finite(k_now) and _finite(k_prev) and k_now > k_prev and k_prev <= L3_STOCH_FLOOR) else 0
     rsi_pts = L3_W_RSI if (_finite(rsi_now) and _finite(rsi_prev) and rsi_now > rsi_prev) else 0
-    macd_pts = L3_W_MACD if (_finite(hist_now) and _finite(hist_prev) and hist_now > hist_prev) else 0
 
     detail = {
-        "stoch_pts": stoch_pts, "rsi_pts": rsi_pts, "macd_pts": macd_pts,
+        "stoch_pts": stoch_pts, "rsi_pts": rsi_pts,
         "k_now": k_now, "k_prev": k_prev, "rsi_now": rsi_now, "rsi_prev": rsi_prev,
-        "hist_now": hist_now, "hist_prev": hist_prev,
     }
-    return stoch_pts + rsi_pts + macd_pts, detail
+    return stoch_pts + rsi_pts, detail
 
 
 def _stoch_flattening(latest) -> bool:
@@ -123,6 +120,26 @@ def _stoch_flattening(latest) -> bool:
     if not all(_finite(v) for v in (k_now, k_prev, k_prevprev)):
         return False
     return bool(k_now <= FLAT_ZONE and abs(k_now - k_prev) <= FLAT_TOL and (k_prev - k_prevprev) <= -FLAT_PRIOR_FALL)
+
+
+def _macd_hist_steady_decline(latest) -> bool:
+    """MACD_HIST_STEADY_DECLINE ("MACD TURNING" badge, informational only - no score
+    weight, no status effect). A red (negative) histogram that has been shrinking toward
+    zero for MACD_STEADY_WEEKS straight completed bars, with today's (possibly
+    in-progress) bar continuing the rise - deliberately anchored to the negative zone,
+    not sign-agnostic: a red histogram shrinking is a building-reversal signal, a green
+    one growing is just existing momentum."""
+    hist_now = latest.get("weekly_hist_now")
+    completed = [latest.get(f"weekly_hist_t{i}") for i in range(1, MACD_STEADY_WEEKS + 1)]
+    if not _finite(hist_now) or not all(_finite(v) for v in completed):
+        return False
+    if not all(h < 0 for h in completed):
+        return False
+    # completed[0] is t-1 (most recent), completed[-1] is t-MACD_STEADY_WEEKS (oldest) -
+    # each must be less negative than the one before it.
+    if not all(completed[i] > completed[i + 1] for i in range(len(completed) - 1)):
+        return False
+    return bool(hist_now > completed[0])
 
 
 def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
@@ -153,6 +170,7 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
 
     l3_score, l3_detail = _l3_score_and_detail(latest)
     stoch_flattening = _stoch_flattening(latest)
+    macd_turning = _macd_hist_steady_decline(latest)
     if armed and l3_score >= L3_QUALIFY_MIN:
         status = STATUS_QUALIFIED
     elif not armed and l3_score == 0:
@@ -168,5 +186,6 @@ def evaluate_stock(ticker: str, df: pd.DataFrame) -> EvalResult:
         l3_score=l3_score,
         l3_detail=l3_detail,
         stoch_flattening=stoch_flattening,
+        macd_turning=macd_turning,
         **common,
     )

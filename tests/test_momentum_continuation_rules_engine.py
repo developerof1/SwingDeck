@@ -28,7 +28,10 @@ from src.setups.momentum_continuation.rules_engine import (
     evaluate_stock,
 )
 
-# A row that cleanly passes L1, has L2 armed today (age 0), and scores 5/5 on L3.
+# A row that cleanly passes L1, has L2 armed today (age 0), and scores 4/4 on L3.
+# weekly_hist_t1/t2/t3 (all finite, non-negative here) deliberately keep the
+# MACD_HIST_STEADY_DECLINE badge false on the baseline - it's an informational flag, not
+# part of the score, and its own tests set these explicitly.
 BASELINE_ROW = {
     "atr_14": 2.0,
     "ema_ref": 100.0,
@@ -47,7 +50,9 @@ BASELINE_ROW = {
     "weekly_rsi_now": 55.0,
     "weekly_rsi_prev": 50.0,  # rising -> rsi_pts
     "weekly_hist_now": 0.5,
-    "weekly_hist_prev": 0.2,  # rising -> macd_pts
+    "weekly_hist_t1": 0.2,
+    "weekly_hist_t2": 0.1,
+    "weekly_hist_t3": 0.05,
 }
 
 
@@ -147,9 +152,9 @@ class TestL2Gate:
 
 
 class TestL3Score:
-    def test_full_score_from_all_three_components_turning(self):
+    def test_full_score_from_both_components_turning(self):
         result = evaluate_stock("TEST", _df())
-        assert result.l3_score == 5
+        assert result.l3_score == 4
         assert result.status == STATUS_QUALIFIED
 
     @pytest.mark.parametrize(
@@ -177,20 +182,19 @@ class TestL3Score:
         assert result.l3_detail["rsi_pts"] == 0
 
     @pytest.mark.parametrize(
-        "k_now,k_prev,rsi_now,rsi_prev,hist_now,hist_prev,expected",
+        "k_now,k_prev,rsi_now,rsi_prev,expected",
         [
-            (16.4, 9.9, 47.5, 35.2, -8.47, -9.75, 5),  # AVGO weekly 2025-04-11 (spec §11)
-            (22.5, 18.3, 47.1, 42.5, -6.42, -7.30, 5),  # AVGO weekly 2026-04-03 (spec §11)
-            (48.0, 65.0, 48.6, 61.6, -2.01, -0.29, 0),  # AVGO weekly 2024-09-06 (spec §11)
+            (16.4, 9.9, 47.5, 35.2, 4),  # AVGO weekly 2025-04-11 (spec §11), MACD no longer scored
+            (22.5, 18.3, 47.1, 42.5, 4),  # AVGO weekly 2026-04-03 (spec §11), MACD no longer scored
+            (48.0, 65.0, 48.6, 61.6, 0),  # AVGO weekly 2024-09-06 (spec §11)
         ],
     )
-    def test_acceptance_cases_from_spec_11(self, k_now, k_prev, rsi_now, rsi_prev, hist_now, hist_prev, expected):
+    def test_acceptance_cases_from_spec_11(self, k_now, k_prev, rsi_now, rsi_prev, expected):
         df = _df(
             overrides={
                 0: {
                     "weekly_k_now": k_now, "weekly_k_prev": k_prev,
                     "weekly_rsi_now": rsi_now, "weekly_rsi_prev": rsi_prev,
-                    "weekly_hist_now": hist_now, "weekly_hist_prev": hist_prev,
                 }
             }
         )
@@ -213,13 +217,67 @@ class TestStochFlattening:
     def test_badge_never_shown_on_a_qualified_row(self):
         # K readings that satisfy both L3's stoch_pts (rising, prior <= floor) and the
         # flattening shape (<=30, small move, big prior fall) at once, so the row stays
-        # Qualified (5/5) while stoch_flattening is still true underneath.
+        # Qualified (4/4) while stoch_flattening is still true underneath.
         df = _df(overrides={0: {"weekly_k_now": 20.0, "weekly_k_prev": 18.0, "weekly_k_prevprev": 40.0}})
         result = evaluate_stock("TEST", df)
         assert result.status == STATUS_QUALIFIED
         # stoch_flattening is still just a fact about the data - whether it's *shown* is
         # status_mapping's job (see test_momentum_continuation_status_mapping.py).
         assert result.stoch_flattening is True
+
+
+class TestMacdTurning:
+    def test_true_when_three_completed_bars_shrink_in_the_red_and_today_continues(self):
+        df = _df(overrides={0: {
+            "weekly_hist_now": -0.05,
+            "weekly_hist_t1": -0.1, "weekly_hist_t2": -0.2, "weekly_hist_t3": -0.3,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.macd_turning is True
+
+    def test_false_when_still_in_the_red_but_not_monotonically_shrinking(self):
+        df = _df(overrides={0: {
+            "weekly_hist_now": -0.05,
+            "weekly_hist_t1": -0.1, "weekly_hist_t2": -0.05, "weekly_hist_t3": -0.3,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.macd_turning is False
+
+    def test_false_when_one_of_the_three_completed_bars_is_not_negative(self):
+        df = _df(overrides={0: {
+            "weekly_hist_now": 0.1,
+            "weekly_hist_t1": 0.05, "weekly_hist_t2": -0.2, "weekly_hist_t3": -0.3,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.macd_turning is False
+
+    def test_false_when_today_does_not_continue_the_rise(self):
+        df = _df(overrides={0: {
+            "weekly_hist_now": -0.15,
+            "weekly_hist_t1": -0.1, "weekly_hist_t2": -0.2, "weekly_hist_t3": -0.3,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.macd_turning is False
+
+    def test_true_when_today_is_the_first_cross_to_positive(self):
+        df = _df(overrides={0: {
+            "weekly_hist_now": 0.02,
+            "weekly_hist_t1": -0.1, "weekly_hist_t2": -0.2, "weekly_hist_t3": -0.3,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.macd_turning is True
+
+    def test_badge_is_informational_only_never_changes_score_or_status(self):
+        # Same turning histogram as above, laid on top of the baseline's full L3 score -
+        # still Qualified, score still 4, the flag is purely a "go look" signal.
+        df = _df(overrides={0: {
+            "weekly_hist_now": -0.05,
+            "weekly_hist_t1": -0.1, "weekly_hist_t2": -0.2, "weekly_hist_t3": -0.3,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.macd_turning is True
+        assert result.l3_score == 4
+        assert result.status == STATUS_QUALIFIED
 
 
 class TestCombine:
@@ -229,7 +287,7 @@ class TestCombine:
         assert evaluate_stock("TEST", _df()).status == STATUS_QUALIFIED
 
     def test_l1_pass_armed_score_below_4_is_developing(self):
-        df = _df(overrides={0: {"weekly_rsi_now": 40.0, "weekly_rsi_prev": 50.0}})  # drops rsi_pts -> score 3
+        df = _df(overrides={0: {"weekly_rsi_now": 40.0, "weekly_rsi_prev": 50.0}})  # drops rsi_pts -> score 2
         result = evaluate_stock("TEST", df)
         assert result.l3_score < L3_QUALIFY_MIN
         assert result.status == STATUS_DEVELOPING
@@ -268,7 +326,6 @@ class TestCombine:
             "l2_signal": False,
             "weekly_k_now": 15.0, "weekly_k_prev": 25.0,  # falling -> stoch_pts 0
             "weekly_rsi_now": 45.0, "weekly_rsi_prev": 50.0,  # falling -> rsi_pts 0
-            "weekly_hist_now": -0.5, "weekly_hist_prev": -0.2,  # falling -> macd_pts 0
         }
         df = _df(overrides=overrides)
         result = evaluate_stock("TEST", df)
@@ -283,11 +340,10 @@ class TestCombine:
         overrides[0] = {
             "l2_signal": False,
             "weekly_k_now": 15.0, "weekly_k_prev": 25.0,  # falling -> stoch_pts 0
-            "weekly_rsi_now": 45.0, "weekly_rsi_prev": 50.0,  # falling -> rsi_pts 0
-            "weekly_hist_now": 0.5, "weekly_hist_prev": 0.2,  # rising -> macd_pts 1
+            "weekly_rsi_now": 55.0, "weekly_rsi_prev": 50.0,  # rising -> rsi_pts 2
         }
         df = _df(overrides=overrides)
         result = evaluate_stock("TEST", df)
         assert result.armed is False
-        assert result.l3_score == 1
+        assert result.l3_score == 2
         assert result.status == STATUS_DEVELOPING
