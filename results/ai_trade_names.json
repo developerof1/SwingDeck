@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-17T14:39+00:00",
+      "generated_at": "2026-11-17T17:42+00:00",
       "evaluated_session": "2026-11-16",
       "results": [
         {
@@ -686,7 +686,7 @@
         },
         {
           "ticker": "SNPS",
-          "name": null,
+          "name": "Synopsys Inc",
           "sector": "EDA & Custom Silicon",
           "thesis": "Chip design automation; tight consolidation and breakout setups",
           "status": "MONITORED",
@@ -700,15 +700,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 57.654172780223185,
             "k_prev": 63.4965097149971,
             "rsi_now": 49.81821273338868,
-            "rsi_prev": 51.86519419911966,
-            "hist_now": 3.5457715952876074,
-            "hist_prev": 5.100224550371003
+            "rsi_prev": 51.86519419911966
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 441.33,
             "atr_14": 17.976075310493385
@@ -730,15 +728,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 76.16142100012429,
             "k_prev": 81.64382188034058,
             "rsi_now": 65.15501914715844,
-            "rsi_prev": 66.00004928651623,
-            "hist_now": 3.384786312043282,
-            "hist_prev": 4.051532655046355
+            "rsi_prev": 66.00004928651623
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 233.83,
             "atr_14": 5.339226103017733
@@ -746,7 +742,7 @@
         },
         {
           "ticker": "SNOW",
-          "name": null,
+          "name": "Snowflake Inc - Class A",
           "sector": "SaaS with AI Story",
           "thesis": "Data cloud play; sharp technical bounce off oversold stochastic",
           "status": "DEVELOPING",
@@ -760,15 +756,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 13.635915006415386,
             "k_prev": 22.995080434043178,
             "rsi_now": 48.50944960532125,
-            "rsi_prev": 50.858470457990435,
-            "hist_now": -10.115408463570347,
-            "hist_prev": -8.911285280573178
+            "rsi_prev": 50.858470457990435
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 280.54,
             "atr_14": 15.90650267296711
@@ -789,6 +783,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 122.18,
             "atr_14": 10.181017048561838
@@ -799,26 +794,24 @@
           "name": null,
           "sector": "High-Bandwidth Memory (HBM)",
           "thesis": "High-volume memory & foundry scale; range-bound swing channel",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_EVALUABLE",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": NaN,
             "k_prev": NaN,
             "rsi_now": 99.95294085770983,
-            "rsi_prev": 99.95294085770983,
-            "hist_now": -2.335207043855613,
-            "hist_prev": -2.445716359929367
+            "rsi_prev": 99.95294085770983
           },
           "stoch_flattening": false,
+          "macd_turning": true,
           "diagnostics": {
             "close": 140.0,
             "atr_14": 0.00010497818491864256
@@ -839,6 +832,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 52.57,
             "atr_14": 1.5492921439225684
@@ -860,15 +854,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 23.003487700590483,
             "k_prev": 27.46540027163586,
             "rsi_now": 41.93885760628716,
-            "rsi_prev": 47.364120998711826,
-            "hist_now": -9.850932373377294,
-            "hist_prev": -8.530668449442446
+            "rsi_prev": 47.364120998711826
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 373.45,
             "atr_14": 17.759209215577894
