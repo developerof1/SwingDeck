@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-16T22:32+00:00",
+      "generated_at": "2026-11-17T00:54+00:00",
       "evaluated_session": "2026-11-13",
       "results": [
         {
@@ -592,27 +592,27 @@
           "thesis": "Cyclical HBM memory play; high ATR for quick percentage swings",
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
-          "l3_score": 2,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 2,
+            "rsi_pts": 0,
             "macd_pts": 0,
-            "k_now": 25.448971995526904,
-            "k_prev": 28.6888272096049,
-            "rsi_now": 46.018182151531676,
-            "rsi_prev": 40.46245169728055,
-            "hist_now": -48.67169681824575,
-            "hist_prev": -47.16709348547869
+            "k_now": 17.252655796392123,
+            "k_prev": 25.448971995526904,
+            "rsi_now": 43.109605473576494,
+            "rsi_prev": 46.018182151531676,
+            "hist_now": -51.59180105337643,
+            "hist_prev": -48.67169681824575
           },
-          "stoch_flattening": true,
+          "stoch_flattening": false,
           "diagnostics": {
-            "close": 778.31,
-            "atr_14": 58.96592966929005
+            "close": 719.02,
+            "atr_14": 59.177648978626465
           }
         },
         {
@@ -622,27 +622,27 @@
           "thesis": "Ultimate AI beta leader; ideal for oversold RSI bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 162.85,
-            "atr_14": 9.97975248924001
+            "close": 156.14,
+            "atr_14": 9.851913025722865
           }
         },
         {
           "ticker": "META",
-          "name": null,
+          "name": "Meta Platforms Inc - Class A",
           "sector": "Big Tech & Hyperscalers",
           "thesis": "Ad-tech monetization; strong momentum breakouts on volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -651,18 +651,18 @@
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 641.69,
-            "atr_14": 22.78043117541557
+            "close": 626.41,
+            "atr_14": 22.69254323431446
           }
         },
         {
           "ticker": "MSFT",
-          "name": null,
+          "name": "Microsoft Corporation",
           "sector": "Big Tech & Hyperscalers",
           "thesis": "Core AI cloud enabler; highly predictable moving average bounces",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -672,17 +672,17 @@
             "stoch_pts": 0,
             "rsi_pts": 0,
             "macd_pts": 0,
-            "k_now": 68.68528943315464,
-            "k_prev": 77.77736489019995,
-            "rsi_now": 62.6571958611374,
-            "rsi_prev": 65.10699783068074,
-            "hist_now": 2.7385755240461904,
-            "hist_prev": 4.238944538138057
+            "k_now": 58.082265944532566,
+            "k_prev": 68.68528943315464,
+            "rsi_now": 60.511223340325884,
+            "rsi_prev": 62.6571958611374,
+            "hist_now": 1.0550697534484499,
+            "hist_prev": 2.7385755240461904
           },
           "stoch_flattening": false,
           "diagnostics": {
-            "close": 523.88,
-            "atr_14": 15.217752171900427
+            "close": 517.99,
+            "atr_14": 14.925769873907539
           }
         },
         {
@@ -692,17 +692,17 @@
           "thesis": "Workflow automation; clean institutional trend-following setups",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 1,
+          "l2_age": 2,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 102.25,
-            "atr_14": 6.226803549872142
+            "close": 99.37,
+            "atr_14": 6.022746153452704
           }
         },
         {
@@ -737,22 +737,22 @@
         },
         {
           "ticker": "MRVL",
-          "name": null,
+          "name": "Marvell Technology Inc",
           "sector": "Networking & Interconnects",
           "thesis": "Electro-optics & custom ASICs; high beta for multi-week swings",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 156.76,
-            "atr_14": 17.171100886996534
+            "close": 145.36,
+            "atr_14": 16.853165109353924
           }
         },
         {
@@ -762,27 +762,27 @@
           "thesis": "Retail/institutional favorite; extreme momentum range swings",
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
-          "l3_score": 2,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 2,
+            "rsi_pts": 0,
             "macd_pts": 0,
-            "k_now": 45.43514476921845,
-            "k_prev": 64.5889566214475,
-            "rsi_now": 50.392828896290666,
-            "rsi_prev": 48.00089302173786,
-            "hist_now": -1.0090939716350924,
-            "hist_prev": 0.27236629602876583
+            "k_now": 26.51565420055854,
+            "k_prev": 45.43514476921845,
+            "rsi_now": 48.017275583381746,
+            "rsi_prev": 50.392828896290666,
+            "hist_now": -2.3338336825213766,
+            "hist_prev": -1.0090939716350924
           },
           "stoch_flattening": false,
           "diagnostics": {
-            "close": 167.99,
-            "atr_14": 8.832757675938879
+            "close": 160.39,
+            "atr_14": 8.866846413371817
           }
         },
         {
