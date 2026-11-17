@@ -192,9 +192,9 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
 .sd-check-fail {
     color: #c99a5c !important;
 }
-/* STOCH FLATTENING row badge (Part C) - light/muted, never an alert color. Sits beside
-   the row's main content via .sd-row's flex layout below, right-aligned and vertically
-   centered against the whole row. */
+/* STOCH FLATTENING row badge (Part C) - light/muted, never an alert color. Sits in
+   .sd-row-status beside the dot, on the right end of .sd-row-top (see .sd-row-top's
+   justify-content: space-between below). */
 .sd-row-flattening-badge {
     display: inline-block;
     background: rgba(226, 232, 240, 0.12);
@@ -202,9 +202,15 @@ div[data-testid="stMarkdownContainer"] .sd-row * {
     border-radius: 4px;
     padding: 0.15rem 0.55rem;
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     letter-spacing: 0.03em;
     white-space: nowrap;
+    flex-shrink: 0;
+}
+.sd-row-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     flex-shrink: 0;
 }
 div[data-testid="stMarkdownContainer"] .sd-row {
@@ -613,11 +619,13 @@ def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
         f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>'
         f"{name_html}"
         "</div>"
+        '<div class="sd-row-status">'
+        f"{badge_html}"
         f'<div class="sd-dot">{dot}</div>'
+        "</div>"
         "</div>"
         f"{reason_html}"
         "</div>"
-        f"{badge_html}"
         "</div>"
     )
     with st.container(border=True):
