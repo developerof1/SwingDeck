@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-17T21:01+00:00",
+      "generated_at": "2026-11-17T23:13+00:00",
       "evaluated_session": "2026-11-16",
       "results": [
         {
@@ -11,17 +11,18 @@
           "thesis": "Custom silicon growth; clean trendline support bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 333.4,
-            "atr_14": 17.9348532548412
+            "close": 341.6,
+            "atr_14": 17.644506593781117
           }
         },
         {
@@ -59,17 +60,18 @@
           "thesis": "High-beta IP licensor; rapid momentum expansion setups off oversold RSI",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 175.05,
-            "atr_14": 16.199269538219617
+            "close": 183.39,
+            "atr_14": 15.88003599977536
           }
         },
         {
@@ -79,27 +81,25 @@
           "thesis": "Lithography monopoly; sharp mean-reversion moves off key Fib levels",
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
-            "k_now": 16.17851460294488,
+            "k_now": 14.904623479974404,
             "k_prev": 16.375048314922786,
-            "rsi_now": 39.795062979273936,
-            "rsi_prev": 43.537575771287756,
-            "hist_now": -53.228454438393705,
-            "hist_prev": -49.53226887179416
+            "rsi_now": 38.89928329094294,
+            "rsi_prev": 43.537575771287756
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
-            "close": 1406.785,
-            "atr_14": 67.0212863520085
+            "close": 1383.11,
+            "atr_14": 66.2622658982936
           }
         },
         {
@@ -137,7 +137,7 @@
           "thesis": "High-volatility international cloud/AI swing trade",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -145,9 +145,10 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 90.62,
-            "atr_14": 3.545315642367603
+            "close": 86.65,
+            "atr_14": 3.5870788107699183
           }
         },
         {
@@ -255,7 +256,7 @@
           "thesis": "Hybrid bonding for 3D packaging; high-amplitude momentum setup",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -263,9 +264,10 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 163.78,
-            "atr_14": 9.089401778752281
+            "close": 162.58,
+            "atr_14": 8.995158794555687
           }
         },
         {
@@ -325,17 +327,18 @@
           "thesis": "Optical inspection for HBM; rapid percentage swings on volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 93.25,
-            "atr_14": 8.439212085179923
+            "close": 94.96,
+            "atr_14": 8.1381969362385
           }
         },
         {
@@ -345,17 +348,18 @@
           "thesis": "Optical transceivers; high-volatility momentum breakout candidate",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 203.43,
-            "atr_14": 23.642139542744353
+            "close": 210.86,
+            "atr_14": 23.14412243254833
           }
         },
         {
@@ -365,7 +369,7 @@
           "thesis": "Largest US nuclear operator; reacts sharply to data center power deals",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -373,9 +377,10 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 277.82,
-            "atr_14": 13.026511879652354
+            "close": 268.07,
+            "atr_14": 12.988903888248615
           }
         },
         {
@@ -385,7 +390,7 @@
           "thesis": "EDA software monopoly; predictable mean-inversion",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -393,9 +398,10 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 309.43,
-            "atr_14": 13.98792825720026
+            "close": 306.97,
+            "atr_14": 13.633076238828812
           }
         },
         {
