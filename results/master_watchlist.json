@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-17T08:09+00:00",
+      "generated_at": "2026-11-17T14:39+00:00",
       "evaluated_session": "2026-11-16",
       "results": [
         {
@@ -1279,8 +1279,8 @@
           "name": "Doximity Inc - Class A",
           "sector": "Technology / SaaS",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
@@ -1386,11 +1386,11 @@
         },
         {
           "ticker": "DVA",
-          "name": null,
+          "name": "DaVita Inc",
           "sector": "Healthcare / KidneyCare",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
@@ -1766,7 +1766,7 @@
         },
         {
           "ticker": "DOCU",
-          "name": null,
+          "name": "DocuSign Inc",
           "sector": "Technology / ?",
           "thesis": null,
           "status": "DEVELOPING",
@@ -1796,7 +1796,7 @@
         },
         {
           "ticker": "DRI",
-          "name": null,
+          "name": "Darden Restaurants Inc",
           "sector": "Consumer Cyclical / Restaurants",
           "thesis": null,
           "status": "DEVELOPING",
@@ -1886,11 +1886,11 @@
         },
         {
           "ticker": "EL",
-          "name": null,
+          "name": "Estee Lauder Cos. Inc - Class A",
           "sector": "Retail / Discretionary",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
@@ -1916,11 +1916,11 @@
         },
         {
           "ticker": "EBAY",
-          "name": null,
+          "name": "EBay Inc",
           "sector": "Consumer Cyclical / Specialty Retail",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
@@ -2051,7 +2051,7 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -2060,8 +2060,8 @@
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 34.32,
-            "atr_14": 1.0858036653193892
+            "close": 35.24,
+            "atr_14": 1.1186034035108616
           }
         },
         {
@@ -2099,29 +2099,19 @@
           "name": "GlobalFoundries Inc",
           "sector": "Technology / Semiconductors",
           "thesis": null,
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 16.81025611104737,
-            "k_prev": 11.652767463123636,
-            "rsi_now": 38.914895996818665,
-            "rsi_prev": 34.60822488266105,
-            "hist_now": -1.417695345275515,
-            "hist_prev": -1.6295285998794808
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 41.47,
-            "atr_14": 2.6088021392309115
+            "close": 39.42,
+            "atr_14": 2.573173415000132
           }
         },
         {
@@ -2149,29 +2139,19 @@
           "name": "Generac Holdings Inc",
           "sector": "Industrials / Electrical Equipment",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 1,
+          "l2_age": 2,
           "armed": true,
-          "l3_score": 3,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 29.8625383040107,
-            "k_prev": 26.0217673306767,
-            "rsi_now": 44.97932612373264,
-            "rsi_prev": 40.1183423692918,
-            "hist_now": -3.0165881903728486,
-            "hist_prev": -3.5651131594185976
-          },
-          "stoch_flattening": true,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 190.77,
-            "atr_14": 12.057350238318293
+            "close": 185.62,
+            "atr_14": 11.612539507009844
           }
         },
         {
@@ -2281,27 +2261,27 @@
           "thesis": null,
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 1,
+          "l2_age": 2,
           "armed": true,
-          "l3_score": 2,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 2,
+            "rsi_pts": 0,
             "macd_pts": 0,
-            "k_now": 7.894083814705856,
-            "k_prev": 26.868931189133544,
-            "rsi_now": 43.28258770265153,
-            "rsi_prev": 39.9988989793312,
-            "hist_now": -7.459179708628872,
-            "hist_prev": -6.307713961217377
+            "k_now": 5.719016685772502,
+            "k_prev": 7.894083814705856,
+            "rsi_now": 42.11267527684335,
+            "rsi_prev": 43.28258770265153,
+            "hist_now": -8.159785712332148,
+            "hist_prev": -7.459179708628872
           },
-          "stoch_flattening": false,
+          "stoch_flattening": true,
           "diagnostics": {
-            "close": 127.22,
-            "atr_14": 7.933614677771796
+            "close": 123.27,
+            "atr_14": 7.685492200788097
           }
         },
         {
@@ -2331,7 +2311,7 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -2340,8 +2320,8 @@
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 3.05,
-            "atr_14": 0.12364159918436732
+            "close": 2.796,
+            "atr_14": 0.1329529135283411
           }
         },
         {
@@ -2349,29 +2329,19 @@
           "name": "Corning Inc",
           "sector": "Technology / Electronic Components",
           "thesis": null,
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 12.329383580709242,
-            "k_prev": 11.77428064353814,
-            "rsi_now": 39.23861129200158,
-            "rsi_prev": 35.819638901213594,
-            "hist_now": -6.921072965371757,
-            "hist_prev": -7.143941981302866
-          },
-          "stoch_flattening": true,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 114.08,
-            "atr_14": 8.418877543660063
+            "close": 106.17,
+            "atr_14": 8.436814861970058
           }
         },
         {
@@ -2459,29 +2429,9 @@
           "name": "Genpact Ltd",
           "sector": "Technology / Consulting",
           "thesis": null,
-          "status": "MONITORED",
-          "ui_group": "other",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "FAIL",
-          "l2_state": "NOT_ARMED",
-          "l2_age": null,
-          "armed": false,
-          "l3_score": null,
-          "l3_detail": {},
-          "stoch_flattening": null,
-          "diagnostics": {
-            "close": 43.61,
-            "atr_14": 1.3832082442509996
-          }
-        },
-        {
-          "ticker": "GD",
-          "name": "General Dynamics Corp",
-          "sector": "Aerospace & Defense",
-          "thesis": null,
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -2491,17 +2441,47 @@
             "stoch_pts": 0,
             "rsi_pts": 2,
             "macd_pts": 1,
-            "k_now": 56.49914313365381,
-            "k_prev": 49.75708595547948,
-            "rsi_now": 53.4325240925957,
-            "rsi_prev": 50.11551048563625,
-            "hist_now": -0.714790352038186,
-            "hist_prev": -1.6392860127088351
+            "k_now": 95.39112157864065,
+            "k_prev": 89.13062109513065,
+            "rsi_now": 67.813303906019,
+            "rsi_prev": 66.80002651220005,
+            "hist_now": 1.2568926415048678,
+            "hist_prev": 1.1973276995933304
           },
           "stoch_flattening": false,
           "diagnostics": {
-            "close": 363.46,
-            "atr_14": 8.176802485875978
+            "close": 44.28,
+            "atr_14": 1.3569076553759283
+          }
+        },
+        {
+          "ticker": "GD",
+          "name": "General Dynamics Corp",
+          "sector": "Aerospace & Defense",
+          "thesis": null,
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "PASS",
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
+          "l3_score": 1,
+          "l3_detail": {
+            "stoch_pts": 0,
+            "rsi_pts": 0,
+            "macd_pts": 1,
+            "k_now": 51.6523536783898,
+            "k_prev": 56.49914313365381,
+            "rsi_now": 51.940799895920655,
+            "rsi_prev": 53.4325240925957,
+            "hist_now": -0.35209549497751036,
+            "hist_prev": -0.714790352038186
+          },
+          "stoch_flattening": false,
+          "diagnostics": {
+            "close": 359.69,
+            "atr_14": 8.162030879741977
           }
         },
         {
@@ -2729,8 +2709,8 @@
           "name": "EPAM Systems Inc",
           "sector": "Technology / Consulting",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
@@ -2861,7 +2841,7 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -2870,8 +2850,8 @@
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 21.07,
-            "atr_14": 0.8265320006133281
+            "close": 19.76,
+            "atr_14": 0.8692797148552334
           }
         },
         {
@@ -2999,29 +2979,19 @@
           "name": "General Electric Company",
           "sector": "Industrials / Special Industrial Machinery",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 3,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 39.15433166228415,
-            "k_prev": 22.926190287538464,
-            "rsi_now": 52.72867738284781,
-            "rsi_prev": 50.23298719013342,
-            "hist_now": -2.938292601964638,
-            "hist_prev": -5.072176157008604
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 331.81,
-            "atr_14": 10.532160359201692
+            "close": 325.18,
+            "atr_14": 10.464863190687288
           }
         },
         {
