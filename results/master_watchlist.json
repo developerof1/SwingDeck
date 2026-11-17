@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-17T17:42+00:00",
+      "generated_at": "2026-11-17T21:01+00:00",
       "evaluated_session": "2026-11-16",
       "results": [
         {
@@ -119,6 +119,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 165.98,
             "atr_14": 5.876623482284904
@@ -189,26 +190,24 @@
           "name": "A.O. Smith Corp",
           "sector": "Manufacturing",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 71.99478741514274,
             "k_prev": 78.88888926550676,
             "rsi_now": 56.821316312032785,
-            "rsi_prev": 57.739877714467376,
-            "hist_now": 0.9051420273261102,
-            "hist_prev": 0.8984366167429272
+            "rsi_prev": 57.739877714467376
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 63.9,
             "atr_14": 1.746822596195469
@@ -230,15 +229,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 71.30331753554499,
             "k_prev": 68.96524486571876,
             "rsi_now": 61.11386898421347,
-            "rsi_prev": 62.109154152404614,
-            "hist_now": 2.2778954815245345,
-            "hist_prev": 2.389598052930735
+            "rsi_prev": 62.109154152404614
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 190.74,
             "atr_14": 4.780704228474972
@@ -260,15 +257,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 4.664471269038482,
             "k_prev": 13.821560264564326,
             "rsi_now": 42.228411169076054,
-            "rsi_prev": 44.226447710360226,
-            "hist_now": -1.61700152001441,
-            "hist_prev": -1.298294538766581
+            "rsi_prev": 44.226447710360226
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 62.71,
             "atr_14": 3.7965746488569687
@@ -340,15 +335,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 10.909931904558986,
             "k_prev": 11.880599792840641,
             "rsi_now": 41.016574456644655,
-            "rsi_prev": 43.63230492989564,
-            "hist_now": -1.8817787293322839,
-            "hist_prev": -1.7312628618915564
+            "rsi_prev": 43.63230492989564
           },
           "stoch_flattening": true,
+          "macd_turning": false,
           "diagnostics": {
             "close": 70.62,
             "atr_14": 2.111719986672896
@@ -369,6 +362,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 44.72,
             "atr_14": 1.9821628365791002
@@ -419,6 +413,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 84.15,
             "atr_14": 5.055780478322087
@@ -439,6 +434,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 3.74,
             "atr_14": 0.3625750387098949
@@ -459,6 +455,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 108.76,
             "atr_14": 4.46000597124889
@@ -469,26 +466,24 @@
           "name": "Airbnb Inc - Class A",
           "sector": "Hotels and Accommodation",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 81.89261876462562,
             "k_prev": 70.65799841866601,
             "rsi_now": 62.98642843268116,
-            "rsi_prev": 63.40178026685345,
-            "hist_now": 0.6706990042825307,
-            "hist_prev": 0.4849812071841235
+            "rsi_prev": 63.40178026685345
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 186.19,
             "atr_14": 6.857245351085536
@@ -510,15 +505,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 84.66472182283842,
             "k_prev": 87.33443783583186,
             "rsi_now": 71.9558662534896,
-            "rsi_prev": 72.37757688808384,
-            "hist_now": 2.285345012546877,
-            "hist_prev": 2.66986506922135
+            "rsi_prev": 72.37757688808384
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 294.55,
             "atr_14": 6.901944564310875
@@ -569,6 +562,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 88.16,
             "atr_14": 3.899321145793723
@@ -640,15 +634,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 84.95816364032437,
             "k_prev": 85.02300893017203,
             "rsi_now": 66.26769276354185,
-            "rsi_prev": 68.70979735139173,
-            "hist_now": 0.5982856449953253,
-            "hist_prev": 0.715552751487877
+            "rsi_prev": 68.70979735139173
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 352.78,
             "atr_14": 8.040233947855064
@@ -730,15 +722,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 82.1243684228642,
             "k_prev": 89.23512935697708,
             "rsi_now": 67.19986375517655,
-            "rsi_prev": 68.6804136507941,
-            "hist_now": 9.30800986794986,
-            "hist_prev": 10.82719385708182
+            "rsi_prev": 68.6804136507941
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 247.7,
             "atr_14": 9.51063330255268
@@ -749,26 +739,24 @@
           "name": "American Eagle Outfitters Inc",
           "sector": "Retail / Discretionary",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 86.77352368097529,
             "k_prev": 86.25181006220426,
             "rsi_now": 63.8122800682244,
-            "rsi_prev": 66.26620867461497,
-            "hist_now": 0.619981038430217,
-            "hist_prev": 0.594116919206247
+            "rsi_prev": 66.26620867461497
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 21.26,
             "atr_14": 0.8526233125632755
@@ -809,6 +797,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 350.25,
             "atr_14": 24.95009576985558
@@ -830,15 +819,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 36.53901151756232,
             "k_prev": 34.73762238899337,
             "rsi_now": 51.8519665926778,
-            "rsi_prev": 55.151828562986005,
-            "hist_now": -14.95331655418319,
-            "hist_prev": -14.668020342774149
+            "rsi_prev": 55.151828562986005
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 504.28,
             "atr_14": 41.27925381811425
@@ -5062,6 +5049,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 28.28,
             "atr_14": 1.6335770361405204
@@ -5103,6 +5091,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 61.63,
             "atr_14": 2.3632875512906164
@@ -5123,6 +5112,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 95.93,
             "atr_14": 3.179313752709859
@@ -5189,19 +5179,17 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 3,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 2,
-            "macd_pts": 1,
             "k_now": 84.69315107523134,
             "k_prev": 79.40064539017551,
             "rsi_now": 63.71111357625952,
-            "rsi_prev": 62.712972729965294,
-            "hist_now": 1.3366501498154753,
-            "hist_prev": 0.9659138415641707
+            "rsi_prev": 62.712972729965294
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 111.82,
             "atr_14": 2.4840130944564103
@@ -5222,6 +5210,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 8.47,
             "atr_14": 0.30560972188171914
@@ -5229,29 +5218,27 @@
         },
         {
           "ticker": "WLKP",
-          "name": null,
+          "name": "Westlake Chemical Partners LP",
           "sector": "Industrial / Chemicals",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 49.526666950327844,
             "k_prev": 46.73435478567594,
             "rsi_now": 51.59776203537414,
-            "rsi_prev": 54.54965833832331,
-            "hist_now": -0.03670951108490712,
-            "hist_prev": -0.053275807680036806
+            "rsi_prev": 54.54965833832331
           },
           "stoch_flattening": false,
+          "macd_turning": true,
           "diagnostics": {
             "close": 21.0,
             "atr_14": 0.40625476914428843
@@ -5293,6 +5280,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 31.28,
             "atr_14": 1.4466848409862385
@@ -5313,6 +5301,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 29.76,
             "atr_14": 1.5821485190516653
@@ -5330,19 +5319,17 @@
           "l2_state": "ARMED",
           "l2_age": 3,
           "armed": true,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 40.10694649659763,
             "k_prev": 37.94590356722855,
             "rsi_now": 51.58067535454122,
-            "rsi_prev": 54.884751487166106,
-            "hist_now": -0.31539800016723296,
-            "hist_prev": -0.3961594116388558
+            "rsi_prev": 54.884751487166106
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 96.18,
             "atr_14": 3.932984348811801
@@ -5353,26 +5340,24 @@
           "name": "U.S. Bancorp.",
           "sector": "Financial / Banks",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 47.39151140056119,
             "k_prev": 44.06935967148038,
             "rsi_now": 55.168485686088715,
-            "rsi_prev": 57.256355230625395,
-            "hist_now": -0.35647300683470484,
-            "hist_prev": -0.43461380126491655
+            "rsi_prev": 57.256355230625395
           },
           "stoch_flattening": false,
+          "macd_turning": true,
           "diagnostics": {
             "close": 60.43,
             "atr_14": 1.2703294997166066
@@ -5380,7 +5365,7 @@
         },
         {
           "ticker": "WOOF",
-          "name": null,
+          "name": "Petco Health and Wellness Co Inc - Class A",
           "sector": "Retail / Discretionary",
           "thesis": null,
           "status": "MONITORED",
@@ -5393,6 +5378,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 2.76,
             "atr_14": 0.13618188874464277
@@ -5410,19 +5396,17 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 3,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 2,
-            "macd_pts": 1,
             "k_now": 68.69577550368466,
             "k_prev": 68.91342845786438,
             "rsi_now": 60.667814383649656,
-            "rsi_prev": 60.167762482638075,
-            "hist_now": -0.010497293338719516,
-            "hist_prev": -0.45385305648153285
+            "rsi_prev": 60.167762482638075
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 303.71,
             "atr_14": 6.0605241088225155
@@ -5433,26 +5417,24 @@
           "name": null,
           "sector": "Technology / Fintech",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 71.86635152116025,
             "k_prev": 60.0367401969296,
             "rsi_now": 58.10204575804912,
-            "rsi_prev": 60.76902287822324,
-            "hist_now": 0.10400700996491796,
-            "hist_prev": 0.033100385597198745
+            "rsi_prev": 60.76902287822324
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 82.96,
             "atr_14": 3.254083113470836
@@ -5474,15 +5456,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 43.45945929896701,
             "k_prev": 52.115864779760614,
             "rsi_now": 56.837868172276615,
-            "rsi_prev": 58.07890438815498,
-            "hist_now": 0.5929857522492625,
-            "hist_prev": 1.2547964905963767
+            "rsi_prev": 58.07890438815498
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 194.06,
             "atr_14": 7.003482564785311
@@ -5490,7 +5470,7 @@
         },
         {
           "ticker": "WPC",
-          "name": null,
+          "name": "W. P. Carey Inc",
           "sector": "REIT",
           "thesis": null,
           "status": "MONITORED",
@@ -5503,6 +5483,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 66.08,
             "atr_14": 1.1654133523423682
@@ -5513,26 +5494,24 @@
           "name": "Verizon Communications Inc",
           "sector": "Telecommunication",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 53.242400974577926,
             "k_prev": 47.87145701661609,
             "rsi_now": 52.7562255053705,
-            "rsi_prev": 52.822046991098716,
-            "hist_now": -0.15407422063248521,
-            "hist_prev": -0.2352991773033521
+            "rsi_prev": 52.822046991098716
           },
           "stoch_flattening": false,
+          "macd_turning": true,
           "diagnostics": {
             "close": 46.34,
             "atr_14": 1.080723686476346
@@ -5553,6 +5532,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 151.73,
             "atr_14": 8.598793313541016
@@ -5560,7 +5540,7 @@
         },
         {
           "ticker": "XIACF",
-          "name": null,
+          "name": "Xiaomi Corporation - Class B",
           "sector": "Automotive / EV",
           "thesis": null,
           "status": "MONITORED",
@@ -5573,6 +5553,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 3.66,
             "atr_14": 0.18595770881334187
@@ -5622,15 +5603,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 75.37581808983641,
             "k_prev": 82.35822982943046,
             "rsi_now": 65.10406711025125,
-            "rsi_prev": 66.10614160222113,
-            "hist_now": 2.7798692635202613,
-            "hist_prev": 4.583162808314722
+            "rsi_prev": 66.10614160222113
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 299.28,
             "atr_14": 8.599901960930005
@@ -5652,15 +5631,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 62.03254895462202,
             "k_prev": 63.55203770078322,
             "rsi_now": 58.242269083997414,
-            "rsi_prev": 59.515434947217436,
-            "hist_now": -0.17015048949430378,
-            "hist_prev": -0.16190335439637904
+            "rsi_prev": 59.515434947217436
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 29.11,
             "atr_14": 0.7695330307603312
@@ -5696,29 +5673,27 @@
         },
         {
           "ticker": "XPO",
-          "name": null,
+          "name": "XPO Inc",
           "sector": "Industrials / Integrated Freight & Logistics",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 37.77420336598434,
             "k_prev": 37.77156483961247,
             "rsi_now": 49.51429866213845,
-            "rsi_prev": 51.27992557389418,
-            "hist_now": -0.7099205330095584,
-            "hist_prev": -1.2096064436119267
+            "rsi_prev": 51.27992557389418
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 189.15,
             "atr_14": 7.175862820473575
@@ -5768,15 +5743,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 56.11250672628014,
             "k_prev": 67.55016528421224,
             "rsi_now": 61.85123578076784,
-            "rsi_prev": 62.75423870707122,
-            "hist_now": 0.7088995848524018,
-            "hist_prev": 1.028875551274747
+            "rsi_prev": 62.75423870707122
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 111.15,
             "atr_14": 5.819763261658237
@@ -5825,6 +5798,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 280.93,
             "atr_14": 26.485685487358055

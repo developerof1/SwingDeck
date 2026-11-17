@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-17T17:42+00:00",
+      "generated_at": "2026-11-17T21:01+00:00",
       "evaluated_session": "2026-11-16",
       "results": [
         {
@@ -29,26 +29,24 @@
           "name": "Arista Networks Inc",
           "sector": "Networking & Interconnects",
           "thesis": "Cloud networking leader; clean 20-day and 50-day EMA support bounces",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 45.190403550444806,
             "k_prev": 35.62258642703096,
             "rsi_now": 52.93602790714604,
-            "rsi_prev": 57.19890969459847,
-            "hist_now": -3.001938034181748,
-            "hist_prev": -3.308609540799475
+            "rsi_prev": 57.19890969459847
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 187.02,
             "atr_14": 12.046863595670414
@@ -109,26 +107,24 @@
           "name": "Amazon.com Inc",
           "sector": "Big Tech & Hyperscalers",
           "thesis": "AWS re-acceleration; tight technical consolidation patterns",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 1,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 1,
             "k_now": 62.318277833948855,
             "k_prev": 49.486770201543216,
             "rsi_now": 52.60985871394759,
-            "rsi_prev": 56.804992288702266,
-            "hist_now": -0.4825672625926183,
-            "hist_prev": -0.5801563419558629
+            "rsi_prev": 56.804992288702266
           },
           "stoch_flattening": false,
+          "macd_turning": true,
           "diagnostics": {
             "close": 257.75,
             "atr_14": 9.145822641091492
@@ -170,15 +166,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 36.53901151756232,
             "k_prev": 34.73762238899337,
             "rsi_now": 51.8519665926778,
-            "rsi_prev": 55.151828562986005,
-            "hist_now": -14.95331655418319,
-            "hist_prev": -14.668020342774149
+            "rsi_prev": 55.151828562986005
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 504.28,
             "atr_14": 41.27925381811425
@@ -200,15 +194,13 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
             "k_now": 84.95816364032437,
             "k_prev": 85.02300893017203,
             "rsi_now": 66.26769276354185,
-            "rsi_prev": 68.70979735139173,
-            "hist_now": 0.5982856449953253,
-            "hist_prev": 0.715552751487877
+            "rsi_prev": 68.70979735139173
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 352.78,
             "atr_14": 8.040233947855064
@@ -229,6 +221,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 246.0,
             "atr_14": 8.122648760738953
@@ -249,6 +242,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 350.25,
             "atr_14": 24.95009576985558
@@ -881,6 +875,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 280.93,
             "atr_14": 26.485685487358055
@@ -901,6 +896,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 188.67,
             "atr_14": 17.100639173527483
@@ -921,6 +917,7 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 130.16,
             "atr_14": 7.700421715360577
