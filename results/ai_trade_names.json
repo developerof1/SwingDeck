@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-17T05:57+00:00",
+      "generated_at": "2026-11-17T08:09+00:00",
       "evaluated_session": "2026-11-16",
       "results": [
         {
@@ -11,17 +11,17 @@
           "thesis": "Custom silicon growth; clean trendline support bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 347.01,
-            "atr_14": 17.836765043675143
+            "close": 333.4,
+            "atr_14": 17.9348532548412
           }
         },
         {
@@ -59,29 +59,19 @@
           "name": "Arm Holdings plc.",
           "sector": "Chips & Hardware",
           "thesis": "High-beta IP licensor; rapid momentum expansion setups off oversold RSI",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 9.193107644419586,
-            "k_prev": 4.465388801525028,
-            "rsi_now": 41.390704257330086,
-            "rsi_prev": 38.30895160274226,
-            "hist_now": -15.050532119083968,
-            "hist_prev": -15.225661151934855
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 190.53,
-            "atr_14": 16.22306719500574
+            "close": 175.05,
+            "atr_14": 16.199269538219617
           }
         },
         {
@@ -89,29 +79,29 @@
           "name": "ASML Holding NV",
           "sector": "Chips & Hardware",
           "thesis": "Lithography monopoly; sharp mean-reversion moves off key Fib levels",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-16",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
-          "l3_score": 4,
+          "l3_score": 0,
           "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
+            "stoch_pts": 0,
+            "rsi_pts": 0,
             "macd_pts": 0,
-            "k_now": 16.375048314922786,
-            "k_prev": 11.459803258224364,
-            "rsi_now": 43.537575771287756,
-            "rsi_prev": 39.31543640749606,
-            "hist_now": -49.53226887179416,
-            "hist_prev": -49.209128725774335
+            "k_now": 16.17851460294488,
+            "k_prev": 16.375048314922786,
+            "rsi_now": 39.795062979273936,
+            "rsi_prev": 43.537575771287756,
+            "hist_now": -53.228454438393705,
+            "hist_prev": -49.53226887179416
           },
-          "stoch_flattening": true,
+          "stoch_flattening": false,
           "diagnostics": {
-            "close": 1495.16,
-            "atr_14": 65.16907760985531
+            "close": 1406.785,
+            "atr_14": 67.0212863520085
           }
         },
         {
@@ -151,7 +141,7 @@
           "thesis": "High-volatility international cloud/AI swing trade",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -160,8 +150,8 @@
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 94.38,
-            "atr_14": 3.524955307165111
+            "close": 90.62,
+            "atr_14": 3.545315642367603
           }
         },
         {
@@ -269,29 +259,19 @@
           "name": "Be Semiconductor Industries NV",
           "sector": "Advanced Packaging & Equipment",
           "thesis": "Hybrid bonding for 3D packaging; high-amplitude momentum setup",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 9.990516961182966,
-            "k_prev": 5.0899392766202745,
-            "rsi_now": 38.11899429729116,
-            "rsi_prev": 34.45034013453345,
-            "hist_now": -9.477338946929184,
-            "hist_prev": -11.181671781555128
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 171.53,
-            "atr_14": 8.891663454040918
+            "close": 163.78,
+            "atr_14": 9.089401778752281
           }
         },
         {
@@ -349,29 +329,19 @@
           "name": "Camtek Ltd",
           "sector": "Advanced Packaging & Equipment",
           "thesis": "Optical inspection for HBM; rapid percentage swings on volume",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
-          "l3_score": 4,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 0,
-            "k_now": 9.59117277639195,
-            "k_prev": 7.481034647445952,
-            "rsi_now": 36.84107747805924,
-            "rsi_prev": 34.905787175736805,
-            "hist_now": -5.953398433118875,
-            "hist_prev": -5.581510889023659
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 101.73,
-            "atr_14": 8.356843784039917
+            "close": 93.25,
+            "atr_14": 8.439212085179923
           }
         },
         {
@@ -401,7 +371,7 @@
           "thesis": "Largest US nuclear operator; reacts sharply to data center power deals",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-13",
+          "evaluated_session": "2026-11-16",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -410,8 +380,8 @@
           "l3_detail": {},
           "stoch_flattening": null,
           "diagnostics": {
-            "close": 280.2,
-            "atr_14": 13.460722494123358
+            "close": 277.82,
+            "atr_14": 13.026511879652354
           }
         },
         {
@@ -419,29 +389,19 @@
           "name": "Cadence Design Systems Inc",
           "sector": "EDA & Custom Silicon",
           "thesis": "EDA software monopoly; predictable mean-inversion",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-16",
+          "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 3,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 56.88498823914327,
-            "k_prev": 54.43863999546749,
-            "rsi_now": 48.5636151387477,
-            "rsi_prev": 47.748569963504956,
-            "hist_now": -0.7633007414827109,
-            "hist_prev": -0.9663378911564373
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
           "diagnostics": {
-            "close": 323.01,
-            "atr_14": 13.84546120006182
+            "close": 309.43,
+            "atr_14": 13.98792825720026
           }
         },
         {
