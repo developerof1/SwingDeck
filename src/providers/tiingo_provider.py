@@ -7,6 +7,20 @@ import requests
 TIINGO_BASE_URL = "https://api.tiingo.com/tiingo/daily"
 REQUEST_TIMEOUT_SECONDS = 30
 
+# Watchlist symbol -> Tiingo symbol, for tickers Tiingo spells differently or doesn't serve.
+# - Share classes use a hyphen on Tiingo (BF.B -> BF-B, like BRK-B).
+# - Tiingo carries no index data, so RUT (Russell 2000 index) is priced via IWM, the iShares
+#   Russell 2000 ETF. Its daily moves track the index, and the moving averages / stochastic
+#   are scale-invariant, so the setup results are equivalent. The watchlist keeps "RUT" for display.
+TIINGO_SYMBOL_OVERRIDES = {
+    "BF.B": "BF-B",
+    "RUT": "IWM",
+}
+
+
+def tiingo_symbol(ticker: str) -> str:
+    return TIINGO_SYMBOL_OVERRIDES.get(ticker, ticker)
+
 
 class TiingoError(Exception):
     pass
@@ -27,7 +41,7 @@ def fetch_daily_prices(ticker: str, start_date: str, api_key: str | None = None)
     if not api_key:
         raise TiingoError("TIINGO_API_KEY is not set")
 
-    url = f"{TIINGO_BASE_URL}/{ticker}/prices"
+    url = f"{TIINGO_BASE_URL}/{tiingo_symbol(ticker)}/prices"
     params = {"startDate": start_date, "format": "json", "token": api_key}
 
     try:
@@ -62,7 +76,7 @@ def fetch_ticker_meta(ticker: str, api_key: str | None = None) -> dict | None:
     if not api_key:
         return None
 
-    url = f"{TIINGO_BASE_URL}/{ticker}"
+    url = f"{TIINGO_BASE_URL}/{tiingo_symbol(ticker)}"
     try:
         response = requests.get(url, params={"token": api_key}, timeout=REQUEST_TIMEOUT_SECONDS)
     except requests.RequestException:

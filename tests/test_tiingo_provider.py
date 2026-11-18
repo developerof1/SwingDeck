@@ -69,3 +69,35 @@ def test_fetch_daily_prices_other_bad_status_raises_plain_tiingo_error(monkeypat
     with pytest.raises(TiingoError) as exc_info:
         fetch_daily_prices("AAPL", "2024-01-01", api_key="fake-key")
     assert not isinstance(exc_info.value, TiingoRateLimitError)
+
+
+def test_watchlist_symbols_map_to_tiingo_symbols(monkeypatch):
+    # BF.B -> BF-B (Tiingo's share-class spelling); RUT (index Tiingo doesn't serve) -> IWM.
+    # Other tickers pass through unchanged.
+    requested_urls = []
+
+    def _capture(url, *a, **k):
+        requested_urls.append(url)
+        return _FakeResponse(ok=True, json_data=[{"close": 1.0}])
+
+    monkeypatch.setattr(requests, "get", _capture)
+    fetch_daily_prices("BF.B", "2024-01-01", api_key="fake-key")
+    fetch_daily_prices("RUT", "2024-01-01", api_key="fake-key")
+    fetch_daily_prices("AAPL", "2024-01-01", api_key="fake-key")
+    assert requested_urls == [
+        "https://api.tiingo.com/tiingo/daily/BF-B/prices",
+        "https://api.tiingo.com/tiingo/daily/IWM/prices",
+        "https://api.tiingo.com/tiingo/daily/AAPL/prices",
+    ]
+
+
+def test_fetch_ticker_meta_uses_mapped_symbol(monkeypatch):
+    requested_urls = []
+
+    def _capture(url, *a, **k):
+        requested_urls.append(url)
+        return _FakeResponse(ok=True, json_data={"name": "x"})
+
+    monkeypatch.setattr(requests, "get", _capture)
+    fetch_ticker_meta("BF.B", api_key="fake-key")
+    assert requested_urls == ["https://api.tiingo.com/tiingo/daily/BF-B"]
