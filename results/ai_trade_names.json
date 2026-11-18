@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-18T18:13+00:00",
+      "generated_at": "2026-11-18T22:50+00:00",
       "evaluated_session": "2026-11-17",
       "results": [
         {
@@ -662,7 +662,7 @@
           "thesis": "Chip design automation; tight consolidation and breakout setups",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -671,16 +671,16 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 57.654172780223185,
+            "k_now": 56.02685518651904,
             "k_prev": 63.4965097149971,
-            "rsi_now": 49.81821273338868,
+            "rsi_now": 48.801712267488725,
             "rsi_prev": 51.86519419911966
           },
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 441.33,
-            "atr_14": 17.976075310493385
+            "close": 434.01,
+            "atr_14": 17.423605752415217
           }
         },
         {
@@ -718,25 +718,25 @@
           "thesis": "Data cloud play; sharp technical bounce off oversold stochastic",
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 5,
           "armed": true,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 13.635915006415386,
+            "k_now": 13.992992400208662,
             "k_prev": 22.995080434043178,
-            "rsi_now": 48.50944960532125,
+            "rsi_now": 48.313183468054234,
             "rsi_prev": 50.858470457990435
           },
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 280.54,
-            "atr_14": 15.90650267296711
+            "close": 279.62,
+            "atr_14": 15.678157916997154
           }
         },
         {
@@ -762,12 +762,12 @@
         },
         {
           "ticker": "SSNLF",
-          "name": null,
+          "name": "Samsung Electronics",
           "sector": "High-Bandwidth Memory (HBM)",
           "thesis": "High-volume memory & foundry scale; range-bound swing channel",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_EVALUABLE",
           "l2_age": null,
@@ -785,7 +785,7 @@
           "macd_turning": true,
           "diagnostics": {
             "close": 140.0,
-            "atr_14": 0.00010497818491864256
+            "atr_14": 9.051690434311527e-05
           }
         },
         {
@@ -814,27 +814,27 @@
           "name": "Taiwan Semiconductor Manufacturing",
           "sector": "Chips & Hardware",
           "thesis": "Global foundry monopoly; high volume, steady channel swings",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-16",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
-          "l2_state": "ARMED",
-          "l2_age": 4,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 23.003487700590483,
+            "k_now": 20.354508291452316,
             "k_prev": 27.46540027163586,
-            "rsi_now": 41.93885760628716,
+            "rsi_now": 39.97714876638162,
             "rsi_prev": 47.364120998711826
           },
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 373.45,
-            "atr_14": 17.759209215577894
+            "close": 362.62,
+            "atr_14": 17.498501823636047
           }
         },
         {
