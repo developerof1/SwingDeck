@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-18T16:17+00:00",
+      "generated_at": "2026-11-18T17:37+00:00",
       "evaluated_session": "2026-11-17",
       "results": [
         {
@@ -426,32 +426,23 @@
         },
         {
           "ticker": "GOOGL",
-          "name": null,
+          "name": "Alphabet Inc - Class A",
           "sector": "Big Tech & Hyperscalers",
           "thesis": "Gemini expansion; liquid range-bound channel trades",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 10.550074432996993,
-            "k_prev": 5.992092030045555,
-            "rsi_now": 39.236979306521995,
-            "rsi_prev": 35.035098829893286,
-            "hist_now": -8.214828011159286,
-            "hist_prev": -8.500804324485701
-          },
-          "stoch_flattening": true,
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-17",
+          "l1_state": "FAIL",
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 295.77,
-            "atr_14": 10.291207488648922
+            "close": 280.2,
+            "atr_14": 10.125326865212593
           }
         },
         {
@@ -459,29 +450,20 @@
           "name": null,
           "sector": "Advanced Packaging & Equipment",
           "thesis": "Process control & inspection; institutional favorite for MA retests",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-17",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 4,
           "armed": true,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 19.55977127855521,
-            "k_prev": 10.586986762269309,
-            "rsi_now": 42.976763651182985,
-            "rsi_prev": 38.522436367596455,
-            "hist_now": -7.277551911179659,
-            "hist_prev": -7.959797217445938
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 152.32,
-            "atr_14": 9.543082169007493
+            "close": 144.56,
+            "atr_14": 9.42389450757992
           }
         },
         {
@@ -609,29 +591,20 @@
           "name": "Lam Research Corp",
           "sector": "Advanced Packaging & Equipment",
           "thesis": "Wafer fabrication tools; high-beta mover during chip rallies",
-          "status": "QUALIFIED",
-          "ui_group": "qualified",
-          "evaluated_session": "2026-11-13",
-          "l1_state": "PASS",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-17",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 5,
           "armed": true,
-          "l3_score": 5,
-          "l3_detail": {
-            "stoch_pts": 2,
-            "rsi_pts": 2,
-            "macd_pts": 1,
-            "k_now": 15.116874695004833,
-            "k_prev": 8.160301729617279,
-            "rsi_now": 41.09950770740618,
-            "rsi_prev": 35.87545577627756,
-            "hist_now": -15.320289739965183,
-            "hist_prev": -15.981055605473635
-          },
-          "stoch_flattening": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 225.92,
-            "atr_14": 16.39842941893452
+            "close": 210.69,
+            "atr_14": 16.170533529591502
           }
         },
         {
