@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-18T08:39+00:00",
+      "generated_at": "2026-11-18T16:17+00:00",
       "evaluated_session": "2026-11-17",
       "results": [
         {
@@ -277,17 +277,18 @@
           "thesis": "Active Electrical Cables; rapid momentum expansion setups",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 120.71,
-            "atr_14": 15.416865142270458
+            "close": 123.95,
+            "atr_14": 15.02923191782257
           }
         },
         {
@@ -297,27 +298,25 @@
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 1,
+          "l2_age": 2,
           "armed": true,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
-            "k_now": 34.948047576025864,
+            "k_now": 26.29278212448088,
             "k_prev": 44.76431566333574,
-            "rsi_now": 49.861967584226846,
-            "rsi_prev": 50.980090902481486,
-            "hist_now": -1.613227513975989,
-            "hist_prev": -0.5231143496078161
+            "rsi_now": 43.43414599728526,
+            "rsi_prev": 50.980090902481486
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
-            "close": 214.83,
-            "atr_14": 7.882111860252956
+            "close": 194.52,
+            "atr_14": 8.849103870234888
           }
         },
         {
@@ -411,17 +410,18 @@
           "thesis": "Grid management & transformers; steady institutional trend-follower",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 336.88,
-            "atr_14": 18.369625509691883
+            "close": 337.11,
+            "atr_14": 18.044652258999605
           }
         },
         {
