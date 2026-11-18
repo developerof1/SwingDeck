@@ -1,8 +1,8 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-17T23:13+00:00",
-      "evaluated_session": "2026-11-16",
+      "generated_at": "2026-11-18T01:02+00:00",
+      "evaluated_session": "2026-11-17",
       "results": [
         {
           "ticker": "AVGO",
@@ -32,7 +32,7 @@
           "thesis": "Cloud networking leader; clean 20-day and 50-day EMA support bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -41,16 +41,16 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 45.190403550444806,
+            "k_now": 44.85179297123447,
             "k_prev": 35.62258642703096,
-            "rsi_now": 52.93602790714604,
+            "rsi_now": 52.70653944877395,
             "rsi_prev": 57.19890969459847
           },
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 187.02,
-            "atr_14": 12.046863595670414
+            "close": 186.42,
+            "atr_14": 11.794230481693956
           }
         },
         {
@@ -109,7 +109,7 @@
           "thesis": "AWS re-acceleration; tight technical consolidation patterns",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -118,16 +118,16 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 62.318277833948855,
+            "k_now": 62.41977830085099,
             "k_prev": 49.486770201543216,
-            "rsi_now": 52.60985871394759,
+            "rsi_now": 52.67097838462773,
             "rsi_prev": 56.804992288702266
           },
           "stoch_flattening": false,
           "macd_turning": true,
           "diagnostics": {
-            "close": 257.75,
-            "atr_14": 9.145822641091492
+            "close": 257.89,
+            "atr_14": 8.913978166727812
           }
         },
         {
@@ -156,27 +156,27 @@
           "name": "Advanced Micro Devices Inc",
           "sector": "Chips & Hardware",
           "thesis": "High beta runner; large weekly price swings",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-16",
+          "status": "MONITORED",
+          "ui_group": "other",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 36.53901151756232,
+            "k_now": 36.42591581519901,
             "k_prev": 34.73762238899337,
-            "rsi_now": 51.8519665926778,
+            "rsi_now": 51.76148980245774,
             "rsi_prev": 55.151828562986005
           },
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 504.28,
-            "atr_14": 41.27925381811425
+            "close": 503.41,
+            "atr_14": 40.589299973963236
           }
         },
         {
@@ -186,7 +186,7 @@
           "thesis": "On-device AI rollout; deep liquidity and clean support zones",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -195,16 +195,16 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 84.95816364032437,
+            "k_now": 84.45920720767748,
             "k_prev": 85.02300893017203,
-            "rsi_now": 66.26769276354185,
+            "rsi_now": 65.68570974276767,
             "rsi_prev": 68.70979735139173
           },
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 352.78,
-            "atr_14": 8.040233947855064
+            "close": 351.91,
+            "atr_14": 7.8723600944368455
           }
         },
         {
@@ -214,18 +214,18 @@
           "thesis": "Creative Cloud AI; frequent mean-reversion bounces after dips",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 1,
+          "l2_age": 2,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 246.0,
-            "atr_14": 8.122648760738953
+            "close": 235.55,
+            "atr_14": 8.41460242068617
           }
         },
         {
@@ -235,18 +235,18 @@
           "thesis": "Deposition/etching leader; strong trendline bounces on high volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 350.25,
-            "atr_14": 24.95009576985558
+            "close": 349.23,
+            "atr_14": 24.432224643437326
           }
         },
         {
@@ -873,18 +873,18 @@
           "thesis": "Enterprise SSD storage; clear breakout patterns on daily charts",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 280.93,
-            "atr_14": 26.485685487358055
+            "close": 283.33,
+            "atr_14": 25.80242223826105
           }
         },
         {
@@ -894,18 +894,18 @@
           "thesis": "Liquid cooling & rack power; prime high-volume momentum runner",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 188.67,
-            "atr_14": 17.100639173527483
+            "close": 190.37,
+            "atr_14": 16.86059351827552
           }
         },
         {
@@ -915,7 +915,7 @@
           "thesis": "Independent nuclear/gas producer; high-beta clean energy trade",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -925,8 +925,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 130.16,
-            "atr_14": 7.700421715360577
+            "close": 127.15,
+            "atr_14": 7.646463021406251
           }
         }
       ],
