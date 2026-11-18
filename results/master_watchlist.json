@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-18T01:02+00:00",
+      "generated_at": "2026-11-18T08:39+00:00",
       "evaluated_session": "2026-11-16",
       "results": [
         {
@@ -533,7 +533,7 @@
           "macd_turning": false,
           "diagnostics": {
             "close": 94.96,
-            "atr_14": 0.225239866474013
+            "atr_14": 0.22523986647401306
           }
         },
         {
@@ -764,7 +764,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 95.6,
-            "atr_14": 3.0557019576213507
+            "atr_14": 3.055701957621351
           }
         },
         {
@@ -974,7 +974,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 25.31,
-            "atr_14": 0.704371952920543
+            "atr_14": 0.7043719529205431
           }
         },
         {
