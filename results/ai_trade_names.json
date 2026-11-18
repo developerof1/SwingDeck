@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-18T17:37+00:00",
+      "generated_at": "2026-11-18T18:13+00:00",
       "evaluated_session": "2026-11-17",
       "results": [
         {
@@ -468,32 +468,30 @@
         },
         {
           "ticker": "MU",
-          "name": null,
+          "name": "Micron Technology Inc",
           "sector": "Chips & Hardware",
           "thesis": "Cyclical HBM memory play; high ATR for quick percentage swings",
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
-            "k_now": 17.252655796392123,
+            "k_now": 16.772870146637818,
             "k_prev": 25.448971995526904,
-            "rsi_now": 43.109605473576494,
-            "rsi_prev": 46.018182151531676,
-            "hist_now": -51.59180105337643,
-            "hist_prev": -48.67169681824575
+            "rsi_now": 42.80841399405783,
+            "rsi_prev": 46.018182151531676
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
-            "close": 719.02,
-            "atr_14": 59.177648978626465
+            "close": 712.42,
+            "atr_14": 59.244245480153154
           }
         },
         {
@@ -503,17 +501,18 @@
           "thesis": "Ultimate AI beta leader; ideal for oversold RSI bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 156.14,
-            "atr_14": 9.851913025722865
+            "close": 155.46,
+            "atr_14": 9.709626381028377
           }
         },
         {
@@ -523,7 +522,7 @@
           "thesis": "Ad-tech monetization; strong momentum breakouts on volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -531,9 +530,10 @@
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 626.41,
-            "atr_14": 22.69254323431446
+            "close": 618.87,
+            "atr_14": 22.069504431863432
           }
         },
         {
@@ -543,7 +543,7 @@
           "thesis": "Core AI cloud enabler; highly predictable moving average bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -552,18 +552,16 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
-            "k_now": 58.082265944532566,
+            "k_now": 53.35771142442686,
             "k_prev": 68.68528943315464,
-            "rsi_now": 60.511223340325884,
-            "rsi_prev": 62.6571958611374,
-            "hist_now": 1.0550697534484499,
-            "hist_prev": 2.7385755240461904
+            "rsi_now": 56.64124474928012,
+            "rsi_prev": 62.6571958611374
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
-            "close": 517.99,
-            "atr_14": 14.925769873907539
+            "close": 506.24,
+            "atr_14": 15.39392916862843
           }
         },
         {
@@ -573,17 +571,18 @@
           "thesis": "Workflow automation; clean institutional trend-following setups",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 99.37,
-            "atr_14": 6.022746153452704
+            "close": 92.9,
+            "atr_14": 6.116499999634653
           }
         },
         {
@@ -614,17 +613,18 @@
           "thesis": "Electro-optics & custom ASICs; high beta for multi-week swings",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
-            "close": 145.36,
-            "atr_14": 16.853165109353924
+            "close": 148.74,
+            "atr_14": 16.36722474440007
           }
         },
         {
@@ -634,27 +634,25 @@
           "thesis": "Retail/institutional favorite; extreme momentum range swings",
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "macd_pts": 0,
-            "k_now": 26.51565420055854,
+            "k_now": 24.399862383424832,
             "k_prev": 45.43514476921845,
-            "rsi_now": 48.017275583381746,
-            "rsi_prev": 50.392828896290666,
-            "hist_now": -2.3338336825213766,
-            "hist_prev": -1.0090939716350924
+            "rsi_now": 46.9030269864743,
+            "rsi_prev": 50.392828896290666
           },
           "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
-            "close": 160.39,
-            "atr_14": 8.866846413371817
+            "close": 156.56,
+            "atr_14": 8.853500240988117
           }
         },
         {
@@ -692,7 +690,7 @@
           "thesis": "Enterprise AI integration; high-volume European leader",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -701,16 +699,16 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 76.16142100012429,
+            "k_now": 67.19011017431987,
             "k_prev": 81.64382188034058,
-            "rsi_now": 65.15501914715844,
+            "rsi_now": 57.38236991397384,
             "rsi_prev": 66.00004928651623
           },
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 233.83,
-            "atr_14": 5.339226103017733
+            "close": 222.51,
+            "atr_14": 5.877138524230753
           }
         },
         {
@@ -748,18 +746,18 @@
           "thesis": "Primary HBM supplier to Nvidia; high-volume liquid OTC ADR",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "NOT_EVALUABLE",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 122.18,
-            "atr_14": 10.181017048561838
+            "close": 122.61,
+            "atr_14": 9.89808725937885
           }
         },
         {
@@ -797,18 +795,18 @@
           "thesis": "Data center power distribution; high-volume German ADR",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-16",
+          "evaluated_session": "2026-11-17",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 3,
+          "l2_age": 4,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 52.57,
-            "atr_14": 1.5492921439225684
+            "close": 52.23,
+            "atr_14": 1.5043427050709566
           }
         },
         {
