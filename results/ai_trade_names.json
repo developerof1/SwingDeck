@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-19T19:42+00:00",
+      "generated_at": "2026-11-19T20:58+00:00",
       "evaluated_session": "2026-11-18",
       "results": [
         {
@@ -18,11 +18,30 @@
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 354.05,
-            "atr_14": 17.569898979939605
+            "atr_14": 17.569898979939605,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 353.05717505338174,
+            "mo_K": 33.502071470502,
+            "mo_D": 45.236723378206015,
+            "mo_Kmax4": 73.14950221475439,
+            "l2_knife": false,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 2,
+            "score_now": 4,
+            "no_live_trigger": false
           }
         },
         {
@@ -32,25 +51,43 @@
           "thesis": "Cloud networking leader; clean 20-day and 50-day EMA support bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 44.85179297123447,
+            "rsi_pts": 2,
+            "k_now": 49.095712230670564,
             "k_prev": 35.62258642703096,
-            "rsi_now": 52.70653944877395,
+            "rsi_now": 55.73486854503368,
             "rsi_prev": 57.19890969459847
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 186.42,
-            "atr_14": 11.794230481693956
+            "close": 193.94,
+            "atr_14": 11.86642116157296,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 182.54243786609513,
+            "mo_K": 75.08321974564292,
+            "mo_D": 83.66540784495697,
+            "mo_Kmax4": 88.12842522845062,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -67,11 +104,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 182.76,
-            "atr_14": 15.506390571219978
+            "atr_14": 15.506390571219978,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 242.62240358397895,
+            "mo_K": 41.348153188915354,
+            "mo_D": 45.51781281110985,
+            "mo_Kmax4": 70.21177294155414,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -79,27 +134,40 @@
           "name": "ASML Holding NV",
           "sector": "Chips & Hardware",
           "thesis": "Lithography monopoly; sharp mean-reversion moves off key Fib levels",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-18",
-          "l1_state": "PASS",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
           "l2_age": 5,
           "armed": true,
-          "l3_score": 0,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 15.65227353250985,
-            "k_prev": 16.375048314922786,
-            "rsi_now": 39.35427927644173,
-            "rsi_prev": 43.537575771287756
-          },
-          "stoch_flattening": false,
-          "macd_turning": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
+          ],
+          "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 1395.27,
-            "atr_14": 64.63638976270121
+            "atr_14": 64.63638976270121,
+            "l1_slope_pass": true,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 1633.1866269675113,
+            "mo_K": 76.56035635612862,
+            "mo_D": 79.25021852830643,
+            "mo_Kmax4": 89.15257247755301,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -107,27 +175,43 @@
           "name": "Amazon.com Inc",
           "sector": "Big Tech & Hyperscalers",
           "thesis": "AWS re-acceleration; tight technical consolidation patterns",
-          "status": "MONITORED",
-          "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 62.41977830085099,
+            "rsi_pts": 2,
+            "k_now": 69.56106115075211,
             "k_prev": 49.486770201543216,
-            "rsi_now": 52.67097838462773,
+            "rsi_now": 57.21849726925035,
             "rsi_prev": 56.804992288702266
           },
+          "l3_score_now": 2,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": true,
           "diagnostics": {
-            "close": 257.89,
-            "atr_14": 8.913978166727812
+            "close": 267.74,
+            "atr_14": 9.020122583390114,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 253.18966810997205,
+            "mo_K": 58.9437134502924,
+            "mo_D": 68.39786100104187,
+            "mo_Kmax4": 80.77341115251888,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -144,11 +228,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 84.37,
-            "atr_14": 3.52157318142921
+            "atr_14": 3.52157318142921,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 111.12301688443273,
+            "mo_K": 14.704888394456942,
+            "mo_D": 18.84593955359578,
+            "mo_Kmax4": 22.864534235158345,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -158,25 +260,43 @@
           "thesis": "High beta runner; large weekly price swings",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 36.42591581519901,
+            "rsi_pts": 2,
+            "k_now": 39.90068377401658,
             "k_prev": 34.73762238899337,
-            "rsi_now": 51.76148980245774,
+            "rsi_now": 54.69365621814098,
             "rsi_prev": 55.151828562986005
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 503.41,
-            "atr_14": 40.589299973963236
+            "close": 530.14,
+            "atr_14": 40.330778547251576,
+            "l1_slope_pass": true,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 504.3009170906789,
+            "mo_K": 79.66307395534119,
+            "mo_D": 81.80786557582697,
+            "mo_Kmax4": 91.27808155856648,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -186,7 +306,7 @@
           "thesis": "On-device AI rollout; deep liquidity and clean support zones",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -195,16 +315,34 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 84.45920720767748,
+            "k_now": 84.76890430380314,
             "k_prev": 85.02300893017203,
-            "rsi_now": 65.68570974276767,
+            "rsi_now": 66.04573064884573,
             "rsi_prev": 68.70979735139173
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 351.91,
-            "atr_14": 7.8723600944368455
+            "close": 352.45,
+            "atr_14": 7.663577230548502,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 327.2103518169537,
+            "mo_K": 88.93688323584972,
+            "mo_D": 83.36556973785305,
+            "mo_Kmax4": 88.93688323584972,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -214,18 +352,37 @@
           "thesis": "Creative Cloud AI; frequent mean-reversion bounces after dips",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 235.55,
-            "atr_14": 8.41460242068617
+            "close": 226.2,
+            "atr_14": 8.562845104922873,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 249.11062026084286,
+            "mo_K": 37.17780903532488,
+            "mo_D": 33.22642422112724,
+            "mo_Kmax4": 37.17780903532488,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -235,18 +392,38 @@
           "thesis": "Deposition/etching leader; strong trendline bounces on high volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 349.23,
-            "atr_14": 24.432224643437326
+            "close": 352.3,
+            "atr_14": 23.664172883191803,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 442.61250986403803,
+            "mo_K": 51.20417821784522,
+            "mo_D": 59.654192729942814,
+            "mo_Kmax4": 84.65318731640966,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
