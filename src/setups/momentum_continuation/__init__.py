@@ -39,6 +39,8 @@ def serialize(result: EvalResult) -> dict:
         "armed": result.armed,
         "l3_score": result.l3_score,
         "l3_detail": result.l3_detail,
+        "l3_score_now": result.l3_score_now,
+        "flags": result.flags,
         "stoch_flattening": result.stoch_flattening,
         "macd_turning": result.macd_turning,
         "diagnostics": result.diagnostics,

@@ -84,8 +84,10 @@ def row_text(result: dict) -> str:
     if status == STATUS_QUALIFIED:
         return f"Daily {_check(True)} {result.get('l2_age')}d ago ; {_weekly_clause(result)} ; Confidence: {result.get('l3_score')}/4"
     if status == STATUS_MONITORED:
-        # Trend passes but Daily isn't armed and Weekly scored zero - show all three so
-        # it's clear this isn't a Trend failure, just a total absence of signal.
+        # Trend passes but there's no live trigger (S-R1: Daily isn't armed and no weekly
+        # point lit this week) - show all three so it's clear this isn't a Trend failure,
+        # just nothing to time right now. Same copy as the Developing "awaiting daily
+        # signal" row below, shown under the Monitored heading.
         return f"Trend {_check(True)} ; Daily {_check(False)} ; {_weekly_clause(result)}"
     if armed:
         remaining = ARMED_MAX_AGE - (result.get("l2_age") or 0)

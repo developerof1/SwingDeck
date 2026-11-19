@@ -16,6 +16,20 @@ L1_EMA_WEEKS = 50
 L1_LOOKBACK_WEEKS = 4
 L1_MIN_WEEKS = 54
 
+# Round 1 (change note 2026-11-18). All provisional.
+# L1-R2 second pass route: weekly close above EMA50 and EMA(L1_R2_EMA_WEEKS), with that
+# EMA higher than L1_R2_RISE_WEEKS ago.
+L1_R2_EMA_WEEKS = 21
+L1_R2_RISE_WEEKS = 2
+# L1-R1 breakdown cut: monthly stoch rolled over from overbought (K < D and max K over the
+# last L1_R1_MONTHS completed months >= L1_R1_OVERBOUGHT) AND weekly close below
+# EMA(L1_R1_EMA_WEEKS) for L1_R1_BELOW_WEEKS consecutive completed weeks.
+L1_R1_OVERBOUGHT = 80
+L1_R1_MONTHS = 4
+L1_R1_BELOW_WEEKS = 2
+L1_R1_EMA_WEEKS = 21
+L1_R1_MONTHLY_STOCH = (14, 3, 3)
+
 L2_ATR_N = 14
 L2_ATR_K = 1.5
 L2_EMA_FAST = 8
@@ -27,6 +41,8 @@ L2_GRACE = 3
 # mirrors L1_MIN_WEEKS's NOT_EVALUABLE gate, just for L2's own (much shorter) daily clock.
 L2_MIN_SESSIONS = 60
 ARMED_MAX_AGE = 5
+# L2-R1 falling-knife guard: no daily signal on a day when Close < EMA21 - K * ATR14.
+L2_KNIFE_ATR_K = 1.0
 
 L3_MIN_WEEKS = 40
 L3_STOCH = (14, 3, 3)
@@ -36,6 +52,14 @@ L3_STOCH_FLOOR = 20
 L3_W_STOCH = 2
 L3_W_RSI = 2
 L3_QUALIFY_MIN = 4
+# L3-R1: the RSI point only counts while RSI is rising inside [L3_RSI_LO, L3_RSI_HI].
+L3_RSI_LO = 40
+L3_RSI_HI = 60
+# L3-R2: a stoch/RSI point stays valid this many sessions (today included) after it last lit.
+L3_TURN_MEMORY_SESSIONS = 25
+# S-R1: an L1-pass row is Developing only if armed OR this week's own (not memory-valid)
+# score_now reaches this - otherwise Monitored / NO_LIVE_TRIGGER.
+L3_LIVE_TRIGGER_MIN = 2
 
 # MACD_HIST_STEADY_DECLINE badge ("MACD TURNING"): number of trailing completed weekly
 # bars that must show a shrinking red histogram - see _l3_columns below and
@@ -67,21 +91,56 @@ def _completed_weekly(df: pd.DataFrame, weekly: pd.DataFrame) -> pd.DataFrame:
     return weekly if today_is_friday else weekly.iloc[:-1]
 
 
+def _monthly_stoch_columns(df: pd.DataFrame, completed: pd.DataFrame) -> dict:
+    """Monthly Stochastic for L1-R1, on completed calendar months only: months that ended
+    before the month of the last completed weekly bar's date (so a month still in progress
+    - or the month that bar itself falls in - never feeds it). mo_K/mo_D are the latest
+    completed month's readings, mo_Kmax4 the highest K over the last L1_R1_MONTHS completed
+    months. All None when the monthly stoch isn't computable (fewer than ~18 completed
+    months): L1-R1 can then never fire, which is the "False if not computable" rule."""
+    empty = {"mo_K": None, "mo_D": None, "mo_Kmax4": None}
+    month_start = completed["date"].iloc[-1].replace(day=1).normalize()
+    prior = df[df["date"] < month_start]
+    if prior.empty:
+        return empty
+    monthly = resample_ohlcv(prior, "ME")
+    k, d = stochastic(monthly, *L1_R1_MONTHLY_STOCH)
+    k_tail = k.iloc[-L1_R1_MONTHS:]
+    if len(k_tail) < L1_R1_MONTHS or k_tail.isna().any() or pd.isna(d.iloc[-1]):
+        return empty
+    return {"mo_K": k.iloc[-1], "mo_D": d.iloc[-1], "mo_Kmax4": k_tail.max()}
+
+
 def _l1_columns(df: pd.DataFrame, weekly: pd.DataFrame) -> dict:
     completed = _completed_weekly(df, weekly)
     n = len(completed)
     if n < L1_MIN_WEEKS:
-        return {"l1_ema50": None, "l1_ema50_4w_ago": None, "l1_completed_weeks": n}
+        return {
+            "l1_ema50": None, "l1_ema50_4w_ago": None, "l1_completed_weeks": n,
+            "l1_wclose": None, "wk_ema21": None, "wk_ema21_prior": None, "l1_below21_2w": False,
+            "mo_K": None, "mo_D": None, "mo_Kmax4": None,
+        }
     # EMA, not SMA: SMA50's week-over-week increment stays positive long after a sharp
     # reversal, until price drops below whatever closed 50 weeks ago - on a name like ARM
     # that pre-rally anchor sits far below the current price, so SMA50 structurally can't
     # catch the rollover within any reasonable timeframe. EMA50 weights recent closes far
     # more heavily and has no hard 50-bar cutoff, so it reflects the rollover instead.
-    ema50 = completed["close"].ewm(span=L1_EMA_WEEKS, adjust=False).mean()
+    wclose = completed["close"]
+    ema50 = wclose.ewm(span=L1_EMA_WEEKS, adjust=False).mean()
+    # L1-R2's EMA21 (and its value L1_R2_RISE_WEEKS ago) and L1-R1's own EMA, kept as two
+    # separately configured spans even though both default to 21.
+    ema_r2 = wclose.ewm(span=L1_R2_EMA_WEEKS, adjust=False).mean()
+    ema_r1 = wclose.ewm(span=L1_R1_EMA_WEEKS, adjust=False).mean()
+    below = bool(all(wclose.iloc[-i] < ema_r1.iloc[-i] for i in range(1, L1_R1_BELOW_WEEKS + 1)))
     return {
         "l1_ema50": ema50.iloc[-1],
         "l1_ema50_4w_ago": ema50.iloc[-1 - L1_LOOKBACK_WEEKS] if n >= L1_EMA_WEEKS + L1_LOOKBACK_WEEKS else None,
         "l1_completed_weeks": n,
+        "l1_wclose": wclose.iloc[-1],
+        "wk_ema21": ema_r2.iloc[-1],
+        "wk_ema21_prior": ema_r2.iloc[-1 - L1_R2_RISE_WEEKS],
+        "l1_below21_2w": below,
+        **_monthly_stoch_columns(df, completed),
     }
 
 
@@ -117,6 +176,46 @@ def _l3_columns(weekly: pd.DataFrame) -> dict:
     }
 
 
+def _l3_points(weekly: pd.DataFrame) -> tuple[int, int]:
+    """(stoch_pt, rsi_pt) for the weekly series' last (possibly in-progress) bar vs. the
+    one before it - the "_now" points of L3-R1/R2, each L3_W_* or 0:
+    stoch: K rising from at/below L3_STOCH_FLOOR; RSI (L3-R1): rising AND inside
+    [L3_RSI_LO, L3_RSI_HI] - an early-zone check, not a late "already above 50" one."""
+    if len(weekly) < 3:
+        return 0, 0
+    k, _d = stochastic(weekly, *L3_STOCH)
+    weekly_rsi = rsi(weekly["close"], L3_RSI_N)
+    k_now, k_prev = k.iloc[-1], k.iloc[-2]
+    rsi_now, rsi_prev = weekly_rsi.iloc[-1], weekly_rsi.iloc[-2]
+    stoch_pt = L3_W_STOCH if (pd.notna(k_now) and pd.notna(k_prev) and k_now > k_prev and k_prev <= L3_STOCH_FLOOR) else 0
+    rsi_pt = (
+        L3_W_RSI
+        if (pd.notna(rsi_now) and pd.notna(rsi_prev) and rsi_now > rsi_prev and L3_RSI_LO <= rsi_now <= L3_RSI_HI)
+        else 0
+    )
+    return stoch_pt, rsi_pt
+
+
+def _l3_turn_columns(df: pd.DataFrame, weekly: pd.DataFrame) -> dict:
+    """L3-R2 turn memory. Replays each of the last L3_TURN_MEMORY_SESSIONS sessions
+    point-in-time (the weekly series as it stood at the close of that session, in-progress
+    bar included) to get that day's stoch/RSI points; a point is "memory-valid" if it lit
+    on any of those sessions, today included. *_pt_now is today's own reading (what S-R1
+    keys off), *_pts the memory-valid value (what feeds Qualified and the Weekly checks)."""
+    n = len(df)
+    points = [
+        _l3_points(weekly if i == n - 1 else _weekly_series(df.iloc[: i + 1]))
+        for i in range(max(0, n - L3_TURN_MEMORY_SESSIONS), n)
+    ]
+    stoch_now, rsi_now = points[-1]
+    return {
+        "stoch_pt_now": stoch_now,
+        "rsi_pt_now": rsi_now,
+        "stoch_pts_mem": max(p[0] for p in points),
+        "rsi_pts_mem": max(p[1] for p in points),
+    }
+
+
 def add_continuation_indicators(df: pd.DataFrame) -> pd.DataFrame:
     """Indicators for the Momentum Continuation setup: daily atr_14/ema_8/ema_21 and the
     derived ema_ref/prox_day (L2 ATR-proximity leg), daily Stochastic(14,3,3) and the
@@ -148,10 +247,13 @@ def add_continuation_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
     prox_recent = df["prox_day"].astype(int).rolling(L2_GRACE, min_periods=1).max().astype(bool)
     cross_recent = df["cross_day"].astype(int).rolling(L2_GRACE, min_periods=1).max().astype(bool)
-    df["l2_signal"] = prox_recent & cross_recent
+    # L2-R1 falling-knife guard: a signal day is void when Close sits more than
+    # L2_KNIFE_ATR_K ATRs below the daily EMA21 (NaN ATR/EMA -> comparison False -> no knife).
+    df["l2_knife"] = df["close"] < df["ema_21"] - L2_KNIFE_ATR_K * df["atr_14"]
+    df["l2_signal"] = prox_recent & cross_recent & ~df["l2_knife"]
 
     weekly = _weekly_series(df)
-    for key, value in {**_l1_columns(df, weekly), **_l3_columns(weekly)}.items():
+    for key, value in {**_l1_columns(df, weekly), **_l3_columns(weekly), **_l3_turn_columns(df, weekly)}.items():
         df[key] = value
 
     return df

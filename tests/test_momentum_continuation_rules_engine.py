@@ -14,7 +14,7 @@ within L2's lookback, keyed by offset-from-today (0 = today).
 import pandas as pd
 import pytest
 
-from src.setups.momentum_continuation.gates import ARMED_MAX_AGE, L2_MIN_SESSIONS, L3_QUALIFY_MIN
+from src.setups.momentum_continuation.gates import ARMED_MAX_AGE, L1_R1_OVERBOUGHT, L2_MIN_SESSIONS, L3_QUALIFY_MIN
 from src.setups.momentum_continuation.rules_engine import (
     L1_FAIL,
     L1_NOT_EVALUABLE,
@@ -53,6 +53,22 @@ BASELINE_ROW = {
     "weekly_hist_t1": 0.2,
     "weekly_hist_t2": 0.1,
     "weekly_hist_t3": 0.05,
+    # Round 1: L3 points are computed per session in gates.py (RSI band, 25-session turn
+    # memory) and only summed here. Baseline = both lit this week (so memory-valid too).
+    "stoch_pt_now": 2,
+    "rsi_pt_now": 2,
+    "stoch_pts_mem": 2,
+    "rsi_pts_mem": 2,
+    # L1-R1/R2 inputs (weekly close vs EMA21, monthly stoch) - baseline is a clean, rising,
+    # not-rolled-over name: only the original slope test is what passes it.
+    "l1_wclose": 110.0,
+    "wk_ema21": 108.0,
+    "wk_ema21_prior": 109.0,  # EMA21 falling -> R2 route off, slope test is the only pass
+    "l1_below21_2w": False,
+    "mo_K": 60.0,
+    "mo_D": 55.0,
+    "mo_Kmax4": 70.0,
+    "l2_knife": False,
 }
 
 
@@ -66,6 +82,13 @@ def _df(n: int = L2_MIN_SESSIONS + 10, overrides: dict[int, dict] | None = None)
             for col, val in cols.items():
                 df.loc[idx, col] = val
     return df
+
+
+def _not_armed(**today) -> dict:
+    """Overrides that clear the whole armed window, plus any column overrides for today."""
+    overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
+    overrides[0] = {"l2_signal": False, **today}
+    return overrides
 
 
 class TestL1Gate:
@@ -152,54 +175,36 @@ class TestL2Gate:
 
 
 class TestL3Score:
+    """The engine only sums the per-session points gates.py hands it (point *logic* - stoch
+    floor, RSI band, turn memory - is tested in test_momentum_continuation_gates.py)."""
+
     def test_full_score_from_both_components_turning(self):
         result = evaluate_stock("TEST", _df())
         assert result.l3_score == 4
+        assert result.l3_score_now == 4
         assert result.status == STATUS_QUALIFIED
 
-    @pytest.mark.parametrize(
-        "k_now,k_prev,expected_pts",
-        [
-            (25.0, 15.0, 2),  # rising from below the floor -> points
-            (25.0, 35.0, 0),  # prev above the floor -> no points even though rising
-            (10.0, 15.0, 0),  # not rising -> no points even though prev is below the floor
-        ],
-    )
-    def test_stoch_points_require_both_rising_and_prior_below_floor(self, k_now, k_prev, expected_pts):
-        df = _df(overrides={0: {"weekly_k_now": k_now, "weekly_k_prev": k_prev}})
+    def test_score_is_the_sum_of_the_memory_valid_points(self):
+        df = _df(overrides={0: {"stoch_pts_mem": 2, "rsi_pts_mem": 0}})
         result = evaluate_stock("TEST", df)
-        assert result.l3_detail["stoch_pts"] == expected_pts
-
-    def test_no_partial_credit_for_a_big_jump_still_above_the_floor(self):
-        # K_prev=50 (above the L3_STOCH_FLOOR of 20) even though K_now rises a lot - no points.
-        df = _df(overrides={0: {"weekly_k_now": 90.0, "weekly_k_prev": 50.0}})
-        result = evaluate_stock("TEST", df)
-        assert result.l3_detail["stoch_pts"] == 0
-
-    def test_no_level_condition_rsi_above_50_but_falling_scores_zero(self):
-        df = _df(overrides={0: {"weekly_rsi_now": 55.0, "weekly_rsi_prev": 60.0}})
-        result = evaluate_stock("TEST", df)
+        assert result.l3_score == 2
+        assert result.l3_detail["stoch_pts"] == 2
         assert result.l3_detail["rsi_pts"] == 0
 
-    @pytest.mark.parametrize(
-        "k_now,k_prev,rsi_now,rsi_prev,expected",
-        [
-            (16.4, 9.9, 47.5, 35.2, 4),  # AVGO weekly 2025-04-11 (spec §11), MACD no longer scored
-            (22.5, 18.3, 47.1, 42.5, 4),  # AVGO weekly 2026-04-03 (spec §11), MACD no longer scored
-            (48.0, 65.0, 48.6, 61.6, 0),  # AVGO weekly 2024-09-06 (spec §11)
-        ],
-    )
-    def test_acceptance_cases_from_spec_11(self, k_now, k_prev, rsi_now, rsi_prev, expected):
-        df = _df(
-            overrides={
-                0: {
-                    "weekly_k_now": k_now, "weekly_k_prev": k_prev,
-                    "weekly_rsi_now": rsi_now, "weekly_rsi_prev": rsi_prev,
-                }
-            }
-        )
+    def test_qualified_can_use_a_remembered_point_that_is_not_lit_this_week(self):
+        # L3-R2: the RSI point lit a few weeks ago (memory-valid) but not today - score is
+        # still 4 for Qualified purposes, while score_now only has today's stoch point.
+        df = _df(overrides={0: {"rsi_pt_now": 0, "rsi_pts_mem": 2}})
         result = evaluate_stock("TEST", df)
-        assert result.l3_score == expected
+        assert result.l3_score == 4
+        assert result.l3_score_now == 2
+        assert result.status == STATUS_QUALIFIED
+
+    def test_missing_point_columns_count_as_zero(self):
+        df = _df(overrides={0: {"stoch_pts_mem": float("nan"), "rsi_pt_now": float("nan")}})
+        result = evaluate_stock("TEST", df)
+        assert result.l3_detail["stoch_pts"] == 0
+        assert result.l3_score_now == 2
 
 
 class TestStochFlattening:
@@ -281,35 +286,26 @@ class TestMacdTurning:
 
 
 class TestCombine:
-    """The 6-row table from Part B."""
+    """Part B's combine table, as amended by S-R1 (Developing needs a live trigger)."""
 
     def test_l1_pass_armed_score_above_4_is_qualified(self):
         assert evaluate_stock("TEST", _df()).status == STATUS_QUALIFIED
 
     def test_l1_pass_armed_score_below_4_is_developing(self):
-        df = _df(overrides={0: {"weekly_rsi_now": 40.0, "weekly_rsi_prev": 50.0}})  # drops rsi_pts -> score 2
+        df = _df(overrides={0: {"rsi_pt_now": 0, "rsi_pts_mem": 0}})  # drops rsi_pts -> score 2
         result = evaluate_stock("TEST", df)
         assert result.l3_score < L3_QUALIFY_MIN
         assert result.status == STATUS_DEVELOPING
 
-    def test_l1_pass_not_armed_is_developing(self):
-        overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
-        df = _df(overrides=overrides)
-        result = evaluate_stock("TEST", df)
-        assert result.armed is False
-        assert result.status == STATUS_DEVELOPING
-
     def test_l1_fail_armed_is_monitored(self):
-        df = _df(overrides={0: {"l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0}})
+        df = _df(overrides={0: {"l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0, "l1_wclose": 90.0}})
         result = evaluate_stock("TEST", df)
         assert result.status == STATUS_MONITORED
         assert result.armed is True
 
     def test_l1_fail_not_armed_is_monitored(self):
-        overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
-        overrides[0] = {"l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0, "l2_signal": False}
-        df = _df(overrides=overrides)
-        result = evaluate_stock("TEST", df)
+        overrides = _not_armed(l1_ema50=95.0, l1_ema50_4w_ago=100.0, l1_wclose=90.0)
+        result = evaluate_stock("TEST", _df(overrides=overrides))
         assert result.status == STATUS_MONITORED
         assert result.armed is False
 
@@ -318,32 +314,190 @@ class TestCombine:
         result = evaluate_stock("TEST", df)
         assert result.status == STATUS_MONITORED
 
-    def test_l1_pass_not_armed_and_zero_l3_score_is_monitored(self):
-        # Zero signal on both other layers - nothing is actually "developing", so this
-        # moves to Monitored even though Trend itself is fine.
-        overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
-        overrides[0] = {
-            "l2_signal": False,
-            "weekly_k_now": 15.0, "weekly_k_prev": 25.0,  # falling -> stoch_pts 0
-            "weekly_rsi_now": 45.0, "weekly_rsi_prev": 50.0,  # falling -> rsi_pts 0
-        }
-        df = _df(overrides=overrides)
-        result = evaluate_stock("TEST", df)
-        assert result.armed is False
-        assert result.l3_score == 0
-        assert result.status == STATUS_MONITORED
 
-    def test_l1_pass_not_armed_but_nonzero_l3_score_stays_developing(self):
-        # Only the "not armed" axis is zero here - L3 still has a point, so this is not
-        # the zero-signal case and must stay Developing, not fall into Monitored.
-        overrides = {offset: {"l2_signal": False} for offset in range(ARMED_MAX_AGE + 1)}
-        overrides[0] = {
-            "l2_signal": False,
-            "weekly_k_now": 15.0, "weekly_k_prev": 25.0,  # falling -> stoch_pts 0
-            "weekly_rsi_now": 55.0, "weekly_rsi_prev": 50.0,  # rising -> rsi_pts 2
-        }
-        df = _df(overrides=overrides)
+class TestLiveTriggerSR1:
+    def test_not_armed_with_a_point_lit_this_week_is_developing(self):
+        df = _df(overrides=_not_armed(stoch_pt_now=0, rsi_pt_now=2))
         result = evaluate_stock("TEST", df)
         assert result.armed is False
-        assert result.l3_score == 2
+        assert result.l3_score_now == 2
         assert result.status == STATUS_DEVELOPING
+        assert result.flags == []
+
+    def test_armed_with_no_weekly_points_at_all_is_developing(self):
+        df = _df(overrides={0: {
+            "stoch_pt_now": 0, "rsi_pt_now": 0, "stoch_pts_mem": 0, "rsi_pts_mem": 0,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.armed is True
+        assert result.l3_score == 0
+        assert result.status == STATUS_DEVELOPING
+
+    def test_not_armed_and_nothing_lit_this_week_is_monitored_no_live_trigger(self):
+        df = _df(overrides=_not_armed(stoch_pt_now=0, rsi_pt_now=0, stoch_pts_mem=0, rsi_pts_mem=0))
+        result = evaluate_stock("TEST", df)
+        assert result.status == STATUS_MONITORED
+        assert result.l1_state == L1_PASS
+        assert result.flags == ["NO_LIVE_TRIGGER"]
+        assert result.diagnostics["no_live_trigger"] is True
+
+    def test_remembered_points_alone_are_not_a_live_trigger(self):
+        # Both points are memory-valid (lit weeks ago) but neither is lit this week and
+        # Daily isn't armed: the row is Monitored even though the Weekly checks show ticks.
+        df = _df(overrides=_not_armed(stoch_pt_now=0, rsi_pt_now=0))
+        result = evaluate_stock("TEST", df)
+        assert result.l3_score == 4
+        assert result.l3_score_now == 0
+        assert result.status == STATUS_MONITORED
+        assert result.flags == ["NO_LIVE_TRIGGER"]
+
+    def test_l1_fail_never_gets_the_no_live_trigger_flag(self):
+        df = _df(overrides=_not_armed(
+            l1_ema50=95.0, l1_ema50_4w_ago=100.0, l1_wclose=90.0, stoch_pt_now=0, rsi_pt_now=0,
+        ))
+        result = evaluate_stock("TEST", df)
+        assert result.status == STATUS_MONITORED
+        assert "NO_LIVE_TRIGGER" not in result.flags
+        assert result.diagnostics["no_live_trigger"] is False
+
+
+class TestL1R1BreakdownCut:
+    ROLLED = {"mo_K": 76.55, "mo_D": 79.24, "mo_Kmax4": 89.15, "l1_below21_2w": True}
+
+    def test_asml_case_cut_fails_l1_even_though_the_slope_test_alone_passes(self):
+        # ASML weekly 2026-11-13 (change note): close 1495.16 < EMA21 1633.17, EMA50 1501.23
+        # still rising; mK 76.55 < mD 79.24 and max K over 4 months 89.15 -> cut.
+        df = _df(overrides={0: {
+            "l1_ema50": 1501.23, "l1_ema50_4w_ago": 1480.0,
+            "l1_wclose": 1495.16, "wk_ema21": 1633.17, "wk_ema21_prior": 1650.0, **self.ROLLED,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_slope_pass"] is True
+        assert result.diagnostics["l1_mroll"] is True
+        assert result.diagnostics["l1_below21_2w"] is True
+        assert result.diagnostics["l1_r1_cut"] is True
+        assert result.l1_state == L1_FAIL
+        assert result.status == STATUS_MONITORED
+        assert "L1_BREAKDOWN" in result.flags and "L1_FAILED" in result.flags
+
+    def test_adm_case_slope_passes_by_a_hair_but_the_cut_still_fails_l1(self):
+        # ADM weekly 2026-11-13: EMA50 73.61 vs 73.40 four weeks earlier (+0.29%), close 72.90
+        # under EMA21 78.14, mK 74.50 < mD 77.60, max K 83.31.
+        df = _df(overrides={0: {
+            "l1_ema50": 73.61, "l1_ema50_4w_ago": 73.40, "l1_wclose": 72.90,
+            "wk_ema21": 78.14, "wk_ema21_prior": 79.0,
+            "mo_K": 74.50, "mo_D": 77.60, "mo_Kmax4": 83.31, "l1_below21_2w": True,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_slope_pass"] is True
+        assert result.l1_state == L1_FAIL
+
+    def test_releases_when_price_is_no_longer_below_the_ema_for_two_weeks(self):
+        df = _df(overrides={0: {**self.ROLLED, "l1_below21_2w": False}})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_mroll"] is True
+        assert result.diagnostics["l1_r1_cut"] is False
+        assert result.l1_state == L1_PASS
+
+    def test_releases_when_the_monthly_stoch_has_not_rolled_over(self):
+        df = _df(overrides={0: {"mo_K": 85.0, "mo_D": 79.0, "mo_Kmax4": 89.15, "l1_below21_2w": True}})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_mroll"] is False
+        assert result.l1_state == L1_PASS
+
+    def test_needs_the_stoch_to_have_been_overbought_recently(self):
+        df = _df(overrides={0: {
+            "mo_K": 60.0, "mo_D": 65.0, "mo_Kmax4": L1_R1_OVERBOUGHT - 0.1, "l1_below21_2w": True,
+        }})
+        assert evaluate_stock("TEST", df).diagnostics["l1_mroll"] is False
+
+    def test_overbought_boundary_is_inclusive(self):
+        df = _df(overrides={0: {
+            "mo_K": 60.0, "mo_D": 65.0, "mo_Kmax4": float(L1_R1_OVERBOUGHT), "l1_below21_2w": True,
+        }})
+        assert evaluate_stock("TEST", df).diagnostics["l1_mroll"] is True
+
+    def test_no_cut_when_the_monthly_stoch_is_not_computable(self):
+        nan = float("nan")
+        df = _df(overrides={0: {"mo_K": nan, "mo_D": nan, "mo_Kmax4": nan, "l1_below21_2w": True}})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_mroll"] is False
+        assert result.diagnostics["l1_r1_cut"] is False
+        assert result.l1_state == L1_PASS
+
+    def test_cut_also_overrides_the_r2_route(self):
+        df = _df(overrides={0: {
+            "l1_ema50": 95.0, "l1_ema50_4w_ago": 100.0,  # slope fails
+            "l1_wclose": 120.0, "wk_ema21": 110.0, "wk_ema21_prior": 105.0,  # r2 passes
+            **self.ROLLED,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_r2_pass"] is True
+        assert result.l1_state == L1_FAIL
+
+
+class TestL1R2SecondPassRoute:
+    def test_aso_case_passes_via_r2_while_the_ema50_slope_still_fails(self):
+        # ASO weekly 2026-10-09: close 53.49 > EMA50 50.44 and EMA21 49.62, EMA21 rising.
+        df = _df(overrides={0: {
+            "l1_ema50": 50.44, "l1_ema50_4w_ago": 50.60,  # slope still negative
+            "l1_wclose": 53.49, "wk_ema21": 49.62, "wk_ema21_prior": 48.9,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_slope_pass"] is False
+        assert result.diagnostics["l1_r2_pass"] is True
+        assert result.l1_state == L1_PASS
+
+    @pytest.mark.parametrize(
+        "wclose,ema21,ema21_prior",
+        [
+            (50.0, 49.62, 48.9),    # not above EMA50 (50.44)
+            (53.49, 54.0, 53.0),    # not above EMA21
+            (53.49, 49.62, 49.62),  # EMA21 flat, not strictly higher
+            (53.49, 49.62, 50.0),   # EMA21 falling
+        ],
+    )
+    def test_each_condition_is_required(self, wclose, ema21, ema21_prior):
+        df = _df(overrides={0: {
+            "l1_ema50": 50.44, "l1_ema50_4w_ago": 50.60,
+            "l1_wclose": wclose, "wk_ema21": ema21, "wk_ema21_prior": ema21_prior,
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_r2_pass"] is False
+        assert result.l1_state == L1_FAIL
+
+    def test_r2_inputs_missing_just_means_the_route_is_off(self):
+        df = _df(overrides={0: {
+            "l1_ema50": 50.44, "l1_ema50_4w_ago": 50.60, "wk_ema21": float("nan"),
+        }})
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l1_r2_pass"] is False
+        assert result.l1_state == L1_FAIL
+
+
+class TestAfrmFallingKnife:
+    def test_knife_today_with_no_weekly_trigger_is_monitored_no_live_trigger(self):
+        # AFRM daily 2026-11-18: close 58.91 far below EMA21 ~67.8 (ATR ~3-3.5) -> knife, so
+        # gates.py leaves l2_signal False; weekly score 0 -> no live trigger -> Monitored.
+        df = _df(overrides=_not_armed(
+            l2_knife=True, close=58.91, stoch_pt_now=0, rsi_pt_now=0, stoch_pts_mem=0, rsi_pts_mem=0,
+        ))
+        result = evaluate_stock("TEST", df)
+        assert result.diagnostics["l2_knife"] is True
+        assert result.armed is False
+        assert result.status == STATUS_MONITORED
+        assert result.flags == ["NO_LIVE_TRIGGER"]
+
+
+class TestLogColumns:
+    def test_diagnostics_carry_every_round_1_log_column_json_safely(self):
+        import json
+
+        result = evaluate_stock("TEST", _df())
+        expected = {
+            "l1_slope_pass", "l1_r2_pass", "l1_mroll", "l1_below21_2w", "l1_r1_cut", "wk_ema21",
+            "mo_K", "mo_D", "mo_Kmax4", "l2_knife", "stoch_pt_now", "rsi_pt_now", "score_now",
+            "no_live_trigger",
+        }
+        assert expected <= set(result.diagnostics)
+        json.dumps(result.diagnostics)  # no numpy scalars left in there

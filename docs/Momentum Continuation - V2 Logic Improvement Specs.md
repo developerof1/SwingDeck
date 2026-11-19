@@ -41,6 +41,23 @@ cosmetic "4/5" from "5/5," never changed which side of `L3_QUALIFY_MIN` a name l
 still computed, just no longer scored — see `MACD_HIST_STEADY_DECLINE` under §8 below, the new
 `MACD_STEADY_WEEKS` constant, and Part C's updated templates.
 
+**Updated 2026-11-18: Round 1 (change note `Momentum_Continuation_V2_ChangeNote_R1_2026-11-18.md`).**
+Six rules: L1-R1, L1-R2, L2-R1, L3-R1, L3-R2, S-R1. New config (all provisional, live in
+`gates.py`'s config section, not in code paths):
+```python
+L1_R2_EMA_WEEKS=21, L1_R2_RISE_WEEKS=2,
+L1_R1_OVERBOUGHT=80, L1_R1_MONTHS=4, L1_R1_BELOW_WEEKS=2, L1_R1_EMA_WEEKS=21, L1_R1_MONTHLY_STOCH=(14, 3, 3),
+L2_KNIFE_ATR_K=1.0,
+L3_RSI_LO=40, L3_RSI_HI=60,
+L3_TURN_MEMORY_SESSIONS=25,
+L3_LIVE_TRIGGER_MIN=2,   # S-R1's "score_now >= 2" - named so the literal isn't buried in code
+```
+`L1_R1_MONTHLY_STOCH` and `L3_LIVE_TRIGGER_MIN` are the only two keys beyond the change note's own
+list; they just name values the note already fixed (Stoch(14,3,3) on monthly bars; "score_now >= 2").
+Why: the Developing bucket was still too big with the wrong names (ASML/ADM breaking down from a
+monthly overbought stoch; ASO/BJ real recoveries flagged months late; AFRM a falling knife). Where
+this doc and the change note disagree, the change note wins.
+
 **New for this consolidation — see Part C's "Implementation requirement" for the full rationale:**
 add an **`L2_MIN_SESSIONS`** constant (pin the exact number; "~60" in Part B is a starting point, not
 final) plus a coded check that produces a real third output for L2, the same shape as L1's
@@ -71,6 +88,24 @@ ema50_4w_pct = ema50[-1] / ema50[-5] - 1                                   # kep
 ```
 Net change, not "every week up". Slope only; no price-vs-MA check (dips below the MA and re-crosses do not matter). This is unchanged by the SMA50 -> EMA50 switch — only the MA type changed, not the test structure or the 4-week lookback.
 
+**Round 1 (2026-11-18) replaces the pseudocode above** with a slope route, a second pass route and a breakdown cut:
+```
+ema50 = EMA(wclose, 50);  ema21 = EMA(wclose, 21)                       # ewm span n, adjust=False, completed weeks only
+slope_pass = ema50[-1] > ema50[-1 - L1_LOOKBACK_WEEKS]                  # unchanged, zero tolerance
+r2_pass    = wclose[-1] > ema50[-1] and wclose[-1] > ema21[-1] and ema21[-1] > ema21[-1 - L1_R2_RISE_WEEKS]   # L1-R2
+# monthly stoch on completed calendar months only: months that ended before the month of the last
+# completed weekly bar's date. Stoch(14,3,3) on monthly H/L/C.
+mroll  = (mK[-1] < mD[-1]) and (max(mK[-4:]) >= L1_R1_OVERBOUGHT)       # False if monthly stoch not computable (< 18 months)
+below2 = wclose[-1] < ema21[-1] and wclose[-2] < ema21[-2]              # L1_R1_BELOW_WEEKS consecutive completed weeks
+r1_cut = mroll and below2                                               # L1-R1, releases on its own when either half stops
+L1 = PASS if (slope_pass or r2_pass) and not r1_cut else FAIL           # NOT_EVALUABLE below L1_MIN_WEEKS, as before
+```
+Each piece is logged separately (`l1_slope_pass, l1_r2_pass, l1_mroll, l1_below21_2w, l1_r1_cut`). A cut or
+failed L1 still renders `Trend ✗`; flags: `L1_FAILED`, plus `L1_BREAKDOWN` when `l1_r1_cut`.
+Known limits (do not "fix" without asking): evidence is five hand-picked names, in-sample; no hysteresis
+this round (log and review). **Parked, not built:** L1-R3 (higher-timeframe pass route, from BJ, untested)
+and L1-R4 (weekly close below EMA21 and EMA50 guard, from AFRM, superseded by L2-R1 + S-R1).
+
 ## 5. L2: daily signal (every ticker, every EOD, independent of L1)
 ```
 EMAref   = EMA8 if |Close-EMA8| <= |Close-EMA21| else EMA21           # tie -> EMA8
@@ -80,6 +115,14 @@ l2_signal(t) = any(prox_day[t-2..t]) and any(cross_day[t-2..t])         # 3-sess
 l2_age(t) = sessions since the most recent day with l2_signal == True (0 on the signal day)
 armed(t) = l2_age(t) is not None and l2_age(t) <= ARMED_MAX_AGE
 ```
+**Round 1 (L2-R1, falling-knife guard):** no daily signal on a day when `Close < EMA21 - L2_KNIFE_ATR_K * ATR14`:
+```
+knife(t)     = Close[t] < EMA21[t] - L2_KNIFE_ATR_K * ATR14[t]          # daily EMA21 (not EMAref)
+l2_signal(t) = any(prox[t-2..t]) and any(cross[t-2..t]) and not knife(t)
+```
+Everything else in L2 (proximity, cross, 3-session grace, armed age <= 5) is unchanged; `l2_knife` is logged.
+It removes roughly 41-46% of raw daily-signal days on the three CSV names; the outcome effect isn't measured yet.
+
 Each of the two inputs only needs to be true on some day in the last 3 sessions; they need not coincide.
 "Armed" means a daily signal occurred within the last 5 sessions (including today).
 
@@ -95,11 +138,42 @@ stoch_pts = L3_W_STOCH if (K_now > K_prev and K_prev <= L3_STOCH_FLOOR) else 0
 rsi_pts   = L3_W_RSI   if (RSI_now > RSI_prev) else 0
 score = stoch_pts + rsi_pts                                             # 0..4
 ```
-Direction of change only. Do NOT add level conditions (RSI > 50, MACD > 0, MACD cross): they were judged too late. No partial credit for stoch turns from 20 to 50. MACD is no longer scored at all (2026-11-17, see Part A §1) — it still feeds the `MACD_HIST_STEADY_DECLINE` informational badge below (§8), computed from the same weekly MACD hist series.
+**Round 1 (2026-11-18) replaces the two scoring lines above** (RSI band + turn memory):
+```
+stoch_pt_now = 2 if (K_now > K_prev and K_prev <= L3_STOCH_FLOOR) else 0                          # unchanged
+rsi_pt_now   = 2 if (RSI_now > RSI_prev and L3_RSI_LO <= RSI_now <= L3_RSI_HI) else 0             # L3-R1
+score_now    = stoch_pt_now + rsi_pt_now                                                           # this week only - S-R1 reads this
+stoch_pts    = 2 if stoch_pt_now == 2 on any of the last L3_TURN_MEMORY_SESSIONS sessions (today included) else 0   # L3-R2
+rsi_pts      = 2 if rsi_pt_now   == 2 on any of the last L3_TURN_MEMORY_SESSIONS sessions (today included) else 0
+score        = stoch_pts + rsi_pts            # memory-valid: used for Qualified and for the Weekly check marks
+```
+Each past session is replayed point-in-time (the weekly series as it stood at that session's close, in-progress bar
+included). The "no level conditions on RSI" rule below is retired: what was rejected was requiring RSI to already be
+above 50 (too late); the 40-60 band is an early-zone check. A row can show `RSI ✓` from three weeks ago and still be
+Monitored (S-R1 uses `score_now`) — flag if that reads badly on the dashboard.
+
+~~Direction of change only. Do NOT add level conditions (RSI > 50, MACD > 0, MACD cross): they were judged too late.~~ (RSI level rule superseded by L3-R1 above; MACD still not scored.) No partial credit for stoch turns from 20 to 50. MACD is no longer scored at all (2026-11-17, see Part A §1) — it still feeds the `MACD_HIST_STEADY_DECLINE` informational badge below (§8), computed from the same weekly MACD hist series.
 `L3_PROVISIONAL = True` unless today is the last session of the week. (Kept in the log; no longer
 surfaced as a dashboard badge — see Part C.)
 
 ## 7. Combine and status
+
+**Round 1 (S-R1, 2026-11-18) replaces the pseudocode below** — Developing now needs a live trigger:
+```
+if L1 != PASS:
+    status = Monitored                # flags as before; add L1_BREAKDOWN when L1 == FAIL and l1_r1_cut
+elif armed and score >= L3_QUALIFY_MIN:
+    status = Qualified                # 4/4
+elif armed or score_now >= L3_LIVE_TRIGGER_MIN:
+    status = Developing               # "Daily signal in, awaiting weekly confirmation" if armed, else "Awaiting daily signal"
+else:
+    status = Monitored; flags = [NO_LIVE_TRIGGER]
+```
+The new Monitored case reuses the Developing "awaiting daily signal" template under the Monitored heading
+(`Trend ✓ ; Daily ✗ ; Weekly (RSI ✓/✗, Stoch ✓/✗)`) — no new copy. The old "added 2026-11-16 zero-signal
+Monitored" rule below is subsumed: it required `score == 0`, S-R1 requires no live trigger.
+
+*Original (pre-Round 1) pseudocode, kept for history:*
 ```
 if L1 != PASS:
     status = Monitored
@@ -147,6 +221,9 @@ Append one row per ticker per EOD to an append-only table (e.g. SQLite/parquet `
 `date, ticker, close, status, label, score, l1_state, ema50, ema50_4w_ago, ema50_4w_pct, l2_prox_any3, l2_cross_any3, l2_signal, l2_age, armed,
 wk_K, wk_K_prev, wk_K_prevprev, wk_D, wk_RSI, wk_RSI_prev, wk_hist, wk_hist_t1..wk_hist_tN, stoch_pts, rsi_pts, l3_provisional, flat_badge, macd_turning_badge`.
 
+**Round 1 log additions (2026-11-18):** `l1_slope_pass, l1_r2_pass, l1_mroll, l1_below21_2w, l1_r1_cut, wk_ema21, mo_K, mo_D, mo_Kmax4, l2_knife, stoch_pt_now, rsi_pt_now, score_now, no_live_trigger`.
+No `mc_v2_daily_log` table exists yet; until it does these ride in each result row's `diagnostics` dict (results/*.json), alongside the row's `flags` list.
+
 **Add for this consolidation**: an `l2_state` (or equivalent) column distinguishing "evaluated,
 signal fired/not" from "not enough daily history" — needed once the `L2_MIN_SESSIONS` check (Config,
 above) exists.
@@ -171,6 +248,20 @@ Weekly bars are week-ending Friday; "prev" is the prior week.
 | AVGO L1 as of week 2026-10-16 *(pre-EMA50 switch, see above)* | SMA50 364.2 vs 364.0 -> PASS |
 | AVGO L1 as of week 2024-12-13 | NOT_EVALUABLE (about 50 completed weekly bars; the test file starts 2024-01-02, so 54 bars exist only from late Jan 2025) |
 
+**Round 1 acceptance table (2026-11-18, replay values, tolerance 0.1 on prices/indicators; a one-day difference around "armed" edges is acceptable, anything larger gets flagged).** Needs real price history, so it is a manual replay, not a unit test; the engine-level logic behind each row is covered by unit fixtures in `tests/test_momentum_continuation_rules_engine.py` (ASML/ADM cut, ASO R2 route, AFRM knife + no-trigger) and `tests/test_momentum_continuation_gates.py` (RSI band, turn memory, monthly bars).
+
+| Case | Expected |
+|---|---|
+| ASML weekly 2026-10-23, 10-30, 11-06, 11-13 | `l1_r1_cut` True, L1 FAIL. 11-13: close 1495.16, EMA21 1633.17, EMA50 1501.23, mK 76.55, mD 79.24, max K (4 mo) 89.15. Slope test alone would PASS. |
+| ASML historical R1 cuts | 2020-03-20→03-27, 2021-10-08, 2021-12-03→12-17, 2023-09-01→09-08, 2024-07-26 (2020-03 is a known false positive, accepted). |
+| ADM weekly 2026-11-06 and 11-13 | `l1_r1_cut` True, L1 FAIL. 11-13: close 72.90, EMA21 78.14, EMA50 73.61 (73.40 four weeks earlier), mK 74.50, mD 77.60, max K 83.31. |
+| ASO weekly 2026-10-09 | `l1_r2_pass` True (close 53.49, EMA50 50.44, EMA21 49.62 rising), L1 PASS. |
+| ASO daily 2026-10-09 to ~10-14 | Armed (signal 10-02 to 10-07), stoch point carried from the 09-08 to 09-11 turn, RSI point lit → Qualified at ~$53.5–55.8. `l2_knife` False on 10-02 to 10-07. |
+| ASO weekly turn, week of 2026-09-07 | `rsi_pt_now` 2 on 09-09 (RSI 52.8, prev 39.2), 09-10 (57.5), 09-11 (59.0); stoch point lit 09-08 to 09-11; L1 still FAIL that week → Monitored. |
+| ASO weekly 2026-11-13 | RSI 73.3 rising → `rsi_pt_now` 0 (above 60); row shows RSI ✗. |
+| BJ weekly (latest) | RSI ~69.5 rising → `rsi_pt_now` 0. |
+| AFRM daily 2026-11-18 | Close 58.91, daily EMA21 ~67.8, ATR ~3–3.5 → `l2_knife` True, Daily ✗, weekly score 0 → Monitored with `NO_LIVE_TRIGGER`. |
+
 Reference clusters from the replay (not exact tests, because the live "armed" window is rolling; scores below are the
 replay-era /5 incl. MACD — read as "full score" against whichever weights were live at replay time, not reproducible
 digit-for-digit against the live engine after the 2026-11-17 MACD-removal, see Part A §1): AVGO 2025-04-09/10 and 2026-03-05/06
@@ -185,6 +276,7 @@ but L1 FAIL, so status Monitored with flags `L1_FAILED` and `DAILY_SIGNAL_IN`.
 
 ## 13. Status of deferred items
 - **Scorecard view** on the dashboard (read-only; hit rate and average forward return by status, score and flattening badge, from the section 9 log). Still deferred — build once the log has about 4 to 8 weeks of rows.
+- **L1-R3** (higher-timeframe pass route, from BJ, untested) and **L1-R4** (weekly close below EMA21 and EMA50 guard, from AFRM, superseded by L2-R1 + S-R1) — parked in Round 1, **do not build** without asking.
 - ~~Ticker-specific dashboard message copy~~ — **no longer deferred.** Fully specified in Part C below.
 
 ---
