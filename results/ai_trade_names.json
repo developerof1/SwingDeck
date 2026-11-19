@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-19T08:54+00:00",
+      "generated_at": "2026-11-19T16:00+00:00",
       "evaluated_session": "2026-11-18",
       "results": [
         {
@@ -496,11 +496,30 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 282.44,
-            "atr_14": 9.779232089125982
+            "atr_14": 9.779232089125982,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 328.8361664694443,
+            "mo_K": 59.49800505071996,
+            "mo_D": 69.91133000976622,
+            "mo_Kmax4": 82.9277637815095,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -517,11 +536,30 @@
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 144.88,
-            "atr_14": 9.170637757038497
+            "atr_14": 9.170637757038497,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 176.50132640200525,
+            "mo_K": 41.613496474219595,
+            "mo_D": 49.7863587283505,
+            "mo_Kmax4": 78.32265214512255,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -587,11 +625,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 616.38,
-            "atr_14": 21.243825543873186
+            "atr_14": 21.243825543873186,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 640.686463006508,
+            "mo_K": 43.325246648973994,
+            "mo_D": 31.816069679442062,
+            "mo_Kmax4": 43.325246648973994,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -657,11 +713,30 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 211.67,
-            "atr_14": 15.620495420334967
+            "atr_14": 15.620495420334967,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 277.98972079393775,
+            "mo_K": 57.09295620549138,
+            "mo_D": 64.26727449778646,
+            "mo_Kmax4": 84.19234551507536,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
