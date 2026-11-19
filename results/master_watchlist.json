@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-19T18:25+00:00",
+      "generated_at": "2026-11-19T19:42+00:00",
       "evaluated_session": "2026-11-18",
       "results": [
         {
@@ -5850,11 +5850,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 3.01,
-            "atr_14": 0.2645547880774993
+            "atr_14": 0.2645547880774993,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 5.809688975365652,
+            "mo_K": 4.123944356373987,
+            "mo_D": 4.735272622726222,
+            "mo_Kmax4": 8.740664909637347,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -5910,11 +5928,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 7.31,
-            "atr_14": 0.5255891557569974
+            "atr_14": 0.5255891557569974,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 9.991138680653957,
+            "mo_K": 6.539444788894744,
+            "mo_D": 12.691664870313685,
+            "mo_Kmax4": 28.732184757581848,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -5997,7 +6033,7 @@
         },
         {
           "ticker": "TAP",
-          "name": null,
+          "name": "Molson Coors Beverage Company - Class B",
           "sector": "Food & Beverage / Alcohol",
           "thesis": null,
           "status": "MONITORED",
@@ -6009,16 +6045,35 @@
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 41.05,
-            "atr_14": 1.3002618414295566
+            "atr_14": 1.3002618414295566,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 40.10656279199627,
+            "mo_K": 15.252931203590657,
+            "mo_D": 14.421926942773345,
+            "mo_Kmax4": 15.252931203590657,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
           "ticker": "SYY",
-          "name": null,
+          "name": "Sysco Corp",
           "sector": "Consumer Staples / Food Distribution",
           "thesis": null,
           "status": "DEVELOPING",
@@ -6028,20 +6083,36 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 2,
+          "l3_score": 4,
           "l3_detail": {
-            "stoch_pts": 0,
+            "stoch_pts": 2,
             "rsi_pts": 2,
             "k_now": 31.622349859383252,
             "k_prev": 41.628243645922915,
             "rsi_now": 46.98529232968767,
             "rsi_prev": 45.34279800810819
           },
+          "l3_score_now": 2,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 77.92,
-            "atr_14": 1.9233077748474596
+            "atr_14": 1.9233077748474596,
+            "l1_slope_pass": true,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 79.72701551887032,
+            "mo_K": 58.3149610162927,
+            "mo_D": 62.40431334075478,
+            "mo_Kmax4": 68.07990185107512,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -6095,20 +6166,38 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 4,
           "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 0,
+            "stoch_pts": 2,
+            "rsi_pts": 2,
             "k_now": 85.64281158895392,
             "k_prev": 86.48127191874589,
             "rsi_now": 57.185026978668915,
             "rsi_prev": 58.948322690182636
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 143.62,
-            "atr_14": 3.735618385442288
+            "atr_14": 3.735618385442288,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 133.06687440524442,
+            "mo_K": 21.059777440739694,
+            "mo_D": 15.785822366204139,
+            "mo_Kmax4": 21.059777440739694,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6125,11 +6214,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 164.02,
-            "atr_14": 5.654772919962861
+            "atr_14": 5.654772919962861,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 170.2376230323974,
+            "mo_K": 10.786075265703255,
+            "mo_D": 9.917446408816957,
+            "mo_Kmax4": 10.786075265703255,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -6183,20 +6290,36 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 2,
+          "l3_score": 4,
           "l3_detail": {
-            "stoch_pts": 0,
+            "stoch_pts": 2,
             "rsi_pts": 2,
             "k_now": 65.94500291799025,
             "k_prev": 50.73430985401526,
             "rsi_now": 57.82413183716487,
             "rsi_prev": 56.51969193827629
           },
+          "l3_score_now": 2,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": true,
           "diagnostics": {
             "close": 109.76,
-            "atr_14": 2.869595675453547
+            "atr_14": 2.869595675453547,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 106.01061312308212,
+            "mo_K": 61.031371669752595,
+            "mo_D": 68.83707905343253,
+            "mo_Kmax4": 80.46029629786425,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -6335,7 +6458,7 @@
         },
         {
           "ticker": "SYF",
-          "name": null,
+          "name": "Synchrony Financial",
           "sector": "Financial Services / Credit Services",
           "thesis": null,
           "status": "DEVELOPING",
@@ -6343,22 +6466,38 @@
           "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 0,
+          "l2_age": 2,
           "armed": true,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 23.80772915351301,
             "k_prev": 36.76818678705066,
             "rsi_now": 42.32732746453217,
             "rsi_prev": 46.22261731310393
           },
+          "l3_score_now": 0,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 70.16,
-            "atr_14": 2.12069700092593
+            "atr_14": 2.12069700092593,
+            "l1_slope_pass": true,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 74.10249352189791,
+            "mo_K": 47.40180827479989,
+            "mo_D": 53.73920626182443,
+            "mo_Kmax4": 65.26832748549826,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -6369,17 +6508,42 @@
           "status": "MONITORED",
           "ui_group": "other",
           "evaluated_session": "2026-11-18",
-          "l1_state": "FAIL",
+          "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": null,
-          "l3_detail": {},
-          "stoch_flattening": null,
-          "macd_turning": null,
+          "l3_score": 4,
+          "l3_detail": {
+            "stoch_pts": 2,
+            "rsi_pts": 2,
+            "k_now": 68.7568217466238,
+            "k_prev": 58.93144800542323,
+            "rsi_now": 51.85999432729699,
+            "rsi_prev": 55.510492644910315
+          },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
+          "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 190.13,
-            "atr_14": 6.1119630455852105
+            "atr_14": 6.1119630455852105,
+            "l1_slope_pass": false,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 186.38947637891368,
+            "mo_K": 34.473305770025206,
+            "mo_D": 42.630706185424565,
+            "mo_Kmax4": 62.856870265108086,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6525,20 +6689,38 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 67.66607877718987,
             "k_prev": 58.57338820301781,
             "rsi_now": 56.993013695835145,
             "rsi_prev": 59.21275525534605
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 34.0,
-            "atr_14": 1.3088010930336336
+            "atr_14": 1.3088010930336336,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 31.726843141935582,
+            "mo_K": 36.71685120246793,
+            "mo_D": 34.9356251777894,
+            "mo_Kmax4": 36.71685120246793,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6553,20 +6735,38 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 54.656046958000445,
             "k_prev": 64.38221892456902,
             "rsi_now": 49.64670929704868,
             "rsi_prev": 54.854197555982616
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 63.62,
-            "atr_14": 6.52953143166423
+            "atr_14": 6.52953143166423,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 65.7888595904745,
+            "mo_K": 49.75609756097561,
+            "mo_D": 35.527314310194264,
+            "mo_Kmax4": 49.75609756097561,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6576,18 +6776,36 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 47.27,
-            "atr_14": 1.2142107587949795
+            "close": 46.13,
+            "atr_14": 1.288195704595338,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 55.02000045602302,
+            "mo_K": 6.431091522456875,
+            "mo_D": 11.881910556130547,
+            "mo_Kmax4": 15.10014463683268,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -6648,11 +6866,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 48.74,
-            "atr_14": 2.1254645355666333
+            "atr_14": 2.1254645355666333,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 65.62068296386796,
+            "mo_K": 49.65272220686512,
+            "mo_D": 57.8080481154744,
+            "mo_Kmax4": 68.71412889865206,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -6660,27 +6896,45 @@
           "name": null,
           "sector": "Retail / Non-Discretionary",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 2,
+          "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 2,
+            "rsi_pts": 0,
             "k_now": 66.49337464550166,
             "k_prev": 57.815613957668035,
             "rsi_now": 69.78153024194437,
             "rsi_prev": 66.94163748800193
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": true,
           "diagnostics": {
             "close": 165.93,
-            "atr_14": 5.451572240778981
+            "atr_14": 5.451572240778981,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 148.97095324296026,
+            "mo_K": 84.9926695943947,
+            "mo_D": 87.471097386552,
+            "mo_Kmax4": 89.43012046197596,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6726,7 +6980,7 @@
         },
         {
           "ticker": "SYM",
-          "name": null,
+          "name": "Symbotic Inc - Class A",
           "sector": "Technology / Automation",
           "thesis": null,
           "status": "MONITORED",
@@ -6738,16 +6992,34 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 33.79,
-            "atr_14": 2.029940253333868
+            "atr_14": 2.029940253333868,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 41.61918073587225,
+            "mo_K": 5.1384373835670765,
+            "mo_D": 13.080435310597666,
+            "mo_Kmax4": 34.53699771437602,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
           "ticker": "SWK",
-          "name": null,
+          "name": "Stanley Black & Decker Inc",
           "sector": "Industrials / Tools & Accessories",
           "thesis": null,
           "status": "MONITORED",
@@ -6757,20 +7029,38 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 73.77507324768987,
             "k_prev": 81.4953846820061,
             "rsi_now": 67.75983188794113,
             "rsi_prev": 71.27184234037367
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 110.83,
-            "atr_14": 4.027497096005259
+            "atr_14": 4.027497096005259,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 95.52976247613871,
+            "mo_K": 81.18108903930779,
+            "mo_D": 84.6750621087697,
+            "mo_Kmax4": 91.74103634129932,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6778,8 +7068,8 @@
           "name": "Smith & Wesson Brands Inc",
           "sector": "Consumer Cyclical / Recreational Products",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
@@ -6794,11 +7084,29 @@
             "rsi_now": 64.43469898446497,
             "rsi_prev": 61.893154415517735
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 16.19,
-            "atr_14": 0.558591853891497
+            "atr_14": 0.558591853891497,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 14.076378641832447,
+            "mo_K": 59.64900538095096,
+            "mo_D": 63.44623872920108,
+            "mo_Kmax4": 79.86836830247323,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6897,16 +7205,35 @@
           "ui_group": "other",
           "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 235.21,
-            "atr_14": 21.505555168898244
+            "atr_14": 21.505555168898244,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 335.3407641969987,
+            "mo_K": 62.17835548292002,
+            "mo_D": 70.5911617592801,
+            "mo_Kmax4": 85.45140704932004,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -6917,17 +7244,42 @@
           "status": "MONITORED",
           "ui_group": "other",
           "evaluated_session": "2026-11-18",
-          "l1_state": "FAIL",
+          "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": null,
-          "l3_detail": {},
-          "stoch_flattening": null,
-          "macd_turning": null,
+          "l3_score": 4,
+          "l3_detail": {
+            "stoch_pts": 2,
+            "rsi_pts": 2,
+            "k_now": 46.74477500422487,
+            "k_prev": 32.77126237581228,
+            "rsi_now": 50.15234501479788,
+            "rsi_prev": 52.77582374607133
+          },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
+          "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
             "close": 128.41,
-            "atr_14": 4.373377841211261
+            "atr_14": 4.373377841211261,
+            "l1_slope_pass": false,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 127.175443085782,
+            "mo_K": 38.59227178037822,
+            "mo_D": 56.73248629610375,
+            "mo_Kmax4": 86.13326380389879,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -6942,20 +7294,38 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 83.41032568175639,
             "k_prev": 88.83026991749195,
             "rsi_now": 63.44937505681464,
             "rsi_prev": 65.0787140805095
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 605.84,
-            "atr_14": 20.115001108041472
+            "atr_14": 20.115001108041472,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 537.6115399783929,
+            "mo_K": 39.142757597484156,
+            "mo_D": 31.29493477039593,
+            "mo_Kmax4": 39.142757597484156,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7013,16 +7383,35 @@
           "ui_group": "other",
           "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 515.9,
-            "atr_14": 47.83425709100898
+            "atr_14": 47.83425709100898,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 718.9175312535685,
+            "mo_K": 65.23690566259886,
+            "mo_D": 70.88261130355328,
+            "mo_Kmax4": 83.99948066858988,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -7078,11 +7467,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 2.6,
-            "atr_14": 0.2639201089609091
+            "atr_14": 0.2639201089609091,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 3.7217383462446487,
+            "mo_K": 7.121266301402475,
+            "mo_D": 10.033394103863115,
+            "mo_Kmax4": 12.341474245115455,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -7099,11 +7506,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 68.76,
-            "atr_14": 2.079217207268062
+            "atr_14": 2.079217207268062,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 71.1774639405871,
+            "mo_K": 13.218722000775417,
+            "mo_D": 16.16257765850469,
+            "mo_Kmax4": 18.602344308071967,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7141,11 +7566,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 15.52,
-            "atr_14": 0.7873323099391276
+            "atr_14": 0.7873323099391274,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 15.430845979796318,
+            "mo_K": 1.0101917947835635,
+            "mo_D": 1.1954477264261005,
+            "mo_Kmax4": 1.9359157646051466,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7204,11 +7647,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 4.85,
-            "atr_14": 0.2744984946676872
+            "atr_14": 0.2744984946676872,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 5.308796647588264,
+            "mo_K": 17.41293532338308,
+            "mo_D": 31.923714759535653,
+            "mo_Kmax4": 54.063018242122716,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7232,11 +7693,29 @@
             "rsi_now": 66.19261786641232,
             "rsi_prev": 69.40859807103479
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 648.51,
-            "atr_14": 18.410445489887834
+            "atr_14": 18.410445489887834,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 570.9850010693983,
+            "mo_K": 48.26130925598846,
+            "mo_D": 35.80731693332297,
+            "mo_Kmax4": 48.26130925598846,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7246,25 +7725,43 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 4,
           "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 82.51153879192731,
+            "stoch_pts": 2,
+            "rsi_pts": 2,
+            "k_now": 83.55177776144977,
             "k_prev": 79.40064539017551,
-            "rsi_now": 61.9539445826929,
+            "rsi_now": 62.96133344380616,
             "rsi_prev": 62.712972729965294
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 110.31,
-            "atr_14": 2.471583587709524
+            "close": 111.03,
+            "atr_14": 2.5171847600159865,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 101.4493812878488,
+            "mo_K": 62.877082158475446,
+            "mo_D": 63.15604541332137,
+            "mo_Kmax4": 69.10444568761683,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7274,18 +7771,43 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
-          "l1_state": "FAIL",
+          "evaluated_session": "2026-11-18",
+          "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": null,
-          "l3_detail": {},
-          "stoch_flattening": null,
-          "macd_turning": null,
+          "l3_score": 4,
+          "l3_detail": {
+            "stoch_pts": 2,
+            "rsi_pts": 2,
+            "k_now": 80.25736903132524,
+            "k_prev": 62.1140808194565,
+            "rsi_now": 61.10526120480844,
+            "rsi_prev": 57.189518757038286
+          },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
+          "stoch_flattening": false,
+          "macd_turning": false,
           "diagnostics": {
-            "close": 8.7,
-            "atr_14": 0.31806617031873924
+            "close": 8.91,
+            "atr_14": 0.3271328724388293,
+            "l1_slope_pass": false,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 7.335357915454504,
+            "mo_K": 28.194117682729058,
+            "mo_D": 29.135852733948358,
+            "mo_Kmax4": 34.280111098500335,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7330,11 +7852,29 @@
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 39.01,
-            "atr_14": 1.4412276732804699
+            "atr_14": 1.4412276732804699,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 34.376734657266354,
+            "mo_K": 15.586427536189907,
+            "mo_D": 13.230873096321412,
+            "mo_Kmax4": 15.586427536189907,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7344,18 +7884,36 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 30.36,
-            "atr_14": 1.4190644952015072
+            "close": 31.48,
+            "atr_14": 1.419131316972828,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 29.30379197331779,
+            "mo_K": 16.050476552728654,
+            "mo_D": 14.415987039232888,
+            "mo_Kmax4": 16.839492221174996,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -7414,25 +7972,43 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 4,
           "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 43.154072970611146,
+            "stoch_pts": 2,
+            "rsi_pts": 2,
+            "k_now": 40.10311730104713,
             "k_prev": 44.06935967148038,
-            "rsi_now": 51.016000826087364,
+            "rsi_now": 48.39338033540454,
             "rsi_prev": 57.256355230625395
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 59.18,
-            "atr_14": 1.2931631068797065
+            "close": 58.28,
+            "atr_14": 1.2722228849597275,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 59.38780124736499,
+            "mo_K": 74.08175996281518,
+            "mo_D": 81.56360578901409,
+            "mo_Kmax4": 89.96230878985814,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7463,25 +8039,43 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 63.68225228326935,
+            "rsi_pts": 2,
+            "k_now": 66.58679343042611,
             "k_prev": 68.91342845786438,
-            "rsi_now": 57.076621554135514,
+            "rsi_now": 59.254272740952246,
             "rsi_prev": 60.167762482638075
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 297.03,
-            "atr_14": 6.173343815335192
+            "close": 300.9,
+            "atr_14": 6.318104971382677,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": true,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 285.8467853638624,
+            "mo_K": 79.41782594278429,
+            "mo_D": 80.0842196530238,
+            "mo_Kmax4": 85.50270931509476,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7519,25 +8113,41 @@
           "thesis": null,
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 1,
+          "l2_age": 2,
           "armed": true,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 31.521376177677794,
+            "rsi_pts": 2,
+            "k_now": 32.00844599883887,
             "k_prev": 52.115864779760614,
-            "rsi_now": 51.63926593128727,
+            "rsi_now": 49.48861702161917,
             "rsi_prev": 58.07890438815498
           },
+          "l3_score_now": 0,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 182.8,
-            "atr_14": 7.380376667300646
+            "close": 177.45,
+            "atr_14": 7.403206905350599,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 181.95734017097197,
+            "mo_K": 60.85262981814705,
+            "mo_D": 48.91738941571604,
+            "mo_Kmax4": 60.85262981814705,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7568,25 +8178,43 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 51.87464505981745,
+            "rsi_pts": 2,
+            "k_now": 52.54184306701768,
             "k_prev": 47.87145701661609,
-            "rsi_now": 51.44213493452673,
+            "rsi_now": 52.074875918935646,
             "rsi_prev": 52.822046991098716
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": true,
           "diagnostics": {
-            "close": 45.93,
-            "atr_14": 1.0696005660137498
+            "close": 46.13,
+            "atr_14": 1.0703433827270539,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 45.62283835916949,
+            "mo_K": 71.81918323827774,
+            "mo_D": 72.8922357989589,
+            "mo_Kmax4": 77.42463244431565,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7643,20 +8271,38 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 60.94288284620365,
             "k_prev": 69.93652948713118,
             "rsi_now": 51.80427018723377,
             "rsi_prev": 53.15284723431841
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 383.72,
-            "atr_14": 15.633962276759704
+            "atr_14": 15.633962276759704,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 373.1040867057202,
+            "mo_K": 39.016213703977556,
+            "mo_D": 35.588092470971745,
+            "mo_Kmax4": 53.45117654233349,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7666,7 +8312,7 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -7675,16 +8321,34 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 71.24289538727761,
+            "k_now": 66.98070003348876,
             "k_prev": 82.35822982943046,
-            "rsi_now": 60.661648957218105,
+            "rsi_now": 56.67353391455021,
             "rsi_prev": 66.10614160222113
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 288.41,
-            "atr_14": 8.908408963720717
+            "close": 277.2,
+            "atr_14": 9.482808323454952,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 264.00832858596215,
+            "mo_K": 87.32826206059269,
+            "mo_D": 66.97132691442143,
+            "mo_Kmax4": 87.32826206059269,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7723,24 +8387,36 @@
           "status": "MONITORED",
           "ui_group": "other",
           "evaluated_session": "2026-11-18",
-          "l1_state": "PASS",
+          "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 20.354508291452316,
-            "k_prev": 27.46540027163586,
-            "rsi_now": 39.97714876638162,
-            "rsi_prev": 47.364120998711826
-          },
-          "stoch_flattening": false,
-          "macd_turning": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN"
+          ],
+          "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 362.62,
-            "atr_14": 17.498501823636047
+            "atr_14": 17.498501823636047,
+            "l1_slope_pass": true,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 414.17343301644866,
+            "mo_K": 78.80996432239228,
+            "mo_D": 80.77780951781443,
+            "mo_Kmax4": 89.88651545086691,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7783,20 +8459,38 @@
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
-          "l3_score": 0,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 62.92523944176247,
             "k_prev": 69.16985723038363,
             "rsi_now": 55.4929464455407,
             "rsi_prev": 59.22154788459426
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 292.43,
-            "atr_14": 12.926018753428538
+            "atr_14": 12.926018753428538,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 277.83603794464926,
+            "mo_K": 71.88812358669149,
+            "mo_D": 69.64380310505216,
+            "mo_Kmax4": 78.7162829464333,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -7806,25 +8500,41 @@
           "thesis": null,
           "status": "DEVELOPING",
           "ui_group": "developing",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
           "l2_state": "ARMED",
-          "l2_age": 2,
+          "l2_age": 3,
           "armed": true,
           "l3_score": 0,
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 52.158996199462955,
+            "k_now": 54.39773107609437,
             "k_prev": 67.55016528421224,
-            "rsi_now": 57.399669390035115,
+            "rsi_now": 59.83840223821081,
             "rsi_prev": 62.75423870707122
           },
+          "l3_score_now": 0,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 107.0,
-            "atr_14": 5.884780171539792
+            "close": 109.35,
+            "atr_14": 6.002295873572664,
+            "l1_slope_pass": true,
+            "l1_r2_pass": true,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 101.01903136513802,
+            "mo_K": 78.5105583697927,
+            "mo_D": 70.0892834262794,
+            "mo_Kmax4": 78.5105583697927,
+            "l2_knife": false,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7832,27 +8542,40 @@
           "name": "Twilio Inc Class A",
           "sector": "Technology / Communication",
           "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-18",
-          "l1_state": "PASS",
+          "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
-          "l3_score": 0,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 0,
-            "k_now": 17.95430944963657,
-            "k_prev": 20.316718587746642,
-            "rsi_now": 45.28184583334563,
-            "rsi_prev": 48.42805781026581
-          },
-          "stoch_flattening": true,
-          "macd_turning": false,
+          "l3_score": null,
+          "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
+          ],
+          "stoch_flattening": null,
+          "macd_turning": null,
           "diagnostics": {
             "close": 195.93,
-            "atr_14": 14.129101835186836
+            "atr_14": 14.129101835186836,
+            "l1_slope_pass": true,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 225.31068745571213,
+            "mo_K": 77.11609932407173,
+            "mo_D": 80.02920090142209,
+            "mo_Kmax4": 84.17775093573262,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -7862,18 +8585,38 @@
           "thesis": null,
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 283.33,
-            "atr_14": 25.80242223826105
+            "close": 288.19,
+            "atr_14": 25.136892078385266,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 401.7453069458945,
+            "mo_K": 48.35490989480809,
+            "mo_D": 57.041869323464915,
+            "mo_Kmax4": 80.13231911421526,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
