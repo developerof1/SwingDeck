@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-19T03:26+00:00",
+      "generated_at": "2026-11-19T08:54+00:00",
       "evaluated_session": "2026-11-18",
       "results": [
         {
@@ -284,11 +284,31 @@
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 122.94,
-            "atr_14": 14.594286780835242
+            "atr_14": 14.594286780835242,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 181.5360945825239,
+            "mo_K": 47.008357774462986,
+            "mo_D": 57.843507276448236,
+            "mo_Kmax4": 80.9793738234159,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -296,27 +316,45 @@
           "name": "Salesforce Inc",
           "sector": "SaaS with AI Story",
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
-          "status": "DEVELOPING",
-          "ui_group": "developing",
+          "status": "MONITORED",
+          "ui_group": "other",
           "evaluated_session": "2026-11-18",
           "l1_state": "PASS",
-          "l2_state": "ARMED",
-          "l2_age": 3,
-          "armed": true,
-          "l3_score": 0,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
+          "l3_score": 2,
           "l3_detail": {
             "stoch_pts": 0,
-            "rsi_pts": 0,
+            "rsi_pts": 2,
             "k_now": 25.800649165822136,
             "k_prev": 44.76431566333574,
             "rsi_now": 42.32726259082535,
             "rsi_prev": 50.980090902481486
           },
+          "l3_score_now": 0,
+          "flags": [
+            "NO_LIVE_TRIGGER"
+          ],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
             "close": 190.4,
-            "atr_14": 8.793453593789542
+            "atr_14": 8.793453593789542,
+            "l1_slope_pass": true,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 218.07234318820326,
+            "mo_K": 74.56332509787573,
+            "mo_D": 59.08904935082111,
+            "mo_Kmax4": 74.56332509787573,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": true
           }
         },
         {
@@ -417,11 +455,31 @@
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED",
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
             "close": 338.34,
-            "atr_14": 17.471462811928205
+            "atr_14": 17.471462811928205,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": true,
+            "l1_below21_2w": true,
+            "l1_r1_cut": true,
+            "wk_ema21": 394.11649458534043,
+            "mo_K": 54.056098042325544,
+            "mo_D": 66.98027165118201,
+            "mo_Kmax4": 86.66584831898435,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
