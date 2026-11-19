@@ -1,8 +1,8 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-19T01:46+00:00",
-      "evaluated_session": "2026-11-17",
+      "generated_at": "2026-11-19T03:26+00:00",
+      "evaluated_session": "2026-11-18",
       "results": [
         {
           "ticker": "AVGO",
@@ -431,7 +431,7 @@
           "thesis": "Gemini expansion; liquid range-bound channel trades",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -441,8 +441,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 280.2,
-            "atr_14": 10.125326865212593
+            "close": 282.44,
+            "atr_14": 9.779232089125982
           }
         },
         {
@@ -452,18 +452,18 @@
           "thesis": "Process control & inspection; institutional favorite for MA retests",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "ARMED",
-          "l2_age": 4,
+          "l2_age": 5,
           "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 144.56,
-            "atr_14": 9.42389450757992
+            "close": 144.88,
+            "atr_14": 9.170637757038497
           }
         },
         {
@@ -522,7 +522,7 @@
           "thesis": "Ad-tech monetization; strong momentum breakouts on volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -532,8 +532,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 618.87,
-            "atr_14": 22.069504431863432
+            "close": 616.38,
+            "atr_14": 21.243825543873186
           }
         },
         {
@@ -592,18 +592,18 @@
           "thesis": "Wafer fabrication tools; high-beta mover during chip rallies",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-17",
+          "evaluated_session": "2026-11-18",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 210.69,
-            "atr_14": 16.170533529591502
+            "close": 211.67,
+            "atr_14": 15.620495420334967
           }
         },
         {
