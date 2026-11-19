@@ -388,3 +388,48 @@ def test_load_prior_names_merges_across_all_watchlist_result_files(tmp_path, mon
     monkeypatch.setattr(refresh_job, "RESULTS_DIR", str(results_dir))
 
     assert refresh_job.load_prior_names() == {"NVDA": "Nvidia Corp", "AMD": "Advanced Micro Devices"}
+
+
+def test_prune_drops_rows_for_tickers_removed_from_watchlist(tmp_path, monkeypatch):
+    # A ticker removed from the watchlist must not linger in results/<id>.json - the merge only
+    # adds/updates rows, so the prune is what clears it.
+    results_dir = tmp_path / "results"
+    results_dir.mkdir()
+    monkeypatch.setattr(refresh_job, "RESULTS_DIR", str(results_dir))
+
+    prior = {
+        "setups": {
+            SETUP_ID: {
+                "generated_at": "2026-11-01T00:00+00:00",
+                "evaluated_session": "2026-10-31",
+                "results": [
+                    {"ticker": "KEEPME", "status": "CANDIDATE", "evaluated_session": "2026-10-31"},
+                    {"ticker": "GONE", "status": "CANDIDATE", "evaluated_session": "2026-10-31"},
+                ],
+                "errors": [
+                    {"ticker": "GONE", "error": "GONE: not found on Tiingo"},
+                    {"ticker": "KEEPERR", "error": "KEEPERR: boom"},
+                ],
+            }
+        }
+    }
+    (results_dir / "watch.json").write_text(json.dumps(prior))
+
+    refresh_job.prune_results_to_watchlist("watch", {"KEEPME", "KEEPERR"})
+
+    pruned = json.loads((results_dir / "watch.json").read_text())["setups"][SETUP_ID]
+    assert [r["ticker"] for r in pruned["results"]] == ["KEEPME"]
+    assert [e["ticker"] for e in pruned["errors"]] == ["KEEPERR"]
+
+
+def test_prune_is_noop_when_nothing_removed(tmp_path, monkeypatch):
+    results_dir = tmp_path / "results"
+    results_dir.mkdir()
+    monkeypatch.setattr(refresh_job, "RESULTS_DIR", str(results_dir))
+    path = results_dir / "watch.json"
+    path.write_text(json.dumps({"setups": {SETUP_ID: {"results": [{"ticker": "AAPL"}], "errors": []}}}))
+    before = path.read_text()
+
+    refresh_job.prune_results_to_watchlist("watch", {"AAPL"})
+
+    assert path.read_text() == before

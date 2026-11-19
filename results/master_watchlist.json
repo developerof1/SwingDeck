@@ -509,34 +509,6 @@
           }
         },
         {
-          "ticker": "ATKR",
-          "name": "Atkore Inc",
-          "sector": "Manufacturing / Electrical",
-          "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-10-16",
-          "l1_state": "PASS",
-          "l2_state": "NOT_ARMED",
-          "l2_age": null,
-          "armed": false,
-          "l3_score": 2,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 2,
-            "k_now": 99.60113110537607,
-            "k_prev": 99.51645671108082,
-            "rsi_now": 69.18189460107726,
-            "rsi_prev": 69.057554313895
-          },
-          "stoch_flattening": false,
-          "macd_turning": false,
-          "diagnostics": {
-            "close": 94.96,
-            "atr_14": 0.22523986647401306
-          }
-        },
-        {
           "ticker": "ALB",
           "name": "Albemarle Corp",
           "sector": "Commodities",
@@ -6116,34 +6088,6 @@
           "diagnostics": {
             "close": 165.93,
             "atr_14": 5.451572240778981
-          }
-        },
-        {
-          "ticker": "ROKU",
-          "name": "Roku Inc - Class A",
-          "sector": "Technology / Media & Entertainment",
-          "thesis": null,
-          "status": "DEVELOPING",
-          "ui_group": "developing",
-          "evaluated_session": "2026-11-06",
-          "l1_state": "PASS",
-          "l2_state": "NOT_ARMED",
-          "l2_age": null,
-          "armed": false,
-          "l3_score": 2,
-          "l3_detail": {
-            "stoch_pts": 0,
-            "rsi_pts": 2,
-            "k_now": 82.41866721698315,
-            "k_prev": 78.98334680738711,
-            "rsi_now": 67.91565419148799,
-            "rsi_prev": 63.95569455712822
-          },
-          "stoch_flattening": false,
-          "macd_turning": false,
-          "diagnostics": {
-            "close": 160.52,
-            "atr_14": 2.616329954012493
           }
         },
         {

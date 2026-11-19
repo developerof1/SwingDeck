@@ -411,6 +411,34 @@ def _by_setup_rows_and_errors(
     return by_setup_results, by_setup_errors
 
 
+def prune_results_to_watchlist(watchlist_id: str, current_tickers: set[str]) -> None:
+    """Drops result and error rows for tickers no longer in the watchlist. The merge above only
+    ever adds or updates rows, so without this a ticker removed from watchlists/<id>.json would
+    keep showing on the dashboard indefinitely. Writes the file only when something was removed."""
+    path = results_path(watchlist_id)
+    if not os.path.exists(path):
+        return
+    try:
+        with open(path) as f:
+            doc = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return
+
+    changed = False
+    for setup_doc in doc.get("setups", {}).values():
+        for key in ("results", "errors"):
+            rows = setup_doc.get(key, [])
+            kept = [r for r in rows if r.get("ticker") in current_tickers]
+            if len(kept) != len(rows):
+                setup_doc[key] = kept
+                changed = True
+
+    if changed:
+        with open(path, "w") as f:
+            json.dump(doc, f, indent=2)
+        print(f"Pruned tickers no longer in watchlist '{watchlist_id}' from results.")
+
+
 def run_debug_override(
     watchlists: list[dict], all_tickers: set[str], override: str, start_date: str, prior_names: dict[str, str]
 ) -> None:
@@ -433,6 +461,8 @@ def run_debug_override(
 
 def run_scheduled_batch(watchlists: list[dict], all_tickers: set[str], start_date: str, prior_names: dict[str, str]) -> None:
     today_key = date.today().isoformat()
+    for watchlist in watchlists:
+        prune_results_to_watchlist(watchlist["id"], {e["ticker"] for e in watchlist["tickers"]})
     queue = load_queue()
 
     if queue is None or queue.get("night_key") != today_key:
