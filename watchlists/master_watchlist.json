@@ -153,7 +153,6 @@
     { "ticker": "NATKY", "sector": "Commodities", "thesis": null },
     { "ticker": "ABNB", "sector": "Hotels and Accommodation", "thesis": null },
     { "ticker": "ABBV", "sector": "Healthcare / Pharmaceuticals", "thesis": null },
-    { "ticker": "ATKR", "sector": "Manufacturing / Electrical", "thesis": null },
     { "ticker": "CTSH", "sector": "Technology / Consulting", "thesis": null },
     { "ticker": "TSLA", "sector": "Consumer Cyclical / Auto Manufacturers", "thesis": null },
     { "ticker": "ALB", "sector": "Commodities", "thesis": null },
