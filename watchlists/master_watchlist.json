@@ -177,7 +177,6 @@
     { "ticker": "HNST", "sector": "Retail / Non-discretionary", "thesis": null },
     { "ticker": "DOCU", "sector": "Technology / ?", "thesis": null },
     { "ticker": "EPAM", "sector": "Technology / Consulting", "thesis": null },
-    { "ticker": "ROKU", "sector": "Technology / Media & Entertainment", "thesis": null },
     { "ticker": "VEEV", "sector": "Technology / Health Care Technology", "thesis": null },
     { "ticker": "DRI", "sector": "Consumer Cyclical / Restaurants", "thesis": null },
     { "ticker": "ACN", "sector": "Technology / Consulting", "thesis": null },
