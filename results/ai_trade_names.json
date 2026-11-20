@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-20T16:04+00:00",
+      "generated_at": "2026-11-20T17:54+00:00",
       "evaluated_session": "2026-11-19",
       "results": [
         {
@@ -432,18 +432,36 @@
           "thesis": "Hybrid bonding for 3D packaging; high-amplitude momentum setup",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 164.86,
-            "atr_14": 8.959790309230282
+            "close": 161.17,
+            "atr_14": 9.088376715713833,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 215.10755452721784,
+            "mo_K": 32.96404611274527,
+            "mo_D": 43.41472336903529,
+            "mo_Kmax4": 74.8842615128981,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -453,24 +471,23 @@
           "thesis": "Active Electrical Cables; rapid momentum expansion setups",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
           "l3_score_now": null,
           "flags": [
             "L1_FAILED",
-            "L1_BREAKDOWN",
-            "DAILY_SIGNAL_IN"
+            "L1_BREAKDOWN"
           ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 122.94,
-            "atr_14": 14.594286780835242,
+            "close": 117.76,
+            "atr_14": 14.547544867918441,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -481,9 +498,9 @@
             "mo_D": 57.843507276448236,
             "mo_Kmax4": 80.9793738234159,
             "l2_knife": true,
-            "stoch_pt_now": 2,
+            "stoch_pt_now": 0,
             "rsi_pt_now": 0,
-            "score_now": 2,
+            "score_now": 0,
             "no_live_trigger": false
           }
         },
@@ -494,7 +511,7 @@
           "thesis": "Enterprise agentic AI growth; predictable post-earnings swings",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -503,9 +520,9 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 2,
-            "k_now": 25.800649165822136,
+            "k_now": 24.494540768882814,
             "k_prev": 44.76431566333574,
-            "rsi_now": 42.32726259082535,
+            "rsi_now": 40.54898483853952,
             "rsi_prev": 50.980090902481486
           },
           "l3_score_now": 0,
@@ -515,8 +532,8 @@
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 190.4,
-            "atr_14": 8.793453593789542,
+            "close": 183.31,
+            "atr_14": 9.085349765661718,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -540,18 +557,36 @@
           "thesis": "Optical inspection for HBM; rapid percentage swings on volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 98.42,
-            "atr_14": 8.030468583650038
+            "close": 97.78,
+            "atr_14": 8.001149399103607,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 137.68167673799385,
+            "mo_K": 42.470051340559046,
+            "mo_D": 46.89666402009711,
+            "mo_Kmax4": 61.2960734702306,
+            "l2_knife": true,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -561,18 +596,36 @@
           "thesis": "Optical transceivers; high-volatility momentum breakout candidate",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 212.84,
-            "atr_14": 22.519056544509162
+            "close": 214.94,
+            "atr_14": 23.022695362758512,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 272.6483741408292,
+            "mo_K": 48.91305103552784,
+            "mo_D": 55.97909800182138,
+            "mo_Kmax4": 75.13578019647728,
+            "l2_knife": false,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 0,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -582,18 +635,36 @@
           "thesis": "Largest US nuclear operator; reacts sharply to data center power deals",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 262.74,
-            "atr_14": 12.613267896230857
+            "close": 252.03,
+            "atr_14": 13.154463046500082,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": false,
+            "l1_r1_cut": false,
+            "wk_ema21": 270.9362409539945,
+            "mo_K": 19.471054420481813,
+            "mo_D": 19.087041245929743,
+            "mo_Kmax4": 26.76030454762652,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
@@ -603,18 +674,36 @@
           "thesis": "EDA software monopoly; predictable mean-inversion",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
           "armed": false,
           "l3_score": null,
           "l3_detail": {},
+          "l3_score_now": null,
+          "flags": [
+            "L1_FAILED"
+          ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 305.82,
-            "atr_14": 13.40428507891247
+            "close": 304.88,
+            "atr_14": 13.51112185899015,
+            "l1_slope_pass": false,
+            "l1_r2_pass": false,
+            "l1_mroll": false,
+            "l1_below21_2w": true,
+            "l1_r1_cut": false,
+            "wk_ema21": 327.79732448324717,
+            "mo_K": 45.17055235447345,
+            "mo_D": 50.17932555690526,
+            "mo_Kmax4": 72.61801999757833,
+            "l2_knife": true,
+            "stoch_pt_now": 0,
+            "rsi_pt_now": 0,
+            "score_now": 0,
+            "no_live_trigger": false
           }
         },
         {
