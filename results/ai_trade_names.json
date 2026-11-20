@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-20T17:54+00:00",
+      "generated_at": "2026-11-20T19:18+00:00",
       "evaluated_session": "2026-11-19",
       "results": [
         {
@@ -713,24 +713,23 @@
           "thesis": "Grid management & transformers; steady institutional trend-follower",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
           "l3_score_now": null,
           "flags": [
             "L1_FAILED",
-            "L1_BREAKDOWN",
-            "DAILY_SIGNAL_IN"
+            "L1_BREAKDOWN"
           ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 338.34,
-            "atr_14": 17.471462811928205,
+            "close": 330.57,
+            "atr_14": 17.454901182504763,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -741,9 +740,9 @@
             "mo_D": 66.98027165118201,
             "mo_Kmax4": 86.66584831898435,
             "l2_knife": true,
-            "stoch_pt_now": 2,
+            "stoch_pt_now": 0,
             "rsi_pt_now": 0,
-            "score_now": 2,
+            "score_now": 0,
             "no_live_trigger": false
           }
         },
