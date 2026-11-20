@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-19T20:58+00:00",
+      "generated_at": "2026-11-20T01:21+00:00",
       "evaluated_session": "2026-11-18",
       "results": [
         {
@@ -666,7 +666,7 @@
           "thesis": "Gemini expansion; liquid range-bound channel trades",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -681,8 +681,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 282.44,
-            "atr_14": 9.779232089125982,
+            "close": 272.66,
+            "atr_14": 10.728572654771686,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -693,9 +693,9 @@
             "mo_D": 69.91133000976622,
             "mo_Kmax4": 82.9277637815095,
             "l2_knife": true,
-            "stoch_pt_now": 2,
+            "stoch_pt_now": 0,
             "rsi_pt_now": 0,
-            "score_now": 2,
+            "score_now": 0,
             "no_live_trigger": false
           }
         },
@@ -706,23 +706,22 @@
           "thesis": "Process control & inspection; institutional favorite for MA retests",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
           "l3_score_now": null,
           "flags": [
-            "L1_FAILED",
-            "DAILY_SIGNAL_IN"
+            "L1_FAILED"
           ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 144.88,
-            "atr_14": 9.170637757038497,
+            "close": 141.48,
+            "atr_14": 9.309477917250032,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -733,9 +732,9 @@
             "mo_D": 49.7863587283505,
             "mo_Kmax4": 78.32265214512255,
             "l2_knife": true,
-            "stoch_pt_now": 2,
+            "stoch_pt_now": 0,
             "rsi_pt_now": 0,
-            "score_now": 2,
+            "score_now": 0,
             "no_live_trigger": false
           }
         },
@@ -829,7 +828,7 @@
           "thesis": "Ad-tech monetization; strong momentum breakouts on volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -843,8 +842,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 616.38,
-            "atr_14": 21.243825543873186,
+            "close": 596.22,
+            "atr_14": 22.174980862167956,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -953,7 +952,7 @@
           "thesis": "Wafer fabrication tools; high-beta mover during chip rallies",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-18",
+          "evaluated_session": "2026-11-19",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -968,8 +967,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 211.67,
-            "atr_14": 15.620495420334967,
+            "close": 203.68,
+            "atr_14": 15.826531461739613,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
