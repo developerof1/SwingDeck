@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-21T17:38+00:00",
+      "generated_at": "2026-11-21T21:43+00:00",
       "evaluated_session": "2026-11-20",
       "results": [
         {
@@ -706,7 +706,7 @@
           "thesis": "Grid management & transformers; steady institutional trend-follower",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-19",
+          "evaluated_session": "2026-11-20",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -721,14 +721,14 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 330.57,
-            "atr_14": 17.454901182504763,
+            "close": 311.33,
+            "atr_14": 17.804551098040132,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
             "l1_below21_2w": true,
             "l1_r1_cut": true,
-            "wk_ema21": 394.11649458534043,
+            "wk_ema21": 386.59044962303676,
             "mo_K": 54.056098042325544,
             "mo_D": 66.98027165118201,
             "mo_Kmax4": 86.66584831898435,
@@ -746,7 +746,7 @@
           "thesis": "Gemini expansion; liquid range-bound channel trades",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-19",
+          "evaluated_session": "2026-11-20",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -761,14 +761,14 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 272.66,
-            "atr_14": 10.728572654771686,
+            "close": 265.29,
+            "atr_14": 11.314388893716561,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
             "l1_below21_2w": true,
             "l1_r1_cut": true,
-            "wk_ema21": 328.8361664694443,
+            "wk_ema21": 323.05924224494936,
             "mo_K": 59.49800505071996,
             "mo_D": 69.91133000976622,
             "mo_Kmax4": 82.9277637815095,
