@@ -385,7 +385,10 @@ div[class*="st-key-sd_pin"] button [data-testid="stMarkdownContainer"] {
 }
 div[class*="st-key-sd_pinon_"] button,
 div[class*="st-key-sd_pinon_"] [data-testid="stIconMaterial"] {
-    color: rgba(250, 250, 250, 0.95) !important;
+    color: #ef4444 !important;  /* pinned = red (same red as the wall header's pin) */
+}
+div[class*="st-key-sd_pinon_tile_"] {
+    margin-top: -0.35rem;  /* line the icon up with the tile's top row (tag chip) */
 }
 div[class*="st-key-sd_pinon_"] [data-testid="stIconMaterial"] {
     font-variation-settings: 'FILL' 1;
@@ -399,18 +402,48 @@ div[class*="st-key-sd_pinoff_"] [data-testid="stIconMaterial"] {
 div[class*="st-key-sd_wall"] div[data-testid="stHorizontalBlock"] {
     align-items: stretch;
 }
-div[class*="st-key-sd_wall"] div[data-testid="stColumn"],
-div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"],
-div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"],
-div[class*="st-key-sd_wall"] div[data-testid="stColumn"] div[data-testid="stVerticalBlockBorderWrapper"] {
+/* Streamlit 1.67 DOM: stColumn > stVerticalBlock > stLayoutWrapper > stVerticalBlock (the
+   bordered tile). Each link is stretched so the bordered tile fills its (stretched) column. */
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"] {
+    height: auto !important;
+    align-self: stretch !important;
+}
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"] {
     height: 100%;
+}
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"] > div[data-testid="stLayoutWrapper"] {
+    flex: 1 1 auto;
+    align-items: stretch;
+}
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"] > div[data-testid="stLayoutWrapper"] > div[data-testid="stVerticalBlock"] {
+    height: 100%;
+    flex: 1 1 auto;
+}
+/* Tile top row: setup tag on the left, badge + current status clustered on the right (next to
+   the pin button); wraps to a second line only when the tile is too narrow for both. */
+.sd-tile-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    margin-bottom: 0.55rem;
+}
+.sd-tile-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+.sd-tile-status {
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 .sd-tile-tag {
     display: inline-block;
     background: rgba(148, 163, 184, 0.14);
     border-radius: 4px;
     padding: 0.1rem 0.45rem;
-    margin-bottom: 0.5rem;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -753,22 +786,35 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
 _REASON_STYLE = 'style="color: rgba(250, 250, 250, 0.75) !important;"'
 
 
-def row_html_for(result: dict, setup: Setup, is_stale: bool, reason_override: tuple[str, bool] | None = None) -> str:
-    """The row's HTML, shared by the list rows and the pinned-wall tiles so a tile always
-    reads exactly like its row. Dispatches to the active setup's own reason_for() rather than
-    hardcoding any one setup's statuses/wording here - this is what lets a second registered
-    setup show up with zero changes to this function. `reason_override` is only for a pinned
-    ticker that has no evaluation row at all."""
+def _row_parts(result: dict, setup: Setup, reason_override: tuple[str, bool] | None = None) -> dict[str, str]:
+    """The HTML pieces of one row, shared by the list rows and the pinned-wall tiles so a tile
+    always reads exactly like its row (only the arrangement differs). Dispatches to the active
+    setup's own reason_for() rather than hardcoding any one setup's statuses/wording here -
+    this is what lets a second registered setup show up with zero changes to this function.
+    `reason_override` is only for a pinned ticker that has no evaluation row at all."""
     group = result.get("ui_group", GROUP_UNKNOWN)
-    dot = GROUP_DOT.get(group, DOT_NEUTRAL)
     name = result.get("name")
-    name_html = f'<span class="sd-row-name" {_REASON_STYLE}>{name}</span>' if name else ""
 
     reason_text, is_invalid = reason_override or setup.reason_for(result)
     if is_invalid:
         reason_html = f'<div class="sd-row-reason"><span class="sd-badge sd-badge-invalid">{reason_text}</span></div>'
     else:
         reason_html = f'<div class="sd-row-reason" {_REASON_STYLE}>{reason_text}</div>'
+
+    return {
+        "dot": GROUP_DOT.get(group, DOT_NEUTRAL),
+        "ticker": f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>',
+        "name": f'<span class="sd-row-name" {_REASON_STYLE}>{name}</span>' if name else "",
+        "reason": reason_html,
+        "badges": "".join(
+            f'<div class="{css_class}">{text}</div>'
+            for text, css_class in (setup.badge_for(result) if result.get("status") else [])
+        ),
+    }
+
+
+def row_html_for(result: dict, setup: Setup, is_stale: bool) -> str:
+    parts = _row_parts(result, setup)
 
     # Dimmed (not relabeled/hidden) when this ticker hasn't been refreshed in today's queue
     # drain yet - the status shown is still whatever its last successful evaluation found,
@@ -778,24 +824,20 @@ def row_html_for(result: dict, setup: Setup, is_stale: bool, reason_override: tu
     evaluated_session = result.get("evaluated_session")
     title_attr = f' title="Last evaluated {evaluated_session}"' if is_stale and evaluated_session else ""
 
-    badge_html = "".join(
-        f'<div class="{css_class}">{text}</div>' for text, css_class in (setup.badge_for(result) if result.get("status") else [])
-    )
-
     return (
         f'<div class="{row_class}"{title_attr}>'
         '<div class="sd-row-main">'
         '<div class="sd-row-top">'
         '<div class="sd-row-left">'
-        f'<span class="sd-row-ticker" style="color: #fafafa !important;">{result["ticker"]}</span>'
-        f"{name_html}"
+        f"{parts['ticker']}"
+        f"{parts['name']}"
         "</div>"
         '<div class="sd-row-status">'
-        f"{badge_html}"
-        f'<div class="sd-dot">{dot}</div>'
+        f"{parts['badges']}"
+        f'<div class="sd-dot">{parts["dot"]}</div>'
         "</div>"
         "</div>"
-        f"{reason_html}"
+        f"{parts['reason']}"
         "</div>"
         "</div>"
     )
@@ -836,10 +878,10 @@ def render_tile(pin: dict, setup: Setup, results_by_ticker: dict[str, dict]) -> 
     result = results_by_ticker.get(ticker)
     if result is None:
         result = {"ticker": ticker, "ui_group": GROUP_UNKNOWN}
-        body_html = row_html_for(result, setup, False, reason_override=("No evaluation available yet.", False))
+        parts = _row_parts(result, setup, reason_override=("No evaluation available yet.", False))
         current_group = None
     else:
-        body_html = row_html_for(result, setup, False)
+        parts = _row_parts(result, setup)
         current_group = result.get("ui_group", GROUP_UNKNOWN)
 
     change_html = "&nbsp;"
@@ -847,13 +889,27 @@ def render_tile(pin: dict, setup: Setup, results_by_ticker: dict[str, dict]) -> 
     if current_group is not None and pinned_group and pinned_group != current_group:
         change_html = f"Pinned as {GROUP_DOT.get(pinned_group, DOT_NEUTRAL)} {GROUP_NAME.get(pinned_group, pinned_group)}"
 
+    # Status state 1 (always): the CURRENT group, spelled out next to its dot. Status state 2
+    # (only when it differs from pin time): the "Pinned as ..." line at the bottom. Badge +
+    # status sit top-right beside the pin button so the ticker/name line below gets the tile's
+    # full width.
+    status_label = GROUP_NAME.get(result.get("ui_group", GROUP_UNKNOWN), "Unknown")
     tile_html = (
-        f'<div class="sd-tile-tag" style="color: rgba(250, 250, 250, 0.6) !important;">{setup.label}</div>'
-        f"{body_html}"
-        f'<div class="sd-tile-change" style="color: rgba(250, 250, 250, 0.6) !important;">{change_html}</div>'
+        '<div class="sd-tile-top">'
+        f'<span class="sd-tile-tag" style="color: rgba(250, 250, 250, 0.6) !important;">{setup.label}</span>'
+        '<div class="sd-tile-cluster">'
+        f"{parts['badges']}"
+        f'<span class="sd-tile-status" style="color: rgba(250, 250, 250, 0.9) !important;">{parts["dot"]} {status_label}</span>'
+        "</div>"
+        "</div>"
+        '<div class="sd-row"><div class="sd-row-main">'
+        f'<div class="sd-row-left">{parts["ticker"]}{parts["name"]}</div>'
+        f"{parts['reason']}"
+        "</div></div>"
+        f'<div class="sd-tile-change" style="color: rgba(226, 232, 240, 0.85) !important;">{change_html}</div>'
     )
     with st.container(border=True):
-        html_col, button_col = st.columns([8, 1], vertical_alignment="center")
+        html_col, button_col = st.columns([8, 1], vertical_alignment="top")
         with html_col:
             st.html(tile_html)
         with button_col:

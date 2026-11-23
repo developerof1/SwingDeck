@@ -175,6 +175,14 @@ def test_second_line_blank_when_status_unchanged_and_present_when_changed(store)
     assert f"Pinned as" in changed and label in changed
 
 
+def test_tile_spells_out_the_current_status(store):
+    ticker = _group_tickers("developing")[0] if _group_tickers("developing") else developing_ticker()
+    seed(store, (ticker, "developing"))
+    html = html_text(run_app())
+    assert 'class="sd-tile-status"' in html
+    assert "Developing</span>" in html  # label next to the dot, regardless of whether it changed
+
+
 def test_pinned_tile_survives_dropping_to_monitored(store):
     ticker = _group_tickers("other")[0]
     seed(store, (ticker, "developing"))
