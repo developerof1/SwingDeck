@@ -465,6 +465,10 @@ def ensure_pins_loaded() -> None:
 
     store = get_user_store()
     if store is None:
+        # Said out loud (not silently hidden) so a missing/misnamed secret is diagnosable at a
+        # glance - an empty wall is hidden by design, so without this "no token" looks exactly
+        # like "feature not deployed".
+        st.session_state[PINS_LOAD_ERROR_KEY] = f"{user_store.TOKEN_SECRET_NAME} is not set in the app's secrets."
         return
     try:
         doc = store.read(pins.PINS_PATH, pins.empty_doc)

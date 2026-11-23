@@ -92,6 +92,8 @@ def test_without_a_token_there_are_no_pin_controls_and_no_wall(monkeypatch):
     at = run_app()
     assert pin_keys(at) == []
     assert "Pinned Wall" not in "".join(str(m.value) for m in at.markdown)
+    # ...and it says why, naming the secret, instead of failing silently.
+    assert any("Pins unavailable" in c.value and "NO_SUCH_SECRET_FOR_TESTS" in c.value for c in at.caption)
 
 
 # ---- pin / unpin ------------------------------------------------------------------------
