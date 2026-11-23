@@ -181,6 +181,8 @@ def test_tile_spells_out_the_current_status(store):
     html = html_text(run_app())
     assert 'class="sd-tile-status"' in html
     assert "Developing</span>" in html  # label next to the dot, regardless of whether it changed
+    # badges live in the tile's reserved bottom row, never in the top row
+    assert 'class="sd-tile-bottom"' in html and 'class="sd-tile-badges"' in html
 
 
 def test_pinned_tile_survives_dropping_to_monitored(store):

@@ -419,25 +419,40 @@ div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVe
     height: 100%;
     flex: 1 1 auto;
 }
-/* Tile top row: setup tag on the left, badge + current status clustered on the right (next to
-   the pin button); wraps to a second line only when the tile is too narrow for both. */
+/* Tile top row: setup tag on the left, current status on the right (next to the pin button). */
 .sd-tile-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 0.4rem 0.6rem;
     margin-bottom: 0.55rem;
-}
-.sd-tile-cluster {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: auto;
 }
 .sd-tile-status {
     font-size: 0.85rem;
     white-space: nowrap;
+}
+/* Tile bottom row (height always reserved): "Pinned as ..." on the left, the setup's badges on
+   the right. Badges use the same small size as the setup tag chip so the two read as one family
+   (the row's own badge size, .85rem, is larger). */
+.sd-tile-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.6rem;
+    margin-top: 0.45rem;
+    min-height: 1.3em;
+}
+.sd-tile-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: auto;
+}
+.sd-tile-badges .sd-row-flattening-badge,
+.sd-tile-badges .sd-row-macd-badge {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.45rem;
 }
 .sd-tile-tag {
     display: inline-block;
@@ -450,11 +465,9 @@ div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVe
     text-transform: uppercase;
     color: rgba(250, 250, 250, 0.6) !important;
 }
-/* Second line of a wall tile: "Pinned as ..." only when the status changed since pinning.
-   The height is reserved (min-height) even when empty so tiles in a row stay aligned. */
+/* "Pinned as ..." text, shown only when the status changed since pinning; the bottom row it
+   lives in (.sd-tile-bottom) reserves its height either way so tiles stay aligned. */
 .sd-tile-change {
-    min-height: 1.3em;
-    margin-top: 0.45rem;
     font-size: 0.9rem;
     line-height: 1.3;
     color: rgba(250, 250, 250, 0.6) !important;
@@ -889,24 +902,25 @@ def render_tile(pin: dict, setup: Setup, results_by_ticker: dict[str, dict]) -> 
     if current_group is not None and pinned_group and pinned_group != current_group:
         change_html = f"Pinned as {GROUP_DOT.get(pinned_group, DOT_NEUTRAL)} {GROUP_NAME.get(pinned_group, pinned_group)}"
 
-    # Status state 1 (always): the CURRENT group, spelled out next to its dot. Status state 2
-    # (only when it differs from pin time): the "Pinned as ..." line at the bottom. Badge +
-    # status sit top-right beside the pin button so the ticker/name line below gets the tile's
-    # full width.
+    # Status state 1 (always): the CURRENT group, spelled out next to its dot, top-right beside
+    # the pin button. Status state 2 (only when it differs from pin time): the "Pinned as ..."
+    # text bottom-left. The setup's badges (MACD TURNING etc.) share that bottom row on the
+    # right - it is a reserved-height row anyway - so the top row is only tag + status and the
+    # ticker/name line below gets the tile's full width.
     status_label = GROUP_NAME.get(result.get("ui_group", GROUP_UNKNOWN), "Unknown")
     tile_html = (
         '<div class="sd-tile-top">'
         f'<span class="sd-tile-tag" style="color: rgba(250, 250, 250, 0.6) !important;">{setup.label}</span>'
-        '<div class="sd-tile-cluster">'
-        f"{parts['badges']}"
         f'<span class="sd-tile-status" style="color: rgba(250, 250, 250, 0.9) !important;">{parts["dot"]} {status_label}</span>'
-        "</div>"
         "</div>"
         '<div class="sd-row"><div class="sd-row-main">'
         f'<div class="sd-row-left">{parts["ticker"]}{parts["name"]}</div>'
         f"{parts['reason']}"
         "</div></div>"
+        '<div class="sd-tile-bottom">'
         f'<div class="sd-tile-change" style="color: rgba(226, 232, 240, 0.85) !important;">{change_html}</div>'
+        f'<div class="sd-tile-badges">{parts["badges"]}</div>'
+        "</div>"
     )
     with st.container(border=True):
         html_col, button_col = st.columns([8, 1], vertical_alignment="top")
