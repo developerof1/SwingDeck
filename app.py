@@ -420,12 +420,14 @@ div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVe
     flex: 1 1 auto;
 }
 /* Tile top row: setup tag on the left, current status on the right (next to the pin button). */
+div[class*="st-key-sd_tile_"] {
+    gap: 0.35rem;
+}
 .sd-tile-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.4rem 0.6rem;
-    margin-bottom: 0.55rem;
 }
 .sd-tile-status {
     font-size: 0.85rem;
@@ -908,11 +910,13 @@ def render_tile(pin: dict, setup: Setup, results_by_ticker: dict[str, dict]) -> 
     # right - it is a reserved-height row anyway - so the top row is only tag + status and the
     # ticker/name line below gets the tile's full width.
     status_label = GROUP_NAME.get(result.get("ui_group", GROUP_UNKNOWN), "Unknown")
-    tile_html = (
+    top_html = (
         '<div class="sd-tile-top">'
         f'<span class="sd-tile-tag" style="color: rgba(250, 250, 250, 0.6) !important;">{setup.label}</span>'
         f'<span class="sd-tile-status" style="color: rgba(250, 250, 250, 0.9) !important;">{parts["dot"]} {status_label}</span>'
         "</div>"
+    )
+    body_html = (
         '<div class="sd-row"><div class="sd-row-main">'
         f'<div class="sd-row-left">{parts["ticker"]}{parts["name"]}</div>'
         f"{parts['reason']}"
@@ -922,12 +926,15 @@ def render_tile(pin: dict, setup: Setup, results_by_ticker: dict[str, dict]) -> 
         f'<div class="sd-tile-badges">{parts["badges"]}</div>'
         "</div>"
     )
-    with st.container(border=True):
-        html_col, button_col = st.columns([8, 1], vertical_alignment="top")
-        with html_col:
-            st.html(tile_html)
+    # Only the top row (tag + status) shares a row with the pin button; the body and the bottom
+    # row (badges) span the tile's full width, so their right edge is the tile's padding edge.
+    with st.container(border=True, key=f"sd_tile_{setup.id}_{ticker}"):
+        top_col, button_col = st.columns([8, 1], vertical_alignment="top")
+        with top_col:
+            st.html(top_html)
         with button_col:
             pin_button(setup, ticker, pinned_group or GROUP_UNKNOWN, True, "tile")
+        st.html(body_html)
 
 
 def render_pinned_wall(pins_doc: dict, setups_doc: dict, watchlist_tickers: set[str]) -> None:
