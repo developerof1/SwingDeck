@@ -6,6 +6,12 @@
       "ticker": "COCO",
       "pinned_at": "2026-11-23T06:41Z",
       "pinned_group": "developing"
+    },
+    {
+      "setup": "momentum_continuation",
+      "ticker": "CMG",
+      "pinned_at": "2026-11-23T20:11Z",
+      "pinned_group": "developing"
     }
   ]
 }
