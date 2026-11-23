@@ -1,4 +1,11 @@
 {
   "schema": 1,
-  "pins": []
+  "pins": [
+    {
+      "setup": "momentum_continuation",
+      "ticker": "PENN",
+      "pinned_at": "2026-11-23T06:40Z",
+      "pinned_group": "developing"
+    }
+  ]
 }
