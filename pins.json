@@ -1,11 +1,4 @@
 {
   "schema": 1,
-  "pins": [
-    {
-      "setup": "momentum_continuation",
-      "ticker": "CPB",
-      "pinned_at": "2026-11-23T06:40Z",
-      "pinned_group": "developing"
-    }
-  ]
+  "pins": []
 }
