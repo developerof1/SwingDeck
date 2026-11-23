@@ -40,6 +40,15 @@ def discover_watchlists(watchlists_dir: str = WATCHLISTS_DIR) -> list[dict]:
     return sorted(entries, key=lambda e: e["name"])
 
 
+def all_watchlist_tickers(watchlists_dir: str = WATCHLISTS_DIR) -> set[str]:
+    """Union of tickers across every watchlist file - the universe a pin must belong to.
+    Returns an empty set if none can be read (callers treat empty as "unknown")."""
+    tickers: set[str] = set()
+    for entry in discover_watchlists(watchlists_dir):
+        tickers |= {t["ticker"] for t in load_watchlist(entry["id"], watchlists_dir).get("tickers", [])}
+    return tickers
+
+
 def load_watchlist(watchlist_id: str, watchlists_dir: str = WATCHLISTS_DIR) -> dict:
     """Returns the full {"name": ..., "tickers": [...]} for one watchlist id."""
     path = os.path.join(watchlists_dir, f"{watchlist_id}.json")

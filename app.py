@@ -17,10 +17,11 @@ import pandas as pd
 import requests
 import streamlit as st
 
+from src import pins, user_store
 from src.setups import list_setups
 from src.setups.base import Setup
 from src.status_groups import GROUP_DEVELOPING, GROUP_OTHER, GROUP_QUALIFIED, GROUP_UNKNOWN
-from src.watchlist_store import discover_watchlists, load_watchlist
+from src.watchlist_store import all_watchlist_tickers, discover_watchlists, load_watchlist
 
 REPO_ROOT = os.path.dirname(__file__)
 RESULTS_DIR = os.path.join(REPO_ROOT, "results")
@@ -374,8 +375,152 @@ div[class*="st-key-sd_watchlist_bar"] div[data-testid="stHorizontalBlock"] {
     color: rgba(250, 250, 250, 0.55) !important;
     text-align: right;
 }
+
+/* Pinned wall (user-pinned names for manual/visual entry timing - never moved, dimmed or
+   removed by the algo). Pin buttons are real st.buttons (icon-only, tertiary); the key prefix
+   encodes pinned/unpinned so CSS can tell them apart: "sd_pinon_*" is filled and bright,
+   "sd_pinoff_*" is hollow and muted. */
+div[class*="st-key-sd_pin"] button [data-testid="stMarkdownContainer"] {
+    display: none;  /* icon-only: the label exists for accessibility, not display */
+}
+div[class*="st-key-sd_pinon_"] button,
+div[class*="st-key-sd_pinon_"] [data-testid="stIconMaterial"] {
+    color: rgba(250, 250, 250, 0.95) !important;
+}
+div[class*="st-key-sd_pinon_"] [data-testid="stIconMaterial"] {
+    font-variation-settings: 'FILL' 1;
+}
+div[class*="st-key-sd_pinoff_"] button,
+div[class*="st-key-sd_pinoff_"] [data-testid="stIconMaterial"] {
+    color: rgba(250, 250, 250, 0.4) !important;
+}
+/* Wall tiles in one row stretch to the tallest tile (a name wrapping beside a badge would
+   otherwise leave ragged bottoms). */
+div[class*="st-key-sd_wall"] div[data-testid="stHorizontalBlock"] {
+    align-items: stretch;
+}
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"],
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"],
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"],
+div[class*="st-key-sd_wall"] div[data-testid="stColumn"] div[data-testid="stVerticalBlockBorderWrapper"] {
+    height: 100%;
+}
+.sd-tile-tag {
+    display: inline-block;
+    background: rgba(148, 163, 184, 0.14);
+    border-radius: 4px;
+    padding: 0.1rem 0.45rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(250, 250, 250, 0.6) !important;
+}
+/* Second line of a wall tile: "Pinned as ..." only when the status changed since pinning.
+   The height is reserved (min-height) even when empty so tiles in a row stay aligned. */
+.sd-tile-change {
+    min-height: 1.3em;
+    margin-top: 0.45rem;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    color: rgba(250, 250, 250, 0.6) !important;
+}
 </style>
 """
+
+
+PINS_KEY = "pins_doc"  # the pins.json document for this session; None = pins unavailable
+PINS_LOADED_KEY = "pins_loaded"
+PINS_LOAD_ERROR_KEY = "pins_load_error"
+PIN_ERROR_KEY = "pin_error"
+PINNABLE_GROUPS = (GROUP_QUALIFIED, GROUP_DEVELOPING)
+GROUP_NAME = {GROUP_QUALIFIED: "Qualified", GROUP_DEVELOPING: "Developing", GROUP_OTHER: "Monitored"}
+WALL_TILES_PER_ROW = 3
+
+
+def get_user_store() -> user_store.UserStore | None:
+    """None when no write token is configured - every pin control is then hidden and the app
+    behaves exactly as it did read-only."""
+    if user_store.TEST_BACKEND is not None:
+        return user_store.UserStore(user_store.TEST_BACKEND)
+    try:
+        token = st.secrets.get(user_store.TOKEN_SECRET_NAME)
+    except Exception:
+        token = None
+    if not token:
+        return None
+    return user_store.UserStore(user_store.GitHubBackend(token))
+
+
+def ensure_pins_loaded() -> None:
+    """Loads pins.json once per browser session (not on every rerun - each button click
+    reruns the script, and a GitHub round-trip per rerun would be slow), and cleans up pins
+    whose ticker is in no watchlist. A failure leaves pins unavailable for the session (and
+    says why) rather than retrying on every rerun."""
+    if st.session_state.get(PINS_LOADED_KEY):
+        return
+    st.session_state[PINS_LOADED_KEY] = True
+    st.session_state[PINS_KEY] = None
+
+    store = get_user_store()
+    if store is None:
+        return
+    try:
+        doc = store.read(pins.PINS_PATH, pins.empty_doc)
+        try:
+            known_tickers = all_watchlist_tickers()
+        except (OSError, ValueError):
+            known_tickers = set()
+        if pins.prune_orphans(doc, known_tickers) != doc:
+            doc = store.update(
+                pins.PINS_PATH,
+                lambda d: pins.prune_orphans(d, known_tickers),
+                pins.empty_doc,
+                "prune pins for tickers in no watchlist",
+            )
+        st.session_state[PINS_KEY] = doc
+    except user_store.StoreError as exc:
+        st.session_state[PINS_LOAD_ERROR_KEY] = str(exc)
+
+
+def toggle_pin(setup_id: str, ticker: str, group: str) -> None:
+    """Button callback: pin if not pinned, else unpin. Writes through to the user-data branch
+    and adopts the stored result as the session's truth; on failure nothing changes locally
+    and the reason is surfaced as a toast on the next run."""
+    store = get_user_store()
+    doc = st.session_state.get(PINS_KEY)
+    if store is None or doc is None:
+        return
+    if pins.is_pinned(doc, setup_id, ticker):
+        message = f"unpin {ticker} ({setup_id})"
+
+        def change(d: dict) -> dict:
+            return pins.remove_pin(d, setup_id, ticker)
+
+    else:
+        message = f"pin {ticker} ({setup_id})"
+        pinned_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+
+        def change(d: dict) -> dict:
+            return pins.add_pin(d, setup_id, ticker, group, pinned_at)
+
+    try:
+        st.session_state[PINS_KEY] = store.update(pins.PINS_PATH, change, pins.empty_doc, message)
+    except user_store.StoreError as exc:
+        st.session_state[PIN_ERROR_KEY] = f"Couldn't save the pin change: {exc}"
+
+
+def pin_button(setup: Setup, ticker: str, group: str, pinned: bool, scope: str) -> None:
+    st.button(
+        "Pin",
+        key=f"sd_pin{'on' if pinned else 'off'}_{scope}_{setup.id}_{ticker}",
+        icon=":material/push_pin:",
+        type="tertiary",
+        help="Unpin" if pinned else "Pin to the wall",
+        on_click=toggle_pin,
+        args=(setup.id, ticker, group),
+    )
 
 
 def check_password() -> bool:
@@ -604,16 +749,18 @@ def render_watchlist_selector(watchlists: list[dict]) -> str:
 _REASON_STYLE = 'style="color: rgba(250, 250, 250, 0.75) !important;"'
 
 
-def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
-    """Dispatches to the active setup's own reason_for() rather than hardcoding any one
-    setup's statuses/wording here - this is what lets a second registered setup show up with
-    zero changes to this function."""
+def row_html_for(result: dict, setup: Setup, is_stale: bool, reason_override: tuple[str, bool] | None = None) -> str:
+    """The row's HTML, shared by the list rows and the pinned-wall tiles so a tile always
+    reads exactly like its row. Dispatches to the active setup's own reason_for() rather than
+    hardcoding any one setup's statuses/wording here - this is what lets a second registered
+    setup show up with zero changes to this function. `reason_override` is only for a pinned
+    ticker that has no evaluation row at all."""
     group = result.get("ui_group", GROUP_UNKNOWN)
     dot = GROUP_DOT.get(group, DOT_NEUTRAL)
     name = result.get("name")
     name_html = f'<span class="sd-row-name" {_REASON_STYLE}>{name}</span>' if name else ""
 
-    reason_text, is_invalid = setup.reason_for(result)
+    reason_text, is_invalid = reason_override or setup.reason_for(result)
     if is_invalid:
         reason_html = f'<div class="sd-row-reason"><span class="sd-badge sd-badge-invalid">{reason_text}</span></div>'
     else:
@@ -623,14 +770,15 @@ def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
     # drain yet - the status shown is still whatever its last successful evaluation found,
     # just visibly not guaranteed to be today's. Exact date goes on the native title
     # attribute (hover tooltip) rather than inline text - see .sd-row-stale CSS comment.
-    is_stale = result["ticker"] in stale_tickers
     row_class = "sd-row sd-row-stale" if is_stale else "sd-row"
     evaluated_session = result.get("evaluated_session")
     title_attr = f' title="Last evaluated {evaluated_session}"' if is_stale and evaluated_session else ""
 
-    badge_html = "".join(f'<div class="{css_class}">{text}</div>' for text, css_class in setup.badge_for(result))
+    badge_html = "".join(
+        f'<div class="{css_class}">{text}</div>' for text, css_class in (setup.badge_for(result) if result.get("status") else [])
+    )
 
-    row_html = (
+    return (
         f'<div class="{row_class}"{title_attr}>'
         '<div class="sd-row-main">'
         '<div class="sd-row-top">'
@@ -647,13 +795,84 @@ def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
         "</div>"
         "</div>"
     )
+
+
+def render_row(result: dict, setup: Setup, stale_tickers: set[str]) -> None:
+    group = result.get("ui_group", GROUP_UNKNOWN)
+    row_html = row_html_for(result, setup, result["ticker"] in stale_tickers)
+
+    # Pin control only on Qualified/Developing rows, and only when a write token is
+    # configured and pins loaded. A pinned name that later falls to Monitored is unpinned
+    # from its wall tile, not from its row.
+    pins_doc = st.session_state.get(PINS_KEY)
+    show_pin = pins_doc is not None and group in PINNABLE_GROUPS
+
     with st.container(border=True):
         # st.html(), not st.markdown() - renders raw HTML with none of
         # Streamlit's own markdown-container wrapping/spacing. Two rounds of
         # !important overrides against that wrapping still wasn't enough, so
         # this sidesteps the fight entirely instead of guessing at Streamlit's
         # internal stylesheet a third time.
-        st.html(row_html)
+        if show_pin:
+            html_col, button_col = st.columns([24, 1], vertical_alignment="center")
+            with html_col:
+                st.html(row_html)
+            with button_col:
+                pin_button(setup, result["ticker"], group, pins.is_pinned(pins_doc, setup.id, result["ticker"]), "row")
+        else:
+            st.html(row_html)
+
+
+def render_tile(pin: dict, setup: Setup, results_by_ticker: dict[str, dict]) -> None:
+    """One pinned-wall tile: the row's own content (live, from tonight's evaluation) under a
+    setup tag, plus a reserved second line that says "Pinned as <group>" only when the current
+    group differs from the group at pin time. Deliberately never dimmed for staleness and never
+    expired - the wall is for manual/visual evaluation and the algo doesn't get to move it."""
+    ticker = pin["ticker"]
+    result = results_by_ticker.get(ticker)
+    if result is None:
+        result = {"ticker": ticker, "ui_group": GROUP_UNKNOWN}
+        body_html = row_html_for(result, setup, False, reason_override=("No evaluation available yet.", False))
+        current_group = None
+    else:
+        body_html = row_html_for(result, setup, False)
+        current_group = result.get("ui_group", GROUP_UNKNOWN)
+
+    change_html = "&nbsp;"
+    pinned_group = pin.get("pinned_group")
+    if current_group is not None and pinned_group and pinned_group != current_group:
+        change_html = f"Pinned as {GROUP_DOT.get(pinned_group, DOT_NEUTRAL)} {GROUP_NAME.get(pinned_group, pinned_group)}"
+
+    tile_html = (
+        f'<div class="sd-tile-tag" style="color: rgba(250, 250, 250, 0.6) !important;">{setup.label}</div>'
+        f"{body_html}"
+        f'<div class="sd-tile-change" style="color: rgba(250, 250, 250, 0.6) !important;">{change_html}</div>'
+    )
+    with st.container(border=True):
+        html_col, button_col = st.columns([8, 1], vertical_alignment="center")
+        with html_col:
+            st.html(tile_html)
+        with button_col:
+            pin_button(setup, ticker, pinned_group or GROUP_UNKNOWN, True, "tile")
+
+
+def render_pinned_wall(pins_doc: dict, setups_doc: dict, watchlist_tickers: set[str]) -> None:
+    """The wall for the selected watchlist: global pins filtered to tickers in this watchlist,
+    in pin order, WALL_TILES_PER_ROW per row. Hidden entirely when there's nothing to show."""
+    setups_by_id = {s.id: s for s in list_setups()}
+    wall = [p for p in pins.pins_in_watchlist(pins_doc, watchlist_tickers) if p["setup"] in setups_by_id]
+    if not wall:
+        return
+
+    with st.container(key="sd_wall"):
+        st.markdown('<div class="sd-section-header"><strong>📌 Pinned Wall</strong></div>', unsafe_allow_html=True)
+        for start in range(0, len(wall), WALL_TILES_PER_ROW):
+            columns = st.columns(WALL_TILES_PER_ROW)  # always full width so a short last row stays tile-sized
+            for column, pin in zip(columns, wall[start : start + WALL_TILES_PER_ROW]):
+                setup = setups_by_id[pin["setup"]]
+                results_by_ticker = {r["ticker"]: r for r in setups_doc.get(setup.id, {}).get("results", [])}
+                with column:
+                    render_tile(pin, setup, results_by_ticker)
 
 
 def render_section(
@@ -676,6 +895,11 @@ def main() -> None:
         st.stop()
 
     st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+
+    ensure_pins_loaded()
+    pin_error = st.session_state.pop(PIN_ERROR_KEY, None)
+    if pin_error:
+        st.toast(pin_error, icon="⚠️")
 
     render_header()
     maybe_trigger_catchup_refresh()
@@ -701,6 +925,12 @@ def main() -> None:
     watchlist_tickers = {e["ticker"] for e in load_watchlist(selected_watchlist_id).get("tickers", [])}
     pending_tickers = compute_pending_tickers(watchlist_tickers, setups_doc)
     render_pending_banner(pending_tickers, len(watchlist_tickers))
+
+    pins_doc = st.session_state.get(PINS_KEY)
+    if pins_doc is not None:
+        render_pinned_wall(pins_doc, setups_doc, watchlist_tickers)
+    elif st.session_state.get(PINS_LOAD_ERROR_KEY):
+        st.caption(f"Pins unavailable: {st.session_state[PINS_LOAD_ERROR_KEY]}")
 
     st.divider()
     for setup in list_setups():
