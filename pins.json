@@ -36,6 +36,12 @@
       "ticker": "BC",
       "pinned_at": "2026-11-24T05:53Z",
       "pinned_group": "developing"
+    },
+    {
+      "setup": "momentum_continuation",
+      "ticker": "CCL",
+      "pinned_at": "2026-11-24T05:56Z",
+      "pinned_group": "developing"
     }
   ]
 }
