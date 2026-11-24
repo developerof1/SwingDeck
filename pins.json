@@ -30,6 +30,12 @@
       "ticker": "EL",
       "pinned_at": "2026-11-24T05:48Z",
       "pinned_group": "developing"
+    },
+    {
+      "setup": "momentum_continuation",
+      "ticker": "BC",
+      "pinned_at": "2026-11-24T05:53Z",
+      "pinned_group": "developing"
     }
   ]
 }
