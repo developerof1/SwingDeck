@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-24T01:56+00:00",
+      "generated_at": "2026-11-24T03:06+00:00",
       "evaluated_session": "2026-11-20",
       "results": [
         {
@@ -709,23 +709,24 @@
           "thesis": "Grid management & transformers; steady institutional trend-follower",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
-          "l2_state": "NOT_ARMED",
-          "l2_age": null,
-          "armed": false,
+          "l2_state": "ARMED",
+          "l2_age": 0,
+          "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "l3_score_now": null,
           "flags": [
             "L1_FAILED",
-            "L1_BREAKDOWN"
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
           ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 311.33,
-            "atr_14": 17.804551098040132,
+            "close": 336.34,
+            "atr_14": 18.759226019608697,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -735,10 +736,10 @@
             "mo_K": 54.056098042325544,
             "mo_D": 66.98027165118201,
             "mo_Kmax4": 86.66584831898435,
-            "l2_knife": true,
-            "stoch_pt_now": 0,
+            "l2_knife": false,
+            "stoch_pt_now": 2,
             "rsi_pt_now": 0,
-            "score_now": 0,
+            "score_now": 2,
             "no_live_trigger": false
           }
         },
@@ -749,23 +750,24 @@
           "thesis": "Gemini expansion; liquid range-bound channel trades",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
-          "l2_state": "NOT_ARMED",
-          "l2_age": null,
-          "armed": false,
+          "l2_state": "ARMED",
+          "l2_age": 0,
+          "armed": true,
           "l3_score": null,
           "l3_detail": {},
           "l3_score_now": null,
           "flags": [
             "L1_FAILED",
-            "L1_BREAKDOWN"
+            "L1_BREAKDOWN",
+            "DAILY_SIGNAL_IN"
           ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 265.29,
-            "atr_14": 11.314388893716561,
+            "close": 282.1,
+            "atr_14": 11.923746829879661,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -775,10 +777,10 @@
             "mo_K": 59.49800505071996,
             "mo_D": 69.91133000976622,
             "mo_Kmax4": 82.9277637815095,
-            "l2_knife": true,
-            "stoch_pt_now": 0,
+            "l2_knife": false,
+            "stoch_pt_now": 2,
             "rsi_pt_now": 0,
-            "score_now": 0,
+            "score_now": 2,
             "no_live_trigger": false
           }
         },
