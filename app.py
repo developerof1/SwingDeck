@@ -480,7 +480,6 @@ div[class*="st-key-sd_tile_"] {
 
 
 PINS_KEY = "pins_doc"  # the pins.json document for this session; None = pins unavailable
-PINS_LOADED_KEY = "pins_loaded"
 PINS_LOAD_ERROR_KEY = "pins_load_error"
 PIN_ERROR_KEY = "pin_error"
 PINS_RETRY_AT_KEY = "pins_retry_at"  # time.monotonic() before which a failed load is not retried
@@ -528,31 +527,41 @@ def ensure_pins_loaded() -> None:
     A failed load is NOT final: it records why (shown by render_pin_status) and the next rerun
     at least PINS_RETRY_SECONDS later tries again, so one slow GitHub response or a transient
     error no longer switches pins off until the browser is reloaded. Any exception counts, not
-    just StoreError - before, an unexpected one raised on the first run only and every later
-    rerun silently skipped the load (no pins, no explanation)."""
+    just StoreError.
+
+    Nothing is marked "attempted" until an attempt has finished. Streamlit interrupts a running
+    script when a new rerun request arrives (a click, a reconnect, the frontend's follow-up
+    request on page load) by raising StopException - a BaseException, so no `except Exception`
+    sees it - and if that lands while waiting on GitHub the attempt simply stops mid-way. Marking
+    the session "loaded" before the work left it with no pins, no error and no retry; with no
+    marker left behind, the very next rerun (which is the one that interrupted us) just tries again."""
     if st.session_state.get(PINS_KEY) is not None:
         return
-    retry_at = st.session_state.get(PINS_RETRY_AT_KEY)
-    if st.session_state.get(PINS_LOADED_KEY) and retry_at is not None and time.monotonic() < retry_at:
+    retry_at = st.session_state.get(PINS_RETRY_AT_KEY)  # set only by a recorded failure
+    if retry_at is not None and time.monotonic() < retry_at:
         return
-    st.session_state[PINS_LOADED_KEY] = True
     st.session_state[PINS_KEY] = None
-    st.session_state[PINS_RETRY_AT_KEY] = time.monotonic() + PINS_RETRY_SECONDS
+    st.session_state.pop(PINS_RETRY_AT_KEY, None)
 
     store = get_user_store()
     if store is None:
         # Said out loud (not silently hidden) so a missing/misnamed secret is diagnosable at a
         # glance - an empty wall is hidden by design, so without this "no token" looks exactly
         # like "feature not deployed".
-        st.session_state[PINS_LOAD_ERROR_KEY] = f"{user_store.TOKEN_SECRET_NAME} is not set in the app's secrets."
+        _record_pins_failure(f"{user_store.TOKEN_SECRET_NAME} is not set in the app's secrets.")
         return
     try:
         st.session_state[PINS_KEY] = _load_pins(store)
         st.session_state.pop(PINS_LOAD_ERROR_KEY, None)
     except user_store.StoreError as exc:
-        st.session_state[PINS_LOAD_ERROR_KEY] = str(exc)
+        _record_pins_failure(str(exc))
     except Exception as exc:  # noqa: BLE001 - the whole point is that nothing here fails silently
-        st.session_state[PINS_LOAD_ERROR_KEY] = f"{type(exc).__name__}: {exc}"
+        _record_pins_failure(f"{type(exc).__name__}: {exc}")
+
+
+def _record_pins_failure(reason: str) -> None:
+    st.session_state[PINS_LOAD_ERROR_KEY] = reason
+    st.session_state[PINS_RETRY_AT_KEY] = time.monotonic() + PINS_RETRY_SECONDS
 
 
 def render_pin_status() -> None:

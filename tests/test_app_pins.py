@@ -291,3 +291,26 @@ def test_failed_load_is_retried_after_the_window_and_recovers(store, monkeypatch
     assert len(pin_keys(at)) > 0
     assert any(c.value.startswith("Pins: loaded") for c in at.caption)
     assert not any("Pins unavailable" in c.value for c in at.caption)
+
+
+def test_interrupted_load_is_retried_on_the_next_rerun(store):
+    # Streamlit interrupts a running script with StopException (a BaseException) when a new
+    # rerun request arrives. If that lands mid-load, nothing may be left behind that blocks
+    # the rerun from loading: before, the session was already marked "loaded" with no pins and
+    # no error, and the status line read "not loaded (no error recorded)" indefinitely.
+    from streamlit.runtime.scriptrunner import StopException
+
+    store.fail_reads = StopException()
+    at = AppTest.from_file(APP, default_timeout=60)
+    at.session_state["authenticated"] = True
+    at.session_state["selected_watchlist_id"] = MASTER
+    try:
+        at.run()
+    except BaseException:  # noqa: BLE001 - AppTest may surface the interruption
+        pass
+
+    store.fail_reads = None  # the interrupting rerun arrives, GitHub answers this time
+    at.run()
+    assert not at.exception
+    assert len(pin_keys(at)) > 0
+    assert any(c.value.startswith("Pins: loaded") for c in at.caption)
