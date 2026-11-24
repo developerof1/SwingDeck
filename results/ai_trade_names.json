@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-24T15:14+00:00",
+      "generated_at": "2026-11-24T18:40+00:00",
       "evaluated_session": "2026-11-23",
       "results": [
         {
@@ -11,7 +11,7 @@
           "thesis": "Custom silicon growth; clean trendline support bounces",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -25,8 +25,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 304.41,
-            "atr_14": 20.017923100049966,
+            "close": 313.55,
+            "atr_14": 20.020214307189253,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -36,10 +36,10 @@
             "mo_K": 33.502071470502,
             "mo_D": 45.236723378206015,
             "mo_Kmax4": 73.14950221475439,
-            "l2_knife": true,
+            "l2_knife": false,
             "stoch_pt_now": 2,
-            "rsi_pt_now": 0,
-            "score_now": 2,
+            "rsi_pt_now": 2,
+            "score_now": 4,
             "no_live_trigger": false
           }
         },
@@ -48,9 +48,9 @@
           "name": "Arista Networks Inc",
           "sector": "Networking & Interconnects",
           "thesis": "Cloud networking leader; clean 20-day and 50-day EMA support bounces",
-          "status": "MONITORED",
-          "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-23",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -59,20 +59,18 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 2,
-            "k_now": 34.24199482264425,
-            "k_prev": 35.62258642703096,
-            "rsi_now": 46.38994601814422,
-            "rsi_prev": 57.180196629054336
+            "k_now": 38.48027057242683,
+            "k_prev": 34.24199482264425,
+            "rsi_now": 50.04747813188337,
+            "rsi_prev": 46.38994601814422
           },
-          "l3_score_now": 0,
-          "flags": [
-            "NO_LIVE_TRIGGER"
-          ],
+          "l3_score_now": 2,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 167.62,
-            "atr_14": 12.679210083193011,
+            "close": 178.31,
+            "atr_14": 13.192123648679223,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -82,11 +80,11 @@
             "mo_K": 75.08321974564292,
             "mo_D": 83.66540784495697,
             "mo_Kmax4": 88.12842522845062,
-            "l2_knife": true,
+            "l2_knife": false,
             "stoch_pt_now": 0,
-            "rsi_pt_now": 0,
-            "score_now": 0,
-            "no_live_trigger": true
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -96,7 +94,7 @@
           "thesis": "High-beta IP licensor; rapid momentum expansion setups off oversold RSI",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -110,8 +108,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 152.2,
-            "atr_14": 16.225015849674367,
+            "close": 176.67,
+            "atr_14": 17.307514717554774,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -121,10 +119,10 @@
             "mo_K": 41.348153188915354,
             "mo_D": 45.51781281110985,
             "mo_Kmax4": 70.21177294155414,
-            "l2_knife": true,
-            "stoch_pt_now": 0,
-            "rsi_pt_now": 0,
-            "score_now": 0,
+            "l2_knife": false,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 2,
+            "score_now": 4,
             "no_live_trigger": false
           }
         },
@@ -135,7 +133,7 @@
           "thesis": "Lithography monopoly; sharp mean-reversion moves off key Fib levels",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -150,8 +148,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 1266.22,
-            "atr_14": 68.63974423416586,
+            "close": 1383.78,
+            "atr_14": 74.34404821743973,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -162,9 +160,9 @@
             "mo_D": 79.25021852830643,
             "mo_Kmax4": 89.15257247755301,
             "l2_knife": true,
-            "stoch_pt_now": 0,
-            "rsi_pt_now": 0,
-            "score_now": 0,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 2,
+            "score_now": 4,
             "no_live_trigger": false
           }
         },
@@ -173,9 +171,9 @@
           "name": "Amazon.com Inc",
           "sector": "Big Tech & Hyperscalers",
           "thesis": "AWS re-acceleration; tight technical consolidation patterns",
-          "status": "MONITORED",
-          "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-23",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -184,20 +182,18 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 2,
-            "k_now": 54.39399138223117,
-            "k_prev": 49.486770201543216,
-            "rsi_now": 48.20664486339331,
-            "rsi_prev": 56.768113182854364
+            "k_now": 56.00990263444471,
+            "k_prev": 54.39399138223117,
+            "rsi_now": 51.60207189495354,
+            "rsi_prev": 48.20664486339331
           },
-          "l3_score_now": 0,
-          "flags": [
-            "NO_LIVE_TRIGGER"
-          ],
+          "l3_score_now": 2,
+          "flags": [],
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 246.82,
-            "atr_14": 9.968830186698622,
+            "close": 255.39,
+            "atr_14": 10.37534231622015,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -207,11 +203,11 @@
             "mo_K": 58.9437134502924,
             "mo_D": 68.39786100104187,
             "mo_Kmax4": 80.77341115251888,
-            "l2_knife": true,
+            "l2_knife": false,
             "stoch_pt_now": 0,
-            "rsi_pt_now": 0,
-            "score_now": 0,
-            "no_live_trigger": true
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -221,7 +217,7 @@
           "thesis": "High-volatility international cloud/AI swing trade",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -235,8 +231,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 81.08,
-            "atr_14": 3.630489120722126,
+            "close": 86.04,
+            "atr_14": 3.8554541835276885,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -258,9 +254,9 @@
           "name": "Advanced Micro Devices Inc",
           "sector": "Chips & Hardware",
           "thesis": "High beta runner; large weekly price swings",
-          "status": "MONITORED",
-          "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "status": "DEVELOPING",
+          "ui_group": "developing",
+          "evaluated_session": "2026-11-23",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -269,20 +265,18 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 2,
-            "k_now": 26.15370615916594,
-            "k_prev": 34.73762238899337,
-            "rsi_now": 44.67166311080537,
-            "rsi_prev": 55.14031502029973
+            "k_now": 26.728284325195627,
+            "k_prev": 26.15370615916594,
+            "rsi_now": 47.51605766092122,
+            "rsi_prev": 44.67166311080537
           },
-          "l3_score_now": 0,
-          "flags": [
-            "NO_LIVE_TRIGGER"
-          ],
-          "stoch_flattening": false,
+          "l3_score_now": 2,
+          "flags": [],
+          "stoch_flattening": true,
           "macd_turning": false,
           "diagnostics": {
-            "close": 424.39,
-            "atr_14": 45.406997829007736,
+            "close": 453.46,
+            "atr_14": 45.97506941265004,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -294,9 +288,9 @@
             "mo_Kmax4": 91.27808155856648,
             "l2_knife": true,
             "stoch_pt_now": 0,
-            "rsi_pt_now": 0,
-            "score_now": 0,
-            "no_live_trigger": true
+            "rsi_pt_now": 2,
+            "score_now": 2,
+            "no_live_trigger": false
           }
         },
         {
@@ -306,7 +300,7 @@
           "thesis": "On-device AI rollout; deep liquidity and clean support zones",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "PASS",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -315,10 +309,10 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 0,
-            "k_now": 79.09685933957543,
-            "k_prev": 85.02300893017203,
-            "rsi_now": 60.00631360071391,
-            "rsi_prev": 68.69449833312271
+            "k_now": 79.59873434618693,
+            "k_prev": 79.09685933957543,
+            "rsi_now": 62.43927848523549,
+            "rsi_prev": 60.00631360071391
           },
           "l3_score_now": 0,
           "flags": [
@@ -327,8 +321,8 @@
           "stoch_flattening": false,
           "macd_turning": false,
           "diagnostics": {
-            "close": 342.56,
-            "atr_14": 8.176502816136203,
+            "close": 349.08,
+            "atr_14": 8.30960975784076,
             "l1_slope_pass": true,
             "l1_r2_pass": true,
             "l1_mroll": false,
@@ -352,23 +346,22 @@
           "thesis": "Creative Cloud AI; frequent mean-reversion bounces after dips",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
-          "l2_state": "ARMED",
-          "l2_age": 5,
-          "armed": true,
+          "l2_state": "NOT_ARMED",
+          "l2_age": null,
+          "armed": false,
           "l3_score": null,
           "l3_detail": {},
           "l3_score_now": null,
           "flags": [
-            "L1_FAILED",
-            "DAILY_SIGNAL_IN"
+            "L1_FAILED"
           ],
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 217.71,
-            "atr_14": 8.940871544550847,
+            "close": 223.98,
+            "atr_14": 8.792595005654356,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -380,8 +373,8 @@
             "mo_Kmax4": 37.17780903532488,
             "l2_knife": true,
             "stoch_pt_now": 0,
-            "rsi_pt_now": 0,
-            "score_now": 0,
+            "rsi_pt_now": 2,
+            "score_now": 2,
             "no_live_trigger": false
           }
         },
@@ -392,7 +385,7 @@
           "thesis": "Deposition/etching leader; strong trendline bounces on high volume",
           "status": "MONITORED",
           "ui_group": "other",
-          "evaluated_session": "2026-11-20",
+          "evaluated_session": "2026-11-23",
           "l1_state": "FAIL",
           "l2_state": "NOT_ARMED",
           "l2_age": null,
@@ -407,8 +400,8 @@
           "stoch_flattening": null,
           "macd_turning": null,
           "diagnostics": {
-            "close": 302.63,
-            "atr_14": 25.082097871017396,
+            "close": 346.87,
+            "atr_14": 26.881948023087585,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -418,10 +411,10 @@
             "mo_K": 51.20417821784653,
             "mo_D": 59.65419272994739,
             "mo_Kmax4": 84.65318731641803,
-            "l2_knife": true,
-            "stoch_pt_now": 0,
-            "rsi_pt_now": 0,
-            "score_now": 0,
+            "l2_knife": false,
+            "stoch_pt_now": 2,
+            "rsi_pt_now": 2,
+            "score_now": 4,
             "no_live_trigger": false
           }
         },
