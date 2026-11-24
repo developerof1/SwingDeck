@@ -247,3 +247,47 @@ def test_unreadable_store_hides_pin_controls_and_says_why(store):
     at = run_app()
     assert pin_keys(at) == []
     assert any("Pins unavailable" in c.value and "user-data" in c.value for c in at.caption)
+
+
+# ---- load failures are visible and not final -----------------------------------------------
+
+
+def test_unexpected_exception_while_loading_is_shown_not_swallowed(store):
+    # Not a StoreError: before, this raised on the first run only and every later rerun
+    # silently skipped the load (no pins, no caption).
+    store.fail_reads = KeyError("content")
+    at = run_app()
+    assert pin_keys(at) == []
+    assert any("Pins unavailable" in c.value and "KeyError" in c.value for c in at.caption)
+    at.run()  # a later rerun inside the retry window must still explain itself
+    assert not at.exception
+    assert any("Pins unavailable" in c.value and "KeyError" in c.value for c in at.caption)
+
+
+def test_status_line_reports_loaded_pins(store):
+    seed(store, (developing_ticker(), "developing"))
+    at = run_app()
+    assert any(c.value.startswith("Pins: loaded (1 pinned") for c in at.caption)
+
+
+def test_failed_load_is_retried_after_the_window_and_recovers(store, monkeypatch):
+    import time as time_module
+
+    offset = [0.0]
+    real_monotonic = time_module.monotonic
+    monkeypatch.setattr(time_module, "monotonic", lambda: real_monotonic() + offset[0])
+
+    store.fail_reads = StoreError("GitHub unreachable: timed out")
+    at = run_app()
+    assert pin_keys(at) == []
+
+    store.fail_reads = None  # GitHub is back
+    at.run()  # too soon: still inside the retry window, no new attempt
+    assert pin_keys(at) == []
+
+    offset[0] = 31.0
+    at.run()
+    assert not at.exception
+    assert len(pin_keys(at)) > 0
+    assert any(c.value.startswith("Pins: loaded") for c in at.caption)
+    assert not any("Pins unavailable" in c.value for c in at.caption)

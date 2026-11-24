@@ -11,6 +11,7 @@ of the selected watchlist's results via its own reason_for().
 
 import json
 import os
+import time
 from datetime import datetime, timezone
 
 import pandas as pd
@@ -482,6 +483,8 @@ PINS_KEY = "pins_doc"  # the pins.json document for this session; None = pins un
 PINS_LOADED_KEY = "pins_loaded"
 PINS_LOAD_ERROR_KEY = "pins_load_error"
 PIN_ERROR_KEY = "pin_error"
+PINS_RETRY_AT_KEY = "pins_retry_at"  # time.monotonic() before which a failed load is not retried
+PINS_RETRY_SECONDS = 30
 PINNABLE_GROUPS = (GROUP_QUALIFIED, GROUP_DEVELOPING)
 GROUP_NAME = {GROUP_QUALIFIED: "Qualified", GROUP_DEVELOPING: "Developing", GROUP_OTHER: "Monitored"}
 WALL_TILES_PER_ROW = 3
@@ -501,15 +504,40 @@ def get_user_store() -> user_store.UserStore | None:
     return user_store.UserStore(user_store.GitHubBackend(token))
 
 
+def _load_pins(store: user_store.UserStore) -> dict:
+    doc = store.read(pins.PINS_PATH, pins.empty_doc)
+    try:
+        known_tickers = all_watchlist_tickers()
+    except (OSError, ValueError):
+        known_tickers = set()
+    if pins.prune_orphans(doc, known_tickers) != doc:
+        doc = store.update(
+            pins.PINS_PATH,
+            lambda d: pins.prune_orphans(d, known_tickers),
+            pins.empty_doc,
+            "prune pins for tickers in no watchlist",
+        )
+    return doc
+
+
 def ensure_pins_loaded() -> None:
     """Loads pins.json once per browser session (not on every rerun - each button click
     reruns the script, and a GitHub round-trip per rerun would be slow), and cleans up pins
-    whose ticker is in no watchlist. A failure leaves pins unavailable for the session (and
-    says why) rather than retrying on every rerun."""
-    if st.session_state.get(PINS_LOADED_KEY):
+    whose ticker is in no watchlist.
+
+    A failed load is NOT final: it records why (shown by render_pin_status) and the next rerun
+    at least PINS_RETRY_SECONDS later tries again, so one slow GitHub response or a transient
+    error no longer switches pins off until the browser is reloaded. Any exception counts, not
+    just StoreError - before, an unexpected one raised on the first run only and every later
+    rerun silently skipped the load (no pins, no explanation)."""
+    if st.session_state.get(PINS_KEY) is not None:
+        return
+    retry_at = st.session_state.get(PINS_RETRY_AT_KEY)
+    if st.session_state.get(PINS_LOADED_KEY) and retry_at is not None and time.monotonic() < retry_at:
         return
     st.session_state[PINS_LOADED_KEY] = True
     st.session_state[PINS_KEY] = None
+    st.session_state[PINS_RETRY_AT_KEY] = time.monotonic() + PINS_RETRY_SECONDS
 
     store = get_user_store()
     if store is None:
@@ -519,21 +547,25 @@ def ensure_pins_loaded() -> None:
         st.session_state[PINS_LOAD_ERROR_KEY] = f"{user_store.TOKEN_SECRET_NAME} is not set in the app's secrets."
         return
     try:
-        doc = store.read(pins.PINS_PATH, pins.empty_doc)
-        try:
-            known_tickers = all_watchlist_tickers()
-        except (OSError, ValueError):
-            known_tickers = set()
-        if pins.prune_orphans(doc, known_tickers) != doc:
-            doc = store.update(
-                pins.PINS_PATH,
-                lambda d: pins.prune_orphans(d, known_tickers),
-                pins.empty_doc,
-                "prune pins for tickers in no watchlist",
-            )
-        st.session_state[PINS_KEY] = doc
+        st.session_state[PINS_KEY] = _load_pins(store)
+        st.session_state.pop(PINS_LOAD_ERROR_KEY, None)
     except user_store.StoreError as exc:
         st.session_state[PINS_LOAD_ERROR_KEY] = str(exc)
+    except Exception as exc:  # noqa: BLE001 - the whole point is that nothing here fails silently
+        st.session_state[PINS_LOAD_ERROR_KEY] = f"{type(exc).__name__}: {exc}"
+
+
+def render_pin_status() -> None:
+    """Always-visible one-line pin status under the refresh banner. Temporary diagnostic: it
+    exists so 'pins missing' always says why (loaded / not loaded and the reason). Remove this
+    function and its call in main() once the pins problem is understood."""
+    pins_doc = st.session_state.get(PINS_KEY)
+    if pins_doc is not None:
+        count = len(pins_doc.get("pins", []))
+        st.caption(f"Pins: loaded ({count} pinned across all watchlists)")
+    else:
+        reason = st.session_state.get(PINS_LOAD_ERROR_KEY) or "not loaded (no error recorded)"
+        st.caption(f"Pins unavailable: {reason}")
 
 
 def toggle_pin(setup_id: str, ticker: str, group: str) -> None:
@@ -1007,11 +1039,10 @@ def main() -> None:
     pending_tickers = compute_pending_tickers(watchlist_tickers, setups_doc)
     render_pending_banner(pending_tickers, len(watchlist_tickers))
 
+    render_pin_status()
     pins_doc = st.session_state.get(PINS_KEY)
     if pins_doc is not None:
         render_pinned_wall(pins_doc, setups_doc, watchlist_tickers)
-    elif st.session_state.get(PINS_LOAD_ERROR_KEY):
-        st.caption(f"Pins unavailable: {st.session_state[PINS_LOAD_ERROR_KEY]}")
 
     st.divider()
     for setup in list_setups():
