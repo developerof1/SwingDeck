@@ -48,6 +48,12 @@
       "ticker": "TOST",
       "pinned_at": "2026-11-24T23:44Z",
       "pinned_group": "developing"
+    },
+    {
+      "setup": "momentum_continuation",
+      "ticker": "POOL",
+      "pinned_at": "2026-11-25T00:48Z",
+      "pinned_group": "developing"
     }
   ]
 }
