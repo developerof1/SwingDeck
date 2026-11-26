@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-26T16:51+00:00",
+      "generated_at": "2026-11-26T19:09+00:00",
       "evaluated_session": "2026-11-25",
       "results": [
         {
@@ -6947,7 +6947,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 40.98,
-            "atr_14": 1.3307671838555075,
+            "atr_14": 1.330767183855508,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -8796,7 +8796,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 40.37,
-            "atr_14": 1.435278800917968,
+            "atr_14": 1.4352788009179682,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -9092,7 +9092,7 @@
           "macd_turning": false,
           "diagnostics": {
             "close": 76.1,
-            "atr_14": 3.7928330022066032,
+            "atr_14": 3.792833002206604,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -9176,7 +9176,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 66.83,
-            "atr_14": 1.1946228401902106,
+            "atr_14": 1.1946228401902108,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -9299,7 +9299,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 3.4075,
-            "atr_14": 0.18263662787222246,
+            "atr_14": 0.18263662787222248,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
