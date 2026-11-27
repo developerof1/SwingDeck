@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-27T11:01+00:00",
+      "generated_at": "2026-11-27T20:04+00:00",
       "evaluated_session": "2026-11-25",
       "results": [
         {
@@ -98,8 +98,8 @@
           "l3_detail": {
             "stoch_pts": 0,
             "rsi_pts": 2,
-            "k_now": 36.27450980392153,
-            "k_prev": 40.19607843137251,
+            "k_now": 36.27450980392154,
+            "k_prev": 40.19607843137252,
             "rsi_now": 52.39499935457204,
             "rsi_prev": 45.68281155854944
           },
@@ -109,7 +109,7 @@
           "macd_turning": false,
           "diagnostics": {
             "close": 18.95,
-            "atr_14": 0.3431100881331887,
+            "atr_14": 0.34311008813318866,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -330,7 +330,7 @@
           "macd_turning": false,
           "diagnostics": {
             "close": 67.28,
-            "atr_14": 1.8952799793711022,
+            "atr_14": 1.895279979371102,
             "l1_slope_pass": true,
             "l1_r2_pass": true,
             "l1_mroll": false,
