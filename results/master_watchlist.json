@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-26T23:39+00:00",
+      "generated_at": "2026-11-27T02:18+00:00",
       "evaluated_session": "2026-11-25",
       "results": [
         {
@@ -6753,7 +6753,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 2.645,
-            "atr_14": 0.2815503788035845,
+            "atr_14": 0.2815503788035846,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -6872,7 +6872,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 20.57,
-            "atr_14": 0.9261993906346659,
+            "atr_14": 0.926199390634666,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -7081,7 +7081,7 @@
           "macd_turning": false,
           "diagnostics": {
             "close": 139.97,
-            "atr_14": 3.9554842444480416,
+            "atr_14": 3.9554842444480407,
             "l1_slope_pass": true,
             "l1_r2_pass": true,
             "l1_mroll": false,
@@ -7247,7 +7247,7 @@
           "macd_turning": false,
           "diagnostics": {
             "close": 62.56,
-            "atr_14": 2.38087022315494,
+            "atr_14": 2.3808702231549397,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -7255,7 +7255,7 @@
             "l1_r1_cut": false,
             "wk_ema21": 58.75117702684941,
             "mo_K": 34.04673893445362,
-            "mo_D": 44.24401469812877,
+            "mo_D": 44.24401469812878,
             "mo_Kmax4": 67.46426484348733,
             "l2_knife": false,
             "stoch_pt_now": 0,
@@ -7462,7 +7462,7 @@
           "macd_turning": false,
           "diagnostics": {
             "close": 217.52,
-            "atr_14": 7.399454467917962,
+            "atr_14": 7.39945446791796,
             "l1_slope_pass": true,
             "l1_r2_pass": false,
             "l1_mroll": false,
