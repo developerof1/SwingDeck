@@ -1,7 +1,7 @@
 {
   "setups": {
     "momentum_continuation": {
-      "generated_at": "2026-11-27T02:18+00:00",
+      "generated_at": "2026-11-27T11:01+00:00",
       "evaluated_session": "2026-11-25",
       "results": [
         {
@@ -8461,7 +8461,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 14.09,
-            "atr_14": 0.8961606870541822,
+            "atr_14": 0.8961606870541824,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -8800,7 +8800,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 40.37,
-            "atr_14": 1.4352788009179682,
+            "atr_14": 1.435278800917968,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
@@ -9180,7 +9180,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 66.83,
-            "atr_14": 1.1946228401902108,
+            "atr_14": 1.1946228401902106,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": true,
@@ -9303,7 +9303,7 @@
           "macd_turning": null,
           "diagnostics": {
             "close": 3.4075,
-            "atr_14": 0.18263662787222248,
+            "atr_14": 0.18263662787222246,
             "l1_slope_pass": false,
             "l1_r2_pass": false,
             "l1_mroll": false,
